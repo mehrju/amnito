@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Gateway.Post.IR/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://Gateway.Post.IR/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Gateway.Post.IR/">
+      <s:element name="NewOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Det" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Ordertip" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NewOrderResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewOrder2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Det" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Ordertip" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewOrder2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NewOrder2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Shcode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="State" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="City" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Tip" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Cod" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Showtype" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPriceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPriceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChangeStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EditOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pname" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Cod" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Showtype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EditOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EditOrderResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Dayping">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Changedate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Lid" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DaypingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DaypingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Billing">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Min" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Max" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Billing2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Tip" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Page" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Billing2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Billing2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OCOD">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Tokenid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OCODResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OCODResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResult">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Tokenid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Refnum" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Transdate" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Transtime" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Transprice1" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Transprice2" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Transprice3" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Transstatus" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetResultResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rejectexp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RejectexpResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RejectexpResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rejectid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RejectidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RejectidResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Manopost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Det" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Ordertip" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ManopostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ManopostResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Manopostbasket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Id2" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ManopostbasketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ManopostbasketResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="NewOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:NewOrder" />
+  </wsdl:message>
+  <wsdl:message name="NewOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:NewOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="NewOrder2SoapIn">
+    <wsdl:part name="parameters" element="tns:NewOrder2" />
+  </wsdl:message>
+  <wsdl:message name="NewOrder2SoapOut">
+    <wsdl:part name="parameters" element="tns:NewOrder2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPriceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrice" />
+  </wsdl:message>
+  <wsdl:message name="GetPriceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeStatus" />
+  </wsdl:message>
+  <wsdl:message name="ChangeStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="EditOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:EditOrder" />
+  </wsdl:message>
+  <wsdl:message name="EditOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:EditOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="DaypingSoapIn">
+    <wsdl:part name="parameters" element="tns:Dayping" />
+  </wsdl:message>
+  <wsdl:message name="DaypingSoapOut">
+    <wsdl:part name="parameters" element="tns:DaypingResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillingSoapIn">
+    <wsdl:part name="parameters" element="tns:Billing" />
+  </wsdl:message>
+  <wsdl:message name="BillingSoapOut">
+    <wsdl:part name="parameters" element="tns:BillingResponse" />
+  </wsdl:message>
+  <wsdl:message name="Billing2SoapIn">
+    <wsdl:part name="parameters" element="tns:Billing2" />
+  </wsdl:message>
+  <wsdl:message name="Billing2SoapOut">
+    <wsdl:part name="parameters" element="tns:Billing2Response" />
+  </wsdl:message>
+  <wsdl:message name="OCODSoapIn">
+    <wsdl:part name="parameters" element="tns:OCOD" />
+  </wsdl:message>
+  <wsdl:message name="OCODSoapOut">
+    <wsdl:part name="parameters" element="tns:OCODResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetResultSoapIn">
+    <wsdl:part name="parameters" element="tns:GetResult" />
+  </wsdl:message>
+  <wsdl:message name="GetResultSoapOut">
+    <wsdl:part name="parameters" element="tns:GetResultResponse" />
+  </wsdl:message>
+  <wsdl:message name="RejectexpSoapIn">
+    <wsdl:part name="parameters" element="tns:Rejectexp" />
+  </wsdl:message>
+  <wsdl:message name="RejectexpSoapOut">
+    <wsdl:part name="parameters" element="tns:RejectexpResponse" />
+  </wsdl:message>
+  <wsdl:message name="RejectidSoapIn">
+    <wsdl:part name="parameters" element="tns:Rejectid" />
+  </wsdl:message>
+  <wsdl:message name="RejectidSoapOut">
+    <wsdl:part name="parameters" element="tns:RejectidResponse" />
+  </wsdl:message>
+  <wsdl:message name="ManopostSoapIn">
+    <wsdl:part name="parameters" element="tns:Manopost" />
+  </wsdl:message>
+  <wsdl:message name="ManopostSoapOut">
+    <wsdl:part name="parameters" element="tns:ManopostResponse" />
+  </wsdl:message>
+  <wsdl:message name="ManopostbasketSoapIn">
+    <wsdl:part name="parameters" element="tns:Manopostbasket" />
+  </wsdl:message>
+  <wsdl:message name="ManopostbasketSoapOut">
+    <wsdl:part name="parameters" element="tns:ManopostbasketResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebService1Soap">
+    <wsdl:operation name="NewOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ثبت سفارش جدید</wsdl:documentation>
+      <wsdl:input message="tns:NewOrderSoapIn" />
+      <wsdl:output message="tns:NewOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NewOrder2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ثبت سفارش جدید</wsdl:documentation>
+      <wsdl:input message="tns:NewOrder2SoapIn" />
+      <wsdl:output message="tns:NewOrder2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">تغییر وضعیت مرسوله</wsdl:documentation>
+      <wsdl:input message="tns:GetStatusSoapIn" />
+      <wsdl:output message="tns:GetStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrice">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت هزینه های ارسال</wsdl:documentation>
+      <wsdl:input message="tns:GetPriceSoapIn" />
+      <wsdl:output message="tns:GetPriceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">تغییر وضعیت مرسوله</wsdl:documentation>
+      <wsdl:input message="tns:ChangeStatusSoapIn" />
+      <wsdl:output message="tns:ChangeStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EditOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ویرایش سفارش</wsdl:documentation>
+      <wsdl:input message="tns:EditOrderSoapIn" />
+      <wsdl:output message="tns:EditOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Dayping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت تغییر وضعیت روزانه</wsdl:documentation>
+      <wsdl:input message="tns:DaypingSoapIn" />
+      <wsdl:output message="tns:DaypingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Billing">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت گزارشات مالی</wsdl:documentation>
+      <wsdl:input message="tns:BillingSoapIn" />
+      <wsdl:output message="tns:BillingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Billing2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت ریز گزارشات مالی</wsdl:documentation>
+      <wsdl:input message="tns:Billing2SoapIn" />
+      <wsdl:output message="tns:Billing2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OCOD">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">OCOD</wsdl:documentation>
+      <wsdl:input message="tns:OCODSoapIn" />
+      <wsdl:output message="tns:OCODSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResult">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GETResult</wsdl:documentation>
+      <wsdl:input message="tns:GetResultSoapIn" />
+      <wsdl:output message="tns:GetResultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rejectexp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت مصادیق برگشتی</wsdl:documentation>
+      <wsdl:input message="tns:RejectexpSoapIn" />
+      <wsdl:output message="tns:RejectexpSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rejectid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">دریافت کدهای مصادیق برگشتی</wsdl:documentation>
+      <wsdl:input message="tns:RejectidSoapIn" />
+      <wsdl:output message="tns:RejectidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Manopost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ثبت سفارش من و پست</wsdl:documentation>
+      <wsdl:input message="tns:ManopostSoapIn" />
+      <wsdl:output message="tns:ManopostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Manopostbasket">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">ایجاد سبد خرید من و پست</wsdl:documentation>
+      <wsdl:input message="tns:ManopostbasketSoapIn" />
+      <wsdl:output message="tns:ManopostbasketSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebService1Soap" type="tns:WebService1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NewOrder">
+      <soap:operation soapAction="http://Gateway.Post.IR/NewOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewOrder2">
+      <soap:operation soapAction="http://Gateway.Post.IR/NewOrder2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap:operation soapAction="http://Gateway.Post.IR/GetStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrice">
+      <soap:operation soapAction="http://Gateway.Post.IR/GetPrice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatus">
+      <soap:operation soapAction="http://Gateway.Post.IR/ChangeStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditOrder">
+      <soap:operation soapAction="http://Gateway.Post.IR/EditOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Dayping">
+      <soap:operation soapAction="http://Gateway.Post.IR/Dayping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Billing">
+      <soap:operation soapAction="http://Gateway.Post.IR/Billing" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Billing2">
+      <soap:operation soapAction="http://Gateway.Post.IR/Billing2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OCOD">
+      <soap:operation soapAction="http://Gateway.Post.IR/OCOD" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResult">
+      <soap:operation soapAction="http://Gateway.Post.IR/GetResult" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rejectexp">
+      <soap:operation soapAction="http://Gateway.Post.IR/Rejectexp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rejectid">
+      <soap:operation soapAction="http://Gateway.Post.IR/Rejectid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Manopost">
+      <soap:operation soapAction="http://Gateway.Post.IR/Manopost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Manopostbasket">
+      <soap:operation soapAction="http://Gateway.Post.IR/Manopostbasket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebService1Soap12" type="tns:WebService1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NewOrder">
+      <soap12:operation soapAction="http://Gateway.Post.IR/NewOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewOrder2">
+      <soap12:operation soapAction="http://Gateway.Post.IR/NewOrder2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap12:operation soapAction="http://Gateway.Post.IR/GetStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrice">
+      <soap12:operation soapAction="http://Gateway.Post.IR/GetPrice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeStatus">
+      <soap12:operation soapAction="http://Gateway.Post.IR/ChangeStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditOrder">
+      <soap12:operation soapAction="http://Gateway.Post.IR/EditOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Dayping">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Dayping" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Billing">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Billing" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Billing2">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Billing2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OCOD">
+      <soap12:operation soapAction="http://Gateway.Post.IR/OCOD" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResult">
+      <soap12:operation soapAction="http://Gateway.Post.IR/GetResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rejectexp">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Rejectexp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rejectid">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Rejectid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Manopost">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Manopost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Manopostbasket">
+      <soap12:operation soapAction="http://Gateway.Post.IR/Manopostbasket" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService1">
+    <wsdl:port name="WebService1Soap" binding="tns:WebService1Soap">
+      <soap:address location="http://gateway.post.ir/Deliver.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebService1Soap12" binding="tns:WebService1Soap12">
+      <soap12:address location="http://gateway.post.ir/Deliver.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

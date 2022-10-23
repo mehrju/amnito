@@ -1,0 +1,323 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.OrderBillAndPaymentModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Services.Orders.IRewardPointService _rewardPointService;
+@inject Nop.Core.IStoreContext _storeContext;
+@inject Nop.Core.IWorkContext _workContext;
+@{
+
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_NewUiDashboardLayout.cshtml";
+    int rewardPointsBalance = _rewardPointService.GetRewardPointsBalance(_workContext.CurrentCustomer.Id, _storeContext.CurrentStore.Id);
+}
+
+
+<style>
+    a > .fa {
+        top: 1px !important;
+    }
+
+    .postServices {
+        width: 100%;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        z-index: 9997;
+        opacity: 0.5;
+        display: none;
+    }
+
+    .overlayRow {
+        width: 100%;
+        min-height: 50px;
+        background-color: white;
+        border-bottom: 1px solid #bbb9b9;
+        font-size: 9pt;
+        vertical-align: middle;
+        text-align: right !important;
+        padding-right: 16px;
+        padding-top: 10px;
+    }
+
+        .overlayRow:hover {
+            background-color: #cccccc !important;
+        }
+
+    .orderItem {
+        min-height: 110px;
+        border-radius: 6px !important;
+        width: 100%;
+        background-color: white;
+        margin-bottom: 10px
+    }
+
+
+
+    .cardBottom {
+        min-height: 30px;
+        width: 100%;
+    }
+
+    @@media (max-width:768px) {
+        .cardTitle {
+            width: 100%;
+            min-height: 80px;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: gray;
+            font-size: 8pt;
+            color: gray;
+            padding-top: 3px;
+        }
+    }
+
+    @@media (min-width:320px) {
+        .leftCol {
+            width: 70%;
+            float: left;
+            min-height: 80px;
+            margin-left: 2%;
+        }
+
+        .rightCol {
+            width: 25%;
+            float: right;
+        }
+    }
+
+    @@media (min-width:360px) {
+        .leftCol {
+            width: 74%;
+            float: left;
+            min-height: 80px;
+            margin-left: 2%;
+        }
+
+        .rightCol {
+            width: 22%;
+            float: right;
+        }
+    }
+
+    @@media (min-width:425px) {
+        .leftCol {
+            width: 77%;
+            float: left;
+            min-height: 80px;
+            margin-left: 2%;
+        }
+
+        .rightCol {
+            width: 19%;
+            float: right;
+        }
+    }
+
+    @@media (min-width:768px) {
+        .cardTitle {
+            width: 100%;
+            min-height: 80px;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: gray;
+            font-size: 10pt !important;
+            color: gray;
+            padding-top: 3px;
+        }
+
+        .leftCol {
+            width: 90% !important;
+            float: left;
+            min-height: 80px;
+            margin-left: 2%;
+        }
+
+        .rightCol {
+            width: 7% !important;
+            float: right;
+        }
+    }
+
+    .rightColUp {
+        width: 100%;
+        min-height: 65px;
+        margin: 2px;
+        border-radius: 10px;
+    }
+
+    .rightColDown {
+        min-height: 35px;
+        width: 100%;
+        font-size: 8pt;
+        text-align: center;
+        vertical-align: middle;
+        color: black;
+        padding-top: 2px;
+    }
+
+    .orderConsol {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        background-color: white;
+        height: 400px;
+        display: none;
+        right: 0px;
+        z-index: 99998;
+    }
+
+    .myLabel {
+        color: black;
+    }
+
+    .status {
+        padding: 0px 3px 0px 3px;
+        border-radius: 10px;
+        float: left;
+        color: white !important;
+    }
+</style>
+
+<div class="tracking-code text-center" style="margin:50px;">
+
+    <div class="container">
+        <div class="row mr-top-30">
+            <div class="section payment-method" style="width:100%">
+                <form asp-route="_Sh_ConfirmAndPay" id="Pay_Confrim" method="post">
+                    <input type='hidden' id="orderId" name="orderId" value="@(Model.order.Id)" />
+                    <input type='hidden' id="UseRewardPoints" name="UseRewardPoints" value="false" />
+                    <input type="hidden" id="isFromApp" name="isFromApp" />
+                    <input type="hidden" id="reciverPay" name="reciverPay" value="true"/>
+                    @if (Model.PaymentMethods != null)
+                    {
+                        <div class="row">
+                            @if (Model.PaymentMethods.DisplayRewardPoints && Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+                                <div class="use-reward-points col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="payment-logo">
+                                                <label for="paymentmethod_500">
+                                                    <img src="~/Plugins/Orders.MultiShipping/Content/Wallet.jpg" style="width:80px" alt="پرداخت با کیف پول" />
+                                                </label>
+                                            </div>
+                                            <input type="checkbox" id="_UseRewardPoints" />
+                                            <label for="UseRewardPoints" class="card-title">پرداخت با کیف پول. موجودی شما :@(Model.PaymentMethods.RewardPointsBalance) ريال</label>
+                                            @*@if (Model.PaymentMethods.RewardPointsEnoughToPayForOrder)
+                                {*@
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#_UseRewardPoints").change(toggleUseRewardPoints);
+                                                    toggleUseRewardPoints();
+                                                });
+                                                function toggleUseRewardPoints() {
+                                                    $('#UseRewardPoints').val($('#_UseRewardPoints').is(':checked'));
+                                                    if ($('#_UseRewardPoints').is(':checked')) {
+                                                        $('.payment-method-block').hide();
+                                                    } else {
+                                                        $('.payment-method-block').show();
+                                                    }
+                                                }
+                                            </script>
+                                            @*}*@
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+
+                                @for (var i = 0; i < Model.PaymentMethods.PaymentMethods.Count; i++)
+                                {
+                                    var paymentMethod = Model.PaymentMethods.PaymentMethods[i];
+                                    var paymentMethodName = paymentMethod.Name;
+                                    if (paymentMethod.PaymentMethodSystemName.ToLower().Contains("wallet"))
+                                    {
+                                        continue;
+                                    }
+                                    if (!string.IsNullOrEmpty(paymentMethod.Fee))
+                                    {
+                                        paymentMethodName = T("Checkout.SelectPaymentMethod.MethodAndFee", paymentMethodName, paymentMethod.Fee).Text;
+                                    }
+                                    <div class="payment-method-block col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="method-name">
+                                                    @if (!string.IsNullOrEmpty(paymentMethod.LogoUrl))
+                                                    {
+                                                        <div class="payment-logo">
+                                                            <label for="paymentmethod_@(i)">
+                                                                <img src="@paymentMethod.LogoUrl" alt="@paymentMethodName" />
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                    <div class="payment-details">
+                                                        <input id="paymentmethod_@(i)" type="radio" name="paymentmethod" alt="" style="display:inline !important" value="@(paymentMethod.PaymentMethodSystemName)" />
+                                                        <label for="paymentmethod_@(i)">@paymentMethodName</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="message-error">
+                                    @T("Checkout.NoPaymentMethods")
+                                </div>
+                            }
+                        </div>
+                    }
+                </form>
+            </div>
+
+        </div>
+        <div class="factor-btn-footer mr-top-30">
+            <div class="row">
+                @*<div class="col-md-6 ">
+                    <div class="btn-footer-res text-center">
+                    </div>
+                </div>*@
+                <div class="col-md-6 text-center">
+                    <div class="btn-info-contant">
+                        <a class="btn btn-blue-theme" style="color:white" id="ConfirmAndPay">تایید و پرداخت<i class="fa fa-credit-card"></i></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ConfirmAndPay').click(function () {
+            $('#isFromApp').val(isAndroid());
+            if ($('.payment-method').find('input[type="radio"]:checked').length == 0 && !$('#_UseRewardPoints').is(':checked')) {
+                alert('انتخاب روش پرداخت الزامی می باشد');
+                return;
+            }
+            $(".container ,nav").css({ "filter": "blur(5px)" });
+            $("body").css({ "overflowY": "hidden", });
+
+            setTimeout(function () {
+                $(".container ,nav").css({ "opacity": "1", "filter": "blur(0px)" });
+                $("body").css({ "overflowY": "auto" });
+            }, 15000);
+            $('#Pay_Confrim').submit();
+            return;
+        });
+    });
+</script>
+

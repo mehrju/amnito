@@ -1,0 +1,9 @@
+Group: 1_NopFarsi
+FriendlyName: پرداخت سامان کیش
+SystemName: NopFarsi.Payments.AsanPardakht
+Version: 1.1
+SupportedVersions: 3.90
+Author: NopFarsi.ir
+DisplayOrder: 1
+FileName: NopFarsi.Payments.AsanPardakht.dll
+Description: این پلاگین امکان پرداخت از طریق سامانه سامان کیش را فراهم می کند.

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://poffice.post.ir/tntsearch/getinfo.asmx?wsdl" docRef="http://poffice.post.ir/tntsearch/getinfo.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://poffice.post.ir/tntsearch/getinfo.asmx" xmlns:q1="http://tempuri.org/" binding="q1:Service_rahgiriSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://poffice.post.ir/tntsearch/getinfo.asmx" xmlns:q2="http://tempuri.org/" binding="q2:Service_rahgiriSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

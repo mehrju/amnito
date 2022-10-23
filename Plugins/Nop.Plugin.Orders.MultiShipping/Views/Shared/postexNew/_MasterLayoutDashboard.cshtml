@@ -1,0 +1,122 @@
+﻿@using Nop.Core
+@using Microsoft.AspNetCore.Http
+@inject IWebHelper _webHelper
+@inject IHttpContextAccessor httpContextAccessor
+
+@{
+    string Address = _webHelper.GetRawUrl(httpContextAccessor.HttpContext.Request);
+    string PageUrl = _webHelper.GetThisPageUrl(includeQueryString: false, lowercaseUrl: true);
+    int ScriptVersion = 60;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Shipito/js/jquery.validate.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/postexNew/assets/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js?ver=" + ScriptVersion);
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/JS/jquery.md.bootstrap.datetimepicker.js?ver=" + ScriptVersion);
+    //Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postexNew/assets/js/bootstrap.min.js?ver=" + ScriptVersion);
+    //Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postexNew/assets/js/jquery.modal.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postexNew/assets/js/main.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/bridge.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postexNew/assets/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/common.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postexNew/assets/js/bootstrap-drawer.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/pagination.js?ver=" + ScriptVersion);
+
+
+    @*@RenderSection("DashboardScripts", required: false)*@
+}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <title>@Html.NopTitle()</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="" type="image">
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="@(Html.NopMetaDescription())" />
+    <meta name="keywords" content="@(Html.NopMetaKeywords())" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123749803-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-123749803-3');
+    </script>
+
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/jquery.mmenu.all.css">
+    @*<link rel="stylesheet" href="~/Themes/postexNew/assets/css/jquery.modal.min.css">*@
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/styleDashboard.css?ver=@(ScriptVersion)">
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/fontiran.css">
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/iranSans.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/svg-with-js.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Themes/Shipito/css/select2.min.css?ver=@(ScriptVersion)">
+    <link rel="stylesheet" href="~/Themes/Shipito/css/font-awesome-animation.min.css?ver=@(ScriptVersion)">
+    <link rel="stylesheet" href="~/Themes/postexNew/assets/css/bootstrap-drawer.css?ver=@(ScriptVersion)">
+
+    <link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+    <link rel="stylesheet" href="~/Themes/Shipito/css/pagination.css?ver=@(ScriptVersion)">
+
+
+    @RenderSection("DashboardStyles", required: false)
+
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+    @Html.NopScripts(this.Url, ResourceLocation.Head, false)
+    @await Component.InvokeAsync("Favicon")
+    @*<link rel="stylesheet" href="~/Themes/Shipito/css/form_steps.css?ver=@(ScriptVersion)">
+        <link rel="stylesheet" href="~/Themes/Shipito/css/style.css?ver=@(ScriptVersion)">*@
+</head>
+
+@RenderBody()
+@Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+@Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+
+
+</html>
+<style>
+    .pRelative .img2 {
+        cursor: pointer !important;
+    }
+</style>
+<script>
+    function alert(msg) {
+        swal({
+            title: "",
+            text: msg,
+            confirmButtonText: "تایید"
+        });
+    }
+
+    //window.confirm = function (data, title, callback) {
+    //    debugger;
+    //    if (typeof title == 'function') {
+    //        callback = title;
+    //        title = "";
+    //    }
+        
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "بلی",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //            setTimeout(function () {
+    //                callback(isConfirm);
+    //            }, 300);
+            
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+</script>

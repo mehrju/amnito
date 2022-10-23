@@ -1,0 +1,300 @@
+
+@model Nop.Plugin.Orders.BulkOrder.Models.BulkOrderModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+@inject IWorkContext workContext
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Postbar/_PubllicNewUiLayout.cshtml";
+    var defaultGridPageSize = 10;
+    var gridPageSizes = "10,50,100,500";
+    Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
+    var controlId = "BulkOrders";
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    var kendoVersion = "2014.1.318";
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.rtl.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.default.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.common.min.css");
+    Html.AppendScriptParts("~/Plugins/Orders.BulkOrder/Scripts/kendo.web.min.js");
+    var AvailableFileMode = new List<SelectListItem>()
+{
+new SelectListItem(){Text = "انتخاب کنید....",Value="0"},
+new SelectListItem(){Text = "پیش کرایه",Value="false"},
+new SelectListItem(){Text = "پس کرایه-COD",Value="true"}
+};
+}
+<form id="frm_BulkOrder" style="margin:40px">
+    <div class="form-group row">
+        <div class="col-md-6 col-sm-12  col-xl-6 col-lg-6" >
+            <a class="" href="@Url.Action("getExcelTamplate", "BulkOrder")">
+                <i class="fa fa-download" aria-hidden="true"></i>
+                دریافت خام پیش کرایه
+            </a>
+        </div>
+        <div class="col-md-6 col-sm-12  col-xl-6 col-lg-6">
+            <a class="" href="@Url.Action("getExcelTamplateCOD", "BulkOrder")">
+                <i class="fa fa-download" aria-hidden="true"></i>
+                فایل خام پس کرایه(COD)
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-8">
+                <div class="col-md-8">
+                    <div id="@(controlId)uploader"></div>
+                    <script type="text/template" id="@(controlId)-qq-template">
+                        <div class="qq-uploader-selector qq-uploader">
+                            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                                <span>@T("Common.FileUploader.DropFiles")</span>
+                            </div>
+                            <div class="qq-upload-button-selector qq-upload-button">
+                                <div><span>ارسال فایل لیست سفارش</span></div>
+                            </div>
+                            <span class="qq-drop-processing-selector qq-drop-processing">
+                                <span>@T("Common.FileUploader.Processing")</span>
+                                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                            </span>
+                            <ul class="qq-upload-list-selector qq-upload-list">
+                                <li>
+                                    <div class="qq-progress-bar-container-selector">
+                                        <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                                    </div>
+                                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                                    <span class="qq-upload-file-selector qq-upload-file"></span>
+                                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                    <span class="qq-upload-size-selector qq-upload-size"></span>
+                                    <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">@T("Common.FileUploader.Cancel")</a>
+                                    <a class="qq-upload-retry-selector qq-upload-retry" href="#">@T("Common.FileUploader.Retry")</a>
+                                    <a class="qq-upload-delete-selector qq-upload-delete" href="#">@T("Common.FileUploader.Delete")</a>
+                                    <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </script>
+                    <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#@(controlId)uploader").fineUploader({
+                                    request: {
+                                        endpoint: '@Url.Action("SaveOrderList", "BulkOrder")',
+                                        params: {
+                                            IsCod: function() {
+                                                return $('#IsCod').val();
+                                            },
+                                            discountCouponCode: function() {
+                                                return $('#discountCouponCode').val();
+                                            }
+                                        }
+                                    },
+                                    callbacks: {
+                                        onValidate: function(id, fileName) {
+                                            if ($('#IsCod').val() == 0) {
+                                                alert("لطفا نوع فایل  را مشخص نمایید");
+                                                return false;
+                                            }
+                                            return true;
+                                        }
+                                    },
+                                    template: "@(controlId)-qq-template",
+                                    multiple: false,
+                                    validation: {
+                                        allowedExtensions: ['xsl', 'xlsx']
+                                    }
+                                }).on("complete",
+                                    function(event, id, name, responseJson, xhr) {
+                                        if (!responseJson.success) {
+                                            alert(responseJson.message);
+                                            return;
+                                        }
+                                        var grid = $('#BulkOrders-grid').data('kendoGrid');
+                                        grid.dataSource.read();
+                                    });
+                            });
+                    </script>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <nop-label asp-for="IsCod" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-select asp-for="IsCod" asp-items="@AvailableFileMode" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <div class="col-md-4">
+                        <nop-label asp-for="discountCouponCode" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-editor asp-for="discountCouponCode" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group">
+                <div class="panel-heading">لیست سفارش های انبوه شما</div>
+                <div class="panel panel-success">
+                    <div class="panel-body">
+                        <div id="BulkOrders-grid"></div>
+                        <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#BulkOrders-grid").kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        /**/
+                                        url: "@Html.Raw(Url.Action("GetOrderList", "BulkOrder"))",
+                                        /**/
+                                        type: "POST",
+                                        dataType: "json",
+                                        //data: addAntiForgeryToken
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+                                requestEnd: function(e) {
+                                    if (e.type == "update") {
+                                        this.read();
+                                    }
+                                },
+                                error: function(e) {
+                                    //display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                pageSize: 10
+                            },
+                            pageable: {
+                                refresh: true,
+                                pageSizes: [@(gridPageSizes)],
+                                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_GridPagerMessages.cshtml")
+                            },
+                            editable: {
+                                confirmation: true,
+                                mode: "inline"
+                            },
+                            filterable: true,
+                            sortable: true,
+                            scrollable: false,
+                            columns: [
+                                {
+                                    field: "Id",
+                                    headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                    width: 50
+                                }, {
+                                    field: "OrderStatus",
+                                    title: "@T("Admin.Orders.Fields.OrderStatus")",
+                                    width: 100,
+                                    template: '<span class="grid-report-item ' +
+                                        '# if(OrderStatusId == 10) {# yellow #} #' +
+                                        '# if(OrderStatusId == 20) {# blue #} #' +
+                                        '# if(OrderStatusId == 30) {# green #} #' +
+                                        '# if(OrderStatusId == 40) {# red #} #' +
+                                        '">#=OrderStatus#</span>'
+                                },
+                                {
+                                    field: "PaymentStatus",
+                                    title: "@T("Admin.Orders.Fields.PaymentStatus")",
+                                    width: 100
+                                },
+                                {
+                                    field: "CreateDate",
+                                    title: "@T("Admin.Orders.Fields.CreatedOn")",
+                                    width: 100,
+                                    type: "date",
+                                    format: "{0:G}"
+                                },
+                                {
+                                    field: "OrderTotal",
+                                    title: "مبلغ سفارش",
+                                    width: 60
+                                },
+                                {
+                                    field: "OrderCount",
+                                    title: "تعداد سفارش",
+                                    width: 60
+                                },
+                                {
+                                    field: "FileName",
+                                    title: "نام فایل",
+                                    width: 100
+                                },
+                                {
+                                    field: "OrderId",
+                                    title: "شماره سفارش",
+                                    width: 100
+                                },
+                                {
+                                    field: "IsCOD",
+                                    title: "نوع فایل",
+                                    width: 100
+                                },
+                                {
+                                    field: "Id",
+                                    title: "حذف",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '<a class="btn btn-default bntChangeStatus" data-id="#=Id#" onClick="DeleteWarning(this)" ><i class="fa fa-times" style="color:red"></i></a>'
+                                }
+                            ]
+                        });
+                    });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        function DeleteWarning(btn) {
+            if (confirm("آیا برای حذف درخواست اطمینان دارید؟")) {
+                var bulkorderId = $(btn).attr('data-id');
+                var IdData = { "bulkorderId": bulkorderId};
+                addAntiForgeryToken(IdData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("deleteBulkOrder", "BulkOrder"))",
+                    data: IdData,
+                    success: function (data) {
+                        if (data.success) {
+                            $('#divDeleteOrder').modal('hide');
+                            alert(data.msg);
+                            var grid = $('#orders-grid').data('kendoGrid');
+                            grid.dataSource.read();
+                            return;
+                        }
+                        alert(data.msg);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('خطا در زمان حذف سفارش. لطفا شبکه خود را بررسی کنید');
+                    }
+                });
+            }
+        };
+
+    </script>
+</form>

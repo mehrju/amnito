@@ -1,0 +1,270 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Postbar/_MasterLayout.cshtml";
+}
+@using Nop.Core;
+@using Nop.Core.Domain.Customers;
+@using Nop.Services.Customers;
+@inject IWorkContext _workContext;
+@{ 
+    string fullName = (_workContext.CurrentCustomer.IsRegistered() ? _workContext.CurrentCustomer.GetFullName() : "");
+    fullName = string.IsNullOrEmpty(fullName) ? "حساب من" : fullName;
+}
+
+<body class="pa-top-95" style="background: /*#1C1C1C*/#bae1fe;">
+    <div class="ajax-loading-block-window" style="display: none">
+    </div>
+    <div class="custom-wrapper">
+        <header class="u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md u-header--untransitioned">
+            <div class="u-header__section fixed-top">
+
+                <div id="logoAndNav">
+                    <!--Topbar-->
+                    <div class="top-bar">
+                        <div class="container u-header__hide-content">
+                            <div class="d-flex Topbar align-items-center">
+                                <ul class="social list-inline ml-2 mb-0">
+                                    <!--aparat icon-->
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <img src="~/lib/PluginContent/images/aparat.png" alt="">
+                                        </a>
+                                    </li>
+                                    <!--instagram icon-->
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <img src="~/lib/PluginContent/images/instagram.png" alt="">
+                                        </a>
+                                    </li>
+                                    <!--telegram icon-->
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <img src="~/lib/PluginContent/images/telegram.png" alt="">
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="mail-phone">
+                                    <span class="mail">
+                                        <span class="mail-img">
+                                            <img src="~/lib/PluginContent/images/message-1.png" alt="">
+                                        </span>
+                                        info@postbar.ir
+                                    </span>
+                                    <span class="phone" style="direction:ltr">
+                                        <span class="phone-img">
+                                            <img src="~/lib/PluginContent/images/phone-call.png" alt="">
+                                        </span>
+                                        09422020249
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Topbar-->
+                    <div class="container">
+                        <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+                            <!--navbar navbar-expand-lg navbar-light bg-light-->
+                            <a class="navbar-brand   logo" href="/">
+                                <img src="~/lib/PluginContent/images/logo.png" alt="">
+                            </a>
+
+                            <!--small-phone-->
+                            <div class="" id="menuToggle">
+
+                                <input class="checkbox_check" type="checkbox" />
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <ul id="menu">
+                                    <div class="header-menu-humm">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <ul>
+                                                    <li>
+                                                        <a href="/order/newcheckout" class="btn btn-menu-1 faa-parent animated-hover">
+                                                            <i class="fas fa fa-bell faa-ring"></i>
+                                                            ثبت سفارش
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/rahgiry" target="_blank" class="btn btn-menu-2 faa-parent animated-hover">
+                                                            <i class="fas fa fa-search faa-burst"></i>
+                                                            رهگیری مرسوله
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body-menu-humm">
+                                        <ul class="">
+                                            <li class="active"><a href="/">خانه</a></li>
+                                            <li>
+                                                <a target="_blank" href="@(Url.RouteUrl("_ChargeWallet"))">شارژ کیف پول </a>
+                                            </li>
+                                            <li>
+                                                <a target="_blank" href="/Dashboard/Orders">سفارشات من</a>
+                                            </li>
+                                            @*<li>
+                                                <a target="_blank" href="/Bulkorder">سفارش انبوه</a>
+                                            </li>*@
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">خدمات پستی</a>
+                                                <div class="dropdown-menu">
+                                                    <a href="#" class="dropdown-item">سرویس سفارشی</a>
+                                                    <a href="#" class="dropdown-item">سرویس پیشتاز</a>
+                                                    <a href="#" class="dropdown-item">سرویس ویژه</a>
+                                                    <a href="#" class="dropdown-item">سرویس پس کرایه</a>
+                                                    @*<a href="/Bulkorder" class="dropdown-item">سفارش انبوه</a>*@
+                                                </div>
+                                            </li>
+                                            <li><a href="#page3">تازه های فناوری و تکنولوژی</a></li>
+                                            <li><a href="#page3">درباره ما</a></li>
+                                            <li><a href="/%D8%AA%D9%85%D8%A7%D8%B3-%D8%A8%D8%A7-%D9%85%D8%A7">تماس با ما</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="footer-menu-humm">
+                                        @*<a href="/login" class="btn btn-footer-menu">ورود | ثبت نام</a>*@
+                                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/login" class="btn btn-menu-1 faa-parent animated-hover" style="background-color:#2d91fb;left:16px">
+                                                                <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                                                                ورود
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="https://postbar.ir/register" target="_blank" class="btn btn-menu-2 faa-parent animated-hover" style="right:16px">
+                                                                <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                                                                ثبت نام
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="@Url.RouteUrl("Logout")" class="btn btn-menu-1 faa-parent animated-hover">
+                                                                <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                                                                خروج
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/Dashboard" target="_blank" class="btn btn-menu-2 faa-parent animated-hover" style="background-color:#2d91fb;right:0px">
+                                                                <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                                حساب من
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                </ul>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav" id="menuUL">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/">خانه <span class="sr-only">(current)</span></a>
+                                    </li>
+
+                                    <li class="dropdown nav-item ">
+                                        <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">خدمات پستی</a>
+                                        <div class=" arrow-ups dropdown-menu under_menu_drop ">
+                                            <a href="#" class="dropdown-item">سرویس سفارشی</a>
+                                            <a href="#" class="dropdown-item">سرویس پیشتاز</a>
+                                            <a href="#" class="dropdown-item">سرویس ویژه</a>
+                                            <a href="#" class="dropdown-item">سرویس پس کرایه</a>
+                                        </div>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/rahgiry" target="_blank"> رهگیری مرسوله</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/order/newcheckout">ثبت سفارش</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Dashboard/Orders">سفارشات من</a>
+                                    </li>
+                                    @*<li class="nav-item">
+                                        <a class="nav-link" href="/Bulkorder" target="_blank">سفارش انبوه</a>
+                                    </li>*@
+                                    @*<li class="nav-item">
+                                        <a class="nav-link" href="#">وبلاگ</a>
+                                    </li>*@
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">درباره ما</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="@(Url.RouteUrl("_ChargeWallet"))">شارژ کیف پول </a>
+                                    </li>
+                                </ul>
+                                <form class="form-inline my-2 my-lg-0 ">
+                                    <div class="dropdown">
+                                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                                        {
+                                            <a href="#" data-toggle="dropdown" class=" btn btn-login dropdown-toggle custom-btn-01">
+                                                ثبت نام | ورود
+                                            </a>
+                                            <div class="dropdown-menu arrow-ups under_menu_drop snip1189">
+                                                <a href="/login" class=" custom-btn-01 dropdown-item faa-parent animated-hover" style="padding:6px 6px 12px !important">
+                                                    <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                                                    ورود
+                                                </a>
+                                                <a href="https://postbar.ir/register" class="dropdown-item  faa-parent animated-hover">
+                                                    <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                                                    ثبت نام
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" data-toggle="dropdown" class=" btn btn-login dropdown-toggle custom-btn-01">
+                                               @(fullName)
+                                            </a>
+                                            <div class="dropdown-menu arrow-ups under_menu_drop snip1189">
+                                                <a href="/dashboard" target="_blank" class="dropdown-item">
+                                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                    حساب من
+                                                </a>
+                                                <a href="@Url.RouteUrl("PrivateMessages")" target="_blank" class="dropdown-item">
+                                                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                                                    صندوق دریافت
+                                                </a>
+                                                <a href="@Url.RouteUrl("Logout")" class="custom-btn-01  dropdown-item faa-parent animated-hover" style="padding:6px 6px 12px !important">
+                                                    <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                                                    خروج از سیستم
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </form>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+        @RenderBody()
+        @Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+        @Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+    </div>
+</body>

@@ -1,0 +1,22 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_Product_PatternPricing
+
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden"/>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="pull-left">
+                    
+                </div>
+            </div>
+        </div>
+        <nop-tabs id="category-edit">
+            <nop-tab asp-name="tab-info" asp-title="@T("Nop.Plugin.Misc.ShippingSolutions.TabInfo")" asp-default="true">@await Html.PartialAsync("/Plugins/Misc.ShippingSolutions/Views/ProductPatternPricing/_CreateOrUpdate.Info.cshtml", Model)</nop-tab>
+           
+        </nop-tabs>
+    </div>
+</div>
+

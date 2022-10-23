@@ -1,0 +1,239 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.CustomerInfModel
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Nop.Web.Framework.UI
+@using Nop.Web.Framework.Extensions
+@using System.Text.Encodings.Web
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Extensions
+@using Nop.Core.Domain.Common
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+}
+
+<div class="row justify-content-md-center ">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1>ویرایش حساب کاربری</h1>
+        </div>
+        <div class="body-dash send-data-from">
+
+            <!------form-action-->
+            <div class="mt-3 row justify-content-md-center mt-3 text-blue">
+                <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                    <div class="from-upload">
+                        <img src="@Model.CustomerInfoModel.AvatarUrl" class="rounded-circle" alt="" id="avatar">
+                        <form id="upload" enctype="multipart/form-data" method="POST">
+                            <label class="image_input_button btn btn-blue-theme">
+                                <span>ویرایش لوگو</span>
+                                <i class="fa fa-upload"></i>
+                                <input type="file" name="fileUpload" id="fileUpload" class="none" size="1" />
+                            </label>
+                            <button class="btn btn-orang-theme">آپلود</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <form asp-route="Plugins/PostbarDashboard/CustomerInfo" method="post" class="form-sign-up" id="frm_customer_info">
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>نام :</label>
+                            <input asp-for="CustomerInfoModel.FirstName" name="FirstName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>نام خانوادگی :</label>
+                            <input asp-for="CustomerInfoModel.LastName" name="LastName" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>ایمیل :</label>
+                            <input asp-for="CustomerInfoModel.Email" name="Email" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>شماره همراه :</label>
+                            <input asp-for="CustomerInfoModel.Phone" name="Phone" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <div class="form-group btn-sub">
+                            <button type="submit" class="btn btn-orang-theme">
+                                ذخیره تغییرات
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form action="@Url.Action("ChangePass", "PostbarDashboard")" method="post" class="form-sign-up" id="frm_change_password">
+
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <span class="span-change-pass">
+                            تغییر گذرواژه
+                        </span>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mt-3 text-center">
+                    <div class="col-md-12 col-lg-8 col-xl-8 ">
+                        <div class="form-group text-right">
+                            <label>رمز عبور پیشین :</label>
+                            <input type="password" asp-for="ChangePasswordModel.OldPassword" name="OldPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>رمز عبور جدید :</label>
+                            <input type="password" asp-for="ChangePasswordModel.NewPassword" name="NewPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>تکرار رمز عبور :</label>
+                            <input type="password" asp-for="ChangePasswordModel.ConfirmNewPassword" name="ConfirmNewPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <div class="form-group btn-sub">
+
+                            <button type="submit" class="btn btn-orang-theme">
+                                ذخیره تغییرات
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#frm_customer_info').submit(function (event) {
+        event.preventDefault();
+        debugger;
+        isValid = $("#frm_customer_info").validate().form();
+        if (!isValid) {
+            return;
+        }
+        $('#loading').show();
+        $.ajax({
+        cache: false,
+        type: "POST",
+        url: "@Url.Action("CustomerInfo", "PostbarDashboard")",
+        data: $('#frm_customer_info').serialize(),
+        success: function(data) {
+            if (data == "") {
+                $.notify("با موفقیت اطلاعات به روز شد", "success");
+            } else {
+                $.notify(data, "error");
+            }
+            $('#loading').hide();
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrive Code.');
+            $('#loading').hide();
+        }
+    });
+    });
+
+    $('#frm_change_password').submit(function (event) {
+        event.preventDefault();
+        debugger;
+        isValid = $("#frm_change_password").validate().form();
+        if (!isValid) {
+            return;
+        }
+        $('#loading').show();
+        $.ajax({
+        cache: false,
+        type: "POST",
+        url: "@Url.Action("ChangePass", "PostbarDashboard")",
+        data: $('#frm_change_password').serialize(),
+        success: function(data) {
+            if (data == "") {
+                $.notify("با موفقیت اطلاعات به روز شد", "success");
+                location.reload();
+            } else {
+                $.notify(data, "error");
+            }
+            $('#loading').hide();
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert('Failed to retrive Code.');
+            $('#loading').hide();
+        }
+        });
+    });
+
+    $('#upload').submit(function (e) {
+        e.preventDefault(); // stop the standard form submission
+        var data = new FormData(this);
+        debugger;
+        $('#loading').show();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Avatar", "PostbarDashboard")",
+            data: new FormData(this),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#loading').hide();
+                if (data.Success) {
+                    location.reload();
+                } else {
+                    $.notify(data.Message, "error");
+                }
+            },
+            error: function (xhr, error, status) {
+                $('#loading').hide();
+                console.log(error, status);
+            }
+        });
+    });
+
+    $("#frm_change_password").validate({
+        rules: {
+            OldPassword: "required",
+            NewPassword: "required",
+            ConfirmNewPassword: "required",
+        },
+        messages: {
+            OldPassword: "رمز عبور پیشین اجباریست",
+            NewPassword: "رمز عبور جدید اجباریست",
+            ConfirmNewPassword: "تکرار رمز عبور اجباریست",
+        }
+    });
+
+    $("#frm_customer_info").validate({
+        rules: {
+            Email: "required",
+        },
+        messages: {
+            Email: "ایمیل اجباریست",
+        }
+    });
+
+</script>

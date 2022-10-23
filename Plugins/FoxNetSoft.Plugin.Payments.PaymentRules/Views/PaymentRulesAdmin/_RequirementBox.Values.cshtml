@@ -1,0 +1,14 @@
+﻿@model FoxNetSoft.Plugin.Payments.PaymentRules.Models.RequirementModel
+@{
+    Layout = "";
+}
+<div id="requirementvalueblock-@(Model.RequirementId)">
+    @if (Model.IsValueComboBox)
+    {
+        <nop-select asp-for="RequirementValue" asp-items="Model.AvailableValues" />
+    }
+    else
+    {
+        <nop-editor asp-for="RequirementValue" />
+    }
+</div>

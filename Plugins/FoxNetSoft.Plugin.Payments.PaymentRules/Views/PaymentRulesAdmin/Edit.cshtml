@@ -1,0 +1,36 @@
+@model FoxNetSoft.Plugin.Payments.PaymentRules.Models.PaymentRuleModel
+@using FoxNetSoft.Plugin.Payments.PaymentRules.Logger
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = @T("Admin.FoxNetSoft.PaymentRules.EditDetails").Text;
+
+    Html.SetActiveMenuItemSystemName("FoxNetSoft.PaymentRules.List");
+}
+<form asp-controller="PaymentRulesAdmin" asp-action="Edit" method="post" id="paymentrule-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.FoxNetSoft.PaymentRules.EditDetails") - @Model.Name
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.FoxNetSoft.PaymentRules.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+            <span id="paymentrule-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.Common.Delete")
+            </span>
+        </div>
+    </div>
+    @await Html.PartialAsync(PluginLog.Folder + "Views/PaymentRulesAdmin/_CreateOrUpdate.cshtml", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="paymentrule-delete" />

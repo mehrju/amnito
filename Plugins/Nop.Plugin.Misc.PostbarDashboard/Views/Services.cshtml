@@ -1,0 +1,678 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.vm_Services
+@using Nop.Web.Framework.UI
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+
+    //Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/assets/bootstrap.min.css");
+
+  
+
+
+}
+<script>
+
+    //function showContent(obj) {
+    //    var linkTo = obj.getAttribute("href");
+    //    var newlinkTo = linkTo.replace('#', '');
+    //    //alert (newlinkTo);
+
+    //    document.getElementById(newlinkTo).innerHTML = " This is where the xml variable content should go";
+    //    document.getElementById(newlinkTo).className += " Show";
+    //    console.log("a");
+    //    $("divbuyservice").show();
+    //    return true;
+    //}
+</script>
+<script>
+    $(document).ready(function () {
+
+
+
+        @*$("#IdServiceSelect").change(function () {
+            var IdServiceSelected = IdServiceSelect.value;
+            var postdata = {
+                Id: IdServiceSelected
+            };
+            addAntiForgeryToken(postdata);
+            $.ajax({
+                url:"@(Url.Action("action", "controller"))",
+                type: 'Post',
+                dataType: "json",
+                data: postdata,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                }
+            });
+        });*@
+    });
+
+
+
+
+</script>
+<div class="row justify-content-md-center">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1> خدمات</h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <div class="col-sm-12 mt-2 alert alert-warning text-center">
+                        کاربر گرامی شما میتوانید به خرید هر یک از طرح های زیر از مزایای آن استفاده فرمایید
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="body-dash send-data-from">
+            <div class="services text-center">
+                <h2>
+                    خدمات پستی
+                </h2>
+                <div class="services-card-width">
+                    <div class="row">
+                        <div class="col-md-2 col-lg-2"></div>
+                        <div class="col-md-8 col-lg-8">
+                            <div class="owl-carousel carousel-normal owl-rtl owl-loaded owl-drag">
+
+
+
+
+
+
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage" style="transform: translate3d(1749px, 0px, 0px); transition: all 0.25s ease 0s; width: 2842px;">
+                                        <div class="owl-item cloned" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس سفارشی</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-clock"></i>
+                                                        <p class="services-title">سرویس پیشتاز</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-gift"></i>
+                                                        <p class="services-title">سرویس های ویژه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس پس کرایه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس پس کرایه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس سفارشی</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-clock"></i>
+                                                        <p class="services-title">سرویس پیشتاز</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-gift"></i>
+                                                        <p class="services-title">سرویس های ویژه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item active" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس پس کرایه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned active" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس پس کرایه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned active" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-truck"></i>
+                                                        <p class="services-title">سرویس سفارشی</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned active" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-clock"></i>
+                                                        <p class="services-title">سرویس پیشتاز</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><div class="owl-item cloned active" style="width: 213.583px; margin-left: 5px;">
+                                            <div class="item">
+                                                <a href="#">
+                                                    <div class="services-card">
+                                                        <i class="fal fa-gift"></i>
+                                                        <p class="services-title">سرویس های ویژه</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-lg-2"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div>
+
+
+            @*<div class=" row justify-content-md-center mt-1 text-blue">
+                <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                    <div class="tabbable ltr">
+
+                        <p class="text-right all-tickets">لیست خدمات </p>
+                        <p class="text-right send-tickets">خرید خدمت جدید</p>
+                        <ul class="nav nav-tabs ">
+                            <li class="active"><a id="btnBuyService" href="#divbuyservice" class="btn btn-blue-theme" onClick="return showContent(this);">خرید خدمت جدید<i class="fa fa-plus-circle"></i></a></li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="divbuyservice" hidden>
+                <div class="row ">
+                    <div class="form-group col-md-6">
+                        <label>انتخاب سرویس:</label>
+                        <select tabindex="1" name="IdServiceSelect" id="IdServiceSelect"></select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>قیمت:</label>
+                        <p> 20000 ریال</p>
+                    </div>
+                </div>
+                <div class="row"><p>توضیحات خدمت.................</p></div>
+                <div class="row">
+                    <div class="form-group btn-sub">
+                        <button id="BtnInsertService" tabindex="8" class="btn btn-orang-theme">
+                            خرید
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="body-dash orders-tbl">
+
+                <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+
+                </div>
+            </div>*@
+            @*<div class=" row justify-content-md-center mt-1 text-blue">
+                <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                    <div class="tabbable ltr">
+
+                        <p class="text-right all-tickets"></p>
+                        <p class="text-right send-tickets"></p>
+                        <ul class="nav nav-tabs ">
+                            <li class="active"><a id="btnBuyService" href="#divbuyservice" class="btn btn-blue-theme" onClick="return showContent(this);"><i class="fa fa-plus-circle"></i></a></li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="divbuyservice" hidden>
+                <div class="row ">
+                    <div class="form-group col-md-6">
+                        <label></label>
+                        <select tabindex="1" name="IdServiceSelect" id="IdServiceSelect"></select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label></label>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="row"><p></p></div>
+                <div class="row">
+                    <div class="form-group btn-sub">
+                        <button id="BtnInsertService" tabindex="8" class="btn btn-orang-theme">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="body-dash orders-tbl">
+
+                <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    @*$(function() {
+        pageSize = 10;
+
+        loadData("@Url.Action("supportPaged", "PostbarDashboard")", 0, pageSize, '#div_table')
+
+
+    })*@
+</script>
+<script>
+    $(function() {
+
+ //services
+     $('.carousel-normal').owlCarousel({
+        rtl:true,
+        loop:true,
+        stagePadding: 0,
+        margin:5,
+        dots:true,
+        nav:true,
+        autoplay:true,
+    autoplayTimeout:4000,
+    autoplayHoverPause:true,
+       
+        responsive:{
+            0:{
+                items:1
+            },
+            360:{
+                items:1
+            },
+            760:{
+                items:3
+            },
+            
+            1024:
+            {
+                items:4
+            }
+        }
+    });
+
+    
+ //services
+ $('.carousel-blog').owlCarousel({
+    rtl:true,
+    loop:true,
+    stagePadding: 0,
+    margin:5,
+    dots:true,
+    nav:false,
+    autoplay:true,
+autoplayTimeout:4000,
+autoplayHoverPause:true,
+   
+    responsive:{
+        0:{
+            items:0
+        },
+        360:{
+            items:0
+        },
+        760:{
+            items:4
+        },
+        
+        1024:
+        {
+            items:4
+        }
+    }
+});
+  
+
+
+    //enamad
+    $('.enamad-carousel').owlCarousel({
+        rtl:true,
+        loop:false,
+        stagePadding: 0,
+        margin:0,
+        dots:true,
+        nav:false,
+        autoplay:false,
+    autoplayTimeout:6000,
+    autoplayHoverPause:true,
+       
+        responsive:{
+            0:{
+                items:1
+            },
+            360:{
+                items:1
+            },
+            760:{
+                items:1
+            },
+            
+            1024:
+            {
+                items:3
+            }
+        }
+    });
+
+
+
+
+});
+
+$(document).ready(function(){
+    $(".owl-carousel").owlCarousel();
+  });
+$('.loop').owlCarousel({
+    center: true,
+    items:1,
+    loop:true,
+    margin:10,
+    responsive:{
+        600:{
+            items:1
+        }
+    }
+});
+
+
+
+
+
+/*----go to top button------*/
+
+
+$(function() {
+    var btn = $('#back-to-top');
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+          btn.addClass('show');
+        } else {
+          btn.removeClass('show');
+        }
+      });
+      
+      btn.on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+    
+    });
+      //Slider
+    $(document).ready() 
+        $('.flexslider').flexslider({
+          animation: "fade",
+          reverse: false,
+          animationLoop: true,
+          slideshow: true,
+          slideshowSpeed: 5000, 
+         
+        });
+      
+         
+    /*--detect browser size and different size images for slider---*/
+             
+    var getBrowserWidth = function () {
+        if (window.innerWidth < 700) {
+            // Extra Small Device
+            return "xs";
+        } else if (window.innerWidth < 769) {
+            // Small Device
+            return "sm"
+        } else if (window.innerWidth < 1199) {
+            // Medium Device
+            return "md"
+        } else {
+            // Large Device
+            return "lg"
+        }
+    };
+    
+    var idsParam = ["1", "2","3","4"];
+    $(document).ready(function () {
+        
+        // run test on initial page load
+        checkSize();
+
+        // run test on resize of the window
+        $(window).resize(checkSize);
+    });
+
+    //Function to the css rule
+    function checkSize() { 
+        var device = getBrowserWidth();
+        $.each(idsParam, function (index, id) {  
+             
+            var smallImgName = "small-img" + id+".jpg";
+            var mediumImgName = "medium-img" + id + ".jpg";
+            var largeImgName = "large-img" + id + ".jpg";
+
+            var imgId = "img-size" + id;
+           
+            if (device === "xs") {
+             
+                $("#" + imgId).attr("src", "images/" + smallImgName);
+            }
+          else  if (device === "sm") {
+                $("#" + imgId).attr("src", "images/" + mediumImgName);
+            }
+            else  if (device === "md") {
+                $("#" + imgId).attr("src", "images/" + largeImgName);
+            }
+            else  if (device === "lg") {
+                $("#" + imgId).attr("src", "images/" + largeImgName);
+            }
+        }); 
+    }
+
+    /*login steps */
+    $( document ).ready(function() {
+        $("#phoneNum").on("keyup",function() {
+            var maxLength = $(this).attr("maxlength");
+            if(maxLength == $(this).val().length) {
+                $( '#continue' ).removeClass("bg-light-gray").addClass("bg-orange");
+                $( '#continue' ).click(function(){
+                    $('.step1-content').css('display','none');
+                    $('.step3-content').css('display','block');
+                }); 
+            }
+          })
+          $("#vertifyCode").on("keyup",function() {
+            var minlength = $(this).attr("minlength");
+            if(minlength == $(this).val().length) {
+               
+                $( '#verify-continue-btn' ).click(function(){
+                    $('.step1-content').css('display','none');
+                    $('.step3-content').css('display','none');
+                    $('.step4-content').css('display','block');
+                }); 
+            }
+          })
+          $( '.change-number' ).click(function(){
+            $('.step1-content').css('display','block');
+            $('.step3-content').css('display','none');
+            $( '#continue' ).removeClass("bg-orange").addClass("bg-light-gray");
+        }); 
+      });
+    
+
+
+$(document).ready(function(){
+
+    /*----open a tab from external link------*/
+ $( ".favorite-link" ).click(function() {
+    $('#pills-tab li:nth-child(2) a').tab('show')
+});
+$( ".profile-link" ).click(function() {
+    $('#pills-tab li:nth-child(1) a').tab('show')
+});
+$( ".address-link" ).click(function() {
+    $('#pills-tab li:nth-child(3) a').tab('show')
+});
+$( ".order-link" ).click(function() {
+    $('#pills-tab li:nth-child(4) a').tab('show')
+});
+$( ".change-pass-link" ).click(function() {
+    $('#pills-tab li:nth-child(5) a').tab('show')
+});
+  
+  });
+
+</script>
+
+<style>
+
+
+    .services-card
+{
+    background: #fff;
+    padding:30px 0px;
+    border-radius: 25px;
+    box-shadow: 0px 0px 20px 0px #F99C1626;
+    width: 100%;
+}
+.owl-carousel .owl-item .services-card img 
+{
+    width: 60px;
+    display: inline-block;
+}
+.services-title 
+{
+
+    margin-top:50px;
+    font-size: 16px;
+
+}
+.services-card-width
+{
+    max-width:100%;
+   /* padding-right:30px;
+    padding-left:30px; */
+    margin: 0 auto;
+    margin-top: 20px;
+}.services-card-width .row {
+    margin-left:0!important; ;
+     margin-right:0!important; ;
+ }
+.services-card-width .owl-nav .owl-prev span {
+     position: absolute;
+     right: 0;
+     top: 33%;
+     font-size: 40px;
+     padding: 18px 12px 18px 12px;
+     border-radius: 50%;
+     background: #FFAC04;
+     line-height: 0;
+    color: #fff;
+    background: #ffc107;
+    box-shadow: 1px 4px 30px -10px #044890;
+
+ }
+.services-card:hover .services-card-width .owl-nav .owl-prev span {
+    color: #FFAC04;
+    background: #ffffff;
+}
+
+.services-card-width .owl-nav .owl-next span
+{
+    position: absolute;
+    left: 0;
+    top: 33%;
+    font-size: 40px;
+    padding: 18px 12px 18px 12px;
+    border-radius: 50%;
+    line-height: 0;
+    color: #fff;
+    background: #ffc107;
+    box-shadow: 1px 4px 30px -10px #044890;
+
+}
+.services-card-width .owl-nav .owl-next span:hover , .services-card-width .owl-nav .owl-prev span:hover
+{
+    color: #FFAC04;
+    background:#fff;
+    box-shadow:0px 0px 18px #ededed;
+}
+.services-card
+{
+    color: #FFAC04;
+}
+.services-card:hover 
+{
+    color: #fff;
+    background: #FFAC04;
+}
+.services-card i 
+{
+    font-size:50px;
+}
+ .item {
+     padding: 42px 5px;
+ }
+ .owl-carousel.owl-rtl .owl-item
+{
+    text-align: center;
+}
+</style>

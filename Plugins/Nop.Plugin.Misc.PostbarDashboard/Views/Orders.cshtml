@@ -1,0 +1,592 @@
+﻿@using System.Net
+@using Nop.Core
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/New_PubllicNewUiLayout.cshtml";
+
+    <link rel="stylesheet" href="~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver=5">
+    <style>
+        .header-dash {
+            padding: 10px;
+            background: #2f99fb;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            color: #fff;
+        }
+
+        .tabbable li {
+            direction: rtl !important;
+        }
+
+        .btn-blue-theme {
+            width: 100%;
+            font-size: 12px;
+            line-height: 1.222;
+            border-radius: 25px;
+            background-color: #2f99fb !important;
+            color: #fff;
+            overflow: hidden;
+            letter-spacing: -.6px;
+            position: relative;
+            margin-bottom: 12px;
+            border: none;
+        }
+
+            .btn-blue-theme:before {
+                width: 57px;
+                height: 65px;
+                position: absolute;
+                left: -15px;
+                top: -20px;
+                background: hsla(0,0%,100%,.21);
+                content: "";
+                border-radius: 50%;
+                transition: .3s all ease-out;
+            }
+
+        .btn-orang-theme {
+            width: 100%;
+            font-size: 12px;
+            line-height: 1.222;
+            border-radius: 25px;
+            background-color: #ffad03;
+            color: #fff;
+            overflow: hidden;
+            letter-spacing: -.6px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+            .btn-orang-theme:before {
+                width: 57px;
+                height: 65px;
+                position: absolute;
+                left: -15px;
+                top: -20px;
+                background: hsla(0,0%,100%,.21);
+                content: "";
+                border-radius: 50%;
+                transition: .3s all ease-out;
+            }
+
+        .select2-selection {
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0;
+            position: relative;
+            vertical-align: super;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .orderSums {
+            font-size: medium;
+            color: #fff700;
+        }
+
+        @@media (max-width:768px) {
+            .orderHeader {
+                border-top-left-radius: 10px !important;
+                border-top-right-radius: 10px !important;
+            }
+
+            .noMobile {
+                display: none;
+            }
+
+            .body-dash {
+                padding: 10px;
+                background: #2f99fb;
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                color: #fff;
+            }
+        }
+
+        @@media (min-width:769px) {
+            .orderHeader {
+                padding-top: 30px !important;
+                border-radius: 10px !important;
+                border-top-left-radius: 140px !important;
+                border-top-right-radius: 140px !important;
+            }
+
+            .orderAcriobs {
+                margin-top: 15px !important;
+            }
+
+            .body-dash {
+                padding: 10px;
+                background: #2f99fb;
+                border-radius: 15px;
+                color: #fff;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+}
+
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12 orderHeader">
+        <div class="header-dash row text-center" style="border-radius: 30px;margin-bottom: 16px;">
+            <div class="col-md-4 orderSums" id="ordersSum">جمع مبلغ سفارشات</div>
+            <h1 class="col-md-4">سفارش ها</h1>
+            <div class="col-md-4 orderSums" id="ordersDiscountSum">جمع مبلغ تخفیفات</div>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue orderAcriobs">
+            @*<div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                    <span class="pre-text-warn">کاربر گرامی شما میتوانید برای جستجوی یک سفارش برروی دکمه روبه رو کلیک بفرمایید</span>
+                </div>*@
+
+
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <ul class="nav nav-tabs ">
+                        <li class="active " style="margin-right: 10px;"><a href="#" onclick="openModal()" class="btn btn-blue-theme ">جستجو<i class="fa fa-search" aria-hidden="true"></i></a></li>
+                        <li class="active noMobile" style="margin-right:10px"><a href="@Url.Action("OrdersPagedExcel", "PostbarDashboard")?searchConditions={}" id="downloadExcel" class="btn btn-orang-theme">  3000 سفارش آخر<i class="fa fa-download" aria-hidden="true"></i></a></li>
+                        <li class="active noMobile" style="margin-right:10px"><a href="@Url.Action("OrderBillDetailExcel", "PostbarDashboard")?searchConditions={}" id="downloadDetailExcel" class="btn btn-blue-theme "> 3000 سفارش آخر با جزئیات<i class="fa fa-download" aria-hidden="true"></i></a></li>
+                        <li class="active noMobile" style="margin-right:10px"><a onclick="downloadBarcodeReport()" id="downloadBarcodeReport" class="btn btn-orang-theme" style="color:white">خروجی بارکد سفارشات<i class="fa fa-file-pdf" aria-hidden="true"></i></a></li>
+                        <li class="active noMobile" style="margin-right:10px"><a onclick="downloadBarcodeReportExcel()" id="downloadBarcodeReport" class="btn btn-blue-theme" style="color:white">خروجی بارکد سفارشات<i class="fa fa-file-excel" aria-hidden="true"></i></a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="body-dash orders-tbl">
+            <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">کاربرگرامی شما میتوانید با پارامترهای ذیل ، سفارش های مربوطه را جستجو بفرمایید</h5>
+            </div>
+            <div class="modal-body" style="padding-left: 0px !important;padding-right: 0px !important;">
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" style="direction:rtl; ">وضعیت سفارش</label>
+                    <div class="col-sm-2">
+                        <label class="radio-inline"><input name="orderStatusInput" type="radio" id="radiounclear" value="10">معلق</label>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <label class="radio-inline"><input type="radio" name="orderStatusInput" id="radioProccing" value="20">درحال بررسی</label>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <label class="radio-inline"><input type="radio" name="orderStatusInput" id="radioTakmil" value="30">تکمیل شده</label>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <label class="radio-inline"><input type="radio" name="orderStatusInput" id="radioCancel" value="40">کنسل شده</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" style="direction:rtl; ">وضعیت پرداخت</label>
+                    <div class="col-sm-2">
+                        <label class="radio-inline"><input type="radio" name="payInput" id="payInput" value="30">پرداخت شده</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="radio-inline"><input type="radio" name="payInput" id="notPayInput" value="-1">پرداخت نشده</label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="serialInputFrom">از سفارش</label>
+                        <input name="serialInputFrom" id="serialInputFrom" type="text" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="serialInputTo" style="direction: rtl;">تا سفارش</label>
+                        <input name="serialInputTo" id="serialInputTo" type="text" class="form-control">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="recieverNameInput">نام گیرنده</label>
+                    <input name="recieverNameInput" id="recieverNameInput" type="text" class="form-control" placeholder="">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="serviceType">نوع سرویس </label>
+                    <select id="serviceType" name="serviceType" class="select3-placeholer form-control" data-placeholder="انتخاب نوع سرویس"></select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="recieverProvinceSelect">استان گیرنده</label>
+                    <select id="recieverProvinceSelect" name="recieverProvinceSelect" class="select3-placeholer form-control" data-placeholder="انتخاب استان گیرنده"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="recieverCitySelect">شهر گیرنده</label>
+                    <select id="recieverCitySelect" name="recieverCitySelect" class="select3-placeholer form-control" data-placeholder="انتخاب شهر گیرنده"></select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="senderPrivinceSelect">استان فرستنده</label>
+                    <select id="senderPrivinceSelect" name="senderPrivinceSelect" class="select3-placeholer form-control" data-placeholder="انتخاب استان فرستنده"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="senderCitySelect">شهر فرستنده</label>
+                    <select id="senderCitySelect" name="senderCitySelect" class="select3-placeholer form-control" data-placeholder="انتخاب شهر فرستنده"></select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="_DateFrom"> از تاریخ </label>
+                    <input type="text" id="DateFrom" class="form-control" aria-label="_DateFrom" aria-describedby="_DateFrom">
+
+                    <div class="input-group-prepend " style="position: absolute; left: 6px; top: 26px;">
+                        <span class="input-group-text cursor-pointer" id="_DateFrom" style="top:0px !important;padding: 4px;background-color: transparent;border:none" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                            <img src="/Themes/Ap/images/ApImages/calendar.png">
+                        </span>
+                    </div>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="DateTo"> تا تاریخ </label>
+                    <input type="text" id="DateTo" class="form-control" aria-label="_DateFrom" aria-describedby="_DateFrom">
+
+
+                    <div class="input-group-prepend " style="position: absolute; left: 6px; top: 26px;">
+                        <span class="input-group-text cursor-pointer" id="_DateTo" style="top:0px !important;padding: 4px;background-color: transparent;border:none" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                            <img src="/Themes/Ap/images/ApImages/calendar.png">
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <button type="button" id="SearchOrder" class="btn btn-primary">جستجو</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/jquery.md.bootstrap.datetimepicker.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/datePicker.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jquery.mousewheel.min.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jQuery.WSlot.min.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/common.js"></script>
+
+<script type="text/javascript">
+
+    var currentSearchObj = {};
+
+    $(function() {
+        pageSize = 10;
+
+        var win = $(window);
+        var pageIndex = 0;
+        $.ajax({
+            beforeSend: function() {
+                $('#loader').show();
+            },
+            complete: function() {
+                $('#loader').hide();
+            },
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("OrdersPaged", "PostbarDashboard")',
+            data: { 'pageSize': pageSize, 'pageIndex': pageIndex },
+            success: function(data) {
+                if (data != null) {
+                    $('#div_table').append(data);
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+            }
+        });
+
+        $('#SearchOrder').on('click',
+            function() {
+                currentSearchObj = {
+                    orderSerialFrom: transformNumbers.toNormal($('#serialInputFrom').val()),
+                    orderSerialTo: transformNumbers.toNormal($('#serialInputTo').val()),
+                    payStatus: $('input[name="payInput"]:checked').val(),
+                    recieverName: $('#recieverNameInput').val(),
+                    orderStatus: $('input[name="orderStatusInput"]:checked').val(),
+                    recieverProvinceId: $('#recieverProvinceSelect').val(),
+                    recieverCityId: $('#recieverCitySelect').val() ? $('#recieverCitySelect').val() : 0,
+                    senderProvinceId: $('#senderPrivinceSelect').val(),
+                    senderCityId: $('#senderCitySelect').val() ? $('#senderCitySelect').val() : 0,
+                    fromDate: transformNumbers.toNormal($('#DateFrom').val()),
+                    toDate: transformNumbers.toNormal($('#DateTo').val()),
+                    serviceTypes: $('#serviceType').val()
+                };
+                $('#downloadExcel').attr('href', "@Url.Action("OrdersPagedExcel", "PostbarDashboard")?searchConditions=" + JSON.stringify(currentSearchObj));
+                $('#downloadDetailExcel').attr('href', "@Url.Action("OrderBillDetailExcel", "PostbarDashboard")?searchConditions=" + JSON.stringify(currentSearchObj));
+
+                loadOrderData(0, pageSize, '#div_table', JSON.stringify(currentSearchObj),true);
+                $('#myModal').modal('hide');
+            }
+        );
+
+
+
+        win.scroll(function() {
+            if (parseInt($(document).height() - win.height() - 1) == parseInt(win.scrollTop()) || parseInt($(document).height() - win.height()) == parseInt(win.scrollTop())) {
+                pageIndex++;
+                loadOrderData(pageIndex, pageSize, '#div_table', JSON.stringify(currentSearchObj));
+            }
+        });
+
+        function loadOrderData(pageIndedx, pageSize, elementToInsert, searchOptions,withClean) {
+            debugger;
+            $.ajax({
+                beforeSend: function() {
+                    debugger;
+                    $('#loader').show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("OrdersPaged", "PostbarDashboard")",
+                data: { 'pageSize': pageSize, 'pageIndex': pageIndedx,'searchConditions': searchOptions},
+                success: function(data) {
+                    if (withClean) {
+                        $(elementToInsert).html('');
+                    }
+                    if (data != null) {
+                        $(elementToInsert).append(data);
+                    }
+                    else{
+                        $(elementToInsert).html('');
+                    }
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                }
+            });
+        }
+
+        $('#PageIndex').val(pageSize);
+
+        $('#_DateFrom').MdPersianDateTimePicker({
+            targetTextSelector: '#DateFrom',
+        });
+
+        $('#_DateTo').MdPersianDateTimePicker({
+            targetTextSelector: '#DateTo',
+        });
+
+
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/PostbarDashboard/GetServiceTypes",
+            data: {},
+            success: function(data) {
+                $('#serviceType').append(new Option('انتخاب کنید....', '-1', false, false));
+                $.each(data,
+                    function(id, item) {
+                        $('#serviceType').append(new Option(item.Name, item.Id, false, false));
+                    });
+
+                $('#serviceType').select2({
+                    placeholder: "انتخاب نوع سرویس",
+                    allowClear: true,
+                    dropdownParent: $('#myModal'),
+                    multiple: true
+                });
+                $('#serviceType').val([]);
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve Countries.');
+            }
+        });
+
+
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/ShipitoCheckout/getCountryList",
+            data: {},
+            success: function(data) {
+                $('#recieverProvinceSelect').append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data,
+                    function(id, item) {
+                        $('#recieverProvinceSelect').append(new Option(item.Text, item.Value, false, false));
+                    });
+                $('#senderPrivinceSelect').append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data,
+                    function(id, item) {
+                        $('#senderPrivinceSelect').append(new Option(item.Text, item.Value, false, false));
+                    });
+
+
+                $('#recieverProvinceSelect').off('changes');
+                $('#recieverProvinceSelect').on('change', onCountryChangeDestination);
+
+                $('#recieverProvinceSelect').select2({
+                    placeholder: "انتخاب استان",
+                    allowClear: true,
+                    dropdownParent: $('#myModal')
+                });
+
+                $('#senderPrivinceSelect').off('changes');
+                $('#senderPrivinceSelect').on('change', onCountryChangeRegion);
+
+                $('#senderPrivinceSelect').select2({
+                    placeholder: "انتخاب استان",
+                    allowClear: true,
+                    dropdownParent: $('#myModal')
+                });
+
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve Countries.');
+            }
+        });
+
+
+        function onCountryChangeDestination() {
+            var selectedItem = $(this).val();
+            var ddlStates = $("#recieverCitySelect");
+            ddlStates.html('');
+
+            ddlStates.append(new Option('درحال بارگذاری....', '-1', true, true));
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "/ShipitoCheckout/GetStatesByCountryId",
+                data: { "countryId": selectedItem },
+                success: function(reuslt) {
+                    ddlStates.html('');
+                    ddlStates.append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(reuslt,
+                        function(id, item) {
+                            ddlStates.append(new Option(item.Text, item.Value, false, false));
+                        });
+                    ddlStates.select2({
+                        placeholder: "انتخاب شهر",
+                        allowClear: true,
+                        dropdownParent: $('#myModal')
+                    });
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log('Failed to retrieve states.');
+                }
+            });
+        }
+
+
+        function onCountryChangeRegion() {
+            var selectedItem = $(this).val();
+            var ddlStates = $("#senderCitySelect");
+            ddlStates.html('');
+
+            ddlStates.append(new Option('درحال بارگذاری....', '-1', true, true));
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "/ShipitoCheckout/GetStatesByCountryId",
+                data: { "countryId": selectedItem },
+                success: function(reuslt) {
+                    ddlStates.html('');
+                    ddlStates.append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(reuslt,
+                        function(id, item) {
+                            ddlStates.append(new Option(item.Text, item.Value, false, false));
+                        });
+                    ddlStates.select2({
+                        placeholder: "انتخاب شهر",
+                        allowClear: true,
+                        dropdownParent: $('#myModal')
+                    });
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log('Failed to retrieve states.');
+                }
+            });
+        }
+
+
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/PostbarDashboard/GetOrdersSum",
+            success: function(data) {
+                $('#ordersDiscountSum').html('جمع مبلغ تخفیفات : ' + data.DiscountSum);
+                $('#ordersSum').html('جمع مبلغ سفارشات : ' + data.OrderTotal);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve data.');
+            }
+        });
+
+    });
+
+
+    function openModal(){
+        $('#myModal').modal();
+    }
+
+
+
+    function downloadBarcodeReport() {
+        var fromDate = $('#_DateFrom').MdPersianDateTimePicker('getDate');
+        var toDate = $('#_DateTo').MdPersianDateTimePicker('getDate');
+
+            const diffTime = Math.abs(toDate - fromDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays > 8) {
+                alert('لطفا برای دریافت خروجی بازه تاریخی حداکثر یک هفته ای مشخص کنید')
+                return;
+            }
+
+        location.href = "@Url.Action("OrdersBarcodeReport", "PostbarDashboard")?searchConditions=" + JSON.stringify(currentSearchObj)
+    }
+
+
+    function downloadBarcodeReportExcel() {
+        var fromDate = $('#_DateFrom').MdPersianDateTimePicker('getDate');
+        var toDate = $('#_DateTo').MdPersianDateTimePicker('getDate');
+
+            const diffTime = Math.abs(toDate - fromDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays > 8) {
+                alert('لطفا برای دریافت خروجی بازه تاریخی حداکثر یک هفته ای مشخص کنید')
+                return;
+            }
+
+        location.href = "@Url.Action("OrdersBarcodeReportExcel", "PostbarDashboard")?searchConditions=" + JSON.stringify(currentSearchObj)
+    }
+</script>

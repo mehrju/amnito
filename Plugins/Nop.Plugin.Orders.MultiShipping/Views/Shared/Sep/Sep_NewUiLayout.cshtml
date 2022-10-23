@@ -1,0 +1,750 @@
+﻿
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_MasterLayout.cshtml";
+}
+@using Nop.Core;
+@using Nop.Core.Domain.Customers;
+@inject IWorkContext _workContext;
+@using Nop.Services.Customers;
+@{
+    string fullName = (_workContext.CurrentCustomer.IsRegistered() ? _workContext.CurrentCustomer.GetFullName() : "");
+    fullName = string.IsNullOrEmpty(fullName) ? "حساب من" : fullName;
+}
+<style>
+    .question {
+        font-weight: bold !important;
+        color: #d4006f !important;
+    }
+    .answer {
+        font-size: 10pt !important;
+        color: gray !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .carousel li {
+        margin-right: 5px !important;
+        background-color: gray !important;
+    }
+
+    .carousel-indicators .active {
+        background-color: black !important;
+    }
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        height: 100%;
+        overflow-y: auto;
+    }
+    /*adding some styles for my custom html5 video player*/
+    ._videoPlayer {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        position: relative;
+        font-size: 100%;
+        font-family: tahoma;
+    }
+
+    ._videoPlayer_video {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    ._videoPlayer_cover {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.3);
+        background-size: cover;
+        opacity: 0.8;
+        text-align: center;
+    }
+
+    ._videoPlayer_cover p {
+        text-align: center;
+        color: #FFF;
+    }
+
+    ._videoPlayer_cover p span {
+        margin-top: 8%;
+    }
+
+    ._videoPlayer_cover p:nth-child(2) {
+        font-size: 200%;
+    }
+
+    ._videoPlayer_buttons {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        background: rgba(31,30,33,0.3);
+        border-top: solid 1px rgba(31,30,33,0.5);
+    }
+
+        ._videoPlayer_buttons ul {
+            text-align: center;
+            color: #FFF;
+            display: block;
+            padding: 0px;
+            text-indent: 0px;
+        }
+
+            ._videoPlayer_buttons ul li {
+                display: inline-block;
+                list-style: none;
+                padding: 5px 5px;
+                cursor: pointer;
+            }
+
+    .timeline {
+        width: 45%;
+        overflow: hidden;
+        margin: 13px 5px;
+        box-shadow: 0px 0px 5px 0px #000,inset 0px 0px 3px 0px #FFF;
+        vertical-align: top;
+        border-radius: 3px;
+        background-color: #8f9598;
+        padding: 0px !important;
+    }
+
+    .timeline-loaded {
+        background-color: #c1c6c9;
+        padding: 0px;
+        margin: 0px;
+        width: 0%;
+    }
+
+    .timeline-current {
+        background-color: #dc3932 !important;
+        padding: 4px 0px;
+        margin: 0px;
+        width: 0%;
+    }
+    .apBody {
+        /*display: none;*/
+        /*background: -webkit-gradient(left top, right top, color-stop(0%, rgba(77,77,79,1)), color-stop(51%, rgba(135,136,138,1)), color-stop(99%, rgba(77,77,79,1)), color-stop(100%, rgba(77,77,79,1)));
+        background: -webkit-linear-gradient(left, rgba(77,77,79,1) 0%, rgba(135,136,138,1) 51%, rgba(77,77,79,1) 99%, rgba(77,77,79,1) 100%);
+        background: -o-linear-gradient(left, rgba(77,77,79,1) 0%, rgba(135,136,138,1) 51%, rgba(77,77,79,1) 99%, rgba(77,77,79,1) 100%);
+        background: -ms-linear-gradient(left, rgba(77,77,79,1) 0%, rgba(135,136,138,1) 51%, rgba(77,77,79,1) 99%, rgba(77,77,79,1) 100%);
+        background: linear-gradient(to right, rgba(77,77,79,1) 0%, rgba(135,136,138,1) 51%, rgba(77,77,79,1) 99%, rgba(77,77,79,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d4d4f', endColorstr='#4d4d4f', GradientType=1 );*/
+    }
+</style>
+
+<body class="apBody">
+    
+    <div class="custom-wrapper">
+        <header class="u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md u-header--untransitioned">
+            <div class="u-header__section fixed-top">
+                <div id="logoAndNav">
+                    <div class="container">
+                        <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+                            <!--navbar navbar-expand-lg navbar-light bg-light-->
+                            <!--small-phone-->
+                            <div class="" id="menuToggle">
+                                <input class="checkbox_check" type="checkbox" />
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <ul id="menu">
+
+                                    <div class="body-menu-humm">
+                                        <ul class="">
+                                            <li><a href="@Url.RouteUrl("Sep.CustomerInfo")"><i style="color:white" class="fa fa-upload"></i>  آپلود نشان تجاری</a></li>
+                                            <li><a href="@Url.RouteUrl("Sep.AddRequestCOD")"><i style="color:white" class="fa fa-address-card"></i>  درخواست حساب پس کرایه</a></li>
+                                            <li><a href="@Url.RouteUrl("Sep.PostalAddress")"><i style="color:white" class="fa fa-mSep-marker"></i>  آدرس های من</a></li>
+                                            <li><a href="@Url.RouteUrl("Sep.FAQ")"><i style="color:white" class="fa fa-question-circle-o"></i>  سوالات متداول</a></li>
+                                        </ul>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav" id="menuUL">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/">خانه <span class="sr-only">(current)</span></a>
+                                    </li>
+
+                                    <li class="dropdown nav-item ">
+                                        <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">خدمات پستی</a>
+                                        <div class=" arrow-ups dropdown-menu under_menu_drop ">
+                                            <a href="#" class="dropdown-item">سرویس سفارشی</a>
+                                            <a href="#" class="dropdown-item">سرویس پیشتاز</a>
+                                            <a href="#" class="dropdown-item">سرویس ویژه</a>
+                                            <a href="#" class="dropdown-item">سرویس پس کرایه</a>
+                                        </div>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/rahgiry"> رهگیری مرسوله</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@(Url.RouteUrl("_Sh_Checkout"))">ثبت سفارش</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Dashboard/Orders">سفارشات</a>
+                                    </li>
+                                    @if (_workContext.CurrentCustomer.IsInCustomerRole("Administrators")
+                                         || _workContext.CurrentCustomer.IsInCustomerRole("mini-Administrators"))
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/Bulkorder">سفارش انبوه</a>
+                                        </li>
+                                    }
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">درباره ما</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@(Url.RouteUrl("_Sh_ChargeWallet"))">شارژ کیف پول </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@(Url.RouteUrl("TopicCollection"))">آکادمی آموزش </a>@*"*@
+                                    </li>
+                                </ul>
+                                <form class="form-inline my-2 my-lg-0 ">
+                                    <div class="dropdown">
+                                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                                        {
+                                            
+                                        }
+                                        else
+                                        {
+                                            <a href="#" data-toggle="dropdown" class=" btn btn-login dropdown-toggle custom-btn-01">
+                                                @(fullName)
+                                            </a>
+                                            <div class="dropdown-menu arrow-ups under_menu_drop snip1189">
+                                                <a href="/dashboard" class="dropdown-item">
+                                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                    حساب من
+                                                </a>
+                                               
+                                            </div>
+                                        }
+                                    </div>
+
+                                </form>
+                            </div>
+                        </nav>
+
+                    </div>
+
+                    <!--menu fixed bottom sm-->
+                    <nav class="navbar navbar-dark fixed-bottom nav-bottom-sm d-lg-none d-xl-none" style="background-color:white !important;color:gray !important">
+                        <ul class="w-100 p-0 pt-1">
+                            <li class="active">
+                                <a class="maimAction" href="http://724.ir/app/home?action=open"><img src="~/Themes/sep/images/ApImages/Exit.png" />خروج</a>
+                            </li>
+                            <li>
+                                <a href="tel:+982191300250" target="_blank" class="maimAction"><img src="~/Themes/postexNew/images/iconBottom/poshtMobile.png" />پشتیبانی</a>
+                            </li>
+                            <li>
+                                <a id="myAccount" href="#" class="maimAction"><img src="~/Themes/postexNew/images/iconBottom/hesabMobile.png" />حساب من</a>
+                            </li>
+                            <li>
+                                <a href="@(Url.RouteUrl("Sep.Orders"))" class="maimAction"><img src="~/Themes/postexNew/images/iconBottom/marsolatMobile.png" />سفارشات</a>
+                            </li>
+                            <li>
+                                <a class="maimAction" href="@(Url.RouteUrl("_SepStartup"))"><img src="~/Themes/postexNew/images/iconBottom/homeMobile.png" />  خانه</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="modal fade" id="_RuleModal" role="dialog">
+        <div class="modal-dialog modal-lg" style="margin:0px">
+            <div class="modal-content">
+                <div class="modal-header" style="color:white;background:#4D4D4F;padding-bottom:0px;border-bottom:none">
+                    <h5 class="modal-title" style="text-align:center;font-size: 9pt;">قوانین استفاده از سامانه</h5>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="closeRuleModal" style="color:white;font-size: 9pt;">
+                        فهمیدم و قبول دارم
+                        <i class="fa fa-check" aria-hidden="true" style="color:white;font-size: 9pt;"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color: #4D4D4F;color: white;padding-top:0px">
+                    <div class="row align-items-center" style="padding-right: 10px;padding-left: 10px;">
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>زمان جمع آوری سفارش هایی که درخواست آنها تا قبل از ساعت 11صبح باشد همان روز و زمان جمع آوری سفارشاتی که پس از ساعت 11 صبح ثبت شوند، در اولین روز کاری بعد از ثبت سفارش خواهد بود .<br> <br> <br> قوانین اجرایی<br>1.تعهد می نمایم که وزن و محتوای بسته را به درستی به دقت و صداقت اعلام نمایم.اگر چنانچه وزن اعلام شده مغایر با وزن واقعی باشد (که این مورد در واحد تجزیه و مبادلات مشخص می گردد)، سفارش کنسل خواهد شد و مسئولیت تاخیر در ارسال، هزینه سفارش مجدد و یا هرگونه خسارت ناشی از این امر به عهده اینجانب خواهد بود.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>2.تعهد می نمایم که آدرس گیرنده را در سیستم به درستی اعلام نمایم تا موجب برگشتی سفارش و یا هزینه های نگهداری در باجه معطله نگردد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>3.تعهد می نمایم هماهنگی لازم را با گیرنده برای اخذ مرسوله ای که در باجه معطله می باشد بنمایم.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>4.تعهد می نمایم آدرس فرستنده اعم از استان، شهر و منطقه را صحیح انتخاب نمایم و چنانچه این امر به درستی صورت نگیرد مسئولیت ناشی از تاخیر در جمع آوری و یا کنسلی سفارش به عهده اینجانب خواهد بود.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>5.تعهد می نمایم از شنبه تا چهارشنبه، جهت تحویل مرسوله به جمع آور تا ساعت 18 و پنجشنبه تا ساعت ۱5 در محل اظهار شده ثبت سفارش (آدرس فرستنده) حضور داشته باشم و در صورت عدم حضور، این امر به منزله لغو سفارش است و هیچ مبلغی از بابت سفارش لغو شده مسترد نخواهد شد و همچنین تعهد می نمایم هیچ گونه ادعایی در این خصوص نخواهم داشت.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>6. مجددا اعلام میدارم که قبول دارم کلیه سفارشات ثبت شده در روزجمعه و ایام تعطیل در اولین روز کاری بعد از ثبت سفارش جمع آوری خواهد شد و در این خصوص هیچ اعتراضی نخواهم داشت.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>7.تعهد می نمایم هر گونه شکایت در خصوص خسارت وارده به هر مرسوله ای را صرفا ظرف 24ساعت پس از دریافت سفارش و عدم پذیرش آن مرسوله اعلام دارم و در غیر این صورت هیچ گونه اعتراضی نخواهم داشت ضمنا تعهد بیمه مرسوله تا لحظه تحویل آن به گیرنده اعتبار خواهد داشت.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>8.تعهد می نمایم که کالای فاسد شدنی ، ممنوعات پستی و قاچاق، وزن بیش از 30کیلو، مایعات در ظروف شیشه ای و بلندتر از 1 متر در مرسوله پستی قرار ندهم و مندرجات بند ممنوعات پستی رارعایت نمایم .</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>9.تعهد می نمایم که کالای شکستنی ارسال ننمایم مگر آنکه کلیه ضوابط بسته بندی را رعایت نموده باشم، که در صورت عدم رعایت ضابطه فوق و بروز خسارت، هیچ اعتراضی نخواهم داشت و مسئولیت محتوای کلیه کالاهای مندرج در بسته به عهده اینجانب می باشد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>10.تعهد می نمایم فایلPDF سفارش خود را که حاوی کد رهگیری می باشد را پرینت و بر روی بسته الصاق نمایم وحتما آنرا امضا کنم و سپس نسخه دیگر را به امضای جمع آور برسانم و به عنوان رسید پستی نزد خود نگهدارم . ضمنا کلیه قوانین پستی را در خصوص محتوای بسته پستی رعایت نمایم و اگر خلاف این امر را انجام دهم کلیه مسئولیت های ناشی از خسارت و غیره به عهده اینجانب می باشد و اگر چنانچه به پرینتر دسترسی نداشته باشم، آدرس فرستنده، گیرنده و شماره سفارش را بر روی بسته بندی مرسوله با ماژیک درج بنمایم.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>11.تعهد می نمایم بعنوان مالک و دارنده سیم کارت و شماره همراهی که ثبت نام نموده ام ، کلیه مسئولیت ها و تعهدات مندرج در بند های این تعهدنامه به عهده اینجانب خواهد بود.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>12.تعهد می نمایم کلیه موارد لازم در مورد بسته بندی صحیح و عدل بندی را با هزینه خودم انجام دهم تا بسته در زمان حمل پاره نشود و چنانچه مرسوله ام به بسته بندی مجدد نیاز داشت هزینه آن را طبق نظرکارشناس بپردازم.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>13.روند کاری سامانه بدین گونه است که سفارش هایی که تا قبل از ساعت 11 ثبت می گردند همان روز به فعال پستی یا کالارسان، جهت جمع آوری ارجاع و تا ساعت 18 جمع آوری از محل ثبت شده برای فرستنده جمع آوری گردد که اینجانب تعهد می نمایم در صورت 24 ساعت تاخیر در جمع آوری حق هرگونه اعتراض نسبت به جمع آوری کالا را از خود سلب نموده ام.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>14.متعهد و مطلع هستم که جمع آوری بارها، از درب منزل یا محل کار انجام می شود و روند دریافت آن به گونه ای است که بار باید به جمع آور محترم، در محل درب ورودی ساختمان تحویل داده شود و در صورت نیاز به رویت محتویات مرسوله امکان بازدید آن فراهم گردد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>15.تعهد مینمایم چنانچه از درج امضا در بخش امضای مشتری در فاکتور خودداری نمایم (که بصورت اتوماتیک پس از ثبت سفارش دانلود و در اختیارم قرار گرفت) حق هرگونه اعتراضی را نسبت به دریافت غرامت ناشی از خسارت یا فقدان مرسوله را از خود سلب می نمایم. این موارد یکبار دیگر در زمان پرداخت مبلغ هزینه ارسال بصورت الکترونیک به تایید اینجانب رسیده است (در زمان پرداخت، تایید نمودم که قوانین را خواندم و قبول دارم).</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>16.حق مقر( هزینه جمع آوری از درب فرستنده )هر 24 ساعت یکبار برای ثبت سفارش از هر فعال پستی، به ازای هر30 کیلوگرم بار به ازای هر آدرس فرستنده اعمال می شود.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>17. سرویس پست خارجی در قبال ارسال حتمی مرسوله شما هیچگونه تعهدی ندارد زیرا چنانچه مرسوله مغایر قوانین کشور مقصد باشد امکان ارسال وجود نخواهد داشت و مرسوله با هزینه خودتان به آدرس شما عودت داده خواهد شد<br> <br>قوانین مالی</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>1.کنسلی سفارش</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>1-1)می پذیرم در صورت ثبت سفارش از طریق پست بار، چنانچه درخواست کنسلی سفارش را داشته باشم هیچ مبلغی عودت داده نخواهد شد</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>1-2)می پذیرم چنانچه در زمان تحویل مرسولات، بسته ای تحویل داده نشود، به منزله کنسل شدن مرسوله می باشد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>1-3)تعهد می نمایم و می پذیرم چنانچه مرسوله از سامانه غیرپستی باشد، تا قبل از جمع آوری قابل کنسل کردن بوده و چنانچه برای جمع آوری مراجعه شود یا اینکه جمع آوری انجام شود برای کنسلی هیچ وجهی مسترد نخواهد شد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>2.مدت زمان ارسال بسته طبق SLA مندرج در توضیحات هر فعال پستی قید گردیده. بارهایی که مدت زمان ارسال بیش از زمان مندرج در جدول SLA ارسال و تحویل شوند مشمول غرامت تاخیر در ارسال خواهند شد که می بایستی از طریق eop.post.ir ثبت گردد.<br> <br>تعهدات بیمه ای</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>1.در صورت آسیب دیدن مرسوله، گیرنده موظف است از پذیرش مرسوله خوداری نماید و مورد را در کمتر از</p>
+                        <p style="text-align: justify;font-size: 8pt !important;">24ساعت به مرکز پشتیبانی سامانه ، اعلام نماید تا پس از اعلام نظر کارشناسی مبنی بر بروز خسارت، پرداخت غرامت صورت پذیرد، در غیر این صورت سامانه هیچگونه تعهدی در قبال مرسوله آسیب دیده نخواهد داشت .</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>2.در صورت دست دوم بودن کالا، قیمت کالای نو مشابه پس از برآورد معادل 50% قیمت کالای نو تا سقف بیمه درخواست شده پرداخت میشود.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>3.در زمان درخواست غرامت برای مرسولات ثبت شده با سرویس پست بار ، می بایستی مشخصات کارت ملی متقاضی غرامت (تصویر کارت ملی)، آدرس و شماره حساب در بخش مشخصات متقاضی غرامت در لینک eop.post.ir درج گردد.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;"><br>4. خسارت احتمالی ، ضرر مادی و معنوی وارد شده به کالا حداکثر معادل تعهد بیمه تعیین شده برای سفارش توسط مشتری میباشد.<br> <br>ممنوعات پستی<br> <br> ممنوعات پستی به شرح ذیل میباشند: مایعات در ظروف شیشه ای، مرسولات شکستنی، تجهیزات ماهواره، فیلترشکن ها، دارو ، مشروبات الکی و مواد مخدر، تجهیزات نظامی، لوازم جنسی، مواد محترقه، اسکریپت های غیرمجاز، لوازم قمار، تجهیزات مخابراتی غیرمجاز، تجهیزات جاسوسی، اقلام مستهجن ، فالگیری و رمالی، پول نقد و جواهرات، فرش، <br> و همچنین در ارسال به سایر کشورها هم پس از دریافت مرسوله توسط فعال پستی به شما اعلام خواهد شد که مرسوله جزء ممنوعات پستی به کشور مقصد مورد نظرشما هست یا خیر.</p>
+                        <p style="text-align: justify;font-size: 8pt !important;">&nbsp;</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_help" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="color:white;background:#d4006f;">
+                    <h4 class="modal-title" style="text-align:center;margin-top:3px">راهنمای نحوه ثبت سفارش</h4>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white;font-size: 9pt;">
+                        فهمیدم
+                        <i class="fa fa-check" aria-hidden="true" style="color:white;font-size: 9pt;"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#checkoutHelp">نحوه ثبت سفارش</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#videoHelp">ویدیوی آموزشی</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="checkoutHelp" class="tab-pane container active" style="text-align: justify;padding-top: 25px;">
+                            <p class="question"> • قبل از ثبت سفارش در سامانه، لازم است چه کارهایی صورت پذیرد ؟</p>
+                            <p class="answer"> قبل از ثبت سفارش،  باید مرسوله بسته بندی شده و آماده باشد و <a id="showRule" style="text-decoration:underline !important;color:blue">قوانین</a> استفاده از خدمات پستی را کامل مطالعه نمایید.</p>
+                            <p class="question"> • چطور می توان در سامانه پستی ثبت سفارش کرد؟ </p>
+                            <p class="answer"> برای ثبت سفارش در سامانه پستی، کافیست وزن، محتویات و ارزش ریالیِ دقیق و ابعاد مرسوله را  به درستی انتخاب و ثبت نمایید. همچنین مرسوله بنابر ارزش ریالی بیمه شده و دارای بسته بندی استاندارد و مناسب ارسال باشد یا با توجه به ابعاد مرسوله، کارتن مورد نظر خریداری شود و پس از پرداخت آنلاین هزینه، سفارش ثبت نهایی، جمع آوری و ارسال می شود.</p>
+                            <p class="question"> • فاکتور سفارش ثبت شده را از کجا باید دانلود کرد؟</p>
+                            <p class="answer"> پس از ثبت سفارش، فاکتور به صورت اتوماتیک دانلود خواهد شد یا اینکه می توان با مراجعه به اکانت خود و مراجعه به قسمت "سفارشات من"، فاکتور مرسوله مورد نظر را دانلود کرد.</p>
+                            <p class="question"> • نحوه چسباندن فاکتور روی جعبه چگونه است؟ </p>
+                            <p class="answer"> فاکتور تولید شده جهت مرسوله را پس دانلود و پرینت، به نحوی روی بسته بچسبانید که تا پایان روند ارسال پاره و یا کنده نشود.</p>
+                            <p class="question"> • آیا لازم است بعد از چسباندن فاکتور باز هم آدرس فرستنده و گیرنده یا شماره سفارش روی بسته درج شود؟</p>
+                            <p class="answer"> بله، بهتر است علاوه بر الصاق صحیح فاکتور روی مرسوله، اطلاعات فرستنده و گیرنده و همچنین شماره سفارش مرسوله  روی بسته بندی درج شود.</p>
+                            <p class="question"> • چنانچه به بسته بندی و پرینتر دسترسی نداشتم، چطور می توانم از سامانه استفاده کنم؟</p>
+                            <p class="answer"> چنانچه امکان بسته بندی و پرینتر برای مشتری وجود نداشته باشد، می توان از گزینه "کارتن و لفاف بندی" برای انتخاب بسته بندی و گزینه "دسترسی به پرینتر ندارم" برای ثبت درخواست پرینت  فاکتور توسط فعال پستی استفاده کرد.</p>
+                            <p class="question"> • آیا لازم است لوگوی شما روی فاکتور قرار داده شود؟</p>
+                            <p class="answer"> استفاده از این سرویس به اختیار ثبت کننده سفارش و از طریق سرویس مخصوص درج لوگو در فاکتور امکان پذیر است.</p>
+                            <p class="question"> • چگونه می توان از سرویس پس کرایه و COD استفاده کرد؟</p>
+                            <p class="answer"> استفاده از این سرویس نیازمند ثبت نام در گیت وی می باشد پس چنانچه متقاضی استفاده از سرویس پس کرایه یا COD هستید کافیست یک بار قبل از ثبت سفارش، درخواست خود را جهت استفاده از این سرویس، به همکاران پشتیبانی ارجاع داده پس از ارسال مدارک مورد نیاز  و فعال سازی این سرویس می توانید از خدمات مورد نظر به راحتی استفاده نمایید.</p>
+                            <p class="question"> • زمان جمع آوری مرسولات به صورت می باشد؟ </p>
+                            <p class="answer"> کلیه سفارشاتی که از ساعت ۱۲ ظهر دیروز تا ساعت ۱۲ ظهر امروز ثبت شوند، حداکثر تا ساعت ۱۷ امروز یا در شرایط بحرانی ظرف ۲۴ جمع آوری خواهند شد. همچنین سفارشاتی که در روزهای تعطیل ثبت می شوند در اولین روز کاری بعد از تعطیلات جمع اوری خواهند شد. در سفارش های ثبت شده از قسمت سنگین بار نیز امکان انتخاب ساعت و روز و خودروی مورد نیاز جهت جمع آوری نیز فراهم می باشد.</p>
+                            <p class="question"> • بسته های پستی را به چه شخصی و کجا تحویل بدهم؟</p>
+                            <p class="answer"> هر شرکت پستی جمع آور اختصاصی خود را دارد و برای جمع آوری مرسوله،جمع آور خود را به آدرس فرستنده اعزام می کنند.</p>
+                            <p class="question"> • آیا ممکن است در زمانی که برای جمع آوری مرسوله به شما مراجعه می شود بسته ای که در روزهای قبل تحویل نداده اید را نیز تحویل بدهید؟</p>
+                            <p class="answer"> خیر، زیرا سفارش بسته ای که در روزهای قبل تحویل داده نشده  به صورت  اتوماتیک کنسل شده و چنانچه به فعال پستی تحویل داده بشود نیز بسته شما حمل نخواهد شد.</p>
+                            <p class="question"> • آیا می توان سفارشی ثبت شده و پرداخت شده را کنسل کرد ؟</p>
+                            <p class="answer"> اگر در زمان جمع آوری بسته را تحویل جمع آور ندهید سفارش شما کنسل خواهد شد و هیچ مبلغی به شما عودت داده نمی شود،  اگر سفارش شما از طریق سرویس های پست بار - پست بار باشد چنانچه درخواست کنسلی داشته باشید هیچ مبلغی عودت داده نخواهد شد اگر با شرکتهایی بجز پست بار ثبت سفارش کرده باشید تا قبل از مراجعه برای جمع آوری بار، میتوانید بار را کنسل کنید. مبلغ قابل بازگشت نیز ظرف 72ساعت آینده به صورت شارژ کیف پول قابل عودت خواهد بود.</p>
+                        </div>
+                        <div class="tab-pane container fade _videoPlayer" id="videoHelp">
+                            <video class="_videoPlayer_video">
+                                <source src="~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Video/2.mp4" type="video/mp4" />
+                            </video>
+                            <div class="_videoPlayer_cover" style="background-image:url('../Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/images/taylor_swit_ours.png')">
+                                <p>
+                                    <span class="fa fa-play fa-3x"></span>
+                                </p>
+                                <p>
+                                    کلیک کنید
+                                </p>
+                            </div>
+                            <div class="_videoPlayer_buttons">
+                                <ul>
+                                    <li data-button="play" class="fa fa-play fa-lg"></li>
+                                    <li data-button="current">0:0</li>
+                                    <li data-button="timeline" class="timeline">
+                                        <div class="timeline-loaded">
+                                            <div class="timeline-current"></div>
+                                        </div>
+                                    </li>
+                                    <li data-button="duration">01:40</li>
+                                    <li data-button="mute" class="fa fa-volume-up fa-lg"></li>
+                                    <li data-button="fullscreen" class="fa fa-expand fa-lg"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function callsup() {
+        }
+        $(document).ready(function () {
+            $('#roleCarousel').carousel();
+            $("#roleCarousel .carousel-inner").swipe({
+                swipeLeft: function (event, direction, distance, duration, fingerCount) {
+                    this.parent().carousel('next');
+                },
+                swipeRight: function (event, direction, distance, duration, fingerCount) {
+                    this.parent().carousel('prev');
+                }
+            });
+            $('#menuToggle span').hide();
+            $('.checkbox_check').hide();
+            $('#myAccount').click(function () {
+                $('.checkbox_check').click();
+            });
+            $('#showHelp').click(function () {
+                $('#modal_help').appendTo("body");
+                $('#modal_help').modal('show', { backdrop: 'static' });
+            });
+            $('#showRule').click(function () {
+                $('#modal_help').modal('hide');
+                $('#_RuleModal').appendTo("body");
+                $('#_RuleModal').modal('show', { backdrop: 'static' });
+            });
+            $('#_RuleModal').on('hide.bs.modal', function () {
+                //$('#modal_help').appendTo("body");
+                //$('#modal_help').modal('show', { backdrop: 'static' });
+            });
+        });
+    </script>
+    <script>
+
+        //get mouse parent position
+        function getPositionData(el) {
+            var xPosition = 0;
+            var yPosition = 0;
+            while (el) {
+                if (el.tagName == "BODY") {
+                    // deal with browser quirks with body/window/document and page scroll
+                    var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
+                    var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
+
+                    xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
+                    yPosition += (el.offsetTop - yScrollPos + el.clientTop);
+                } else {
+                    xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                    yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
+                }
+
+                el = el.offsetParent;
+            }
+            return {
+                x: xPosition,
+                y: yPosition
+            };
+        }
+        //video player class
+        function _videoPlayer() {
+            //the parent element
+            _videoPlayer.prototype.elem = null;
+            //the video tag element
+            _videoPlayer.prototype.video = null;
+            //the src of video
+            _videoPlayer.prototype.file = null;
+            //video player cover
+            _videoPlayer.prototype.cover = null;
+            //video player buttons
+            _videoPlayer.prototype.play_btn = null;
+            _videoPlayer.prototype.tex_current = null;
+            _videoPlayer.prototype.timeline_btn = null;
+            _videoPlayer.prototype.text_duration = null;
+            _videoPlayer.prototype.mute_btn = null;
+            _videoPlayer.prototype.expand_btn = null;
+
+            //starts the video player
+            this.init = function (elem) {
+                //add new function to window for element event listener
+                window.listenElem = function (event, obj, func) {
+                    obj.addEventListener(event, func, false);
+                }
+                //add new function to window for elements event listener
+                window.listenElems = function (event, objs, func) {
+                    var len = objs.length;
+                    for (var i = 0; i < len; i++) {
+                        objs[i].addEventListener(event, func, false);
+                    }
+                }
+
+                //set parent elem for video player
+                _videoPlayer.elem = elem;
+                //set video cover
+                _videoPlayer.cover = elem.getElementsByClassName("_videoPlayer_cover")[0];
+                //set video elem
+                _videoPlayer.video = elem.getElementsByClassName("_videoPlayer_video")[0];
+                _videoPlayer.file = _videoPlayer.video.src;
+                var _videoPlayer_buttons = elem.querySelectorAll("._videoPlayer_buttons ul li");
+                //find buttons and put them into vars
+                for (var i = 0; i < _videoPlayer_buttons.length; i++) {
+                    switch (_videoPlayer_buttons[i].getAttribute("data-button")) {
+                        case "play":
+                            _videoPlayer.play_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "current":
+                            _videoPlayer.text_current = _videoPlayer_buttons[i];
+                            break;
+                        case "timeline":
+                            _videoPlayer.timeline_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "duration":
+                            _videoPlayer.text_duration = _videoPlayer_buttons[i];
+                            break;
+                        case "mute":
+                            _videoPlayer.mute_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "fullscreen":
+                            _videoPlayer.expand_btn = _videoPlayer_buttons[i];
+                            break;
+                        default:
+                            console.warn("a btn is not valid");
+                            break;
+                    }
+                }
+
+                /***
+                add some event listeners for controling every thing:
+                ***/
+
+                //add event listener for video cover
+                window.listenElem("click", _videoPlayer.cover, this.videoCoverClicked);
+
+                //add event listener for play button on first page
+                window.listenElems("click", _videoPlayer_buttons, this.buttonsClicked);
+
+                //add event for updating time label when music is playing
+                window.listenElem("timeupdate", _videoPlayer.video, this.updatePlayerTime);
+
+                //add event listener for player when music had been ended
+                window.listenElem("ended", _videoPlayer.video, this.endPlayerTime);
+
+                //add event listener for player when music had been paused
+                window.listenElem("play", _videoPlayer.video, this.playedPlayer);
+
+                //add event listener for player when music had been played
+                window.listenElem("pause", _videoPlayer.video, this.pausedPlayer);
+
+                //add event listener for progressing
+                window.listenElem("progress", _videoPlayer.video, this.progressPlayer);
+
+                //add event listener for loading meta data
+                window.listenElem("loadedmetadata", _videoPlayer.video, this.progressPlayer);
+
+                //add event listener for volume change
+
+                window.listenElem("volumechange", _videoPlayer.video, this.volumechange);
+
+                //add event listener for error on music player
+                window.listenElem("error", _videoPlayer.video, this.errorPlayer);
+            }
+
+            /*functions for control actions*/
+
+            this.videoCoverClicked = function (event) {
+                //alert('1');
+                event.currentTarget.style.display = "none";
+                if (_videoPlayer.video === undefined || typeof _videoPlayer.video === null) {
+                    console.warn("cant find video tag with class='_videoPlayer_video'");
+                } else {
+                    _videoPlayer.video.play();
+                }
+                event.preventDefault();
+                return false;
+            };
+
+            this.buttonsClicked = function (event) {
+
+                switch (event.currentTarget.getAttribute("data-button")) {
+                    case "play":
+                        //console.log("play");
+                        if (_videoPlayer.video.paused) {
+                            if (_videoPlayer.video.duration > 0) {
+                                _videoPlayer.video.play();
+                            } else {
+                                _videoPlayer.play(_videoPlayer.file);
+                            }
+                        } else {
+                            if (_videoPlayer.video.duration > 0) {
+                                _videoPlayer.video.pause();
+                            } else {
+                                _videoPlayer.play(_videoPlayer.file);
+                            }
+                        }
+                        break;
+                    case "timeline":
+                        //alert('کاربر گرامی شما نمیتوانید ویدئو را به جلو ببرید');
+                        if (_videoPlayer.video.duration > 0) {
+                            var parentPosition = getPositionData(event.currentTarget);
+                            var mousex = event.clientX - parentPosition.x;
+                            var timelineWidth = parseFloat(_videoPlayer.timeline_btn.offsetWidth);
+                            var newCurrentTime = (parseFloat(mousex) * parseFloat(_videoPlayer.video.duration)) / parseFloat(timelineWidth);
+                            console.log(mousex + "/" + timelineWidth);
+                            _videoPlayer.video.currentTime = newCurrentTime;
+                        }
+                        ;
+                        break;
+                    case "mute":
+                        //console.log('volume');
+                        if (_videoPlayer.video.muted === false) {
+                            _videoPlayer.video.muted = true;
+                            event.currentTarget.className = "fa fa-volume-off fa-lg";
+                        } else {
+                            _videoPlayer.video.muted = false;
+                            event.currentTarget.className = "fa fa-volume-up fa-lg";
+                        }
+                        break;
+                    case "fullscreen":
+                        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                            event.currentTarget.className = "fa fa-compress fa-lg";
+                            if (_videoPlayer.elem.requestFullscreen) {
+                                _videoPlayer.elem.requestFullscreen();
+                            } else if (_videoPlayer.elem.msRequestFullscreen) {
+                                _videoPlayer.elem.msRequestFullscreen();
+                            } else if (_videoPlayer.elem.mozRequestFullScreen) {
+                                _videoPlayer.elem.mozRequestFullScreen();
+                            } else if (_videoPlayer.elem.webkitRequestFullscreen) {
+                                _videoPlayer.elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                            } else {
+                                event.currentTarget.className = "fa fa-expand fa-lg";
+                                alert('توجه', 'مرورگر شما قابلیت تمام صفحه شدن ویدئو را پشتیبانی نمیکند', 1);
+                            }
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.msExitFullscreen) {
+                                document.msExitFullscreen();
+                            } else if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen();
+                            } else if (document.webkitExitFullscreen) {
+                                document.webkitExitFullscreen();
+                            }
+                            event.currentTarget.className = "fa fa-expand fa-lg";
+                        }
+                        break;
+                    default:
+                        console.warn("the button you have clicked is not valid");
+                        break;
+                }
+            }
+
+            this.updatePlayerTime = function (event) {
+
+                var minutes = Math.floor(parseInt(this.currentTime) / 60);
+                var seconds = parseInt(this.currentTime) - (minutes * 60);
+                var show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+                if (isNaN(this.currentTime)) { show = "00:00"; }
+                _videoPlayer.text_current.innerHTML = show;
+                minutes = Math.floor(parseInt(this.duration) / 60);
+                seconds = parseInt(this.duration) - (minutes * 60);
+                show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+                if (!isNaN(this.duration)) {
+                    _videoPlayer.text_duration.innerHTML = show;
+                }
+                //timeline move:
+                var timeline = _videoPlayer.timeline_btn;
+                var timelineWidth = parseFloat(timeline.offsetWidth);
+                // var playedPercent=parseInt(parseFloat(this.currentTime*100)/parseFloat(this.duration));
+                var playedWidth = parseFloat(parseFloat(this.currentTime) * parseFloat(timelineWidth) / parseFloat(this.duration));
+                timeline.firstElementChild.firstElementChild.style.width = playedWidth + "px";
+            };
+
+            this.endPlayerTime = function (event) {
+
+                _videoPlayer.play_btn.className = "fa fa-play fa-lg";
+                _videoPlayer.video.currentTime = 0;
+            };
+
+            this.playedPlayer = function (event) {
+                //alert('5');
+                _videoPlayer.play_btn.className = "fa fa-pause fa-lg";
+                _videoPlayer.cover.style.display = "none";
+
+
+            };
+
+            this.pausedPlayer = function (event) {
+                //alert('6');
+                _videoPlayer.play_btn.className = "fa fa-play fa-lg";
+            };
+
+            this.progressPlayer = function (event) {
+                //alert('7');
+                //timeline move:
+                var timeline = _videoPlayer.timeline_btn;
+                var timelineWidth = parseFloat(timeline.offsetWidth);
+                if (this.buffered.length > 0) {
+                    var bufferedPercent = parseFloat(parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * 100) / parseFloat(this.duration));
+                    var bufferedWidth = parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * parseFloat(timelineWidth) / parseFloat(this.duration));
+                    timeline.firstElementChild.style.width = bufferedPercent + "%";
+                } else {
+                    timeline.firstElementChild.style.width = "100%";
+                }
+            };
+
+            this.volumechange = function (event) {
+                //alert('8');
+                if (_videoPlayer.video.muted === true) {
+                    _videoPlayer.mute_btn.className = "fa fa-volume-off fa-lg";
+                } else {
+                    _videoPlayer.mute_btn.className = "fa fa-volume-up fa-lg";
+                }
+            }
+
+            this.errorPlayer = function (event) {
+                //alert(event);
+                _videoPlayer.play_btn.className = "fa fa-warning fa-lg";
+            };
+        }
+        $(document).ready(function () {
+
+            (new _videoPlayer).init(
+                document.querySelector("._videoPlayer")
+            );
+            if (/Android [4-6]/.test(navigator.appVersion)) {
+                window.addEventListener("resize", function () {
+                    if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
+                        window.setTimeout(function () {
+                            document.activeElement.scrollIntoViewIfNeeded();
+                        }, 0);
+                    }
+                })
+            }
+        });
+    </script>
+    @RenderBody()
+    @Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+    @Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+</body>
+<script >
+    $(document).ready(function () {
+        $('#closeRuleModal').click(function () {
+            if ($('#acceptRole').is(':visible')) {
+                $('#acceptRole').prop('checked', 'checked');
+            }
+        });
+        $('#acceptRole').click(function () {
+            if ($(this).prop('checked')==true) {
+                $('#_RuleModal').appendTo("body");
+                $('#_RuleModal').modal('show', { backdrop: 'static' });
+            }
+        });
+        
+    });
+</script>

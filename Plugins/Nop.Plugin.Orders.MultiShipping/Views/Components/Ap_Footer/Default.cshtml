@@ -1,0 +1,214 @@
+﻿@model FooterModel
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@inject IWorkContext workContext;
+<footer>
+    <div class="gray-bx footer-pc">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h4 class="footer-title">
+                        <strong>@T("Footer.Information")</strong>
+                    </h4>
+                    @if (Model.SitemapEnabled)
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("Sitemap")">@T("Sitemap")</a>
+                    }
+                    @foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn1).ToList())
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a>
+                    }
+                    <a  class="footer-link" href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a>
+                </div>
+                <div class="col-sm-3">
+                    <h4 class="footer-title">
+                        @T("Footer.CustomerService")
+                    </h4>
+                    @if (Model.NewsEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("NewsArchive")">@T("News")</a>
+                    }
+                    @if (Model.BlogEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("Blog")">@T("Blog")</a>
+                    }
+                    @if (Model.ForumEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a>
+                    }
+                    @if (Model.RecentlyViewedProductsEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("RecentlyViewedProducts")">@T("Products.RecentlyViewedProducts")</a>
+                    }
+                    @if (Model.CompareProductsEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("CompareProducts")">@T("Products.Compare.List")</a>
+                    }
+                    @if (Model.NewProductsEnabled)
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a>
+                    }
+                    @foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn2).ToList())
+                    {
+                        <a class="footer-link" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a>
+                    }
+
+                </div>
+
+                <div class="col-sm-3">
+                    <h4 class="footer-title">
+                        <strong>@T("Footer.MyAccount")</strong>
+                    </h4>
+                    <a class="footer-link" href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a>
+                    <a class="footer-link" href="@Url.RouteUrl("CustomerOrders")">@T("Account.CustomerOrders")</a>
+                    <a class="footer-link" href="@Url.RouteUrl("CustomerAddresses")">@T("Account.CustomerAddresses")</a>
+                    @if (Model.ShoppingCartEnabled)
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("ShoppingCart")">@T("ShoppingCart")</a>
+                    }
+                    @if (Model.WishlistEnabled)
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("Wishlist")">@T("Wishlist")</a>
+                    }
+                    @if (Model.AllowCustomersToApplyForVendorAccount)
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("ApplyVendorAccount")">@T("Vendors.ApplyAccount")</a>
+                    }
+                    @foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn3).ToList())
+                    {
+                        <a  class="footer-link" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a>
+                    }
+                </div>
+                <div class="col-sm-3">
+                    @await Component.InvokeAsync("PostbarNewsletterBox")
+                    <div class="btn-row">
+                        <a href="#" class="btn btn-insta">
+                            <img src="~/lib/PluginContent/images/footer-insta.png" alt="">
+                            <span>
+                                اینستاگرام
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-tele">
+                            <img src="~/lib/PluginContent/images/footer-tele.png" alt="">
+                            <span>
+                                تلگرام
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gray-bx footer-phone">
+        <p class="text-center">
+            <a href="#" class="brands-link">
+                پست بار
+            </a>
+            را در شبکه های اجتماعی دنبال کنید
+        </p>
+        <div class="btn-row text-center">
+            <a href="#" class="btn btn-insta">
+                <img src="~/lib/PluginContent/images/footer-insta.png" alt="">
+                <span>
+                    اینستاگرام
+                </span>
+            </a>
+            <a href="#" class="btn btn-tele">
+                <img src="~/lib/PluginContent/images/footer-tele.png" alt="">
+                <span>
+                    تلگرام
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="blue-bx">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>7 روز هفته ، 24 ساعت شبانه روز پاسخگوی شما هستیم</p>
+                </div>
+                <div class="col-sm-4">
+                    <label style="color:white !important" for="">شماره تماس</label>
+                    <a href="tel:02191300250">021-91300250</a>
+                    <a href="tel:02191090926">021-91090926</a>
+                </div>
+                <div class="col-sm-4">
+                    <label style="color:white !important" for="">آدرس ایمیل</label>
+                    <span>info@postex.ir</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="light-bx">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <p class="text-right postbar-desc">
+                        <a href="#" class="footer-logo">
+                            <img src="~/lib/PluginContent/images/logo.png" alt="">
+
+                        </a>
+                        <label for="">
+                            پست بار :
+                        </label>
+                        ثبت سفارشات به صورت اینترنتی در خانه یا محل کار
+                    </p>
+                    <p class="text-righ postbar-desc2">
+                        ثبت و تحویل سفارشات در تمامی ابعاد و با هر تعداد در کوتاهترین زمان، حمل کالا با کمترین هزینه با درنظر گرفتن وزن کالا از شرقی ترین استان کشور به غربی ترین استان کشور، ثبت سفارشات شما با هر ابعاد و هر تعداد حمل می گردد
+                    </p>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="owl-carousel enamad-carousel">
+                        <div class="item">
+                            <a>
+                                <div class="enamad-card">
+                                    <img src="https://trustseal.enamad.ir/logo.aspx?id=100617&p=pDcyJ6WIjcWusyaP"  style="cursor:pointer; /*float: left;*/" id="pDcyJ6WIjcWusyaP">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a >
+                                <div class="enamad-card">
+                                    <img src="~/lib/PluginContent/images/enamad-3.png" alt="">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a >
+                                <div class="enamad-card">
+                                    <img id="jxlzesgtnbqejxlzesgtrgvjsizp" style="cursor:pointer;height:auto;"  alt="logo-samandehi" src="https://logo.samandehi.ir/logo.aspx?id=1021039&p=nbpdlymaodrfnbpdlymaqftibsiy">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="backToTop">
+        <a href="#" id="back-to-top" class="show">
+            <i class="far fa-arrow-up"></i>
+        </a>
+    </div>
+    <div class="orange-bx liscence">
+        <p class="text-center">
+
+            کلیه حقوق این سایت متعلق به
+            <a href="#">
+                شرکت پست بار
+            </a>
+            می باشد
+        </p>
+    </div>
+</footer>
+<script>
+    $(document).ready(function () {
+        $('#jxlzesgtnbqejxlzesgtrgvjsizp').click(function () {
+            window.open("https://logo.samandehi.ir/Verify.aspx?id=1021039&p=rfthobpduiwkrfthobpdxlaopfvl", "Popup", "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30");
+        });
+        $('#pDcyJ6WIjcWusyaP').click(function () {
+            window.open("https://trustseal.enamad.ir/Verify.aspx?id=100617&p=pDcyJ6WIjcWusyaP", "Popup","toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30");
+        });
+
+    });
+</script>

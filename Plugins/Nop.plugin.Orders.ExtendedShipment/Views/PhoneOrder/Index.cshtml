@@ -1,0 +1,318 @@
+﻿@using Nop.plugin.Orders.ExtendedShipment.Models.PhoneOrder;
+@inject AdminAreaSettings adminAreaSettings
+@model PhoneOrderModel
+@{
+
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    //page title
+    ViewBag.Title = "سفارش تلفنی";
+    //active menu item (system name)
+    //Html.SetActiveMenuItemSystemName("Polls");
+
+    Html.AppendCssFileParts("https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css");
+    var isEdit = Model.Id != 0;
+
+}
+<link href="~/Plugins/Orders.MultiShipping/Scripts/select2.min.css" rel="stylesheet" />
+<link href="~/Plugins/Orders.MultiShipping/Content/MapResource/css/searchbox.css?var=2" rel="stylesheet" />
+@*<link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" />*@
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        ثبت سفارش تلفنی
+    </h1>
+    @*<div class="pull-right">
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                @T("Admin.Common.AddNew")
+            </a>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_poll_list_buttons" })
+        </div>*@
+</div>
+
+<div class="content">
+
+    <form class="form-horizontal" id="phoneOrderForm" method="post">
+
+        <div class="panel-group">
+            <div class="panel panel-default notSearchBox">
+                <div class="panel-body">
+                    <input asp-for="Id" class="form-control text-box single-line" type="hidden">
+                    <input asp-for="Latitude" class="form-control text-box single-line" type="hidden">
+                    <input asp-for="Longitude" class="form-control text-box single-line" type="hidden">
+                    <input asp-for="HasLocation" class="form-control text-box single-line" type="hidden">
+
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">نام</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="FirstName" class="form-control text-box single-line" type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">نام خانوادگی</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="LastName" class="form-control text-box single-line" type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">شماره همراه</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="PhoneNumber" class="form-control text-box single-line" type="number" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class=" col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">شماره ثابت</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="TellNumber" class="form-control text-box single-line" type="number" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">استان</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <select loadUrl="/ShipitoCheckout/getCountryList" class="js-example-basic-single form-control" name="Country" id="Country"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">شهر</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="CityId" loadUrl="/ShipitoCheckout/GetStatesByCountryId" parentSelectParams="countryId=Country" class="js-example-basic-single form-control" required persianName="شهر " name="CityId" id="CityId"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">آدرس</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea asp-for="Address" class="form-control text-box single-line" type="text" value=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">کد پستی</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input asp-for="PostalCode" class="form-control text-box single-line" type="number" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">سرویس پستی</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <select asp-for="ServiceId" class="js-example-basic-single form-control" required persianName="سرویس پستی " name="ServiceId" id="ServiceId"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class=" col-md-12">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title"> حمل محموله با :</label></div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="label-wrapper"><label class="control-label" for="title"> خودرو</label></div>
+                            </div>
+                            <div class="col-md-3">
+                                <input asp-for="IsCarRequired" id="IsCarRequired_true" class=" text-box single-line" type="radio" value="true">
+                            </div>
+                            <div class="col-md-1">
+                                <div class="label-wrapper"><label class="control-label" for="title"> موتور</label></div>
+                            </div>
+                            <div class="col-md-3">
+                                <input asp-for="IsCarRequired" id="IsCarRequired_false" class="text-box single-line" type="radio" value="false">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                            </div>
+
+                            <div class="col-md-4">
+                                <input type="submit"
+                                       formaction="@(!isEdit ? Url.Action("Post", "ManagePhoneOrder",new { Area = "admin" }) : Url.Action("Put", "ManagePhoneOrder",new { Area = "admin" }))"
+                                       value="ثبت" class="button-1 btn btn-primary btn-search" />
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="mapBtn row">
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4">
+                        <input type="button" value="ثبت موقعیت جغرافیایی " class="button-1 btn btn-primary btn-search" onclick="showMap(this)" />
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div id="mapBox" class="mw-100" style="height:465px !important;display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/Autolinker.min.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.customsearchbox.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.pattern.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet-pip.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/MapConfig.js?ver=26"></script>
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/phoneOrder.js"></script>
+<script src="~/Themes/Shipito/js/select2.min.js?ver=39"></script>
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Scripts/postexUtility.js"></script>
+<script>
+    $(function () {
+        if ('@(Model.Error)' != '') {
+            alert(@(Model.Error));
+        }
+        //initForm("phoneOrderForm");
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: '/admin/ExtendedOrder/GetPostServices',
+            data: {},
+            success: function (data) {
+                $(`#ServiceId`).html('');
+                $(`#ServiceId`).append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $(`#ServiceId`).append(new Option(item.ServiceName, item.ServiceId, false, false));
+                });
+                $(`#ServiceId`).select2();
+                $('#ServiceId').val('@Html.Raw(Model.ServiceId)').trigger('change');
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                $(`#ServiceId`).css('border', '1px solid red');
+            }
+        });
+
+
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: '/ShipitoCheckout/getCountryList',
+            data: {},
+            success: function (data) {
+                $(`#Country`).html('');
+                $(`#Country`).append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $(`#Country`).append(new Option(item.Text, item.Value, false, false));
+                });
+                $(`#Country`).select2();
+                $(`#Country`).on('change', function () {
+                    loadCity();
+                });
+                if (@Model.Id != 0) {
+                    $('#FirstName').val('@Html.Raw(Model.FirstName)');
+                    $('#LastName').val('@Html.Raw(Model.LastName)');
+                    $('#TellNumber').val('@Html.Raw(Model.TellNumber)');
+                    $('#PhoneNumber').val('@Html.Raw(Model.PhoneNumber)');
+                    $('#PostalCode').val('@Html.Raw(Model.PostalCode)');
+                    $('#Address').val('@Html.Raw(Model.Address)');
+                    $('#IsCarRequired_true').prop('checked',@(Model.IsCarRequired ? "true":"false"))
+                    $('#Country').val('@Html.Raw(Model.StateId)').trigger('change');
+                    map.setView([@Model.Latitude, @Model.Longitude], 14);
+        }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                $(`#Country`).css('border', '1px solid red');
+            }
+        });
+
+    });
+
+    function loadCity() {
+        var countryId = $(`#Country`).val();
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: '/ShipitoCheckout/GetStatesByCountryId?countryId=' + countryId,
+            data: {},
+            success: function (data) {
+                $(`#CityId`).html('');
+                $(`#CityId`).append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $(`#CityId`).append(new Option(item.Text, item.Value, false, false));
+                });
+                $(`#CityId`).select2();
+                if (changeCity)
+                    $('#CityId').val('@Model.CityId').trigger('change');
+                changeCity = false;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                $(`#CityId`).css('border', '1px solid red');
+            }
+        });
+    }
+
+    function showMap(btn) {
+        
+        if ($('#mapBox').is(':visible')) {
+            $('#mapBox').hide();
+            $(btn).val('ثبت موقعیت جغرافیایی');
+        }
+        else {
+            $('#mapBox').show();
+            $(btn).val('حذف موقعیت جغرافیایی');
+        }
+        $('#HasLocation').val($('#mapBox').is(':visible'));
+    }
+
+</script>

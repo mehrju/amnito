@@ -1,0 +1,58 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("API پست | امنیتو");
+	Html.AddMetaKeywordParts("API  پست");
+	Html.AddMetaDescriptionParts("کسب و کار و فروشگاهتان را هر طور که شده به شبکه ی پستی وصل کنید با api پست امنیتو تمامی خدمات پست را در وب سایت خود داشته باشید .");
+
+}
+<div class="container landing">
+	<div class="row ">
+		<div class="col-md-12 content">
+			<h1>چرا به api پست امنیتو نیاز دارید ؟</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li>درخواست API</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="#">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/درخواست.png?ver=@(imgVer)" alt="API پست"/>
+			</a>
+		</div>
+		<div class="col-md-9 content">
+
+			<p>
+				فرض کنید وب‌ سایت کسب‌وکار کوچک شما یک فرم ثبت سفارش دارد که در زمان ثبت سفارش خرید مشتری‌ها برای تعیین مبلغ کالا و خدمات پستی شما از آن استفاده میکنید. شما می‌خواهید به مشتریان خود این توانایی را بدهید که به طور خودکار یک ثبت سفارش با تمامی قیمتهای آن در فاکتور درج گردد پس میبایستی از API پست  یک شرکت پستی استفاده نمایند.
+			</p>
+
+			<p>
+				در این زمینه امنیتو برای تسهیل دریافت خدمات پستی توسط فروشگاههای آنلاین، مبادرت به عرضه مستندات API پست و خدمات خود نموده است که با وارد کردن وزن، حجم، مبدا، مقصد و روش پرداخت خود اعم از پیشکرایه، پسکرایه، پرداخت در محل (cod)، ارسال رایگان و خرید و فروش امن ( امنیتو) بتواند تشخیص بدهد چه شرکت پستی، با چه سرویسی، در چه مدت زمانی و چه قیمتی مرسوله را به مقصد خواهد رساند در این خدمات بصورت درون شهری و بین شهری قابل عرضه میباشد.
+			</p>
+			<p>
+				یادآوری مینماید چنانچه فروشگاهی نیاز به مستندات با ساختار سفارشی باشد میتواند با ارائه درخواست در این زمینه، API شخصی سازی شده دریافت نماید.
+			</p>
+
+			<div class="row">
+				<div class="content col-md-9">
+
+					<div class="links">
+						<a class="btn center" href="https://app.didar.me/customer/form/411b99fe-1ef0-48a2-b644-5ded6adc8b12">درخواست API اختصاصی</a>
+						<a class="btn center" href="https://postex.ir/api/postexApi.zip">مستندات API</a>
+						<a class="btn center" href="https://wordpress.org/plugins/postbar-shipping/">پلاگین وردپرس</a>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

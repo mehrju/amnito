@@ -1,0 +1,139 @@
+@model FoxNetSoft.Plugin.Payments.PaymentRules.Models.RequirementModel
+@using System.Text.Encodings.Web
+@using FoxNetSoft.Plugin.Payments.PaymentRules.Logger
+@{
+    Layout = "";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#saverequirement@(Model.RequirementId)').click(function () {
+            var requirementProperty = $("#@Html.IdFor(model => model.RequirementProperty)").val();
+            var requirementOperator = $("#@Html.IdFor(model => model.RequirementOperator)").val();
+            var requirementValue = $("#@Html.IdFor(model => model.RequirementValue)").val();
+            var externalId = @Model.ExternalId;
+            var requirementId = @Model.RequirementId;
+            var requirementCategory = '@Model.RequirementCategory';
+
+            var postData = {
+                externalId: externalId,
+                requirementId: requirementId,
+                requirementProperty: requirementProperty,
+                requirementOperator: requirementOperator,
+                requirementValue: requirementValue,
+                requirementCategory: requirementCategory
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache:false,
+                type: "POST",
+                url: "@(Url.Action("ConfigureOneRequirement", "PaymentRulesAdmin"))",
+                data: postData,
+                success: function (data) {
+                    $('#pnl-save-requirement-result@(Model.RequirementId)').fadeIn("slow").delay(1000).fadeOut("slow");
+                    //notify parent if it's a new requirement
+                    @if (Model.RequirementId == 0)
+                    {
+                        <text>$("#foxnetsoftRequirementContainer").trigger('foxnetsoftnewrequirementadded', [data.NewRequirementId]);</text>
+                    }
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    alert('@Html.Raw(JavaScriptEncoder.Default.Encode(T("Admin.FoxNetSoft.PaymentRules.Requirements.FailedToSave").Text))');
+                }
+            });
+        });
+        $("#@Html.IdFor(model => model.RequirementProperty)").change(function () {
+                    var selectedItem = $(this).val();
+                    var requirementId = @Model.RequirementId;
+                    var requirementCategory = '@Model.RequirementCategory';
+
+                    var postData = {
+                        requirementId: requirementId,
+                        requirementProperty: selectedItem,
+                        requirementCategory: requirementCategory
+                    };
+                    addAntiForgeryToken(postData);
+
+                    var ddlOperators = $("#@Html.IdFor(model => model.RequirementOperator)");
+                    var ddlValues = $("#@Html.IdFor(model => model.RequirementValue)");
+                    var propertyOperators = $("#requirementoperator-@(Model.RequirementId)-loading-progress");
+                    propertyOperators.show();
+
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@(Url.Action("GetRequirementValues", "PaymentRulesAdmin"))",
+                        data: postData, 
+                        async: false,
+                        success: function (data) {
+                            if (data.updaterequirementvalueshtml)
+                            {
+                                $("#requirementvalueblock-@(Model.RequirementId)").replaceWith(data.updaterequirementvalueshtml);
+                            }
+                            ddlOperators.html('');
+                            $.each(data.requirementoperators, function (id, option) {
+                                ddlOperators.append($('<option></option>').val(option.id).html(option.name));
+                            });
+                            propertyOperators.hide();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed to retrieve operators.');
+                            propertyOperators.hide();
+                        }
+                    });
+        });
+    });
+</script>
+
+<div class="form-group">
+    <div class="col-md-3 requirement-label-col">
+        <nop-label asp-for="RequirementProperty" />
+    </div>
+    <div class="col-md-9 requirement-data-col">
+        <div class="requirement-data-input">
+            <nop-select asp-for="RequirementProperty" asp-items="Model.AvailableProperties" />
+            <span asp-validation-for="RequirementProperty"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3 requirement-label-col">
+        <nop-label asp-for="RequirementOperator" />
+    </div>
+    <div class="col-md-9 requirement-data-col">
+        <div class="requirement-data-input">
+            <nop-select asp-for="RequirementOperator" asp-items="Model.AvailableOperators" />
+            <span id="requirementoperator-@(Model.RequirementId)-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
+            <span asp-validation-for="RequirementOperator"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3 requirement-label-col">
+        <nop-label asp-for="RequirementValue" />
+    </div>
+    <div class="col-md-9 requirement-data-col">
+        <div class="requirement-data-input">
+            @await Html.PartialAsync(PluginLog.Folder + "Views/PaymentRulesAdmin/_RequirementBox.Values.cshtml", Model)
+            <span id="requirementvalue-@(Model.RequirementId)-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
+            <span asp-validation-for="RequirementValue"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3 requirement-label-col">
+        &nbsp;
+    </div>
+    <div class="col-md-9 requirement-data-col">
+        <div class="requirement-data-buttons">
+            <input type="button" id="saverequirement@(Model.RequirementId)" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9 requirement-messages-col">
+        <div id="pnl-save-requirement-result@(Model.RequirementId)" style="display: none;" class="text-green margin-t-5">
+            @T("Admin.FoxNetSoft.PaymentRules.Requirements.Saved")
+        </div>
+    </div>
+</div>

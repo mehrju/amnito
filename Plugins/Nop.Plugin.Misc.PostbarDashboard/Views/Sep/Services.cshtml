@@ -1,0 +1,113 @@
+﻿@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_NewUiLayout.cshtml";
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+}
+<script>
+
+     function showContent(obj)
+{
+var linkTo = obj.getAttribute("href");
+var newlinkTo=linkTo.replace('#','');
+//alert (newlinkTo);
+
+document.getElementById(newlinkTo).innerHTML=" This is where the xml variable content should go";   
+         document.getElementById(newlinkTo).className += " Show";
+         console.log("a");
+         $("divbuyservice").show();
+return true;
+}
+</script>
+    <script>
+    $(document).ready(function () {
+        
+       
+
+        $("#IdServiceSelect").change(function () {
+            var IdServiceSelected = IdServiceSelect.value;
+            var postdata = {
+                Id: IdServiceSelected
+            };
+            addAntiForgeryToken(postdata);
+            $.ajax({
+                url:"@(Url.Action("action", "controller"))",
+                type: 'Post',
+                dataType: "json",
+                data: postdata,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                }
+            });
+        });
+    });
+
+
+
+
+    </script>
+<div class="row justify-content-md-center">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1> خدمات</h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <!-- Only required for left/right tabs -->
+                    <p class="text-right all-tickets">لیست خدمات </p>
+                    <p class="text-right send-tickets">خرید خدمت جدید</p>
+                    <ul class="nav nav-tabs ">
+                        <li class="active"><a id="btnBuyService" href="#divbuyservice" class="btn btn-blue-theme" onClick="return showContent(this);">خرید خدمت جدید<i class="fa fa-plus-circle"></i></a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="divbuyservice" hidden>
+            <div class="row ">
+                <div class="form-group col-md-6">
+                    <label>انتخاب سرویس:</label>
+                    <select tabindex="1" name="IdServiceSelect" id="IdServiceSelect"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>قیمت:</label>
+                    <p> 20000 ریال</p>
+                </div>
+            </div>
+            <div class="row"><p>توضیحات خدمت.................</p></div>
+            <div class="row">
+                <div class="form-group btn-sub">
+                    <button id="BtnInsertService" tabindex="8" class="btn btn-orang-theme">
+                        خرید
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="body-dash orders-tbl">
+
+            <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        pageSize = 10;
+
+        loadData("@Url.Action("supportPaged", "PostbarDashboard")", 0, pageSize, '#div_table')
+
+       
+    })
+</script>

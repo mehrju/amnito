@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Nop.Core.Http.Extensions;
+@inject IHttpContextAccessor _httpContextAccessor
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_NewUiLayout.cshtml";
+    string ComeFrom = _httpContextAccessor.HttpContext.Session.GetString("ComeFrom");
+    bool showFooter = true;
+    if (!string.IsNullOrEmpty(ComeFrom))
+    {
+        if (ComeFrom == "App")
+        {
+            showFooter = false;
+        }
+    }
+}
+
+@RenderBody()
+@if (showFooter)
+{
+    @await Component.InvokeAsync("ShipitoFooter")
+}

@@ -1,0 +1,422 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.AdminSearchMessageModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+	Layout = "_AdminLayout";
+	var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+	var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+	//page title
+	ViewBag.Title = " ---------------------- ";
+
+	//active menu item (system name)
+	Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+	Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+}
+<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+<style>
+	.select2-selection {
+		box-sizing: border-box;
+		display: inline-block;
+		margin: 0;
+		position: relative;
+		vertical-align: super;
+		border: 1px solid #1d1d1d;
+		border-radius: 3px;
+	}
+
+	.select2-container {
+		width: 100% !important;
+	}
+
+	.select2-selection__choice {
+		color: black !important;
+	}
+</style>
+
+<div style="padding:10px;">
+    <div class="row" style="margin-top:20px;">
+
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label for="customers">
+                        مشتری
+                    </label>
+                </div>
+                <div class="col-md-8">
+                    <select id="customers" name="customers" class="select3-placeholer form-control" data-placeholder="انتخاب مشتری"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label for="roles">
+                        نقش ها
+                    </label>
+                </div>
+                <div class="col-md-8">
+                    <select id="roles" name="roles" class="select3-placeholer form-control" data-placeholder="انتخاب نقش"></select>
+                </div>
+            </div>
+        </div>
+
+       
+
+        
+        @*<div class="col-md-3">
+            <div class="form-group">
+                <button type="button" id="search-requestfactors" class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                    @T("Admin.Common.Search")
+                </button>
+            </div>
+        </div>*@
+    </div>
+
+    <div style="padding:10px;">
+        <div class="row" style="margin-top:20px;">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label for="roles">
+                            موضوع
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <input id="txtSubject" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="roles">
+                            پیغام
+                        </label>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea id="txtMessage" style="width: 314px; height: 130px;"></textarea>
+                    </div>                    
+                </div>
+            </div>
+
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button type="button" id="btnSendMessage" class="btn btn-primary">
+                        ارسال
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>جستجو</legend>
+
+        <div style="padding:10px;">
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="dateFrom" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="dateFrom" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="dateTo" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="dateTo" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="customers2">
+                                مشتری
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="customers2" name="customers2" class="select3-placeholer form-control" data-placeholder="انتخاب مشتری"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="roles2">
+                                نقش ها
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="roles2" name="roles2" class="select3-placeholer form-control" data-placeholder="انتخاب نقش"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-10">
+
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button type="button" id="btnSearchMessage" class="btn btn-primary">
+                            جستجو
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="customer-messages-grid"></div>
+    </fieldset>
+
+    
+
+
+
+   </div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#customers').select2({
+            width: '100%',
+            placeholder: "جستجو نام کاربری",
+            minimumInputLength: 4,
+            allowClear: true,
+            multiple: true,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: '@Url.Action("Getcustomers", "ExtendedCustomer")',
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    var data = { 'searchtext': term.term };
+                    addAntiForgeryToken(data);
+                    return data;
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                    return { results: data };
+                },
+                cache: true
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+        });
+
+        $('#roles').select2({
+            width: '100%',
+            placeholder: "جستجو نقش",
+            minimumInputLength: 4,
+            allowClear: true,
+            multiple: true,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: '@Url.Action("Getroles", "ExtendedCustomer")',
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    var data = { 'searchtext': term.term };
+                    addAntiForgeryToken(data);
+                    return data;
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                    return { results: data };
+                },
+                cache: true
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+        });
+
+
+        $('#customers2').select2({
+            width: '100%',
+            placeholder: "جستجو نام کاربری",
+            minimumInputLength: 4,
+            allowClear: true,
+            multiple: true,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: '@Url.Action("Getcustomers", "ExtendedCustomer")',
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    var data = { 'searchtext': term.term };
+                    addAntiForgeryToken(data);
+                    return data;
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                    return { results: data };
+                },
+                cache: true
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+        });
+
+         $('#roles2').select2({
+            width: '100%',
+            placeholder: "جستجو نقش",
+            minimumInputLength: 4,
+            allowClear: true,
+            multiple: true,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: '@Url.Action("Getroles", "ExtendedCustomer")',
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    var data = { 'searchtext': term.term };
+                    addAntiForgeryToken(data);
+                    return data;
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                    return { results: data };
+                },
+                cache: true
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+         });
+
+        $('#btnSendMessage').click(function () {
+            var postData = {
+                message: $(`#txtMessage`).val(),
+                subject: $(`#txtSubject`).val(),
+                customers: ($('#customers').val() != null ? $('#customers').val().join(',') : ''),
+                roles: ($('#roles').val() != null ? $('#roles').val().join(',') : '')
+            };
+            if (postData.roles == '' && postData.customers == '') { alert('لطفا دریافت کنندگان پیام را وارد کنید'); return; }
+            if (postData.subject == '') { alert('لطفا موضوع پیام را وارد کنید'); return; }
+            if (postData.message == '') { alert('لطفا متن پیام را وارد کنید'); return; }
+
+            addAntiForgeryToken(postData);
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "@(Url.Action("SendAdminMessage", "ExtendedCustomer"))",
+                data: postData,
+                success: function (response) {
+                    alert(response.message);
+                    $(`#txtMessage`).val("");
+                    $(`#txtSubject`).val("");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.error);
+                }
+            });
+        });
+
+        $('#btnSearchMessage').click(function () {
+            var grid = $('#customer-messages-grid').data('kendoGrid');
+            grid.dataSource.page(1); //new search. Set page size to 1
+        });
+
+
+        $("#customer-messages-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Url.Action("GridAdminMessageHistory", "ExtendedCustomer")",
+                                    type: "POST",
+                                    dataType: "json",
+									data: additionalData
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors"
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: {
+                            confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "customerName",
+                                title: "نام مشتری"
+                            },
+                            {
+                                field: "shamsiDate",
+                                title: "تاریخ"
+                            },
+                            {
+                                field: "state",
+                                title: "وضعیت مشاهده"
+                            },
+                            {
+                                field: "subject",
+                                title: "موضوع"
+                            },
+                            {
+                                field: "message",
+                                title: "متن پیام"
+                            },
+                        ]
+					});
+    });
+
+    function additionalData() {
+        var data = {
+            dateFrom: persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val()),
+            dateTo: persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val()),
+            customers2: ($('#customers2').val() != null ? $('#customers2').val().join(',') : ''),
+            roles2: ($('#roles2').val() != null ? $('#roles2').val().join(',') : '')
+            };
+        firstRead = false;
+        //console.dir(data);
+        addAntiForgeryToken(data);
+        return data;
+    }
+    function persianToEnglish(input) {
+        var inputstring = input;
+        var persian = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+        var english = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        for (var i = 0; i < 10; i++) {
+            var regex = new RegExp(persian[i], 'g');
+            inputstring = inputstring.toString().replace(regex, english[i]);
+        }
+        return inputstring;
+    }
+</script>

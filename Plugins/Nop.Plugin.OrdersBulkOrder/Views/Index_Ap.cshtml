@@ -1,0 +1,617 @@
+
+@model List<Nop.Plugin.Orders.BulkOrder.Controllers.BulkOrderItemMOdel>
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+@inject IWorkContext _workContext
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiDashboardLayout.cshtml";
+
+}
+<style>
+    .ico {
+        font-size: 8pt;
+        top: 0px;
+        margin-left: 10px;
+    }
+
+    .cntLabel {
+        color: white !important;
+        font-size: 9pt !important;
+    }
+
+    .boarder {
+        border: 1px !important;
+        border-color: gray !important;
+        border-style: solid !important;
+    }
+
+    .inputs {
+        margin-top: 20px !important;
+    }
+
+
+
+    .overlay {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        z-index: 9997;
+        opacity: 0.5;
+        display: none;
+    }
+
+    .overlayRow {
+        width: 100%;
+        min-height: 50px;
+        background-color: white;
+        border-bottom: 1px solid #bbb9b9;
+        font-size: 9pt;
+        vertical-align: middle;
+        text-align: right !important;
+        padding-right: 16px;
+        padding-top: 10px;
+    }
+
+        .overlayRow:hover {
+            background-color: #cccccc !important;
+        }
+
+    .orderItem {
+        min-height: 230px;
+        border-radius: 10px !important;
+        width: 100%;
+        background-color: white;
+        padding-bottom: 3px;
+        margin-bottom:10px;
+        
+    }
+
+    .cardTitle {
+        width: 100%;
+        min-height: 200px;
+        font-size: 8pt;
+        color: gray;
+        padding-top: 3px;
+    }
+
+    .cardBottom {
+        min-height: 30px;
+        width: 100%;
+        margin-bottom:10px;
+    }
+
+    .leftCol {
+        width: 73%;
+        float: left;
+        min-height: 200px;
+        margin-left: 2%;
+    }
+
+    .rightCol {
+        width: 25%;
+        float: right;
+    }
+
+    .rightColUp {
+        width: 100%;
+        min-height: 65px;
+        margin: 2px;
+        background-color: #c1c0c0;
+        border-radius: 10px;
+    }
+
+    .rightColDown {
+        min-height: 35px;
+        width: 100%;
+        font-size: 8pt;
+        text-align: center;
+        vertical-align: middle;
+        color: black;
+    }
+
+    .orderConsol {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        background-color: white;
+        height: 400px;
+        display: none;
+        right: 0px;
+        z-index: 99998;
+    }
+
+    .myLabel {
+        color: #028058 !important;
+    }
+
+    .status {
+        padding: 0px 3px 0px 3px;
+        border-radius: 10px;
+        color: #028058 !important;
+    }
+
+    .labelContainer {
+        margin-bottom: 3px !important;
+        color: black;
+    }
+
+        .labelContainer i {
+            color: gray !important;
+        }
+
+    .actionBtn {
+        width: 18%;
+        height: 100%;
+        float: left;
+        text-align: center;
+    }
+
+    .orderdetail i:hover, .orderdetail i:active {
+        color: red !important;
+        
+    }
+
+    @@media(max-width:320px) {
+        .postServices {
+            width: 100%;
+            margin-top: 3%;
+        }
+    }
+
+    @@media(min-width:321px) {
+        .postServices {
+            width: 100%;
+            margin-top: 3%;
+        }
+    }
+</style>
+<form id="frm_BulkOrder" class="postal-info" style="margin:20px;border-radius:25px;padding:10px">
+    <div class="form-content form-col" style="height:auto !important;padding-top:2% !important;text-align:right">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 col-xl-3 col-lg-3" style="text-align:center !important">
+                <h3 style="color:#ef4a23 !important">ثبت سفارش انبوه</h3>
+            </div>
+        </div>
+        <hr style="color:white;background-color:white" />
+        <div class="row">
+            <div class="col-md-3 col-sm-12 col-xl-3 col-lg-3">
+                <a class="cntLabel" href="#" id="NormalExcelFile" style="font-size:9pt">
+                    <i class="fa fa-download cntLabel" aria-hidden="true" style="top:0px"></i>
+                    الگوی خام برای سفارش پرداخت آنلاین
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xl-3 col-lg-3" style="margin-top:10px">
+                <a class="cntLabel" href="#" id="CodExcelFile" style="font-size:9pt">
+                    <i class="fa fa-download cntLabel" aria-hidden="true" style="top:0px"></i>
+                    الگوی خام برای سفارش پرداخت در محل گیرنده
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xl-3 col-lg-3">
+            </div>
+        </div>
+        <hr style="color:white !important;background-color:white !important" />
+        <div class="row" style="font-size:9pt">
+
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <label class="cntLabel" for="">نوع مرسوله <span class="org-color">*</span></label>
+                <select class="js-example-basic-single form-control boarder" name="FileType" id="FileType">
+                    <option value="0">انتخاب کنید...</option>
+                    <option value="1">پست داخلی</option>
+                    <option value="2">پست داخلی-پرداخت توسط گیرنده</option>
+                    @*<option value="3">پست بین المللی</option>*@
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <label class="cntLabel" for="">نوع سرویس <span class="org-color">*</span></label>
+                <select class="js-example-basic-single form-control boarder" name="ServiceId" id="ServiceId"></select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <label class="cntLabel" for="">اولویت سرویس</label>
+                <select class="js-example-basic-single form-control boarder" name="ServiceSort" id="ServiceSort">
+                    <option value="0">انتخاب کنید...</option>
+                    <option value="1">ارزانترین</option>
+                    <option value="2">سریع ترین</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <label class="cntLabel" for="">کد کوپن تخفیف </label>
+                <input type="text" class="form-control myTooltip boarder" id="discountCouponCode" name="discountCouponCode" data-toggle="tooltip" title="کوپن تخفیف">
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <input type="checkbox" class="myTooltip" id="HasAccessToPrinter" name="HasAccessToPrinter" data-toggle="tooltip" title="دسترسی به پرینتر جهت چاپ فاکتور">
+                <label class="cntLabel" for="">فاکتور های پستی توسط شرکت پستی چاپ و روی بسته ها الصاق شود؟</label>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs">
+                <input type="checkbox" class="myTooltip" id="PrintLogo" name="PrintLogo" data-toggle="tooltip" title="چاپ لوگوی تجاری شما بر روی فاکتور">
+                <label class="cntLabel" for="">نشان تجاری شما بر روی فاکتور پستی چاپ شود؟</label>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3 inputs" style="margin-bottom: 20px !important;">
+                <input type="checkbox" class="myTooltip" id="SendSms" name="SendSms" data-toggle="tooltip" title="شما و گیرنده با انتخاب این گزینه میتوانید از تغییر مکان و وضعیت مرسوله توسط پیامک مطلع شوید">
+                <label class="cntLabel" for="">از طریق پیامک وضعیت بسته پستی اطلاع رسانی شود؟</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="body-dash send-data-from" style="padding:0px !important;min-height:unset !important;background-color:transparent !important">
+                    <div class="row justify-content-md-centertext-blue">
+                        <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                            <div class="from-upload">
+                                <button id="btnUploadFile" class="btn btn-orang-theme">بارگذاری فایل و ثبت سفارش</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="color:white !important;background-color:white !important" />
+        <div class="row">
+            <div class="col-md-12" id="OrderItems">
+
+            </div>
+            <div class="col-md-12" style="padding-bottom: 39px;padding-left: 5%;">
+                <div id="pagination" style="width:100%;margin-top:15px">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script type="text/javascript">
+    function payOrder(orderId, PaymentStatusId, OrderStatusId) {
+            if (PaymentStatusId == 10 && OrderStatusId == 10 && OrderId > 0) {
+                if (orderId) {
+                    $.ajax({
+                        beforeSend: function () {
+                            asanPardakht.application.showLoading();
+                        },
+                        complete: function () {
+                            asanPardakht.application.hideLoading();
+                        },
+                        type: "POST",
+                        data: { "orderId": orderId },
+                        url: "/SaleCartonwrapper/getPaymentRequest",
+                        success: function (data) {
+                            var paymentRequest = JSON.parse(data.paymentRequest);
+                            if (!paymentRequest) {
+                                asanPardakht.application.showMessageBox('عدم امکان پرداخت', 'درحال حاضر امکان پرداخت وجود ندارد با پشتیبانی تماس بگیرید', 3);
+                                return false;
+                            }
+                            asanPardakht.application.startPayment(paymentRequest, paymentCompletedEventHandler);
+                        }
+                    });
+
+                }
+                else
+                    asanPardakht.application.showMessageBox('پرداخت سفارش', 'سفارش مورد نظر جهت پرداخت نامعتبر می باشد', 1);
+            }
+            else
+                asanPardakht.application.showMessageBox('پرداخت سفارش', 'سفارش مورد نظر جهت پرداخت نامعتبر می باشد', 1);
+        }
+         function paymentCompletedEventHandler(payment)
+        {
+            try {
+                asanPardakht.application.hideLoading();
+                $.ajax({
+                    beforeSend: function () {
+                        asanPardakht.application.showLoading();
+                    },
+                    complete: function () {
+                        asanPardakht.application.hideLoading();
+                    },
+                    type: "POST",
+                    url: '@Url.Action("ProccessPaymentResult", "Ap_NewCheckout")',
+                    data: payment,
+                    success: function (_result) {
+                        if (_result.message)
+                            asanPardakht.application.showMessageBox('نتیجه پرداخت',_result.message, 1);
+                        if (_result.result == true) {
+                            window.location = '@(Url.RouteUrl("ApCheckoutCompleted"))' + '?orderId=' + _result.orderId;
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        asanPardakht.application.showMessageBox('خطا', 'کاربر گرامی در زمان ثبت انصراف از سفارش شما اشکالی به وجود آمده، لطفا ارتباط اینترنتی دستگاه خود را بررسی کنید', 2);
+                    }
+                });
+            }
+            catch (err) {
+                asanPardakht.application.showMessageBox('خطا در زمان پرداخت', err.message, 3);
+            }
+        }
+        function deleteBulkOrder(bulkOrderId,OrderId, OrderStatusId) {
+            if (OrderStatusId == 10 && OrderId > 0 && bulkOrderId) {
+                asanPardakht.application.showConfirmBox('حذف', 'آیا برای حذف سفارش اطمینان دارید؟', 'بله', 'خیر', function () {
+                    var IdData = { "bulkorderId": bulkOrderId};
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@(Url.Action("deleteBulkOrder", "BulkOrder"))",
+                        data: IdData,
+                        success: function (data) {
+                            asanPardakht.application.showMessageBox('توجه', data.msg, 2);
+                            if (data.success) {
+                                window.location.reload();
+                                return;
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            asanPardakht.application.showMessageBox('توجه', 'خطا در زمان حذف سفارش. لطفا ارتباط اینترنتی خود را بررسی کنید', 2);
+                        }
+                    });
+                }, function () { });
+            }
+            else {
+                asanPardakht.application.showMessageBox('توجه', 'امکان حذف سفارش انبوه فقط برای سفارشات معلق وجود دارد', 2);
+            }
+        }
+        function downloadFactor(OrderId, OrderStatusId) {
+            if (OrderStatusId == 20 || OrderStatusId == 30 && OrderId > 0) {
+                var landingurl = 'https://www.postex.ir/%D8%A7%D9%85%D9%88%D8%B2%D8%B4-%D9%86%D8%AD%D9%88%D9%87-%D8%AF%D8%A7%D9%86%D9%84%D9%88%D8%AF-%D9%81%D8%A7%DA%A9%D8%AA%D9%88%D8%B1-%D8%AF%D8%B1-%D8%A2%D9%BE'
+                landingurl += '?Ap=true&orderId=' + orderId;
+                asanPardakht.application.openExternalUrl(landingurl);
+            } else {
+                asanPardakht.application.showMessageBox('توجه', 'دانلود فاکتور فقط برای سفارشات درحال پردازش و تکمیل امکان پذیر می باشد', 2);
+            }
+        }
+    $(document).ready(function () {
+        $('#NormalExcelFile').click(function () {
+            asanPardakht.application.openExternalUrl("https://postex.ir/BulkOrder/getExcelTamplate_Pk");
+        });
+        $('#CodExcelFile').click(function () {
+            asanPardakht.application.openExternalUrl("https://postex.ir/BulkOrder/getExcelTamplateCOD_Pk");
+        });
+        $('#btnUploadFile').click(function () {
+            var msg = '';
+            if ((!$('#ServiceSort').val() || $('#ServiceSort').val() == '0') 
+                && (!$('#ServiceId').val()|| $('#ServiceId').val() == '0')) {
+                msg='نوع سرویس یا اولویت سرویس را مشخص نمایید '+'\r\n'
+            }
+            if(!$('#FileType').val()) {
+                msg += 'نوع مرسوله را مشخص نمایید ' + '\r\n'
+            }
+            if (msg) {
+                asanPardakht.application.showMessageBox("توجه", msg, 2);
+                return;
+            }
+            asanPardakht.application.fileManager.upload('https://postex.ir/api/customer/UpladBulkOrder'
+                , {}
+                , {
+                    FileType: $('#FileType').val(),
+                    ServiceSort: $('#ServiceSort').val(),
+                    HasAccessToPrinter: (!$('#HasAccessToPrinter').is(':checked')),
+                    PrintLogo: $('#PrintLogo').is(':checked'),
+                    SendSms: $('#SendSms').is(':checked'),
+                    ServiceId: $('#ServiceId').val(),
+                    discountCouponCode: $('#discountCouponCode').val(),
+                    CustomerId:@(_workContext.CurrentCustomer.Id)
+                    }
+                , 'بارگذاری  فایل سفارش انبوه'
+                , 'ارسال فایل سفارش انبوه جهت ثبت سفارش'
+                , asanPardakht.application.fileManager.types.other
+                , '.xlsx'
+                , (5 * 1024 )
+                , null
+                , null
+                , null
+                , null
+                , null
+                , function (data) {
+                    try {
+                        if (data.errorCode == 0) {
+                            asanPardakht.application.showMessageBox("تایید", "سفارش شما با موفقیت بارگذاری شد. لطفا جهت پرداخت به قسمت سفارشات من  مراجعه کنید", 1);
+                            //window.location.reload();
+                        }
+                        else if(data.message) {
+                            asanPardakht.application.showMessageBox("خطا", data.message,2);
+                        }
+                        else
+                            asanPardakht.application.showMessageBox("خطا", 'در زمان آپلود فایل خطایی بوجود آمد.لطفا مجددا تلاش کنید', 2);
+                    }
+                    catch (ex) {
+                        asanPardakht.application.showMessageBox("خطا", err.message, 2);
+                    }
+                }, function (data) {
+                    try {
+                        var msg = '';
+                        if (data.errorCode == -1) {
+                            msg = 'لطفاً ارتباط خود را چک کنید';
+                        }
+                        else if (data.errorCode == -2) {
+                            msg = 'خطای داخلی سیستم';
+                        }
+                        else if (data.errorCode == -3) {
+                            msg = 'لطفاً ارتباط خود را چک کنید (timeout)';
+                        }
+                        else if (data.errorCode == -4) {
+                            msg = 'خطای نامشخص';
+                        }
+                        if (msg != '')
+                                asanPardakht.application.showMessageBox("خطا", msg, 2);
+                        }
+                    catch (ex) {
+                        console.log(err.message);
+                    }
+                });
+        });
+        $('#FileType').change(function () {
+            $('#ServiceId').html('');
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("getServiceByFileType", "BulkOrder"))",
+                data: {"FileType":$(this).val()},
+                success: function (data) {
+                $('#ServiceId').append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                $('#ServiceId').append(new Option(item.Text, item.Value, false, false));
+                });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    asanPardakht.application.showMessageBox("خطا", 'خطا در زمان دریافت لیست نوع سرویس ها', 2);
+                }
+            });
+        });
+         _loadData("@Url.Action("_getApBulkOrderList", "BulkOrder")", 0, 4);
+        function _loadData(url, pageIndedx, pageSize) {
+            $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                cache: false,
+                type: "GET",
+                url: url,
+                data: { 'pageSize': pageSize, 'pageIndex': pageIndedx },
+                success: function (data) {
+
+                    if (data && data[0]) {
+                        var pages = "";
+                        for (var j = 0; j < data[0].length; j++)
+                        {
+                            pages += (pages == "" ? j.ToString() : "," + j);
+                        }
+                        CreatePages(pages);
+                        for (var i in data) {
+                            var item = data[i];
+                            var Color = "";
+                            var payColor = "";
+                            switch (item.OrderStatusId)
+                            {
+                                case 10:
+                                    Color = "#cfcf1a";
+                                    break;
+                                case 20:
+                                    Color = "#2d89cc";
+                                    break;
+                                case 30:
+                                    Color = "#219913";
+                                    break;
+                                case 40:
+                                    Color = "#f0310f";
+                                    break;
+                            }
+                            switch (item.PaymentStatusId)
+                            {
+                                case 10:
+                                    payColor = "#cfcf1a";
+                                    break;
+                                case 20:
+                                    payColor = "#2d89cc";
+                                    break;
+                                case 30:
+                                    payColor = "#219913";
+                                    break;
+                                case 40:
+                                    payColor = "#f0310f";
+                                    break;
+                            }
+                            var _html = `<div class="orderItem">
+                            <div >
+                                <div class="rightCol">
+                                    <div class="rightColUp">
+                                        <img class="postServices" src="../Themes/Ap/images/BulkOrder.png"  />
+                                    </div>
+                                    <div class="rightColDown">
+                                        ${item.CreateDate}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="min-height:200px">
+                                <div class="leftCol">
+                                    <div class="cardTitle ">
+                                        <div style="width:100%;float:right;padding: 10px;">
+                                                <div class="labelContainer"><i class="fa fa-file ico" aria-hidden="true"></i>نام فایل <span class="myLabel status">${item.FileName}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-truck ico" aria-hidden="true"></i>نوع سرویس  <span class="myLabel status">${item._FileType}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-usd ico" aria-hidden="true"></i>مبلغ سفارش  <span class="myLabel status">${item.OrderTotal.toLocaleString('en-US') + " ريال"}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-hashtag ico" aria-hidden="true"></i>تعداد مرسوله  <span class="myLabel status" style="background-color:white">${item.OrderCount}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-sort ico" aria-hidden="true"></i>الویت سرویس  <span class="myLabel status" >${item._ServiceSort}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-tags ico" aria-hidden="true"></i>چاپ نشان تجاری؟  <span class="myLabel status" >${item._PrintLogo}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-paper-plane ico" aria-hidden="true"></i>اطلاع رسانی پیامکی؟  <span class="myLabel status" >${item._SendSms}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-print ico" aria-hidden="true"></i>امکان چاپ فاکتور؟ <span class="myLabel status" >${item._HasAccessToPrinter}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-thumbs-up ico" aria-hidden="true"></i>وضعیت سفارش  <span class="myLabel status" >${item.OrderStatus}</span></div>
+                                                <div class="labelContainer"><i class="fa fa-credit-card ico" aria-hidden="true"></i>وضعیت پرداخت <span class="myLabel status" style="background-color:${payColor}">${item.PaymentStatus}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="cardBottom">
+                                <div style="width:45%;height:100%;font-size:8pt;color:gray;float:right; text-align:center;">
+                                    شماره سفارش  ${item.OrderId}
+                                </div>
+                                    <div class="actionBtn">
+                                    <a class="orderdetail" onclick="deleteBulkOrder(${item.Id},${item.OrderId},${item.OrderStatusId})"  title="حذف">
+                                        <i class="fa fa-times" aria-hidden="true" title="حذف درخواست سفارش انبوه" style="color:red;font-size: 15px;top: 0px;left: 4px;"></i>
+                                    </a>
+                                </div>
+
+                                    <div class="actionBtn">
+
+                                    <a class="orderdetail" onclick="downloadFactor(${item.OrderId},${item.OrderStatusId})"  title="دانلود فاکتور">
+                                        <i class="fa fa-download" aria-hidden="true" title="دانلود فاکتور سفارش انبوه" style="color:#b5790a;font-size: 15px;top: 0px;left: 4px;"></i>
+                                    </a>
+                                </div>
+                                <div class="actionBtn">
+
+                                    <a  class="orderdetail" onclick="payOrder(${item.OrderId},${item.PaymentStatusId},${item.OrderStatusId})"  title="پرداخت">
+                                        <i class="fa fa-credit-card" aria-hidden="true" title="پرداخت سفارش انبوه" style="color:#539412;font-size: 15px;top: 0px;left: 4px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                    </div>`;
+                            $('#OrderItems').append(_html);
+                        }
+                    }
+                    if ($('#PageIndex').length > 0) {
+                        $('#PageIndex').val(pageIndedx);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    asanPardakht.application.showMessageBox("خطا", 'بارگذاری لیست سفارشات انبوه شما ناموفق بود. لطفا ارتباط اینترنتی خود را بررسی کنید', 2);
+                }
+            });
+        }
+
+        function CreatePages(pages) {
+            var currentPage = parseInt($('#PageIndex').val() == '' ? 0 : $('#PageIndex').val()) + 1;
+
+            $('#pagination').pagination({
+                dataSource: pages.split(','),
+                pageSize: 4,
+                pageNumber: currentPage,
+                showGoInput: false,
+                showGoButton: false,
+
+                afterPreviousOnClick: function (e, pageIndex) {
+                    pageIndex -= 1;
+                    _loadData("@Url.Action("_getApBulkOrderList", "BulkOrder")", pageIndex, pageSize);
+                },
+                afterNextOnClick: function (e, pageIndex) {
+                    pageIndex -= 1;
+                    _loadData("@Url.Action("_getApBulkOrderList", "BulkOrder")", pageIndex, pageSize);
+                },
+                afterPageOnClick: function (e, pageIndex) {
+                    pageIndex -= 1;
+                    _loadData("@Url.Action("_getApBulkOrderList", "BulkOrder")", pageIndex, pageSize);
+                },
+                afterGoButtonOnClick: function (e, pageIndex) {
+                    pageIndex -= 1;
+                    _loadData("@Url.Action("_getApBulkOrderList", "BulkOrder")", pageIndex, pageSize);
+                }
+            });
+        }
+    });
+</script>

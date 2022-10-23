@@ -1,0 +1,1032 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <LablePrint Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>LablePrint</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>LablePrint</Category>
+        <Columns isList="true" count="12">
+          <value>BarcodeImage,System.Byte[]</value>
+          <value>barcodeNo,System.String</value>
+          <value>BoxType,System.String</value>
+          <value>CreateDate,System.String</value>
+          <value>CreateTime,System.String</value>
+          <value>OfficeName,System.String</value>
+          <value>PostTotalPrice,System.String</value>
+          <value>ReceiverState,System.String</value>
+          <value>SenderState,System.String</value>
+          <value>ServiceName,System.String</value>
+          <value>ShipmentId,System.Nullable`1[System.Int32]</value>
+          <value>Weight,System.Int32</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>d8eab39c7ecc4fda8f3f1d9793915d4b</Guid>
+        <Name>LablePrint</Name>
+      </LablePrint>
+      <LablePrintEngList Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>LablePrintEngList</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>LablePrintEngList</Category>
+        <Columns isList="true" count="5">
+          <value>ApiOrderRefrence,System.String</value>
+          <value>Receiver,System.String</value>
+          <value>Sender,System.String</value>
+          <value>ShipmentId,System.Nullable`1[System.Int32]</value>
+          <value>TotalEngPrice,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>57c026a9a94943d6885153d0c523ce11</Guid>
+        <Name>LablePrintEngList</Name>
+      </LablePrintEngList>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>564f903fd1a2485ab0532ec46e2c4c6f</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="2">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="7">
+        <DataBand1 Ref="5" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid>d8eab39c7ecc4fda8f3f1d9793915d4b</BusinessObjectGuid>
+          <ClientRectangle>0,4,55,98</ClientRectangle>
+          <Components isList="true" count="31">
+            <Image2 Ref="6" type="Image" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>25,0,5,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Guid>3c3d565dd52a4f93a0dc60b2dcc9d4f4</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <ImageBytes>/9j/4AAQSkZJRgABAQEBLAEsAAD/4RDuRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAE7AAIA
+AAAIAAAIVodpAAQAAAABAAAIXpydAAEAAAAQAAAQ1uocAAcAAAgMAAAASgAAAAAc6gAAAAgAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG5h
+amFyYW4AAAWQAwACAAAAFAAAEKyQBAACAAAAFAAAEMCSkQACAAAAAzUzAACSkgACAAAAAzUzAADq
+HAAHAAAIDAAACKAAAAAAHOoAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyMDIwOjAxOjExIDExOjQxOjE2ADIwMjA6MDE6MTEgMTE6
+NDE6MTYAAABuAGEAagBhAHIAYQBuAAAA/+IMWElDQ19QUk9GSUxFAAEBAAAMSExpbm8CEAAAbW50
+clJHQiBYWVogB84AAgAJAAYAMQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAAAAPbW
+AAEAAAAA0y1IUCAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAARY3BydAAAAVAAAAAzZGVzYwAAAYQAAABsd3RwdAAAAfAAAAAUYmtwdAAAAgQAAAAUclhZWgAA
+AhgAAAAUZ1hZWgAAAiwAAAAUYlhZWgAAAkAAAAAUZG1uZAAAAlQAAABwZG1kZAAAAsQAAACIdnVl
+ZAAAA0wAAACGdmlldwAAA9QAAAAkbHVtaQAAA/gAAAAUbWVhcwAABAwAAAAkdGVjaAAABDAAAAAM
+clRSQwAABDwAAAgMZ1RSQwAABDwAAAgMYlRSQwAABDwAAAgMdGV4dAAAAABDb3B5cmlnaHQgKGMp
+IDE5OTggSGV3bGV0dC1QYWNrYXJkIENvbXBhbnkAAGRlc2MAAAAAAAAAEnNSR0IgSUVDNjE5NjYt
+Mi4xAAAAAAAAAAAAAAASc1JHQiBJRUM2MTk2Ni0yLjEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAADzUQABAAAAARbMWFlaIAAAAAAAAAAA
+AAAAAAAAAABYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAA
+ACSgAAAPhAAAts9kZXNjAAAAAAAAABZJRUMgaHR0cDovL3d3dy5pZWMuY2gAAAAAAAAAAAAAABZJ
+RUMgaHR0cDovL3d3dy5pZWMuY2gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAZGVzYwAAAAAAAAAuSUVDIDYxOTY2LTIuMSBEZWZhdWx0IFJHQiBjb2xvdXIgc3Bh
+Y2UgLSBzUkdCAAAAAAAAAAAAAAAuSUVDIDYxOTY2LTIuMSBEZWZhdWx0IFJHQiBjb2xvdXIgc3Bh
+Y2UgLSBzUkdCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGRlc2MAAAAAAAAALFJlZmVyZW5jZSBWaWV3
+aW5nIENvbmRpdGlvbiBpbiBJRUM2MTk2Ni0yLjEAAAAAAAAAAAAAACxSZWZlcmVuY2UgVmlld2lu
+ZyBDb25kaXRpb24gaW4gSUVDNjE5NjYtMi4xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB2aWV3
+AAAAAAATpP4AFF8uABDPFAAD7cwABBMLAANcngAAAAFYWVogAAAAAABMCVYAUAAAAFcf521lYXMA
+AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAKPAAAAAnNpZyAAAAAAQ1JUIGN1cnYAAAAAAAAEAAAA
+AAUACgAPABQAGQAeACMAKAAtADIANwA7AEAARQBKAE8AVABZAF4AYwBoAG0AcgB3AHwAgQCGAIsA
+kACVAJoAnwCkAKkArgCyALcAvADBAMYAywDQANUA2wDgAOUA6wDwAPYA+wEBAQcBDQETARkBHwEl
+ASsBMgE4AT4BRQFMAVIBWQFgAWcBbgF1AXwBgwGLAZIBmgGhAakBsQG5AcEByQHRAdkB4QHpAfIB
++gIDAgwCFAIdAiYCLwI4AkECSwJUAl0CZwJxAnoChAKOApgCogKsArYCwQLLAtUC4ALrAvUDAAML
+AxYDIQMtAzgDQwNPA1oDZgNyA34DigOWA6IDrgO6A8cD0wPgA+wD+QQGBBMEIAQtBDsESARVBGME
+cQR+BIwEmgSoBLYExATTBOEE8AT+BQ0FHAUrBToFSQVYBWcFdwWGBZYFpgW1BcUF1QXlBfYGBgYW
+BicGNwZIBlkGagZ7BowGnQavBsAG0QbjBvUHBwcZBysHPQdPB2EHdAeGB5kHrAe/B9IH5Qf4CAsI
+HwgyCEYIWghuCIIIlgiqCL4I0gjnCPsJEAklCToJTwlkCXkJjwmkCboJzwnlCfsKEQonCj0KVApq
+CoEKmAquCsUK3ArzCwsLIgs5C1ELaQuAC5gLsAvIC+EL+QwSDCoMQwxcDHUMjgynDMAM2QzzDQ0N
+Jg1ADVoNdA2ODakNww3eDfgOEw4uDkkOZA5/DpsOtg7SDu4PCQ8lD0EPXg96D5YPsw/PD+wQCRAm
+EEMQYRB+EJsQuRDXEPURExExEU8RbRGMEaoRyRHoEgcSJhJFEmQShBKjEsMS4xMDEyMTQxNjE4MT
+pBPFE+UUBhQnFEkUahSLFK0UzhTwFRIVNBVWFXgVmxW9FeAWAxYmFkkWbBaPFrIW1hb6Fx0XQRdl
+F4kXrhfSF/cYGxhAGGUYihivGNUY+hkgGUUZaxmRGbcZ3RoEGioaURp3Gp4axRrsGxQbOxtjG4ob
+shvaHAIcKhxSHHscoxzMHPUdHh1HHXAdmR3DHeweFh5AHmoelB6+HukfEx8+H2kflB+/H+ogFSBB
+IGwgmCDEIPAhHCFIIXUhoSHOIfsiJyJVIoIiryLdIwojOCNmI5QjwiPwJB8kTSR8JKsk2iUJJTgl
+aCWXJccl9yYnJlcmhya3JugnGCdJJ3onqyfcKA0oPyhxKKIo1CkGKTgpaymdKdAqAio1KmgqmyrP
+KwIrNitpK50r0SwFLDksbiyiLNctDC1BLXYtqy3hLhYuTC6CLrcu7i8kL1ovkS/HL/4wNTBsMKQw
+2zESMUoxgjG6MfIyKjJjMpsy1DMNM0YzfzO4M/E0KzRlNJ402DUTNU01hzXCNf02NzZyNq426Tck
+N2A3nDfXOBQ4UDiMOMg5BTlCOX85vDn5OjY6dDqyOu87LTtrO6o76DwnPGU8pDzjPSI9YT2hPeA+
+ID5gPqA+4D8hP2E/oj/iQCNAZECmQOdBKUFqQaxB7kIwQnJCtUL3QzpDfUPARANER0SKRM5FEkVV
+RZpF3kYiRmdGq0bwRzVHe0fASAVIS0iRSNdJHUljSalJ8Eo3Sn1KxEsMS1NLmkviTCpMcky6TQJN
+Sk2TTdxOJU5uTrdPAE9JT5NP3VAnUHFQu1EGUVBRm1HmUjFSfFLHUxNTX1OqU/ZUQlSPVNtVKFV1
+VcJWD1ZcVqlW91dEV5JX4FgvWH1Yy1kaWWlZuFoHWlZaplr1W0VblVvlXDVchlzWXSddeF3JXhpe
+bF69Xw9fYV+zYAVgV2CqYPxhT2GiYfViSWKcYvBjQ2OXY+tkQGSUZOllPWWSZedmPWaSZuhnPWeT
+Z+loP2iWaOxpQ2maafFqSGqfavdrT2una/9sV2yvbQhtYG25bhJua27Ebx5veG/RcCtwhnDgcTpx
+lXHwcktypnMBc11zuHQUdHB0zHUodYV14XY+dpt2+HdWd7N4EXhueMx5KnmJeed6RnqlewR7Y3vC
+fCF8gXzhfUF9oX4BfmJ+wn8jf4R/5YBHgKiBCoFrgc2CMIKSgvSDV4O6hB2EgITjhUeFq4YOhnKG
+14c7h5+IBIhpiM6JM4mZif6KZIrKizCLlov8jGOMyo0xjZiN/45mjs6PNo+ekAaQbpDWkT+RqJIR
+knqS45NNk7aUIJSKlPSVX5XJljSWn5cKl3WX4JhMmLiZJJmQmfyaaJrVm0Kbr5wcnImc951kndKe
+QJ6unx2fi5/6oGmg2KFHobaiJqKWowajdqPmpFakx6U4pammGqaLpv2nbqfgqFKoxKk3qamqHKqP
+qwKrdavprFys0K1ErbiuLa6hrxavi7AAsHWw6rFgsdayS7LCszizrrQltJy1E7WKtgG2ebbwt2i3
+4LhZuNG5SrnCuju6tbsuu6e8IbybvRW9j74KvoS+/796v/XAcMDswWfB48JfwtvDWMPUxFHEzsVL
+xcjGRsbDx0HHv8g9yLzJOsm5yjjKt8s2y7bMNcy1zTXNtc42zrbPN8+40DnQutE80b7SP9LB00TT
+xtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W3hzeot8p36/gNuC94UThzOJT
+4tvjY+Pr5HPk/OWE5g3mlucf56noMui86Ubp0Opb6uXrcOv77IbtEe2c7ijutO9A78zwWPDl8XLx
+//KM8xnzp/Q09ML1UPXe9m32+/eK+Bn4qPk4+cf6V/rn+3f8B/yY/Sn9uv5L/tz/bf///+EJoGh0
+dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0w
+TXBDZWhpSHpyZVN6TlRjemtjOWQnPz4NCjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0
+YS8iPjxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYt
+c3ludGF4LW5zIyI+PHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEz
+ZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20v
+eGFwLzEuMC8iPjx4bXA6Q3JlYXRlRGF0ZT4yMDIwLTAxLTExVDExOjQxOjE2LjUzNDwveG1wOkNy
+ZWF0ZURhdGU+PC9yZGY6RGVzY3JpcHRpb24+PC9yZGY6UkRGPjwveDp4bXBtZXRhPg0KICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQg
+ZW5kPSd3Jz8+/9sAQwACAQECAQECAgICAgICAgMFAwMDAwMGBAQDBQcGBwcHBgcHCAkLCQgICggH
+BwoNCgoLDAwMDAcJDg8NDA4LDAwM/9sAQwECAgIDAwMGAwMGDAgHCAwMDAwMDAwMDAwMDAwMDAwM
+DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8AAEQgAdQC0AwEiAAIRAQMRAf/EAB8A
+AAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUS
+ITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4
+ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEA
+AAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKB
+CBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2Rl
+ZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJ
+ytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A/fyiiigAooooAKKKKACi
+iigAooooAKKKKADPNFRX17DptnLcXE0dvbwIZJJZGCpGoGSxJ4AA5ya/NT/gon/wcWeC/gSdS8Kf
+B2Gz8f8Ai6LdBJrLPu0PTZAcEqynN0w54jIjzg7zgqfSyvKcXmFX2OEg5P8ABer6HHjMfQwsOevK
+35n3h+0f+1J4B/ZK+Hdx4o+IPibTfDekwgiM3En767f/AJ5wxDLyyHP3UBPfgAmvxZ/4KF/8HC3x
+A/aXmvPCHwdjvvh74SvGNr/aOQNc1QMcDDKSLVTxxGS/P3xkrXwv8ev2ifH37WfxIuvFHjvxBqvi
+rXJVd/MmOY7SIfMViiUBIYl67UUKOp9a6L9gP4ZL8ZP23vhN4ZkXfBqniqwFwMZ/cxzLLLx/uI1f
+sWT8CYPLaEsXjmqlSKbt9lWV9uvq/uPgMdxLXxlVUMP7sW7ebP6hPgf4Hf4Y/Bbwj4bkkeWTw9ot
+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</ImageBytes>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Stretch>True</Stretch>
+            </Image2>
+            <Image1 Ref="7" type="Image" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,36,53,6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DataColumn>LablePrint.BarcodeImage</DataColumn>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Stretch>True</Stretch>
+              <VertAlignment>Center</VertAlignment>
+            </Image1>
+            <Text1 Ref="8" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>46,30.5,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>کرایه:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Text2 Ref="9" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>46,13,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>5c5416b9d6bb4afabc198ac8843d2353</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>مبدا:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text3 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>46,19,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>0309d3ec81ca49a595eadcc385945fc6</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>مقصد:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+            <Text4 Ref="11" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,13,45,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>465c50a431874d8eb10b04f824feff3c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.SenderState}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text5 Ref="12" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>20,19,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>5e77242a43434251b38388c48fbcfabf</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>وزن:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text6 Ref="13" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>46,25,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>d47e42f0b82f4fd38c8b1d5f34e2fc34</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>تاریخ:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text7 Ref="14" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>20,25,8,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>8408b1cf3eb34372baef2d397e4039e1</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>زمان:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+            <Text8 Ref="15" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,42,53,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>c9c4b46aa7394f78aa4742cc9444a8d6</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.barcodeNo}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+            <Text9 Ref="16" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17,5,24,3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>dad0a47ddb804ad3b5e53bc309813219</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.BoxType}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text9>
+            <Text10 Ref="17" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,8,55,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>5f50b858b4fd4afca22905844294705e</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.OfficeName}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <SubReport1 Ref="18" type="SubReport" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2,48,52,46</ClientRectangle>
+              <Components isList="true" count="0" />
+              <Name>SubReport1</Name>
+              <Page isRef="4" />
+              <Parameters isList="true" count="1">
+                <ShipmentId Ref="19" type="Stimulsoft.Report.Components.StiParameter" isKey="true">
+                  <Expression>LablePrint.ShipmentId</Expression>
+                  <Name>ShipmentId</Name>
+                </ShipmentId>
+              </Parameters>
+              <Parent isRef="5" />
+              <SubReportPageGuid>0b22241cf7c74c54a274540d05b38ecc</SubReportPageGuid>
+              <SubReportUrl />
+            </SubReport1>
+            <Text18 Ref="20" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>29,19,17,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>3cd7876be4614a57b6364493000f4199</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.ReceiverState}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text18>
+            <Text19 Ref="21" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,19,17,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>5c01e39d4c14421b963626fa6db3cbcd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.Weight}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text19>
+            <Text20 Ref="22" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>29,25,17,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>b9df670d54ea418195124eeec0843eb2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.CreateDate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text20>
+            <Text21 Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,30.5,43,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>3b73d4b07bcf44b484b61c71922cb5b4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.PostTotalPrice}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text21>
+            <Text22 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2,25,18,5</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>d857f7fa59304b0a9403d4d43a9f7326</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrint.CreateTime}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text22>
+            <Text14 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,24,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>10954648d34948ef962f248048042caf</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{LablePrintEngList.ApiOrderRefrence}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text14>
+            <StartPointPrimitive1 Ref="26" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>28,19,0,0</ClientRectangle>
+              <Name>StartPointPrimitive1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>2037ac98541947648e5cc7a4d13f273b</ReferenceToGuid>
+            </StartPointPrimitive1>
+            <EndPointPrimitive1 Ref="27" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>54,24,0,0</ClientRectangle>
+              <Name>EndPointPrimitive1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>2037ac98541947648e5cc7a4d13f273b</ReferenceToGuid>
+            </EndPointPrimitive1>
+            <StartPointPrimitive2 Ref="28" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>1,19,0,0</ClientRectangle>
+              <Name>StartPointPrimitive2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>84b0734c4f85491ba439e2fb03fd52fd</ReferenceToGuid>
+            </StartPointPrimitive2>
+            <EndPointPrimitive2 Ref="29" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>27,24,0,0</ClientRectangle>
+              <Name>EndPointPrimitive2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>84b0734c4f85491ba439e2fb03fd52fd</ReferenceToGuid>
+            </EndPointPrimitive2>
+            <StartPointPrimitive3 Ref="30" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>28,25,0,0</ClientRectangle>
+              <Name>StartPointPrimitive3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>301a0c02c88e43a3ae0c8133c7bad9da</ReferenceToGuid>
+            </StartPointPrimitive3>
+            <EndPointPrimitive3 Ref="31" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>54,30,0,0</ClientRectangle>
+              <Name>EndPointPrimitive3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>301a0c02c88e43a3ae0c8133c7bad9da</ReferenceToGuid>
+            </EndPointPrimitive3>
+            <StartPointPrimitive4 Ref="32" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>1,25,0,0</ClientRectangle>
+              <Name>StartPointPrimitive4</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>73bb9907063949838512bae0f387844c</ReferenceToGuid>
+            </StartPointPrimitive4>
+            <EndPointPrimitive4 Ref="33" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>27,30,0,0</ClientRectangle>
+              <Name>EndPointPrimitive4</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>73bb9907063949838512bae0f387844c</ReferenceToGuid>
+            </EndPointPrimitive4>
+            <StartPointPrimitive5 Ref="34" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>1,30.5,0,0</ClientRectangle>
+              <Name>StartPointPrimitive5</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>d386b882105e404895f10b61ed89108a</ReferenceToGuid>
+            </StartPointPrimitive5>
+            <EndPointPrimitive5 Ref="35" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>54,35.5,0,0</ClientRectangle>
+              <Name>EndPointPrimitive5</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>d386b882105e404895f10b61ed89108a</ReferenceToGuid>
+            </EndPointPrimitive5>
+            <StartPointPrimitive6 Ref="36" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+              <ClientRectangle>1,13,0,0</ClientRectangle>
+              <Name>StartPointPrimitive6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>5c2be5cd1a8c4063b6e180bd4b89f612</ReferenceToGuid>
+            </StartPointPrimitive6>
+            <EndPointPrimitive6 Ref="37" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>54,18,0,0</ClientRectangle>
+              <Name>EndPointPrimitive6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <ReferenceToGuid>5c2be5cd1a8c4063b6e180bd4b89f612</ReferenceToGuid>
+            </EndPointPrimitive6>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <RightToLeft>True</RightToLeft>
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <RoundedRectanglePrimitive2 Ref="38" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>28,23,26,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>2037ac98541947648e5cc7a4d13f273b</Guid>
+          <Name>RoundedRectanglePrimitive2</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive2>
+        <RoundedRectanglePrimitive3 Ref="39" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>1,23,26,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>84b0734c4f85491ba439e2fb03fd52fd</Guid>
+          <Name>RoundedRectanglePrimitive3</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive3>
+        <RoundedRectanglePrimitive4 Ref="40" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>28,29,26,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>301a0c02c88e43a3ae0c8133c7bad9da</Guid>
+          <Name>RoundedRectanglePrimitive4</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive4>
+        <RoundedRectanglePrimitive5 Ref="41" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>1,29,26,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>73bb9907063949838512bae0f387844c</Guid>
+          <Name>RoundedRectanglePrimitive5</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive5>
+        <RoundedRectanglePrimitive6 Ref="42" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>1,34.5,53,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>d386b882105e404895f10b61ed89108a</Guid>
+          <Name>RoundedRectanglePrimitive6</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive6>
+        <RoundedRectanglePrimitive1 Ref="43" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>1,17,53,5</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>5c2be5cd1a8c4063b6e180bd4b89f612</Guid>
+          <Name>RoundedRectanglePrimitive1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>f23e7c4ca032483b8626f8f18020974a</Guid>
+      <Margins>0,0,0,0</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>50</PageHeight>
+      <PageWidth>55</PageWidth>
+      <Report isRef="0" />
+      <RightToLeft>True</RightToLeft>
+      <Watermark Ref="44" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+    <subReport_1 Ref="45" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <DataBand2 Ref="46" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid>57c026a9a94943d6885153d0c523ce11</BusinessObjectGuid>
+          <ClientRectangle>0,4,52,42</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text16 Ref="47" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>38,0,12,6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>ce43d145e4414b75a84973559ec59718</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>خدمات فنی:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text16>
+            <Text15 Ref="48" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>36,6,14,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>a3ab0838d992492fa1d5ea124f7c4686</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>فرستنده:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text15>
+            <Text11 Ref="49" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,38,6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>d8501f1816884ca5826cfd7a5f32bacc</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>{LablePrintEngList.TotalEngPrice}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,RightToLeft=True,,,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+            <Text12 Ref="50" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>36,21,14,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>9423a22d9732458db30f6ae4608b5665</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>گیرنده:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text12>
+            <Text13 Ref="51" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10,38,34,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Guid>cf202a77a9014ba18a8bb2a78c3bd2eb</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>{LablePrintEngList.ApiOrderRefrence}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text13>
+            <Text17 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <ClientRectangle>0.5,10,51,11</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>B Nazanin,8</Font>
+              <Guid>4d87a8424cf54d709fbf608193bad4cd</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>{LablePrintEngList.Sender}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text17>
+            <Text23 Ref="53" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.5,25,51,13</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>B Nazanin,8</Font>
+              <Guid>866eaa552bda4be69c66b3cddbc0ed21</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="45" />
+              <Parent isRef="46" />
+              <Text>{LablePrintEngList.Receiver}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text23>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName isNull="true" />
+          <Filters isList="true" count="1">
+            <value>_x007B_LablePrintEngList.ShipmentId_x0020__x003D__x003D__x0020__x0028_int_x0029_this_x005B__x0022_ShipmentId_x0022__x005D__x007D_</value>
+          </Filters>
+          <Name>DataBand2</Name>
+          <Page isRef="45" />
+          <Parent isRef="45" />
+          <RightToLeft>True</RightToLeft>
+          <Sort isList="true" count="0" />
+        </DataBand2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>0b22241cf7c74c54a274540d05b38ecc</Guid>
+      <Margins>2,2,2,2</Margins>
+      <Name>subReport_1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>50</PageHeight>
+      <PageWidth>56</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="54" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </subReport_1>
+  </Pages>
+  <PrinterSettings Ref="55" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>12/26/2020 12:39:39 PM</ReportChanged>
+  <ReportCreated>11/18/2018 2:42:20 PM</ReportCreated>
+  <ReportFile>D:\Projects\Web_APP\Nope Clear file\PostbarNop\Plugins\Nop.plugin.Orders.ExtendedShipment\Report\LablePrint.mrt</ReportFile>
+  <ReportGuid>54101188bef54569a1599997c4023cde</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Millimeters</ReportUnit>
+  <ReportVersion>2018.3.1.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

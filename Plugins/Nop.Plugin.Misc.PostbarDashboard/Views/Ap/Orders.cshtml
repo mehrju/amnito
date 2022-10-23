@@ -1,0 +1,76 @@
+﻿@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiDashboardLayout.cshtml";
+}
+<script type="text/javascript" src="~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/infinite-ajax-scroll.min.js"></script>
+
+<div class="row justify-content-md-center mrg-0">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12" style="padding:0px;">
+        <div class=" text-center" style="margin-top:10px">
+            <h3 style="color:white !important">سفارش های من</h3>
+        </div>
+        <div class="body-dash orders-tbl" style="background-color:transparent !important">
+            <div class="row justify-content-md-center p-r-20 p-l-20  " id="div_table">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        pageSize = 6;
+        var win = $(window);
+        var pageIndex = 0;
+         $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("OrdersPaged", "ApDashboard")',
+             data: { 'pageSize': pageSize, 'pageIndex': pageIndex },
+                success: function (data) {
+                    if (data != null) {
+                        $('#div_table').append(data);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                }
+            });
+        win.scroll(function () {
+            if (parseInt($(document).height() - win.height() - 1) == parseInt(win.scrollTop())
+                || parseInt($(document).height() - win.height()) == parseInt(win.scrollTop())) {
+                pageIndex++;
+                myloadData("@Url.Action("OrdersPaged", "ApDashboard")", pageIndex, pageSize, '#div_table');
+            }
+        });
+        function myloadData(url, pageIndedx, pageSize, elementToInsert) {
+
+            $.ajax({
+                beforeSend: function () {
+                },
+                complete: function () {
+                },
+                cache: false,
+                type: "GET",
+                url: url,
+                data: { 'pageSize': pageSize, 'pageIndex': pageIndedx },
+                success: function (data) {
+                    if (data != null) {
+                        $(elementToInsert).append(data);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                }
+            });
+        }
+    })
+</script>

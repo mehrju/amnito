@@ -1,0 +1,1688 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.NewCheckoutViewModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.plugin.Orders.ExtendedShipment.Services.IExtendedShipmentService _extendedShipmentService
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postbar/_NewUiLayout.cshtml";
+
+    Html.AppendCssFileParts("https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/BootSideMenu.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/searchbox.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver=5");
+
+    #region GeoJsondata
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_6.js");
+    #endregion
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Alborz_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/get_geojson_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Isfahan_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Mashad_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Shiraz_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_3.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_9.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_10.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_11.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_12.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_13.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_14.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_15.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_16.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_17.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_18.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_19.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_20.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_21.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_22.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_2.js");
+
+    #endregion
+    #region Post
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/11_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/13_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/14_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/15_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/16_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/17_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/18_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/19_5.js");
+    #endregion
+    #endregion
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/Autolinker.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.customsearchbox.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.pattern.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet-pip.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/BootSideMenu.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/MapConfig.js?ver=36");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jquery.mousewheel.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jQuery.WSlot.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js?ver=7");
+
+
+
+
+    string _postArea = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Foreign ? "پست خارجی" :
+(Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Heavy ? "حمل و نقل سنگین" : "پست داخلی");
+    bool IsForegin = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Foreign;
+    bool IsHeavy = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Heavy;
+    string PostItem = IsHeavy ? "بار" : "مرسوله";
+    string WeightType = IsHeavy ? "تن" : "گرم";
+    bool hasValidAvatar = _extendedShipmentService.hasValidAvatar(_workContext.CurrentCustomer.Id).GetValueOrDefault(false);
+
+}
+<style>
+    .select2-container--default .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+
+    .fix-modal {
+        position: fixed;
+        top: 0;
+    }
+
+    .fa-check {
+        color: #2f99fb;
+        cursor: pointer;
+    }
+
+        .fa-check:hover {
+            color: #4cb439;
+            font-size: 16pt;
+        }
+
+    .reViewData {
+        padding-right: 10px;
+        font-size: 10pt;
+    }
+
+    .custom-btn-01 {
+        cursor: pointer;
+        color: white !important;
+    }
+
+    #discountCouponCode {
+        margin-top: 10px;
+        border-color: gray;
+        text-align: center;
+        border-style: solid;
+        border-radius: 50px;
+        border-top: 1px;
+        border-bottom: 1px;
+        border-bottom-style: dotted;
+        border-top-style: dotted;
+    }
+
+    .searchResult:hover {
+        margin: 3px;
+        font-weight: bolder;
+        -webkit-box-shadow: 10px 10px 13px -2px rgba(153,147,153,0.81);
+        -moz-box-shadow: 10px 10px 13px -2px rgba(153,147,153,0.81);
+        box-shadow: 10px 10px 13px -2px rgba(153,147,153,0.81);
+        cursor: pointer !important;
+        background-color: #00d36d;
+    }
+
+    .get-btn-map {
+        cursor: pointer !important;
+        border: 1px !important;
+        border-style: solid !important;
+    }
+
+        .get-btn-map:hover {
+            font-weight: bolder;
+            background-color: #22b228 !important;
+            box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+
+    @@media(max-width:961px) {
+        #mapBox {
+            height: 330px !important;
+        }
+    }
+
+    @@media(min-width:962px) {
+        #mapBox {
+            height: 440px !important;
+        }
+    }
+</style>
+<span></span>
+
+<main class="backblue" id="orderSteps">
+    <input id="checkOutModelItemId" type="hidden" />
+    <input id="isForginRequest" type="hidden" value="@(IsForegin.ToString().ToLower())" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" id="wizard">
+                    <!-- SECTION 1 -->
+                    <h2 class="text-hide">اطلاعات مرسوله و آدرس</h2>
+                    <section class="postal-info">
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="form-content form-col ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-header">
+                                            <h3 style="font-size:17px">اطلاعات مرسوله و آدرس</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12  col-xl-6 col-lg-6">
+                                        <label>محتویات @(PostItem)<span class="org-color"></span></label>
+                                        <input type="text"
+                                               class="form-control myTooltip"
+                                               maxlength="100"
+                                               placeholder="@(!IsHeavy?"مثلا 2 عدد ساعت":"مثلا محصولات کشاورزی")"
+                                               id="GoodsType"
+                                               name="GoodsType"
+                                               data-toggle="tooltip"
+                                               data-html="true"
+                                               title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('postalBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i> مشاهده ممنوعات پستی</a>")">
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>وزن @(PostItem)(@(WeightType))<span class="org-color"></span> </label>
+                                        <input type="text"
+                                               class="form-control myTooltip"
+                                               maxlength="@(IsHeavy?2:(IsForegin?6:7))"
+                                               placeholder="مثلا 20"
+                                               id="Weight_g"
+                                               name="Weight_g"
+                                               data-toggle="tooltip"
+                                               data-html="true"
+                                               title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('weightBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i> مشاهده محدودیت وزنی</a>")">
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>ارزش ریالی محتویات @(PostItem)<span class="org-color"></span></label>
+                                        <input type="text"
+                                               class="form-control myTooltip"
+                                               maxlength="12" placeholder="ريال"
+                                               required id="ApproximateValue"
+                                               name="ApproximateValue"
+                                               data-toggle="tooltip"
+                                               data-html="true"
+                                               title="ارزش مرسوله.در صورتی که ارزش دقیق مرسوله اطلاع ندارید.عدد 1 را وارد کنید" />
+                                        <input type="hidden" id="CodGoodsPrice" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>@(!IsHeavy ? "تعداد بسته پستی" : "تعداد خودرو")<span class="org-color"></span> </label>
+                                        <input type="number"
+                                               max="50"
+                                               min="1"
+                                               class="form-control myTooltip"
+                                               id="Count"
+                                               name="count"
+                                               data-toggle="tooltip"
+                                               data-html="true"
+                                               value="1"
+                                               title="@(!IsHeavy?"چه تعداد بسته پستی با وزنی که اظهار کردید می خواهید ارسال کنید":"تعداد خودرو مورد نیاز")">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @if (!IsHeavy)
+                                    {
+
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                            <label>حدود اندازه مرسوله(طول* عرض*ارتفاع)</label>
+                                            <select class="js-example-basic-single form-control " name="KartonLafaf" id="KartonLafaf" data-toggle="tooltip" title="اگر @(PostItem) شما نیاز به کارتن دارد"></select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6" id="needCatonWrapper">
+                                            <label>آیا به پاکت/کارتن پستی نیاز دارید؟</label>
+                                            <input type="checkbox" class="form-control" id="needCaton" />
+                                        </div>
+                                        @*<dvi >*@
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6" style="display:none">
+                                            <label>نوع @(PostItem)<span class="org-color"></span> </label>
+                                            <select class="js-example-basic-single form-control" name="boxType" id="boxType">
+                                                <option value="-1">انتخاب کنید...</option>
+                                                <option value="پاکت">پاکت(اوراق و اسناد)</option>
+                                                <option value="بسته">بسته(کارتن،جعبه)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6 " id="dimenationsBox" style="display:none">
+                                            <label> لطفا ابعاد مرسوله را به سانتی متر وارد نمایید</label>
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                                    <input type="text" class="form-control myTooltip" maxlength="6" placeholder="طول" id="length" name="length" data-html="true" data-toggle="tooltip"
+                                                           title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                                    <input type="text" class="form-control myTooltip" maxlength="6" placeholder="عرض" id="width" name="width" data-html="true" data-toggle="tooltip"
+                                                           title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                                    <input type="text" class="form-control myTooltip" maxlength="6" placeholder="ارتفاع" id="height" name="height" data-html="true" data-toggle="tooltip"
+                                                           title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*</dvi>*@
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                            <label for="UbbraTruckType">نوع خودرو<span class="org-color"></span></label>
+                                            <select class="js-example-basic-single form-control" name="UbbraTruckType" id="UbbraTruckType"></select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                            <label for="VechileOptions">ویژگی خودرو<span class="org-color"></span></label>
+                                            <select class="js-example-basic-single form-control" name="VechileOptions" id="VechileOptions"></select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                            <label for="UbbarPackingLoad">نوع بسته بندی بار<span class="org-color"></span></label>
+                                            <select class="js-example-basic-single form-control" name="UbbarPackingLoad" id="UbbarPackingLoad">
+                                                <option value="0">انتخاب کنید...</option>
+                                                <option value="karton">کارتن</option>
+                                                <option value="pallet">پالت</option>
+                                                <option value="roll">رل</option>
+                                                <option value="falleh">فله</option>
+                                                <option value="bandil">بندیل</option>
+                                                <option value="kiseh_gooni">کیسه-گونی</option>
+                                            </select>
+                                        </div>
+                                        @*<div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                            <label for="UbbarShippingDoc">سند حمل<span class="org-color">*</span></label>
+                                            <select class="js-example-basic-single form-control" name="UbbarShippingDoc" id="UbbarShippingDoc">
+
+                                            </select>
+                                            </div>*@
+                                        <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6 field">
+
+                                            <input type="text" id="dispatch_date" class="form-control" placeholder="تاریخ و ساعت بارگیری"
+                                                   aria-label="_dispatch_date" aria-describedby="_dispatch_date">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text cursor-pointer" id="_dispatch_date" style="top:0px !important;padding: 6px;background-color: transparent;">
+                                                    <img src="~/Themes/Ap/images/ApImages/calendar.png" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                        <label>آدرس فرستنده <span class="org-color"></span></label>
+                                        <div class="map-btn-input" style="height:35px">
+                                            <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                                               data-toggle="tooltip" data-html="true" id="get-btn-map_i" data-val="Sender" data-type="OldAddress" aria-hidden="true">
+                                                <span class="addAddress">
+                                                    انتخاب آدرس قبلی
+                                                </span>
+                                            </a>
+                                            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی"
+                                               data-toggle="tooltip" data-html="true" id="get-btn-map" data-val="Sender" data-type="newAddress" aria-hidden="true">
+                                                <span class="addAddress">
+                                                    ثبت آدرس جدید
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <label id="SenderStateTown" style="color: #ffffff !important;"></label>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                        <label>آدرس گیرنده <span class="org-color"></span></label>
+                                        <div class="map-btn-input" style="height:35px">
+                                            <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                                               data-toggle="tooltip" data-html="true" style="cursor:pointer" id="get-btn-map_i" data-val="Reciver" data-type="OldAddress" aria-hidden="true">
+                                                <span class="addAddress">
+                                                    انتخاب آدرس قبلی
+                                                </span>
+                                            </a>
+                                            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی" data-toggle="tooltip"
+                                               data-html="true" style="cursor:pointer" id="get-btn-map" data-val="Reciver" data-type="newAddress" aria-hidden="true">
+                                                <span class="addAddress">
+                                                    ثبت آدرس جدید
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <label id="ReceiverStateTown" style="color: #ffffff !important;"></label>
+
+                                    </div>
+                                </div>
+                                <input type="hidden" id="SenderLat" name="SenderLat" />
+                                <input type="hidden" id="SenderLon" name="SenderLon" />
+                                <input type="hidden" id="ReciverLat" name="ReciverLat" />
+                                <input type="hidden" id="ReciverLon" name="ReciverLon" />
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/postbar/images/Man/image1.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 2 -->
+                    <h2 class="text-hide">انتخاب سرویس</h2>
+                    <section class="choose-services">
+
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12 pad-0">
+                            <div class="form-content form-col">
+
+                                <h3>انتخاب سرویس</h3>
+
+                                <table id="tblServiceInfo" class="table table-bordered  table-hover">
+
+                                    <tbody></tbody>
+
+                                </table>
+                                <div class="checkbox">
+                                    @*<label><input id="acceptRole" type="checkbox" value=""><a target="_blank" href="/%D9%82%D9%88%D8%A7%D9%86%DB%8C%D9%86-%D8%A7%D8%B3%D8%AA%D9%81%D8%A7%D8%AF%D9%87-%D8%A7%D8%B2-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87" class="org-color">قوانین</a> را خواندم و قبول دارم</label>*@
+                                    <label><input id="acceptRole" type="checkbox" value=""><a onclick="divload()" class="org-color" style="text-decoration:underline !important">قوانین را خواندم و قبول دارم</a></label>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/postbar/images/Man/image2.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 3 -->
+                    <h2 class="text-hide">خدمات ما</h2>
+                    <section class="services_us">
+                        <div id="ExtraRequest" class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="form-content form-col">
+                                <div class="form-header">
+                                    <h3>انتخاب خدمات مورد نیاز</h3>
+                                </div>
+                                <div class="row" style="@(IsHeavy?"display:none":"")">
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 bime form-group" id="bime">
+                                        <label for=""> 1-بیمه پوششی</label>
+                                        <select class="js-example-basic-single form-control" name="Insurance" id="Insurance" data-toggle="tooltip" data-html="true" title="@(PostItem) تون رو بیمه کنید"></select>
+                                    </div>
+
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group" id="PrinterWarpper">
+                                        <label for="">2- آیا امکان چاپ فاکتور این سفارش را دارید؟ </label>
+                                        <div>
+                                            <select class="js-example-basic-single form-control myTooltip" name="HasAccessToPrinter" id="HasAccessToPrinter" data-toggle="tooltip" data-html="true" title="فاکتور پستی باید چاپ و روی بسته چسبانده شود">
+                                                <option value="@(IsHeavy?"true":"")" selected="selected" disabled>انتخاب کنید</option>
+                                                <option value="true">بله خودم میتونم چاپ کنم </option>
+                                                <option value="false">فاکتور سفارش رو برام چاپ و الصاق کنید</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="cartonWarpper" style="display:none">
+                                        <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 form-group">
+                                            <label class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                                3-کارتن و بسته بندی
+                                            </label>
+                                            <label class="radio-inline" style="color:white !important;">
+                                                <input type="radio" name="optradio" value="1" id="BoxYes">نیاز به کارتن پستی دارم
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 form-group">
+                                            <div id="cmbkarton" style="display:none;">
+
+
+
+                                            </div>
+                                            <a onclick="divload1()" style="color: white !important;font-size: 9pt !important;text-decoration: underline !important;margin-right: 20px !important;">(مشاهده اندازه های کارتن ها)</a>
+                                        </div>
+                                        <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 form-group">
+                                            <label class="radio-inline" style="color:white !important;">
+                                                <input type="radio" name="optradio" id="BoxNo" value="2" style="text-decoration: underline !important;">خودم کارتن دارم
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="" id="hasNotifRequest" class="myTooltip" name="hasNotifRequest" data-toggle="tooltip" data-html="true" title="اگر میخواید شما و گیرنده بدونید @(PostItem) در هر لحظه کجاست" />
+                                                4- اطلاع رسانی پیامکی در مراحل ارسال
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" @(hasValidAvatar == false ? "disabled" : "") value="" id="RequestPrintAvatar" class="myTooltip" name="RequestPrintAvatar" data-toggle="tooltip" data-html="true" title="در صورتی که نشان تجاری خود را درقسمت حساب من سامانه وارد کرده باشید و به تایید کارشناسان ما رسیده باشد، امکان استفاده از این گزینه وجود دارد" />
+                                                5-چاپ نشان تجاری من بر روی فاکتور
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    @if (!IsHeavy)
+                                    {
+                                        <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group" style="display:none">
+                                            <input type="text" id="PostCoordinationData" class="form-control" placeholder="تاریخ جمع آوری مرسوله(اختیاری)" aria-label="_dispatch_date" aria-describedby="_dispatch_date">
+
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text cursor-pointer" id="_PostCoordinationData" style="top:0px !important;padding: 6px;background-color: transparent;margin-left: 17px;padding-top: 4px !important;" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                                                    <img src="/Themes/Ap/images/ApImages/calendar.png">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row" style="display:none">
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group">
+                                        <div class="checkbox" id="pickUpNow">
+                                            <label><input type="checkbox" value="" id="getItNow" />بیا همین الان بارم را ببر </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.IsAgent)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 form-group">
+                                            <label for="">مبلغ خدمات نمایندگی <span class="org-color"></span></label>
+                                            <input type="text" class="form-control myTooltip" maxlength="12" placeholder="مبلغ را به صورت عددی وارد کنید" required id="AgentSaleAmount" name="AgentSaleAmount" data-toggle="tooltip" data-html="true" title="در صورتی که خدمت اضافی انجام داده اید میتوانید هزینه آنرا در این قسمت اضافه کنید" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/postbar/images/Man/image3.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<div style="display:none" id="ReViewData">
+    <!-- 3 columns offset Center -->
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-1">
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-10">
+                <div class="box" style="margin-bottom:0px !important">
+                    <div class="header_res">
+                        <div class="col-md-12">
+                            <h4>باز بینی اطلاعات</h4>
+                        </div>
+                    </div>
+                    <div class="body_res">
+                        <div class="body_title_res">
+                            <div class="row">
+                                <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                    <span>لطفا از صحت اطلاعات وارد شده اطمینان حاصل فرمایید.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="type_res">
+                            <div class="row">
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>نوع کالا: </label><span class="reViewData" id="_GoodsType"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>قیمت حدودی کالا: </label><span class="reViewData" id="_ApproximateValue"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>وزن : </label><span class="reViewData" id="_Weight"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>تعداد : </label><span class="reViewData" id="_Count"></span>
+                                </div>
+                                @if (!IsHeavy)
+                                {
+                                    <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <label>ابعاد: </label><span class="reViewData" id="_dimensions"></span>
+                                    </div>
+                                    <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <label>نوع @(PostItem): </label><span class="reViewData" id="_boxType"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <label>نوع خودرو: </label><span class="reViewData" id="_UbbraTruckType"></span>
+                                    </div>
+                                    <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <label>ویژگی خودرو: </label><span class="reViewData" id="_VechileOptions"></span>
+                                    </div>
+                                    <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <label>نوع بسته بندی بار: </label><span class="reViewData" id="_UbbarPackingLoad"></span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="address_res">
+                            <div class="row">
+                                <div class="col-md-9 col-xl-9 col-lg-9 col-sm-12">
+                                    <div class="address-Sender">
+                                        <label>آدرس فرستنده:</label><span class="reViewData" id="_billingAddressModel"></span>
+                                    </div>
+                                    <div class="addres_Receiver">
+                                        <label>آدرس گیرنده:</label><span class="reViewData" id="_shippingAddressModel"></span>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <div class="btn_edit_res">
+                                            <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="0">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                                        </div>
+                                    </div>*@
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="type_services">
+                            <div class="row">
+                                <div class="col-md-9 col-xl-9 col-lg-9 col-sm-12">
+                                    <label>نوع سرویس:</label><span class="reViewData" id="_ServiceId"></span>
+                                </div>
+                                @*<div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                        <div class="btn_edit_res">
+                                            <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="1">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                                        </div>
+                                    </div>*@
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="Insurance_res">
+                            @if (!IsHeavy)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                        <label>بیمه :</label><span class="reViewData" id="_InsuranceName"></span>
+                                    </div>
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                        <label>جعبه و بسته بندی :</label><span class="reViewData" id="_CartonSizeName"></span>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-md-9" style="display:none">
+                                    @if (!IsHeavy)
+                                    {
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" disabled id="_HasAccessToPrinter" value="">در خواست چاپ فاکتور جهت الصاق روی بسته</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" disabled id="_hasNotifRequest" value="" />در خواست اطلاع رسانی در هر مرحله از ارسال</label>
+                                        </div>
+                                        <div class="checkbox" s>
+                                            <label><input type="checkbox" disabled id="_getItNow" value="" />بیا همین الان بارم را ببر </label>
+                                        </div>
+                                    }
+                                    <div class="checkbox" style="display:none">
+                                        <label><input type="checkbox" disabled id="_RequestPrintAvatar" value="" />چاپ نشان تجاری من بر روی فاکتور</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="col-md-3">
+                            <div class="btn_edit_res">
+                                <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="2">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+                <div class="footer_res">
+                    <div class="row">
+                        @*<div class="col-md-4 col-xl-4 col-lg-4 col-sm-12 ">
+                                <div class="btn-back">
+                                    <a id="bnt_gotoOrdersStep" class="custom-btn-02 faa-parent animated-hover" style="width:100% !important"> <i class="fa fa-chevron-right faa-horizontal"></i>مرحله قبل </a>
+                                </div>
+                            </div>*@
+                        <div class="col-md-4 col-xl-4 col-lg-6 col-sm-12 ">
+                            <input type="text" class="form-control myTooltip" maxlength="50"
+                                   placeholder=" کد کوپن تخفیف را وارد نمایید" required="" id="discountCouponCode" name="discountCouponCode" data-toggle="tooltip" data-html="true" title="" data-original-title="در صورتی که کوپن تخفیف دارید کد آنرا وارد کنید">
+                        </div>
+                        <div class="col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                            <div class="btn-forward">
+                                <a id="btn_SaveNext" class="custom-btn-02 btnNext faa-parent animated-hover" style="width:100% !important">تاییدو مشاهده فاکتور <i class="fa fa-chevron-left faa-horizontal"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-1">
+
+            </div>
+
+        </div>
+    </div>
+    <div id="loading-img">
+        <button class="btn btn-info">در حال پردازش....</button>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="MapAddressModalLabel" id="mapModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:9px !important">
+                <div class="row" style="width:100% !important">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                        <h5 class="modal-title" id="MapAddressModalLabel" style="float: right;">آدرس</h5>
+                        <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="form-horizontal">
+                    <div class="row" id="mapContent">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                            <div class="row" id="AddressContent" style="right:0px;">
+                                <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                                    <div id="oldAddressbox" class="form-group" style="display:none;padding-top:20px">
+                                        <select class="js-example-basic-single form-control" name="AddressBox" data-toggle="tooltip" id="AddressBox" title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                    </div>
+                                    <hr style="border-color:black !important" />
+                                </div>
+                                <div id="_NewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                    <div class="form-group" id="_CountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="Country" id="Country" disabled></select>
+                                    </div>
+                                    <div class="form-group" id="_StateDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="State" id="State" disabled></select>
+                                        <input id="tempStateName" type="hidden" />
+                                    </div>
+                                    <div class="form-group" id="_foreignCountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="receiver_ForeginCountry" id="receiver_ForeginCountry"></select>
+                                    </div>
+                                    <div class="form-group" id="_ForeginCountryCityDiv" style="display:none">
+                                        <input type="text" class="form-control" required id="receiver_ForeginCountryCity" placeholder="نام شهر *" name="receiver_ForeginCountryCity" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="FirstName" placeholder="نام *" name="FirstName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="LastName" placeholder="نام خانوادگی *" name="LastName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="PhoneNumber" maxlength="@(!IsForegin?11:15)" placeholder="تلفن همراه *" name="PhoneNumber" />
+                                    </div>
+                                    <div style="display:none" class="form-group">
+                                        <input type="text" class="form-control" id="ZipPostalCode" placeholder="کد پستی" name="ZipPostalCode" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="Address1" placeholder="آدرس *" name="Address1" />
+
+                                        <input type="hidden" id="addressType" name="addressType" />
+                                        <input type="hidden" id="newOldAddress" name="newOldAddress" />
+                                        <input type="hidden" id="tehranAreaId" name="tehranAreaId" />
+                                        <input type="hidden" id="trafficArea" name="trafficArea" />
+                                        <input type="hidden" id="CollectorAreaId" name="CollectorAreaId" />
+                                        <input type="hidden" id="isInCityArea" name="isInCityArea" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Company" placeholder="نام شرکت" name="Company" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Email" placeholder="پست الکترونیک" name="Email" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="PreNewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                <div class="form-group" style="margin-bottom:0px !important">
+                                    <select class="js-example-basic-single form-control" name="PreCountry" id="PreCountry"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <select class="js-example-basic-single form-control" name="PreState" id="PreState"></select>
+                                </div>
+                            </div>
+                            <div id="mapBox" class="mw-100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:0 !important">
+                <div class="col-md-12" style="margin-top:10px;">
+                    <div class="form-group">
+
+
+                        @*<a id="cancelAddressItem" data-dismiss="modal" aria-label="Close" title="بستن" class="btn btn-warning faa-parent animated-hover">
+                                <i class="fa fa-times faa-tada" aria-hidden="true"></i>
+                            </a>
+
+                            <a class="btn btn-danger faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="searchOnMap" title="نقشه">
+                                <i class="fa fa-map-marker" aria-hidden="true" style="color: white;"></i>
+                            </a>
+
+                            <a class="btn btn-info faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="searchOldAddress" title="جستجوی آدرس های قبلی">
+                                <i class="fa fa-search" aria-hidden="true" style="color: white;"></i>
+                            </a>
+
+                            <a class="btn btn-success faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="confirmAddress" title="تایید و ثبت آدرس">
+                                <i class="fa fa-check faa-tada" aria-hidden="true" style="color: white;"></i>
+                            </a>*@
+                        <a id="cleanAddressItem" title="پاک کردن" class="btn" style="border: 1px solid #ccc;border-radius: 3px;width:30%">
+                            انصراف
+                        </a>
+                        <a class="btn btn-info confirmAddress" style="color: white;width:32%;display:none" id="EditAddress" title="ویرایش استان و شهر">
+                            مرحل قبل
+                        </a>
+                        <a class="btn btn-success confirmAddress" style="color: white;width:34%;display:none" id="confirmAddress" title="تایید و ثبت آدرس">
+                            ثبت آدرس
+                        </a>
+                        <a class="btn btn-success ContinueAddress" style="color: white;width:68%" id="ContinueAddress" title="تایید و ادامه">
+                            ادامه
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_Video1" class="modal fade" role="dialog" style="width:100%;margin:0px auto;height:100%;background-color:dimgrey;">
+    <div class="videoPlayer">
+        <video class="videoPlayer_video">
+            <source src="~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Video/2.mp4" type="video/mp4" />
+        </video>
+        <div class="videoPlayer_cover" style="background-image:url('../Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/images/taylor_swit_ours.png')">
+            <p>
+                <span class="fa fa-play fa-3x"></span>
+            </p>
+            <p>
+                کلیک کنید
+            </p>
+        </div>
+        <div class="videoPlayer_buttons">
+            <ul>
+                <li data-button="play" class="fa fa-play fa-lg"></li>
+                <li data-button="current">0:0</li>
+                <li data-button="timeline" class="timeline">
+                    <div class="timeline-loaded">
+                        <div class="timeline-current"></div>
+                    </div>
+                </li>
+                <li data-button="duration">02:05</li>
+                <li data-button="mute" class="fa fa-volume-up fa-lg"></li>
+                <li data-button="fullscreen" class="fa fa-expand fa-lg"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+
+    </script>
+</div>
+<div class="modal fade" id="modal_postalBans" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background:#f14823;">
+                <h3 class="modal-title" style="text-align:center;">ممنوعات پستی</h3>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;margin:0px;padding:0px">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans1.jpg" />
+                </div>
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans2.jpg" />
+                </div>
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans3.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script id='d11' src='~/Plugins/Misc.NopshopCalendar/Scripts/kendo.web.persian.min.js'></script>
+
+    <input id='nf' type='hidden' value='350' />*@
+
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/postbarNewCheckout.js?ver=132"></script>
+<script>
+    var IsForegin =@(IsForegin.ToString().ToLower());
+    var IsHeavy =@(IsHeavy.ToString().ToLower());
+    $(document).ready(function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+            function setPosition(position) {
+                $('#SenderLat').val(position.coords.latitude);
+                $('#SenderLon').val(position.coords.longitude);
+            }
+        }
+        $('.top-bar').hide();
+
+        $('#tableSelect tr').click(function () {
+            $(this).find('td input:radio').prop('checked', true);
+        });
+
+        var options = {
+            document: document,
+            wizard: '#wizard',
+            WeightItem: '#Weight_g',
+            InsuranceItem: '#Insurance',
+            CountryItem: '#Country',
+            StateItem: '#State',
+            kartonSizeItem: '#KartonLafaf',
+            IsAgent:@(Model.IsAgent.ToString().ToLower()),
+            IsInCodRole:@(Model.IsInCodRole.ToString().ToLower()),
+            IsForegin:@(IsForegin.ToString().ToLower()),
+            IsHeavy:@(IsHeavy.ToString().ToLower()),
+            IsCod:@(Model.IsCod.ToString().ToLower())
+        };
+        var form = new newCheckout(options);
+        $('#AddressContent').click(function (e) {
+
+            e.stopPropagation();
+            if ($(e.target).parent().attr('Id') == 'confirmAddressItem') {
+                confirmAddressItem();
+            }
+            else if ($(e.target).parent().attr('Id') == 'cancelAddressItem') {
+                cancelAddressItem();
+            }
+        });
+//===================================Map config===============================================================================
+
+//===================================Map config===============================================================================
+        //$('#mapModal').on('shown.bs.modal', function () {
+        //    setTimeout(function () {
+        //        map.invalidateSize();
+        //        $('a').attr('tabindex', '-1');
+        //    }, 300);
+        //});
+
+        $("input[type=text]").focus(function () {
+            $(this).select();
+        });
+
+        document.getElementById('ApproximateValue').addEventListener('input', event =>
+            event.target.value = addNeg(event.target.value, 'ApproximateValue')
+        );
+        document.getElementById('Weight_g').addEventListener('input', function (event) {
+            event.target.value = addNeg(event.target.value, 'Weight_g');
+            if (@(IsHeavy.ToString().ToLower())== true) {
+                var weight = parseInt(event.target.value);
+                $('#UbbraTruckType').find('option').each(function () {
+                    if ($(this).val() == 0)
+                        return;
+                    if (parseInt($(this).attr('data-MaxWeight')) < weight)
+                    {
+                        $(this).attr('disabled', 'disabled');
+                    }
+                    else
+                        $(this).removeAttr('disabled');
+                });
+                $('#UbbraTruckType').select2('destroy');
+                $('#UbbraTruckType').select2();
+            }
+        });
+        document.getElementById('ZipPostalCode').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('PhoneNumber').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        @if(!IsHeavy)
+        { <Text>
+            document.getElementById('height').addEventListener('input', event =>
+                event.target.value = addNeg(event.target.value, 'height')
+            );
+
+            document.getElementById('width').addEventListener('input', event =>
+                event.target.value = addNeg(event.target.value, 'width')
+            );
+
+            document.getElementById('length').addEventListener('input', event =>
+                event.target.value = addNeg(event.target.value, 'length')
+        );
+
+        </Text>}
+        function addNeg(value,name) {
+            if ((value.replace(/,/g, '')).length >= 9) {
+                value = value.replace(/,/g, '').substring(0, 9);
+            }
+            var result = ToLocalInt(value);
+            if (name == 'Weight_g') {
+                if (!IsHeavy && parseInt(result.replace(/,/g, '')) > 1000) {
+                    //$('#boxType').val('بسته');
+                    //if (!IsForegin)
+                    //    $('#height').parent().parent().parent().show();
+                }
+                else if (!IsHeavy && parseInt(result.replace(/,/g, '')) <= 1000) {
+                    //$('#boxType').val('پاکت');
+                    //if (!IsForegin) {
+                    //    $('#height').parent().parent().parent().hide();
+                    //    //$('#height').val('');
+                    //    //$('#length').val('');
+                    //    //$('#width').val('');
+                    //}
+                }
+            }
+            if (IsForegin) {
+                if (name == 'Weight_g' && parseInt(result.replace(/,/g, '')) > 30000) {
+                    alert('حداکثر وزن مجاز 30000 گرم(30 کیلو گرم) در هر بسته می باشد');
+                    result = 30000;
+                }
+                else if ((name == 'height' || name == 'width' || name == 'length') && parseInt(result.replace(/,/g, '')) > 100) {
+                    alert('حداکثر ابعاد مجاز برای سرویس بین الملی: 100 سانتیمتر*100 سانتیمتر*100 سانتیمتر می باشد');
+                    result = 100;
+                }
+            }
+            else if (IsHeavy) {
+                if (name == 'Weight_g' && parseInt(result.replace(/,/g, '')) > 20) {
+                    alert('حداکثر وزن مجاز برای هر خودرو حداکثر 20 تن می با شد');
+                    result = 20;
+                }
+            }
+            else
+            {
+                debugger;
+                    if (name == 'Weight_g' && parseInt(result.replace(/,/g, '')) > 100000) {
+                        alert('حداکثر وزن مجاز 100000 گرم(100 کیلو گرم) در هر بسته می باشد');
+                        result = 50000;
+                    }
+                    else if ((name == 'height' || name == 'width' || name == 'length') && parseInt(result.replace(/,/g, '')) > 300) {
+                        alert('حداکثر ابعاد مجاز برای سرویس پست داخلی: 300 سانتیمتر*300 سانتیمتر*300 سانتیمتر می باشد');
+                        result = 0;
+                    }
+                    //else if ((name == 'height' || name == 'width' || name == 'length') && $('#KartonLafaf').val().indexOf('سایر') >= 0) {
+                    //    if ((parseInt($('#height').replace(/,/g, '')) * parseInt($('#width').replace(/,/g, '')) * parseInt($('#length').replace(/,/g, ''))) < 85750)
+                    //        alert('حداقل سایز مجاز سایز"سایر": 70*35*35 یا 35*70*35 یا 35*35*70 می باشد');
+                    //    return '';//  result = '';
+                    //}
+            }
+           return result.toLocaleString('en-US');
+        }
+        $('.myTooltip').tooltip({
+            placement: "Auto"
+        });
+        $('a').attr('tabindex', '-1');
+        $('#_NewAddress').find('input').click(function () {
+            myItem = $(this);
+            setTimeout(myItem.focus(), 300);
+        });
+
+    });
+</script>
+<script>
+    //get mouse parent position
+    function getPositionData(el) {
+        var xPosition = 0;
+        var yPosition = 0;
+        while (el) {
+            if (el.tagName == "BODY") {
+                // deal with browser quirks with body/window/document and page scroll
+                var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
+                var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
+
+                xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
+                yPosition += (el.offsetTop - yScrollPos + el.clientTop);
+            } else {
+                xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
+            }
+
+            el = el.offsetParent;
+        }
+        return {
+            x: xPosition,
+            y: yPosition
+        };
+    }
+    //video player class
+    function videoPlayer() {
+        //the parent element
+        videoPlayer.prototype.elem = null;
+        //the video tag element
+        videoPlayer.prototype.video = null;
+        //the src of video
+        videoPlayer.prototype.file = null;
+        //video player cover
+        videoPlayer.prototype.cover = null;
+        //video player buttons
+        videoPlayer.prototype.play_btn = null;
+        videoPlayer.prototype.tex_current = null;
+        videoPlayer.prototype.timeline_btn = null;
+        videoPlayer.prototype.text_duration = null;
+        videoPlayer.prototype.mute_btn = null;
+        videoPlayer.prototype.expand_btn = null;
+
+        //starts the video player
+        this.init = function (elem) {
+            //add new function to window for element event listener
+            window.listenElem = function (event, obj, func) {
+                obj.addEventListener(event, func, false);
+            }
+            //add new function to window for elements event listener
+            window.listenElems = function (event, objs, func) {
+                var len = objs.length;
+                for (var i = 0; i < len; i++) {
+                    objs[i].addEventListener(event, func, false);
+                }
+            }
+
+            //set parent elem for video player
+            videoPlayer.elem = elem;
+            //set video cover
+            videoPlayer.cover = elem.getElementsByClassName("videoPlayer_cover")[0];
+            //set video elem
+            videoPlayer.video = elem.getElementsByClassName("videoPlayer_video")[0];
+            videoPlayer.file = videoPlayer.video.src;
+            var videoPlayer_buttons = elem.querySelectorAll(".videoPlayer_buttons ul li");
+            //find buttons and put them into vars
+            for (var i = 0; i < videoPlayer_buttons.length; i++) {
+                switch (videoPlayer_buttons[i].getAttribute("data-button")) {
+                    case "play":
+                        videoPlayer.play_btn = videoPlayer_buttons[i];
+                        break;
+                    case "current":
+                        videoPlayer.text_current = videoPlayer_buttons[i];
+                        break;
+                    case "timeline":
+                        videoPlayer.timeline_btn = videoPlayer_buttons[i];
+                        break;
+                    case "duration":
+                        videoPlayer.text_duration = videoPlayer_buttons[i];
+                        break;
+                    case "mute":
+                        videoPlayer.mute_btn = videoPlayer_buttons[i];
+                        break;
+                    case "fullscreen":
+                        videoPlayer.expand_btn = videoPlayer_buttons[i];
+                        break;
+                    default:
+                        console.warn("a btn is not valid");
+                        break;
+                }
+            }
+
+            /***
+            add some event listeners for controling every thing:
+            ***/
+
+            //add event listener for video cover
+            window.listenElem("click", videoPlayer.cover, this.videoCoverClicked);
+
+            //add event listener for play button on first page
+            window.listenElems("click", videoPlayer_buttons, this.buttonsClicked);
+
+            //add event for updating time label when music is playing
+            window.listenElem("timeupdate", videoPlayer.video, this.updatePlayerTime);
+
+            //add event listener for player when music had been ended
+            window.listenElem("ended", videoPlayer.video, this.endPlayerTime);
+
+            //add event listener for player when music had been paused
+            window.listenElem("play", videoPlayer.video, this.playedPlayer);
+
+            //add event listener for player when music had been played
+            window.listenElem("pause", videoPlayer.video, this.pausedPlayer);
+
+            //add event listener for progressing
+            window.listenElem("progress", videoPlayer.video, this.progressPlayer);
+
+            //add event listener for loading meta data
+            window.listenElem("loadedmetadata", videoPlayer.video, this.progressPlayer);
+
+            //add event listener for volume change
+
+            window.listenElem("volumechange", videoPlayer.video, this.volumechange);
+
+            //add event listener for error on music player
+            window.listenElem("error", videoPlayer.video, this.errorPlayer);
+        }
+
+        /*functions for control actions*/
+
+        this.videoCoverClicked = function (event) {
+            //alert('1');
+            event.currentTarget.style.display = "none";
+            if (videoPlayer.video === undefined || typeof videoPlayer.video === null) {
+                console.warn("cant find video tag with class='videoPlayer_video'");
+            } else {
+                videoPlayer.video.play();
+            }
+            event.preventDefault();
+            return false;
+        };
+
+        this.buttonsClicked = function (event) {
+
+            switch (event.currentTarget.getAttribute("data-button")) {
+                case "play":
+                    //console.log("play");
+                    if (videoPlayer.video.paused) {
+                        if (videoPlayer.video.duration > 0) {
+                            videoPlayer.video.play();
+                        } else {
+                            videoPlayer.play(videoPlayer.file);
+                        }
+                    } else {
+                        if (videoPlayer.video.duration > 0) {
+                            videoPlayer.video.pause();
+                        } else {
+                            videoPlayer.play(videoPlayer.file);
+                        }
+                    }
+                    break;
+                case "timeline":
+                    alert('کاربر گرامی شما نمیتوانید ویدئو را به جلو ببرید');
+                    // if(videoPlayer.video.duration>0){
+                    // 	var parentPosition=getPositionData(event.currentTarget);
+                    // 	var mousex = event.clientX - parentPosition.x;
+                    // 	var timelineWidth=parseFloat(videoPlayer.timeline_btn.offsetWidth);
+                    // 	var newCurrentTime=(parseFloat(mousex)*parseFloat(videoPlayer.video.duration))/parseFloat(timelineWidth);
+                    // 	console.log(mousex+"/"+timelineWidth);
+                    // 	videoPlayer.video.currentTime=newCurrentTime;
+                    // }
+                    // ;
+                    break;
+                case "mute":
+                    //console.log('volume');
+                    if (videoPlayer.video.muted === false) {
+                        videoPlayer.video.muted = true;
+                        event.currentTarget.className = "fa fa-volume-off fa-lg";
+                    } else {
+                        videoPlayer.video.muted = false;
+                        event.currentTarget.className = "fa fa-volume-up fa-lg";
+                    }
+                    break;
+                case "fullscreen":
+                    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                        event.currentTarget.className = "fa fa-compress fa-lg";
+                        if (videoPlayer.elem.requestFullscreen) {
+                            videoPlayer.elem.requestFullscreen();
+                        } else if (videoPlayer.elem.msRequestFullscreen) {
+                            videoPlayer.elem.msRequestFullscreen();
+                        } else if (videoPlayer.elem.mozRequestFullScreen) {
+                            videoPlayer.elem.mozRequestFullScreen();
+                        } else if (videoPlayer.elem.webkitRequestFullscreen) {
+                            videoPlayer.elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                        } else {
+                            event.currentTarget.className = "fa fa-expand fa-lg";
+                            alert('مرورگر شما قابلیت تمام صفحه شدن ویدئو را پشتیبانی نمیکند');
+                        }
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.msExitFullscreen) {
+                            document.msExitFullscreen();
+                        } else if (document.mozCancelFullScreen) {
+                            document.mozCancelFullScreen();
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        }
+                        event.currentTarget.className = "fa fa-expand fa-lg";
+                    }
+                    break;
+                default:
+                    console.warn("the button you have clicked is not valid");
+                    break;
+            }
+        }
+
+        this.updatePlayerTime = function (event) {
+
+            var minutes = Math.floor(parseInt(this.currentTime) / 60);
+            var seconds = parseInt(this.currentTime) - (minutes * 60);
+            var show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+            if (isNaN(this.currentTime)) { show = "00:00"; }
+            videoPlayer.text_current.innerHTML = show;
+            minutes = Math.floor(parseInt(this.duration) / 60);
+            seconds = parseInt(this.duration) - (minutes * 60);
+            show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+            if (!isNaN(this.duration)) {
+                videoPlayer.text_duration.innerHTML = show;
+            }
+            //timeline move:
+            var timeline = videoPlayer.timeline_btn;
+            var timelineWidth = parseFloat(timeline.offsetWidth);
+            // var playedPercent=parseInt(parseFloat(this.currentTime*100)/parseFloat(this.duration));
+            var playedWidth = parseFloat(parseFloat(this.currentTime) * parseFloat(timelineWidth) / parseFloat(this.duration));
+            timeline.firstElementChild.firstElementChild.style.width = playedWidth + "px";
+        };
+
+        this.endPlayerTime = function (event) {
+            $.ajax({
+                type: "POST",
+                url: "/PostbarDashboard/ViewVideo",
+                data: null,
+                success: function (data) {
+
+                    location.reload();
+                },
+                error: function (data) {
+
+                    alert(data);
+
+                }
+            });
+
+            //videoPlayer.play_btn.className = "fa fa-play fa-lg";
+            //videoPlayer.video.currentTime = 0;
+        };
+
+        this.playedPlayer = function (event) {
+            //alert('5');
+            videoPlayer.play_btn.className = "fa fa-pause fa-lg";
+            videoPlayer.cover.style.display = "none";
+        };
+
+        this.pausedPlayer = function (event) {
+            //alert('6');
+            videoPlayer.play_btn.className = "fa fa-play fa-lg";
+        };
+
+        this.progressPlayer = function (event) {
+            //alert('7');
+            //timeline move:
+            var timeline = videoPlayer.timeline_btn;
+            var timelineWidth = parseFloat(timeline.offsetWidth);
+            if (this.buffered.length > 0) {
+                var bufferedPercent = parseFloat(parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * 100) / parseFloat(this.duration));
+                var bufferedWidth = parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * parseFloat(timelineWidth) / parseFloat(this.duration));
+                timeline.firstElementChild.style.width = bufferedPercent + "%";
+            } else {
+                timeline.firstElementChild.style.width = "100%";
+            }
+        };
+
+        this.volumechange = function (event) {
+            //alert('8');
+            if (videoPlayer.video.muted === true) {
+                videoPlayer.mute_btn.className = "fa fa-volume-off fa-lg";
+            } else {
+                videoPlayer.mute_btn.className = "fa fa-volume-up fa-lg";
+            }
+        }
+
+        this.errorPlayer = function (event) {
+            alert(event);
+            videoPlayer.play_btn.className = "fa fa-warning fa-lg";
+        };
+    }
+
+</script>
+<style>
+
+    /*adding some styles for my custom html5 video player*/
+    .videoPlayer {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        position: relative;
+        font-size: 100%;
+        font-family: tahoma;
+    }
+
+    .videoPlayer_video {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .videoPlayer_cover {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.3);
+        background-size: cover;
+        opacity: 0.8;
+        text-align: center;
+    }
+
+        .videoPlayer_cover p {
+            text-align: center;
+            color: #FFF;
+        }
+
+            .videoPlayer_cover p span {
+                margin-top: 8%;
+            }
+
+            .videoPlayer_cover p:nth-child(2) {
+                font-size: 200%;
+            }
+
+    .videoPlayer_buttons {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        background: rgba(31,30,33,0.3);
+        border-top: solid 1px rgba(31,30,33,0.5);
+    }
+
+        .videoPlayer_buttons ul {
+            text-align: center;
+            color: #FFF;
+            display: block;
+            padding: 0px;
+            text-indent: 0px;
+        }
+
+            .videoPlayer_buttons ul li {
+                display: inline-block;
+                list-style: none;
+                padding: 5px 5px;
+                cursor: pointer;
+            }
+
+    .timeline {
+        width: 45%;
+        overflow: hidden;
+        margin: 13px 5px;
+        box-shadow: 0px 0px 5px 0px #000,inset 0px 0px 3px 0px #FFF;
+        vertical-align: top;
+        border-radius: 3px;
+        background-color: #8f9598;
+        padding: 0px !important;
+    }
+
+    .timeline-loaded {
+        background-color: #c1c6c9;
+        padding: 0px;
+        margin: 0px;
+        width: 0%;
+    }
+
+    .timeline-current {
+        background-color: #dc3932 !important;
+        padding: 4px 0px;
+        margin: 0px;
+        width: 0%;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        (new videoPlayer).init(
+            document.querySelector(".videoPlayer")
+        );
+        //if (/Android [4-6]/.test(navigator.appVersion)) {
+        //    window.addEventListener("resize", function () {
+        //        if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
+        //            window.setTimeout(function () {
+        //                document.activeElement.scrollIntoViewIfNeeded();
+        //            }, 0);
+        //        }
+        //    })
+        //}
+    });
+</script>
+<script language="javascript" type="text/javascript">
+    //window.onload = load;
+    function load() {
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/PostbarDashboard/GetStateViewVideoCustomer",
+            data: {},
+            success: function (data) {
+                if (data.state == 0) {
+                    alert('مشتری محترم جهت آغاز  ثبت سفارش و استفاده صحیح از سامانه  ملاحظه فیلم آموزشی تا آخرین ثانیه الزامی می باشد.');
+                    $(modal_Video1).modal('show');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('خطا در دریافت اطلاعات مشتری');
+            }
+        });
+    }
+
+
+
+</script>
+
+
+<div class="modal fade" id="RuleModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background:#ffc107;">
+                <h3 class="modal-title" style="text-align:center;">قوانین امنیتو را قبل از سفارش مطالعه بفرمایید</h3>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;margin:0px;padding:0px">&times;</button>
+            </div>
+            <div class="modal-body">
+                @*<div id="content3"  ></div>*@
+                <div class="page-body" style="direction:rtl;text-align: justify;padding: 48px;/* width: 160px; *//* cursor: cell !important; */">
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:center;"><strong><span style="font-size:23px;font-family:&quot;B Nazanin&quot;;color:black;">*قوانین استفاده از سامانه*</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:center;"><strong><span style="font-size:23px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">زمان بندی جمع آوری سفارش هایی که درخواست آنها تا قبل از ساعت 1</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">1</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">صبح باشد همان روز و زمان جمع آوری سفارشاتی که پس از ساعت11 صبح ثبت شوند، در اولین روز کاری بعد از ثبت سفارش خواهد بود .</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:red;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAB0CAMAAAFF1+XgAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADAUExURQAAAJGRkY+UlI+RlY+SlI+Rk5CRlI6Sko+TlJGVlZGTlIuUlIqUlPeeF/edGI+SlJOTk/aeF/edF/eeGIyMmfqgGJCSk5CTlP6iF39/f/efF/ObFvmdFpGTlZSUlPihFO+fD5GTlfieGJCRlPifGeKNAI+Tk46OjvieFPidGJGTlYuLi4+Pj4+PlfidFvidF/eeFvWdF/adFveeFpCQkI+SlI+SlJOTk/edFvicE5GRk/eeF4+RlY+RlfifFpCSlF5S9h4AAABAdFJOUwAVPuXxfsZC1zrtHxhCpVka2K2mFD7yvQsIQBdZgAwmEG2fqv8JORkl3P8LKSnh4WQ3WcAei2UmzCdkjPOMwvtPYbrKAAAACXBIWXMAACHVAAAh1QEEnLSdAAAEHklEQVRYR+2Zh3IUMRBEl2ByzhiMAR/pyDnD//8VE1rSSBrtai8UFOVXhXamp9UbLmDDMM7y5bBcaqVHPahEmGZhmsWwq82CGfa1ob3Lp809RLK5k4hqPZAXdt2GVRRFa7rIspYrRy0ndTxSK7VHEZ1B30u1R4SgmEYO2jPcJD0j6rDqy7ObdG4Zvg2rR1j3cnin0TVFngX/qXPI8auh0+LoQiVsDdxVhkrZgJvYSn0mVpksDS/aMdIEOaNbliccZMRSK0/ecfPDjTKb2JfLUEnJ3RGZBRknXB7P5ROQiws0WJm3CiS/ct3MRAjOSK0ETbgLxuUamf6z3MZVTl/mjvr29va0WJ7FwAEODUVdnwE6AyUCmYHCUjjWyCRaiFR+EoPhCQZUorJliz73/v6+HEs3LRkPhuGpvo/pjTbpJl2MtOzWbocRN6k5K2Tzp927bge+y4ablhwacLjv9ojm2q2jiEy4uMpF6RaLBUOlynYJm0o3LTk0SCfRXpDypFgSPDjfdI+zjrsDmGe6D9kseLzL2+hHgZeA0OQDfPHbfgcDD3Vo6AtT+8CgDtSV/Qx0BhKAKECyGpQIZAaKm6BAFCCxFouaMJEjEUuZFsSJFrY8JwbDJwyoRGXLFn/f3foL0EW+2L5TUbov0ZpBAzHL96D2gpRHxWIYhltwk116RUuxGNQtJ3DcNeS+O8vdzCbVcn/UfV08hrluNcpSuj3YqBu35qaqdJ+mNYMGbbfzystV+G5eLcd40nZ7rODmonLLJPGOJxe4ShZBSu+1lAg59rkDpXucTnfjSlwehksq3d5r2X7e89y8Wg54Iubz0SKYsgTRne7Av+ruAOatug85ZH0+410FPkNen+dINNzDaE1uIC7jB4arcQ0pAGrxgTwCdQ4H2BuATEAI/Ibc5lQBNgbgEiAFsCECVwS2gp+YNvgIWwGmAagFG4y+mVChB2xgVEBkoBJV6AEbmEpgHLFxuzkfYVZUQxNwxdm4Ka44GzfFFWfjprjibNwUV5xCfmoi0HZEa93ioppirqKaOrSOJLH6GbBCNiAyIqKZJ5LYF82/fxG7tpqMHobHo+g/q2sg/Z4Zrr8vuoetR8sT1qonGptGMC4uteqJrn4XqmDXStGwthETXM+iXUSTknDFMWJiLAg3xRXHwP9NhOg7IropVtS6hXrKaBUzRyCJnR/08CCAanYeSWJv9GuECpdVs/OIK46DVAGSm+KK4yBVgOSmuOIEiF0svkCYiu77NApXtH+PdpPRw/CVQMmkFIMREdBETD4mJeGKs3FTXHEK3Ea6DzfFiN+0bvFNTMQbBBNvIakDTSCJvZ/GFd7XW4zuB7EEhM1FD8Mjm0u4Ka44GzfFFWfjprjibNwUFXfWRFMQGVBxMyAyAHUjIPKQ/4Bh+AOQwkgydYwZIQAAAABJRU5ErkJggg==" style="text-align: left; width: 29.3pt; height: 38pt;" alt="image"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">قوانین اجرایی</span></strong></p>
+                    <div style="margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:107%;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;">
+                        <ol style="margin-bottom:0in;list-style-type: decimal;margin-left:-0.5in;">
+                            <li style="margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:107%;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;"><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم که &nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">وزن</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">محتوای</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">بسته</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">بدرستی &nbsp;به دقت و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">صداقت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اعلام</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">.</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">اگر&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">چنانچه</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">وزن</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اعلام شده&nbsp;</span></strong></li>
+                        </ol>
+                    </div>
+                    <p dir="RTL" style="margin-top:0in;margin-right:32.2pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">مغایر</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">با</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">وزن</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">واقعی</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">باشد (که</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">این</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">مورد</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">واحد</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">تجزیه</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">مبادلات مشخص</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">می</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">گردد)،</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">سفارش</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">کنسل</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">خواهد</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">شد و</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">مسئولیت</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">تاخیر در ارسال، هزینه</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">سفارش</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">مجدد</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">یا</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">هرگونه</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">خسارت ناشی</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">از</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">این امر</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">به</span></strong><strong><span dir="LTR" style="font-size:16px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">عهده اینجانب خواهد بود.</span></strong></p>
+                    <ol style="list-style-type: undefined;margin-left:-0.5in;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">آدرس</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">گیرنده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">&nbsp;در سیستم به درستی</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">اعلام</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">تا</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">موجب</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">برگشتی سفارش</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">و</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">یا</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">هزینه</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">های نگهداری در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">باجه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">معطله</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نگردد.</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم هماهنگی لازم را</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">با</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">گیرنده</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">برای</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">اخذ</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">مرسوله</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">ای که در باجه معطله می باشد &nbsp;بنمایم.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم آدرس فرستنده اعم از استان، شهر و منطقه را صحیح انتخاب نمایم و چنانچه این امر به درستی صورت نگیرد مسئولیت ناشی از تاخیر در جمع آوری و یا کنسلی سفارش به عهده اینجانب خواهد بود.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شنبه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پنجشنبه، جهت تحویل مرسوله به جمع آور</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">تا&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">ساعت</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">19</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">در محل اظهار شده ثبت سفارش (آدرس فرستنده)</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">حضور</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">داشته</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">باشم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">و</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">در</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">صورت</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">عدم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">حضور، این امر به منزله</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">لغو سفارش</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">است</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">هیچ</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مبلغی از بابت سفارش لغو شده&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مسترد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نخواهد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شد و همچنین تعهد می نمایم هیچ گونه ادعایی در این خصوص نخواهم داشت. همچنین در شرایط آب و هوایی بارانی یا برفی و یا مناطق گرمسیر (درجه حرارت بالای&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">۴۵</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">&nbsp;درجه) و مناطق سرد سیر (درجه حرارت زیر صفر درجه) این امکان وجود دارد که فرایند جمع آوری با تاخیر انجام پذیرد.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مجددا</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">اعلام میدارم که قبول دارم کلیه</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">سفارشات</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">ثبت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">روزجمعه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">ایام</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعطیل</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">اولین</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">روز</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">کاری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">بعد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">از ثبت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">سفارش&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">&nbsp;جمع آوری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خواهد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شد و در این خصوص هیچ اعتراضی نخواهم داشت،&nbsp;</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم هر گونه شکایت در خصوص خسارت وارده به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">هر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مرسوله ای&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">را صرفا</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">ظرف</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">24ساعت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پس</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">سفارش</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از و عدم پذیرش آن مرسوله اعلام دارم و در غیر این صورت هیچ گونه اعتراضی نخواهم داشت &nbsp;ضمنا تعهد بیمه مرسوله تا لحظه تحویل آن به گیرنده اعتبار خواهد داشت.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کالای&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#ED7D31;">فا</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">سد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">شدنی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">،</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">ممنوعات</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">پستی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">قاچاق، وزن بیش از 30کیلو، مایعات و ابعاد بیش &nbsp;از 1 متر&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مرسوله</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پستی قرار ندهم و مندرجات بند ممنوعات پستی رارعایت نمایم .</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کالای</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شکستنی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">&nbsp;ارسال ننمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مگر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">آنکه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کلیه&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">ضوابط</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">بسته</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">بندی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">رعایت نموده باشم، که در صورت عدم رعایت ضابطه فوق و بروز خسارت، هیچ اعتراضی نخواهم داشت و مسئولیت محتوای کلیه کالاهای مندرج در بسته به عهده اینجانب می باشد، همچنین شرکت هیچ گونه مسئولیتی در قبال اطلاع رسانی بسته بندی مرسوله ندارد و در صورت ارسال مرسوله با هرنوع بسته بندی تبعات آن به عهده فرستنده می باشد.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">فایل</span></strong><strong><span dir="LTR" style="font-family:&quot;Calibri Light&quot;,sans-serif;">PDF</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;color:#FF6600;font-size:16px;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">&nbsp;سفارش&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خود را که حاوی کد رهگیری می باشد &nbsp;را&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">پرینت&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">و بر روی &nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">بسته</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">الصاق</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">وحتما</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">آنرا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">امضا&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">کنم و سپس&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نسخه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دیگر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">امضای جمع آور</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">برسانم و به عنوان رسید نزد خود نگهدارم.</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">.&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">ضمنا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کلیه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">قوانین پستی را</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خصوص</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">محتوای</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">بسته</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پستی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">رعایت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اگر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خلاف</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">این</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">امر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را انجام</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دهم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کلیه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مسئولیت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">های ناشی از خسارت و غیره</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">عهده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اینجانب</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">باشد و اگر چنانچه به پرینتر دسترسی نداشته باشم، آدرس فرستنده، گیرنده و شماره سفارش را بر روی بسته بندی مرسوله با ماژیک درج بنمایم.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">کلمه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">کاربری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">رمز</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">عبورم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">فرد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دیگری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">استفاده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نخواهد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کرد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در غیر این صورت</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">کلیه مسئولیت</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">ها</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهدات</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مندرج</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">بند</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">های</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">این</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهدنامه&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">عهده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اینجانب</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خواهد بود.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم کلیه</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">موارد</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">لازم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">در</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">مورد&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">بسته</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">بندی</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">صحیح</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">و عدل</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:#FF6600;">بندی</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">را</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">با</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">هزینه</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">خودم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">انجام</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">دهم</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">تا</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">بسته</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">در</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">زمان</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">حمل</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">پاره</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">نشود و چنانچه مرسوله ام به بسته بندی مجدد نیاز داشت هزینه آن را طبق نظرکارشناس بپردازم یا مبلغ بسته بندی از&nbsp;</span></strong></li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:28.55pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">حساب کیف پول اینجانب &nbsp;اتوماتیک کسر گردد.</span></strong></p>
+                    <ol style="list-style-type: undefined;margin-left:-0.5in;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">روند</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">کاری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">سامانه&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">بدین</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">گونه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">است</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">سفارش</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">هایی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">قبل</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">از</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">ساعت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">12 &nbsp;در پیش کرایه و ساعت7 در پس کرایه و&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">COD</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">ثبت می گردند همان روز به فعال پستی یا کالارسان، جهت جمع آوری ارجاع &nbsp;و تا ساعت 18 جمع آوری از محل ثبت شده برای فرستنده جمع آوری گردد که اینجانب تعهد می&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">نمایم&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در صورت 24 ساعت تاخیر در جمع آوری حق هرگونه اعتراض نسبت به جمع آوری کالا را از خود سلب نموده ام.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">متعهد و مطلع هستم که جمع</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">آوری</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">بارها، از درب منزل یا محل کار</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:#FF6600;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">انجام</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">می</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">شود</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">روند</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دریافت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">آن</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">گونه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">ای</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">است</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که بار باید &nbsp;به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:#FF6600;">جمع آور &nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">محترم، در محل درب ورودی ساختمان تحویل داده شود و در صورت نیاز به رویت محتویات مرسوله امکان&nbsp;</span></strong></li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:21.45pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">بازدید آن فراهم گردد.</span></strong></p>
+                    <ol style="list-style-type: undefined;margin-left:-0.5in;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مینمایم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">چنانچه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از درج&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">امضا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در بخش امضای مشتری &nbsp;در فاکتور خودداری</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمایم (که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">بصورت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اتوماتیک</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پس</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از ثبت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">سفارش</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دانلود</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اختیارم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">قرار</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">گرفت) حق</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">هرگونه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اعتراضی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نسبت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دریافت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">غرامت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">ناشی</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از خسارت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">یا</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">فقدان مرسوله</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">از</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خود</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">سلب</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">می نمایم.</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">این</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">موارد</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">یکبار</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دیگر</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">زمان</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پرداخت</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مبلغ</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">هزینه</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">ارسال</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">بصورت الکترونیک</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">به</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تایید</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">اینجانب</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">رسیده</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">است (در</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">زمان</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">پرداخت،</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تایید</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">نمودم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">که</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">قوانین</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">را</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">خواندم</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">و</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">قبول</span></strong><strong><span dir="LTR" style="font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">دارم).</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم اگر شرکت پستی به هر علتی از حمل بسته اینجانب خودداری کرد حق هر گونه اعتراضی را از خود سلب می نمایم و اجازه شکایت در این خصوص را نخواهم داشت.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">جهت اطلاع از روند پرداخت حق مقر نیز به بخش دستورالعمل مندرج در سایت مراجعه نمایید .</span></strong></li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><img src="data:image/png;base64,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" style="text-align: left; width: 31.3pt; height: 30pt;" alt="image"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">قوانین مالی&nbsp;</span></strong></p>
+                    <ol style="list-style-type: decimal;margin-left:-0.5in;">
+                        <li>
+                            <strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">کنسلی سفارش</span></strong>
+                            <ol style="list-style-type: undefined;">
+                                <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">می پذیرم در صورت ثبت سفارش از طریق پست بار، چنانچه درخواست کنسلی سفارش را داشته باشم هیچ</span></strong></li>
+                            </ol>
+                        </li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:64.55pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:right;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;مبلغی عودت داده نخواهد شد&nbsp;</span></strong></p>
+                    <ol style="list-style-type: undefined;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">می پذیرم چنانچه در زمان تحویل مرسولات، بسته ای تحویل داده نشود، به منزله کنسل شدن مرسوله می باشد.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">تعهد می نمایم و می پذیرم چنانچه مرسوله از سامانه غیرپستی باشد، تا قبل از جمع آوری قابل کنسل کردن بوده و چنانچه برای جمع آوری مراجعه شود یا اینکه جمع آوری انجام شود برای کنسلی هیچ وجهی مسترد نخواهد شد.</span></strong></li>
+                    </ol>
+                    <ol style="list-style-type: undefined;margin-left:-0.5in;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">مدت زمان ارسال بسته طبق&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;color:black;">SLA</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">&nbsp;&nbsp;مندرج در توضیحات هر فعال پستی قید گردیده. بارهایی که مدت زمان ارسال &nbsp;بیش از زمان مندرج در جدول&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;color:black;">SLA</span></strong><strong><span style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-size:12.0pt;color:black;">ارسال و تحویل شوند مشمول غرامت &nbsp;تاخیر در ارسال خواهند شد که می بایستی از طریق&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;">eop.post.ir<span style="color:black;">&nbsp;</span></span></strong><strong><span style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;color:black;">ثبت گردد.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">برای استفاده از سرویس پس کرایه یا&nbsp;</span></strong><strong><span dir="LTR" style="font-family:&quot;Calibri Light&quot;,sans-serif;font-size:12.0pt;color:black;">COD</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">&nbsp;مبلغ 1،500،000 ريال داخل کیف پول بلوکه خواهد شد. درصورت</span></strong><strong><span dir="LTR" style="font-family:&quot;Tahoma&quot;,sans-serif;font-size:12.0pt;color:black;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:12.0pt;color:black;">&nbsp;درخواست کنسل کردن حساب پس کرایه، چنانچه تعداد سفارش های پس کرایه ثبت شده زیر10 سفارش باشد مبلغ عودت و در صورت ثبت سفارش بالای 10 تا، مبلغ عودت نخواهد شد و از مبلغ بلوکه شده می توان به جای هزینه سفارش پیش کرایه استفاده کرد.</span></strong></li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:28.55pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><img src="data:image/png;base64,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" style="text-align: left; width: 33pt; height: 33pt;" alt="image"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">تعهدات</span></strong><strong><span dir="LTR" style="font-size:20px;font-family:&quot;Tahoma&quot;,sans-serif;color:black;">&nbsp;</span></strong><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">بیمه ای</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <ol style="list-style-type: decimal;margin-left:-0.5in;">
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;">کلیه مرسولات <span style="color:red;">تا درب محل گیرنده دارای بیمه می باشد&nbsp;</span>و پس از تحویل به گیرنده و دریافت امضای گیرنده، هیچ گونه غرامتی پرداخت نخواهد شد</span></strong><strong><span dir="LTR" style=";">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;">&nbsp;لذا گیرنده بایستی از دریافت مرسوله آسیب دیده خودداری نماید.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">شرکت تنها در صورتی غرامت خسارت مرسوله را پرداخت می نماید که خود، کالا را بسته بندی نموده باشد. همچنین&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">بیمه انتخاب شده متضامن کالاهایی که دارای بسته بندی استاندارد نمی باشند، نخواهد بود.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">مشتریانی که بیش از ۲ بار در ۱۰۰ مرسوله درخواست خسارت نمایند هیچگونه خسارتی حتی با رعایت شروط فوق پرداخت نخواهد شد.</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">در صورت دست دوم بودن کالا، قیمت کالای نو مشابه پس از برآورد &nbsp;معادل 50% قیمت کالای نو تا سقف بیمه درخواست شده پرداخت میشود.&nbsp;</span></strong></li>
+                        <li><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">در زمان درخواست غرامت برای مرسولات ثبت شده با سرویس پست بار ، می بایستی &nbsp;مشخصات کارت ملی متقاضی غرامت (تصویر کارت ملی)، آدرس و شماره حساب در بخش مشخصات متقاضی غرامت&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;">&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">&nbsp;در لینک&nbsp;</span></strong><strong><span dir="LTR" style="font-size:12.0pt;">eop.post.ir&nbsp;</span></strong><strong><span style="font-family:&quot;B Nazanin&quot;;font-size:16px;">درج گردد.</span></strong></li>
+                    </ol>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><img src="data:image/png;base64,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" style="text-align: left; width: 41.3pt; height: 41.3pt;" alt="image"></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span style="font-size:20px;font-family:&quot;B Nazanin&quot;;color:black;">ممنوعات پستی</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:9.0pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;text-indent:-9.0pt;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:9.0pt;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;text-indent:-9.0pt;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp;</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:.25in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;text-indent:-9.0pt;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp; &nbsp; ممنوعات پستی به شرح ذیل میباشند: مایعات ، مرسولات شکستنی، تجهیزات ماهواره، فیلترشکن ها، دارو ، مشروبات الکی و مواد مخدر، تجهیزات نظامی، لوازم جنسی، مواد محترقه، اسکریپت های غیرمجاز، لوازم قمار، تجهیزات مخابراتی غیرمجاز، تجهیزات جاسوسی، اقلام مستهجن ، فالگیری و رمالی، پول نقد، چک، سفته ، اوراق بهادار &nbsp;و جواهرات، فرش، مدارک شناسایی، اسناد</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:.25in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;text-indent:-9.0pt;"><strong><span style="font-size:16px;font-family:&quot;B Nazanin&quot;;color:black;">&nbsp; &nbsp; و همچنین در ارسال به سایر کشورها هم پس از دریافت مرسوله توسط فعال پستی به شما اعلام خواهد شد که مرسوله جزء &nbsp;ممنوعات پستی به کشور مقصد مورد نظرشما هست یا خیر.</span></strong></p>
+                    <p dir="RTL" style="margin-top:0in;margin-right:0in;margin-bottom:.0001pt;margin-left:0in;line-height:normal;font-size:15px;font-family:&quot;Calibri&quot;,sans-serif;text-align:justify;"><strong><span dir="LTR" style="font-size:16px;">&nbsp;</span></strong></p>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<style>
+
+    .modal-body {
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        background-color: white;
+    }
+</style>
+<script type="text/javascript">
+    function divload() {
+        $('#RuleModal').modal('show');
+    }
+    function divload1() {
+        $('#Rule1Modal').modal('show');
+    }
+    $('#Rule1Modal').on('show.bs.modal', function () {
+        $(this).find('.modal-body').css({
+            width: 'auto', //probably not needed
+            height: 'auto', //probably not needed
+            'max-height': '100%'
+        });
+    });
+    $('#modal_Video1').on('shown.bs.modal', function () {
+        $.ajax({
+            type: "POST",
+            url: "/PostbarDashboard/ViewVideo",
+            data: null,
+            success: function (data) {
+
+
+            },
+            error: function (data) {
+
+                //alert(data);
+
+            }
+        });
+    })
+</script>
+
+<div class="modal fade" id="Rule1Modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background:#ffc107;">
+                <h3 class="modal-title" style="text-align:center;">جعبه های استاندارد پستی</h3>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;margin:0px;padding:0px">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><span>جعبه های استاندارد پستی چست؟</span></p>
+                <p>
+                    <span>سایز جعبه استاندارد پستی میبایستی </span>
+                    <span>۳</span><span> تا </span><span>۵</span><span> لایه باشد تا در مسیر جابجایی پستی جعبه متلاشی نگردد.</span>
+                </p>
+                <p><span>حالا شما میتوانید با استفاده از گزینه خرید بسته استاندارد پستی از این سرویس توسط هر یک از فعالین پستی برخوردار شوید</span></p>
+                <p><span>سایز بسته های استاندارد پستی به شرح ذیل میباشد</span></p>
+                <div class="col-md-12"><img src="~/images/uploaded/postbar/2334.jpg" /></div>
+                <div class="col-md-12"><img src="~/images/uploaded/postbar/Untitled4.png" /></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#HasAccessToPrinter").change(function () {
+
+            var str = $('#HasAccessToPrinter').val();
+            if (str == "true") {
+                alert("مشتری محترم چنانچه به پرینتر دسترسی دارید میبایستی در انتهای سفارش فاکتور - بارکد تولید شده را دانلود و سپس پرینت و به درستی روی جعبه به نحوی بچسبانید که انتهای فرایند از روی جعبه جدا نشود");
+            }
+            if (str == "false") {
+                alert("مشتری محترم چنانچه به پرینتر دسترسی ندارید میبایستی آدرس فرستنده و گیرنده و شماره سفارش را بروی جعبه پستی خود مطابق با آدرسهای مندرج در سفارش درج نمایید.");
+            }
+
+        });
+
+        $("#BoxNo").click(function () {
+
+            //if (this.checked) {
+            //    alert("مشتری محترم جعبه استاندارد پستی میبایستی کارتنی ۵ لایه باشد و از قرار دادن مرسوله در داخل کیسه پلاستیکی یا گونی یا هر بسته بندی غیر از کارتن در بسته و چسب کاری شده پرهیز نمایید");
+
+            //    $("#cmbkarton").css("display", "none");
+            //    //x.style.display = "none";
+            //    $("#cmbkarton").hide();
+            //    $('#KartonLafaf option[value="0"]').remove();
+            //    $("#KartonLafaf").prepend('<option value="کارتن نیاز ندارم." selected ="true">کارتن نیاز ندارم.</option>');
+
+            //}
+            //else {
+
+            //}
+        });
+        $("#needCaton").click(function () {
+            if ($(this).is(':checked')) {
+                alert("مشتری محترم کارتن و لفاف بندی مرسوله شما در محل دفتر نمایندگی انجام می پذیرد ");
+            }
+            else {
+                alert("مشتری محترم جعبه استاندارد پستی میبایستی کارتنی ۵ لایه باشد و از قرار دادن مرسوله در داخل کیسه پلاستیکی یا گونی یا هر بسته بندی غیر از کارتن در بسته و چسب کاری شده پرهیز نمایید");
+            }
+            ////var x = document.getElementById("cmbkarton");
+            //if (this.checked) {
+            //    //x.style.display = "block";
+            //    $("#cmbkarton").css("display", "block");
+            //    //x.style.display = "block";
+            //    $("#cmbkarton").show();
+            //    $('#KartonLafaf option[value="کارتن نیاز ندارم."]').remove();
+            //    $("#KartonLafaf").prepend('<option value="0" selected ="true">سایز کارتن مورد نظر رانتخاب کنید</option>');
+            //}
+            //else {
+
+            //}
+        });
+    });
+
+</script>

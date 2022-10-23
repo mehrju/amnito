@@ -1,0 +1,201 @@
+﻿@model Nop.Plugin.Misc.PhoneLogin.Models.LoginModel
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postbar/_NewUiLayoutAccount.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Login").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-login-page");
+
+    //register URL with return URL (if specified)
+    var registerUrl = "https://postbar.ir/register";// Url.RouteUrl("Register");
+    if (!string.IsNullOrEmpty(this.Context.Request.Query["returnUrl"]))
+    {
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl=" + WebUtility.UrlEncode(this.Context.Request.Query["returnUrl"]), null);
+    }
+}
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    <div class="row mr-top-10">
+        <div class="col-md-12">
+            <div class="img-logo-sign-up text-center d-none d-sm-block">
+                <a href="/"><img class="img-fluid" src="~/Themes/Postbar/images/LOGO.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="box-sign-up">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title-forgot-email text-center">
+                    <h1>
+                        <a style="cursor:pointer !important;text-decoration:underline !important; color:#2699fb;font-size:9pt" href="/">
+                         صفحه اصلی پست بار  <i class="fas fa-chevron-circle-left"></i>
+                        </a>
+                    </h1>
+                    <hr>
+                    <h1>ورود به پست بار</h1>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">
+        <div class="col-md-12 text-center">
+            <div class="title-signup-mobi">
+                <span class="">ثبت نام تنها با موبایل امکان پذیر است</span>
+            </div>
+        </div>
+    </div>-->
+        <div class="error-user text-danger">
+            <div asp-validation-summary="ModelOnly" class="message-error"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <form asp-route="Login" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post" class="form-sign-up">
+                    <div class="telphone mr-top-10">
+                        <label asp-for="Username">شماره موبایل:</label>
+                        <div class="form-forgot faa-parent animated-hover ">
+                            <i class="fa fa-user icon faa-horizontal"></i>
+                            <input asp-for="Username" autofocus="autofocus" tabindex="1" data-toggle="popover" data-content="" class="input-phone-number form-control" type="text" placeholder="__________0" onkeypress='validate(event)'>
+                        </div>
+                        <a asp-route="PasswordRecovery" class="forgot-link">@T("Account.Login.ForgotPassword")</a>
+                    </div>
+                    <div class="password-signup mr-top-30">
+                        <label asp-for="Password">رمز عبور:</label>
+                        <div class="form-forgot faa-parent animated-hover">
+                            <i class="fa fa-lock icon faa-horizontal"></i>
+                            <input asp-for="Password" data-toggle="popover" tabindex="2" data-placement="top" data-content="" class="input-pass-number form-control" type="password" placeholder="رمز عبور خود را وارد نمایید">
+                        </div>
+                    </div>
+                    <div class="ruls-signup mr-top-10">
+                        <div class="checkbox">
+                            <label asp-for="RememberMe" class="custom-control material-checkbox">
+                                <input asp-for="RememberMe" tabindex="3" type="checkbox" class="material-control-input">
+                                <span class="material-control-indicator"></span>
+                                <span class="material-control-description">
+                                    مرا به خاطر داشته باش
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ruls-signup mr-top-10">
+                        <div class="checkbox">
+                            <label for="SupperAdmin" class="custom-control material-checkbox">
+                                <input Id="SupperAdmin" name="SupperAdmin" tabindex="4" type="checkbox" class="material-control-input">
+                                <span class="material-control-indicator"></span>
+                                <span class="material-control-description">
+                                    مدیر ارشد
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="password-signup mr-top-10" id="supperAdminCodeContent"  style="display:none">
+                        <label for="SupperAdminCode">کد امنیتی:</label>
+                        <div class="form-forgot faa-parent animated-hover">
+                            <i class="fa fa-user-secret icon faa-pulse"></i>
+                            <input id="SupperAdminCode" name="SupperAdminCode" tabindex="5" data-toggle="popover" data-placement="top" data-content="" 
+                                   class="input-pass-number form-control" type="password" placeholder="کد امنیتی را وارد نمایید">
+                        </div>
+                    </div>
+                    <button class="btn  mr-top-10 faa-parent animated-hover" tabindex="6" type="submit"><i class="fa fa-sign-in faa-passing"></i>@T("Account.Login.LoginButton")</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer-register text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <span>کاربر جدید هستید؟ <a href="@registerUrl">ثبت نام در پست بار</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        document.getElementById('Username').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+
+        $('#SupperAdmin').change(function () {
+            $('#SupperAdminCode').val('');
+            if ($(this).is(':checked')) {
+                $('#supperAdminCodeContent').show();
+            }
+            else {
+                $('#supperAdminCodeContent').hide();
+            }
+        });
+    });
+    $(function () {
+
+        $("form").submit(function (event) {
+            number = $('.input-phone-number').val();
+            pass = $('.input-pass-number').val();
+            if (number !='enamad' && (number.length == 0 || number.length != 11)) {
+                $('.input-phone-number').popover('show');
+                event.preventDefault();
+            }
+            if (pass.length == 0) {
+                $('.input-pass-number').popover('show');
+                event.preventDefault();
+            }
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++)
+                setCookie(cookies[i].split("=")[0], "", -1);
+
+        });
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        if ($('.message-error').text() == '') {
+            $('.error-user').css('display', 'none');
+        } else {
+            $('.error-user').css('display', 'block');
+        }
+
+        $(".form-sign-up").validate({
+            rules: {
+                Password: "required",
+                Username: {
+                    required: true,
+                    minlength: 11,
+                    maxlength: 11
+                },
+            },
+            messages: {
+                Password: "کلمه عبور اجباریست",
+                Username: {
+                    required: "شماره تلفن اجباریست",
+                    minlength: "طول شماره موبایل باید 11 رقم باشد",
+                    maxlength: "طول شماره موبایل باید 11 رقم باشد"
+                },
+            }
+        });
+
+    });
+
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+</script>

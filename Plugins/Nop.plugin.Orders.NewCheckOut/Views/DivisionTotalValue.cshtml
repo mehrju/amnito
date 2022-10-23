@@ -1,0 +1,40 @@
+﻿@model Nop.plugin.Orders.NewCheckOut.Models.OrderDivisionModel
+<style>
+    .myinputs {
+        min-height: 40px !important;
+        width: 400px !important;
+        border-radius: 20px !important;
+        border: 1px solid #ddd !important;
+        font-size: 15px !important;
+        padding:8px;
+    }
+</style>
+<div class="checkout-data">
+    <div class="inputs">
+        <label asp-for="TotalPrice" asp-postfix=":"></label>
+        <input asp-for="Str_TotalPrice" disabled ="disabled"  style="border:none" />
+    </div>
+    <div class="inputs">
+        <label asp-for="AmountOfGold" asp-postfix=":" ></label>
+        <input asp-for="AmountOfGold" class="myinputs" />
+        <nop-required />
+        <span asp-validation-for="AmountOfGold"></span>
+    </div>
+    <div class="inputs">
+        <label asp-for="AmountOfDaller" asp-postfix=":"></label>
+        <input asp-for="AmountOfDaller" class="myinputs" />
+        <nop-required />
+        <span asp-validation-for="AmountOfDaller"></span>
+    </div>
+    <div class="inputs">
+        <label asp-for="AmountOfCash" asp-postfix=":"></label>
+        <input asp-for="AmountOfCash" class="myinputs" />
+        <nop-required />
+        <span asp-validation-for="AmountOfCash"></span>
+    </div>
+    <div class="inputs">
+        <label>مبلغ باقیمانده:</label>
+        <input asp-for="TotalPrice" disabled="disabled"  style="border:none" />
+    </div>
+</div>
+

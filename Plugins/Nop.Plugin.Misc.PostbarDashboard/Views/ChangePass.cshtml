@@ -1,0 +1,66 @@
+﻿@model Nop.Web.Models.Customer.ChangePasswordModel
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+}
+
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1>ویرایش حساب کاربری</h1>
+        </div>
+        <div class="body-dash send-data-from">
+            <form asp-route="Plugins/PostbarDashboard/ChangePass" method="post" class="form-sign-up">
+
+                <div class="error-user text-danger">
+                    <div asp-validation-summary="ModelOnly" class="message-error"></div>
+                </div>
+
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <span class="span-change-pass">
+                            تغییر گذرواژه
+                        </span>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mt-3 text-center">
+                    <div class="col-md-12 col-lg-8 col-xl-8 ">
+                        <div class="form-group text-right">
+                            <label>رمز عبور پیشین :</label>
+                            <input name="OldPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>رمز عبور جدید :</label>
+                            <input name="NewPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>تکرار رمز عبور :</label>
+                            <input name="ConfirmNewPassword" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <div class="form-group btn-sub">
+
+                            <button type="submit" class="btn btn-orang-theme">
+                                ذخیره تغییرات
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,153 @@
+﻿@model CheckoutPaymentMethodModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Services.Orders.IRewardPointService _rewardPointService;
+@using Nop.Core.Domain.Customers;
+@inject Nop.Core.IStoreContext _storeContext;
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/shipito/_PubllicNewUiLayout.cshtml";
+    int rewardPointsBalance =
+                        _rewardPointService.GetRewardPointsBalance(_workContext.CurrentCustomer.Id, _storeContext.CurrentStore.Id);
+    bool isAgent = _workContext.CurrentCustomer.IsInCustomerRole("mini-Administrators");
+}
+<style>
+    .newHowver :hover
+    {
+        color:black !important;
+        text-decoration:underline !important;
+    }
+</style>
+<div class="tracking-code text-center">
+
+    <div class="container">
+        <a class="tracking-code-img">
+            <img src="~/Plugins/Orders.MultiShipping/Content/Wallet.jpg" style="width:10%" alt="کیف پول">
+        </a>
+        <h1>
+            شارژ کیف پول
+        </h1>
+        <p class="text-center desc">
+            موجودی کیف پول شما: @(rewardPointsBalance) ریال
+        </p>
+        <form class="form-inline" id="_PayForCharge">
+            <div class="form-group">
+                <input type="text" class="custom-input tracking-code-input" maxlength="11" id="_amount" placeholder="مبلغ مورد نظر جهت شارژ را وارد کنید">
+
+            </div>
+            <a id="ChargeWallet" class="nbtn btn custom-btn-01 btn-search-modal">
+                پرداخت
+                <i class="fa fa-credit-card" aria-hidden="true"></i>
+            </a>
+        </form>
+    </div>
+</div>
+<div class="order text-center">
+    <h2>
+        انتخاب روش پرداخت
+    </h2>
+    <hr>
+    <div class="row">
+        <form asp-route="_Sh_PayForCharge" id="PayForCharge" method="post" class="form-inline" style="width:100%">
+            <div class="row col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                <input type="hidden" id="amount" name="amount" />
+                <input type="hidden" id="isFromApp" name="isFromApp" />
+                @*@if (!isAgent)
+                    {*@
+                @if (Model.PaymentMethods.Count > 0)
+                {
+                    var col = 12 / (Model.PaymentMethods.Where(p => !p.PaymentMethodSystemName.ToLower().Contains("wallet")).Count());
+                    @for (var i = 0; i < Model.PaymentMethods.Count; i++)
+                    {
+                        var paymentMethod = Model.PaymentMethods[i];
+                        var paymentMethodName = paymentMethod.Name;
+                        if (paymentMethod.PaymentMethodSystemName.ToLower().Contains("wallet"))
+                        {
+                            continue;
+                        }
+                        if (!string.IsNullOrEmpty(paymentMethod.Fee))
+                        {
+                            paymentMethodName = T("Checkout.SelectPaymentMethod.MethodAndFee", paymentMethodName, paymentMethod.Fee).Text;
+                        }
+                        <div class="payment-method-block col-md-@(col) col-xl-@(col) col-lg-@(col) col-sm-12" style="padding:25px">
+                            <div class="card" style="margin:10px;height:100%">
+                                <div class="card-body">
+                                    <div class="method-name">
+                                        @if (!string.IsNullOrEmpty(paymentMethod.LogoUrl))
+                                        {
+                                            <div class="payment-logo">
+                                                <label for="paymentmethod_@(i)">
+                                                    <img src="@paymentMethod.LogoUrl" alt="@paymentMethodName" />
+                                                </label>
+                                            </div>
+                                        }
+                                        <div class="payment-details">
+                                            <input id="paymentmethod_@(i)" type="radio" name="paymentmethod" value="@(paymentMethod.PaymentMethodSystemName)" />
+                                            <label for="paymentmethod_@(i)">@paymentMethodName</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="message-error">
+                        @T("Checkout.NoPaymentMethods")
+                    </div>
+                }
+                @*}*@
+                @*@if(isAgent)
+                {
+                    <div class="payment-method-block col-md-6 col-xl-6 col-lg-6 col-sm-12" style="padding:25px">
+                        <img src="~/images/neshanPardakht.jpg?ver=2" />
+                    </div>
+                    <div class="payment-method-block col-md-6 col-xl-6 col-lg-6 col-sm-12 newHowver" style="padding:25px;padding-top: 100px;">
+                        <a href="https://mag.postbar.ir/index.php/charge-wallet/" target="_blank" style="font-size: 20pt;font-weight: bold;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            نحوه استفاده از نشان پرداخت جهت شارژ کیف پول
+                        </a>
+                    </div>
+                }*@
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+            var msg = '@(TempData["PaymentMsg"]==null? Html.Raw("") : Html.Raw(TempData["PaymentMsg"].ToString()))';
+            if (msg) {
+                alert(msg);
+            }
+            document.getElementById('_amount').addEventListener('input', event =>
+            event.target.value = ToLocalInt(event.target.value)
+        );
+        $('#ChargeWallet').click(function () {
+                if (!$('input[name=paymentmethod]:checked').val()) {
+                    alert('روش پرداخت مورد نظر خود را انتخاب نمایید');
+                    return;
+                }
+                var amount = ($('#_amount').val()).replace(/,/g, '');
+                if (!amount || !parseInt(amount) || parseInt(amount) < 20000) {
+                    alert("مبلغ وارد شده نامعتبر می باشد");
+                    return;
+                }
+            $('#isFromApp').val(isAndroid());
+            $('#amount').val(amount);
+            $(".container ,nav").css({ "filter": "blur(5px)" });
+            $("body").css({ "overflowY": "hidden", });
+
+                setTimeout(function () {
+                $(".container ,nav").css({ "opacity": "1", "filter": "blur(0px)" });
+                $("body").css({ "overflowY": "auto" });
+                }, 8000);
+            $('#PayForCharge').submit();
+            });
+    });
+</script>
+

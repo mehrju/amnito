@@ -1,0 +1,11 @@
+﻿{
+  "Group": "1_NopFarsi",
+  "FriendlyName": "بانک ملت",
+  "SystemName": "Payments.Mellat",
+  "Version": "2.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "NopFarsi.ir  (MJ Vakili)",
+  "DisplayOrder": 10,
+  "FileName": "Nop.Plugin.Payments.Mellat.dll",
+  "Description": "This plugin allows paying with Mellat bank."
+}

@@ -1,0 +1,715 @@
+
+@model Nop.Plugin.Orders.BulkOrder.Models.BulkOrderModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+@inject IWorkContext workContext
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/shipito/_PubllicNewUiLayout.cshtml";
+    var defaultGridPageSize = 10;
+    var gridPageSizes = "10,50,100,500";
+    Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
+    var controlId = "BulkOrders";
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    var kendoVersion = "2014.1.318";
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.rtl.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.default.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.common.min.css");
+    Html.AppendCssFileParts($"~/Plugins/Orders.MultiShipping/Scripts/select2.min.css");
+    Html.AppendScriptParts("~/Plugins/Orders.BulkOrder/Scripts/kendo.web.min.js");
+    Html.AppendScriptParts("~/Plugins/Orders.MultiShipping/Scripts/select2.full.min.js");
+
+
+
+    Html.AppendCssFileParts("https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/BootSideMenu.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/searchbox.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver=5");
+
+    #region GeoJsondata
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_6.js");
+    #endregion
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Alborz_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/get_geojson_4.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Mashad_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Shiraz_6.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_9.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_10.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_11.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_12.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_13.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_14.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_15.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_16.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_17.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_18.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_19.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_20.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_21.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_22.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_2.js");
+
+    #endregion
+    #region Post
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/11_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/13_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/14_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/15_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/16_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/17_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/18_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/19_5.js");
+    #endregion
+    #endregion
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/Autolinker.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.customsearchbox.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.pattern.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet-pip.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/BootSideMenu.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/MapConfig.js?ver=35");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jquery.mousewheel.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jQuery.WSlot.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js?ver=7");
+
+
+}
+<style>
+    .boarder {
+        border: 1px !important;
+        border-color: gray !important;
+        border-style: solid !important;
+    }
+
+    .blinking {
+        animation: blinkingText 1.2s infinite;
+    }
+
+    @@keyframes blinkingText {
+        0% {
+            color: red;
+        }
+
+        49% {
+            color: red;
+        }
+
+        60% {
+            color: transparent;
+        }
+
+        99% {
+            color: transparent;
+        }
+
+        100% {
+            color: red;
+        }
+    }
+
+    .get-btn-map {
+        cursor: pointer !important;
+        border: 1px !important;
+        border-style: solid !important;
+    }
+
+        .get-btn-map:hover {
+            font-weight: bolder;
+            background-color: #22b228 !important;
+            box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+</style>
+<form id="frm_BulkOrder" style="margin:20px;background-color:white;border-radius:25px;padding:10px">
+    <div class="form-content form-col" style="height:auto !important;padding-top:2% !important">
+        <div class="row">
+            <div class="col-md-2 col-sm-12 col-xl-2 col-lg-2">
+                <h3>ثبت سفارش انبوه</h3>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xl-4 col-lg-4">
+                <a class="" href="@Url.Action("getExcelTamplate_Pk", "BulkOrder")">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    دریافت فایل اکسل خام، برای سفارشات پیش کرایه
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xl-4 col-lg-4">
+                <a class="" href="@Url.Action("getExcelTamplateCOD_Pk", "BulkOrder")">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    دریافت فایل اکسل خام، برای سفارشات پرداخت توسط گیرنده(COD)
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xl-2 col-lg-2">
+            </div>
+        </div>
+        <div class="row" style="text-align:center">
+            <div class="col-md-12">
+                <h3 class="blinking" style="color:red">
+                    فرمت فایل اکسل تغییر کرده، لطفا نسبت به دانلود فایل جدید اقدام فرمایید
+                </h3>
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="text-align:center">
+
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">نوع مرسوله <span class="org-color">*</span></label>
+                <select class="js-example-basic-single form-control boarder" name="FileType" id="FileType">
+                    <option value="0">انتخاب کنید...</option>
+                    <option value="1">پست داخلی</option>
+                    <option value="2">پست داخلی-پرداخت توسط گیرنده</option>
+                    <option value="3">پست بین المللی</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">نوع سرویس <span class="org-color">*</span></label>
+                <select class="js-example-basic-single form-control boarder" name="ServiceId" id="ServiceId"></select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">اولویت سرویس <span class="org-color">*</span></label>
+                <select class="js-example-basic-single form-control boarder" name="ServiceSort" id="ServiceSort">
+                    <option value="0">انتخاب کنید...</option>
+                    <option value="1">ارزانترین</option>
+                    <option value="2">سریع ترین</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">کد کوپن تخفیف <span class="org-color">*</span></label>
+                <input type="text" class="form-control myTooltip boarder" id="discountCouponCode" name="discountCouponCode" data-toggle="tooltip" title="کوپن تخفیف">
+            </div>
+        </div>
+        <div class="row" style="margin-top:35px;text-align:center">
+
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">دسترسی به پرینتر جهت چاپ فاکتور؟</label>
+                <input type="checkbox" checked="checked" class="form-control myTooltip" id="HasAccessToPrinter" name="HasAccessToPrinter" data-toggle="tooltip" title="دسترسی به پرینتر جهت چاپ فاکتور">
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">چاپ لوگوی تجاری شما بر روی فاکتور؟</label>
+                <input type="checkbox" class="form-control myTooltip" id="PrintLogo" name="PrintLogo" data-toggle="tooltip" title="چاپ لوگوی تجاری شما بر روی فاکتور">
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <label for="">اطلاع رسانی پیامکی از وضعیت مرسوله؟</label>
+                <input type="checkbox" class="form-control myTooltip" id="SendSms" name="SendSms" data-toggle="tooltip" title="شما و گیرنده با انتخاب این گزینه میتوانید از تغییر مکان و وضعیت مرسوله توسط پیامک مطلع شوید">
+            </div>
+            <div class="col-md-3 col-sm-6 col-xl-3 col-lg-3">
+                <div class="row">
+                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                        <label>آدرس فرستنده <span class="org-color"></span></label>
+                        <div class="map-btn-input" style="height:35px">
+                            <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                               data-toggle="tooltip" data-html="true" id="get-btn-map_i" data-val="Sender" data-type="OldAddress" aria-hidden="true">
+                                <span class="addAddress">
+                                    انتخاب آدرس قبلی
+                                </span>
+                            </a>
+                            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی"
+                               data-toggle="tooltip" data-html="true" id="get-btn-map" data-val="Sender" data-type="newAddress" aria-hidden="true">
+                                <span class="addAddress">
+                                    ثبت آدرس جدید
+                                </span>
+                            </a>
+                        </div>
+                        <label id="SenderStateTown" style="color: #585858 !important;"></label>
+
+                    </div>
+                </div>
+                <input type="hidden" id="SenderLat" name="SenderLat" />
+                <input type="hidden" id="SenderLon" name="SenderLon" />
+            </div>
+
+
+            <div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="MapAddressModalLabel" id="mapModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="row" style="width:100% !important">
+                                <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                                    <h5 class="modal-title" id="MapAddressModalLabel" style="float: right;">آدرس</h5>
+                                    <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <div class="form-horizontal">
+                                <div class="row" id="mapContent">
+                                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                                        <div class="row" id="AddressContent" style="right:0px;">
+                                            <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                                                <div id="oldAddressbox" class="form-group" style="display:none;padding-top:20px">
+                                                    <select class="js-example-basic-single form-control" name="AddressBox" data-toggle="tooltip" id="AddressBox" title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                                </div>
+                                                <hr style="border-color:black !important" />
+                                            </div>
+                                            <div id="_NewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                                <div class="form-group" id="_CountryDiv" style="display:none">
+                                                    <select class="js-example-basic-single form-control" name="Country" id="Country" disabled></select>
+                                                </div>
+                                                <div class="form-group" id="_StateDiv" style="display:none">
+                                                    <select class="js-example-basic-single form-control" name="State" id="State" disabled></select>
+                                                    <input id="tempStateName" type="hidden" />
+                                                </div>
+                                                <div class="form-group" id="_foreignCountryDiv" style="display:none">
+                                                    <select class="js-example-basic-single form-control" name="receiver_ForeginCountry" id="receiver_ForeginCountry"></select>
+                                                </div>
+                                                <div class="form-group" id="_ForeginCountryCityDiv" style="display:none">
+                                                    <input type="text" class="form-control" required id="receiver_ForeginCountryCity" placeholder="نام شهر *" name="receiver_ForeginCountryCity" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" required id="FirstName" placeholder="نام *" name="FirstName" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" required id="LastName" placeholder="نام خانوادگی *" name="LastName" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" required id="PhoneNumber" maxlength="11" placeholder="تلفن همراه *" name="PhoneNumber" />
+                                                </div>
+                                                <div style="display:none" class="form-group">
+                                                    <input type="text" class="form-control" id="ZipPostalCode" placeholder="کد پستی" name="ZipPostalCode" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" required id="Address1" placeholder="آدرس *" name="Address1" />
+
+                                                    <input type="hidden" id="addressType" name="addressType" />
+                                                    <input type="hidden" id="newOldAddress" name="newOldAddress" />
+                                                    <input type="hidden" id="tehranAreaId" name="tehranAreaId" />
+                                                    <input type="hidden" id="trafficArea" name="trafficArea" />
+                                                    <input type="hidden" id="CollectorAreaId" name="CollectorAreaId" />
+                                                    <input type="hidden" id="isInCityArea" name="isInCityArea" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="Company" placeholder="نام شرکت" name="Company" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="Email" placeholder="پست الکترونیک" name="Email" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div id="PreNewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                            <div class="form-group" style="margin-bottom:0px !important">
+                                                <select class="js-example-basic-single form-control" name="PreCountry" id="PreCountry"></select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="js-example-basic-single form-control" name="PreState" id="PreState"></select>
+                                            </div>
+                                        </div>
+                                        <div id="mapBox" class="mw-100" style="height:465px !important;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding:0 !important">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <div class="form-group">
+
+                                    <a id="cleanAddressItem" title="پاک کردن" class="btn" style="border: 1px solid #ccc;border-radius: 3px;width:30%">
+                                        انصراف
+                                    </a>
+                                    <a class="btn btn-info confirmAddress" style="color: white;width:32%;display:none" id="EditAddress" title="ویرایش استان و شهر">
+                                        مرحل قبل
+                                    </a>
+                                    <a class="btn btn-success confirmAddress" style="color: white;width:34%;display:none" id="confirmAddress" title="تایید و ثبت آدرس">
+                                        ثبت آدرس
+                                    </a>
+                                    <a class="btn btn-success ContinueAddress" style="color: white;width:68%" id="ContinueAddress" title="تایید و ادامه">
+                                        ادامه
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="@(controlId)uploader"></div>
+                <script type="text/template" id="@(controlId)-qq-template">
+                    <div class="qq-uploader-selector qq-uploader" style="float:left">
+                        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                            <span>@T("Common.FileUploader.DropFiles")</span>
+                        </div>
+                        <div class="qq-upload-button-selector qq-upload-button">
+                            <div><span>ارسال و ثبت فایل و اطلاعات</span></div>
+                        </div>
+                        <span class="qq-drop-processing-selector qq-drop-processing">
+                            <span>@T("Common.FileUploader.Processing")</span>
+                            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                        </span>
+                        <ul class="qq-upload-list-selector qq-upload-list">
+                            <li>
+                                <div class="qq-progress-bar-container-selector">
+                                    <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                                </div>
+                                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                                <span class="qq-upload-file-selector qq-upload-file"></span>
+                                <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                <span class="qq-upload-size-selector qq-upload-size"></span>
+                                <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">@T("Common.FileUploader.Cancel")</a>
+                                <a class="qq-upload-retry-selector qq-upload-retry" href="#">@T("Common.FileUploader.Retry")</a>
+                                <a class="qq-upload-delete-selector qq-upload-delete" href="#">@T("Common.FileUploader.Delete")</a>
+                                <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </script>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="font-size:8pt;overflow-x:scroll">
+                <div class="panel-body">
+                    <div style="margin:15px;overflow:scroll" id="BulkOrders-grid"></div>
+                    <script type="text/javascript">
+                                         function DeleteWarning(btn) {
+                                            if (confirm("آیا برای حذف درخواست اطمینان دارید؟")) {
+                                                var bulkorderId = $(btn).attr('data-id');
+                                                var IdData = { "bulkorderId": bulkorderId};
+                                                //addAntiForgeryToken(IdData);
+                                                $.ajax({
+                                                    cache: false,
+                                                    type: "POST",
+                                                    url: "@(Url.Action("deleteBulkOrder", "BulkOrder"))",
+                                                    data: IdData,
+                                                    success: function (data) {
+                                                        if (data.success) {
+                                                            $('#divDeleteOrder').modal('hide');
+                                                            alert(data.msg);
+                                                            var grid = $('#orders-grid').data('kendoGrid');
+                                                            grid.dataSource.read();
+                                                            return;
+                                                        }
+                                                        alert(data.msg);
+                                                    },
+                                                    error: function(xhr, ajaxOptions, thrownError) {
+                                                        alert('خطا در زمان حذف سفارش. لطفا شبکه خود را بررسی کنید');
+                                                    }
+                                                });
+                                            }
+                                        };
+                                        $(document).ready(function() {
+                                            $("#BulkOrders-grid").kendoGrid({
+                                                dataBound: function (e) { $('.k-grid-header').css('papadding-right', '0 !important');},
+                                                dataSource: {
+                                                    type: "json",
+                                                    transport: {
+                                                        read: {
+                                                            /**/
+                                                            url: "@Html.Raw(Url.Action("GetOrderList_Sh", "BulkOrder"))",
+                                                            /**/
+                                                            type: "POST",
+                                                            dataType: "json",
+                                                            //data: addAntiForgeryToken
+                                                        }
+                                                    },
+                                                    schema: {
+                                                        data: "Data",
+                                                        total: "Total",
+                                                        errors: "Errors"
+                                                    },
+                                                    requestEnd: function(e) {
+                                                        if (e.type == "update") {
+                                                            this.read();
+                                                        }
+                                                        $('.k-grid-header').css('papadding-right', '0 !important')
+                                                    },
+                                                    error: function(e) {
+                                                        //display_kendoui_grid_error(e);
+                                                        // Cancel the changes
+                                                        this.cancelChanges();
+                                                    },
+                                                    pageSize: 10
+                                                },
+                                                pageable: {
+                                                    refresh: true,
+                                                    pageSizes: [@(gridPageSizes)],
+                                                    @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_GridPagerMessages.cshtml")
+                                                },
+                                                editable: {
+                                                    confirmation: true,
+                                                    mode: "inline"
+                                                },
+                                                filterable: false,
+                                                sortable: false,
+                                                scrollable: false,
+                                                columns: [
+                                                    {
+                                                        field: "Id",
+                                                        headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                                        headerAttributes: { style: "text-align:center" },
+                                                        attributes: { style: "text-align:center" },
+                                                        template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                                        width: 50
+                                                    }, {
+                                                        field: "OrderStatus",
+                                                        title: "@T("Admin.Orders.Fields.OrderStatus")",
+                                                        template: '<span class="grid-report-item ' +
+                                                            '# if(OrderStatusId == 10) {# yellow #} #' +
+                                                            '# if(OrderStatusId == 20) {# blue #} #' +
+                                                            '# if(OrderStatusId == 30) {# green #} #' +
+                                                            '# if(OrderStatusId == 40) {# red #} #' +
+                                                            '">#=OrderStatus#</span>'
+                                                    },
+                                                    {
+                                                        field: "PaymentStatus",
+                                                        title: "@T("Admin.Orders.Fields.PaymentStatus")"
+
+                                                    },
+                                                    {
+                                                        field: "CreateDate",
+                                                        title: "@T("Admin.Orders.Fields.CreatedOn")"
+                                                        ,
+                                                        type: "date",
+                                                        format: "{0:G}"
+                                                    },
+                                                    {
+                                                        field: "OrderTotal",
+                                                        title: "مبلغ سفارش"
+
+                                                    },
+                                                    {
+                                                        field: "OrderCount",
+                                                        title: "تعداد سفارش"
+                                                    },
+                                                    {
+                                                        field: "FileName",
+                                                        title: "نام فایل"
+
+                                                    },
+                                                    {
+                                                        field: "OrderId",
+                                                        title: "شماره سفارش"
+
+                                                    },
+                                                    {
+                                                        field: "_FileType",
+                                                        title: "نوع سرویس"
+
+                                                    },
+                                                    {
+                                                        field: "_ServiceSort",
+                                                        title: "اولویت سرویس"
+
+                                                    },
+                                                    {
+                                                        field: "_SendSms",
+                                                        title: "پیامک؟"
+
+                                                    },
+                                                    {
+                                                        field: "_PrintLogo",
+                                                        title: "چاپ لوگو؟"
+
+                                                    },
+                                                    {
+                                                        field: "Id",
+                                                        title: "حذف",
+
+                                                        headerAttributes: { style: "text-align:center" },
+                                                        attributes: { style: "text-align:center" },
+                                                        template: '<a class="btn btn-default bntChangeStatus" data-id="#=Id#" onClick="DeleteWarning(this)" ><i class="fa fa-times" style="color:red"></i></a>'
+                                                    }
+                                                ]
+                                            });
+                                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+
+        $('#BulkOrders-grid').find('a').css('font-size', '8pt');
+        $('#FileType').change(function () {
+            $('#ServiceId').html('');
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("getServiceByFileType", "BulkOrder"))",
+                data: {"FileType":$(this).val()},
+                success: function (data) {
+                    $('#ServiceId').append(new Option('انتخاب کنید....', '0', true, true));
+                        $.each(data, function (id, item) {
+                            $('#ServiceId').append(new Option(item.Text, item.Value, false, false));
+                        });
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('خطا در زمان دریافت لیست سرویس ها');
+                }
+            });
+        });
+    });
+
+
+
+
+</script>
+
+@*<script type="text/javascript" src="~/Plugins/Orders.BulkOrder/Content/bulkOrder.js"></script>*@
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/shipitoNewCheckout.js?ver=127"></script>
+<script>
+    var form = null;
+    var options = {
+        document: null,
+        wizard: "",
+        WeightItem: "",
+        InsuranceItem: "",
+        CountryItem: '#Country',
+        StateItem: '#State',
+        kartonSizeItem: "",
+        IsAgent: false,
+        IsInCodRole: false,
+        IsForegin: false,
+        IsHeavy: false
+    };
+    $(function () {
+
+    form = new newCheckout(options);
+
+        $("#@(controlId)uploader").fineUploader({
+                                    request: {
+                                        endpoint: '@Url.Action("SaveOrderList_Sh", "BulkOrder")',
+                                        params: {
+                                            FileType: function() {
+                                                return $('#FileType').val();
+                                            },
+                                            ServiceSort: function () {
+                                                return $('#ServiceSort').val();
+                                            },
+                                            discountCouponCode: function() {
+                                                return $('#discountCouponCode').val();
+                                            },
+                                            HasAccessToPrinter: function () {
+                                                return $('#HasAccessToPrinter').is(':checked');
+                                            },
+                                            PrintLogo: function () {
+                                                return $('#PrintLogo').is(':checked');
+                                            },
+                                            SendSms: function () {
+                                                return $('#SendSms').is(':checked');
+                                            },
+                                            ServiceId: function () {
+                                                return $('#ServiceId').val();
+                                            },
+                                            SenderFirstName: function() {
+                                                return $('#FirstName').val();
+                                            },
+                                            SenderLastName: function () {
+                                                return $('#LastName').val();
+                                            },
+                                            SenderMobile: function () {
+                                                return $('#PhoneNumber').val();
+                                            },
+                                            SenderState: function () {
+                                                return $('#Country option:selected').text();
+                                            },
+                                            SenderCity: function () {
+                                                return $('#State option:selected').text();
+                                            },
+                                            SenderPostCode: function () {
+                                                return $('#ZipPostalCode').val();
+                                            }, 
+                                            SenderAddress: function () {
+                                                return $('#Address1').val();
+                                            }, 
+                                            SenderEmail: function () {
+                                                return $('#Email').val();
+                                            },
+                                            SenderLat: function () {
+                                                return $('#SenderLat').val();
+                                            },
+                                            SenderLong: function () {
+                                                return $('#SenderLon').val();
+                                            },
+                                        },
+                                        forceMultipart: false,
+                                        customHeaders: { Accept: 'application/json' }
+                                    },
+                                    text: {
+                                        uploadButton: '<i class="icon-plus icon-white"></i>فایل را انتخاب کنید',
+                                        defaultResponseError: 'خطایی در زمان باگذاری فایل رخ داده!',
+                                        formatProgress: 'درحال بارگذاری...',
+                                        waitingForResponse: 'در انتظار پاسخ سرور...'
+                                    },
+                                    showMessage: function (message) {
+                                        // for show error in some div instead of modal message
+                                        alert(message);
+                                    },
+                                    callbacks: {
+                                        onValidate: function(id, fileName) {
+                                            if ($('#FileType').val() == 0) {
+                                                alert("لطفا نوع سرویس  را مشخص نمایید");
+                                                return false;
+                                            }
+                                            if ($('#FileType').val() == 0) {
+                                                alert("لطفا اولویت سرویس را مشخص نمایید");
+                                                return false;
+                                            }
+                                            if (IsNullOrEmpty($('#SenderLat').val()) || IsNullOrEmpty($('#SenderLon').val()) || IsNullOrEmpty($('#FirstName').val()) ||
+                                                IsNullOrEmpty($('#LastName').val()) || IsNullOrEmpty($('#Address1').val())) {
+                                                alert("لطفا آدرس فرستنده را وارد کنید");
+                                                return false;
+                                            }
+                                            return true;
+                                        }
+                                    },
+                                    template: "@(controlId)-qq-template",
+                                    multiple: false,
+                                    validation: {
+                                        allowedExtensions: ['xlsx']
+                                    }
+                                }).on("complete",
+                                    function (event, id, name, responseJson) {
+                                        alert(responseJson.error);
+                                        if (!responseJson.success) {
+                                            return;
+                                        }
+                                        var grid = $('#BulkOrders-grid').data('kendoGrid');
+                                        grid.dataSource.read();
+                                    });
+    })
+
+    function IsNullOrEmpty(value) {
+        return (!value || value == "");
+    }
+
+</script>
+

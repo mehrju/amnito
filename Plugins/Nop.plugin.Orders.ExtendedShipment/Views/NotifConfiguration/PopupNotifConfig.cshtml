@@ -1,0 +1,306 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+}
+
+<style>
+    .select2-selection {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: super;
+        border: 1px solid #1d1d1d;
+        border-radius: 3px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection__choice{
+        color:black !important;
+    }
+</style>
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body" style="margin-left: 15px;">
+                    <div class="row">
+                        <input class="form-control text-box single-line" id="popupId" name="popupId" type="hidden" value="">
+
+                        <div class="form-group col-md-6">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="title">عنوان</label><div title="عنوان" class="ico-help"></div></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control text-box single-line" id="popupTitle" name="popupTitle" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="IsActivePopup">فعال ؟</label><div title="فعال ؟" class="ico-help"></div></div>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="check-box" name="IsActivePopup" id="IsActivePopup" type="checkbox" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="FromDate">از تاریخ</label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="FromDate" name="FromDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="FromDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="FromDate_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md-3">
+                                <div class="label-wrapper"><label class="control-label" for="ToDate">تا تاریخ </label></div>
+                            </div>
+                            <div class="col-md-9">
+                                <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="ToDate" name="ToDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="ToDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="ToDate_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="col-sm-3 control-label" style="direction:rtl; text-align:left;">فروشگاه </label>
+                            <div class="col-sm-9">
+                                <select id="store" name="store" class="select3-placeholer form-control" data-placeholder="انتخاب فروشگاه"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6"></div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div id="editor"></div>
+                    </div>
+
+                    <button type="submit" onclick="postPopupForm(); return false;" name="save" class="btn bg-blue">
+                        <i class="fa fa-floppy-o"></i>
+                        ذخیره
+                    </button>
+                </div>
+            </div>
+
+            <div id="popupNotif-grid"></div>
+
+            <script src="https://cdn.ckeditor.com/4.14.1/standard-all/ckeditor.js"></script>
+
+            <script>
+                $(function () {
+
+
+                    $("#FromDate").kendoDatePicker();
+                    $("#ToDate").kendoDatePicker();
+
+                        CKEDITOR.replace('editor', {
+                            extraPlugins: 'justify,colorbutton',
+                            language: 'fa'
+                        });
+
+                        $("#popupNotif-grid").kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@Html.Raw(Url.Action("GetPopupNotifications", "NotifConfig"))",
+                                        type: "GET",
+                                        dataType: "json"
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+
+                                error: function (e) {
+                                    display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                serverPaging: false,
+                                serverFiltering: false,
+                                serverSorting: false
+                            },
+
+                           pageable: {
+                                refresh: true,
+                                numeric: false,
+                                previousNext: false,
+                                info: false,
+                                @await Html.PartialAsync("_GridPagerMessages")
+                            },
+                            //height: 700,
+                            scrollable: false,
+                            sortable: true,
+                            columns: [
+                                {
+                                    field: "Id",
+                                    title: "شناسه",
+                                    width: 50
+                                },
+                                {
+                                    field: "Title",
+                                    title: "عنوان",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" }
+                                },
+                                {
+                                    field: "FromDatePersian",
+                                    title: "از تاریخ",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" }
+                                },
+                                {
+                                    field: "ToDatePersian",
+                                    title: "تا تاریخ",
+                                    width: 150,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" }
+                                },
+                                {
+                                    field: "IsActiveString",
+                                    title: "وضعیت",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                },
+                                {
+                                    field: "Id",
+                                    title: "ویرایش",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        '<a class="btn btn-default" title="ویرایش" onClick="showEditPopup(#=Id#,this)" ><i class="fa fa-pencil-square-o style="color:green"></i></a>'
+                                }
+                            ]
+                        });
+
+                    $.ajax({
+                        cache: true,
+                        type: "GET",
+                        url: "@Url.Action("GetAllStores", "NotifConfig")",
+                        data: {},
+                        success: function (data) {
+                            $('#store').append(new Option('انتخاب کنید....', '-1', false, false));
+                            $.each(data, function (id, item) {
+                                $('#store').append(new Option(item.Text, item.Value, false, false));
+                            });
+
+                            $('#store').select2({
+                                placeholder: "انتخاب فروشگاه",
+                                allowClear: true,
+                                //dropdownParent: $('#myModal'),
+                                multiple: true
+                            });
+                            $('#store').val([]);
+
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log('Failed to retrieve Countries.');
+                        }
+                    });
+
+                });
+
+
+                function postPopupForm() {
+                    var content = CKEDITOR.instances.editor.getData();
+                    if (!content) {
+                        alert("لطفا محتوا مورد نظر را وارد کنید")
+                        return;
+                    }
+                    var title = $('#popupTitle').val();
+                    if (!title) {
+                        alert("لطفا موضوع مورد نظر را وارد کنید")
+                        return;
+                    }
+                    var storeIds = $('#store').val();
+                    if (!storeIds || storeIds.length <= 0) {
+                        alert("لطفا فروشگاه های مورد نظر را انتخاب کنید")
+                        return;
+                    }
+                    var isActive = $('#IsActivePopup:checked').length > 0;
+                    var fromDatePersian = $('#FromDate').val();
+                    var toDatePersian = $('#ToDate').val();
+                    var obj = {
+                        Content: content,
+                        Title:title,
+                        IsActive:isActive,
+                        FromDatePersian:fromDatePersian,
+                        ToDatePersian: toDatePersian,
+                        StoreIds: storeIds,
+                        Id: $('#popupId').val() ? $('#popupId').val() : 0
+                    }
+
+                    addAntiForgeryToken(obj);
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@Url.Action("SavePopupNotification", "NotifConfig")",
+                        data: obj,
+                        dataType:'json',
+                        success: function (data) {
+                            alert('با موفقیت ثبت شد')
+                            $('#popupId').val(undefined);
+                            $('#popupTitle').val('');
+                            $('#store').val('').trigger('change');
+                            $('#IsActivePopup').prop('checked', false);
+                            CKEDITOR.instances.editor.setData('');
+                            $("#FromDate").data("kendoDatePicker").value('');
+                            $("#ToDate").data("kendoDatePicker").value('');
+                            $("#popupNotif-grid").data("kendoGrid").dataSource.read();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed');
+                            $('#popupId').val(undefined)
+                        },
+                        traditional: true
+                    });
+                }
+
+                function showEditPopup(id, el) {
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@Url.Action("GetPopupNotification", "NotifConfig")" + "?Id=" + id,
+                        dataType:'json',
+                        success: function (data) {
+                            if (data) {
+                                $('#popupId').val(data.Id);
+                                $('#popupTitle').val(data.Title);
+                                $('#IsActivePopup').prop('checked', data.IsActive);
+                                $('#store').val(data.StoreIds).trigger('change');
+                                CKEDITOR.instances.editor.setData(data.Content);
+                                $("#FromDate").data("kendoDatePicker").value(data.FromDatePersian);
+                                $("#ToDate").data("kendoDatePicker").value(data.ToDatePersian);
+                            }
+                            else {
+                                alert('Failed');
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed');
+                        },
+                        traditional: true
+                    });
+                }
+
+            </script>
+        </div>
+    </div>
+</div>

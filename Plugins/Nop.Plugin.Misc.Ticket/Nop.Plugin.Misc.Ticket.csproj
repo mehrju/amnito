@@ -1,0 +1,550 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+   <TargetFramework>net461</TargetFramework>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.Ticket</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.Ticket</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <!-- This target execute after "Build" target -->
+ <Target Name="NopTarget" AfterTargets="Build">
+   <!-- Delete unnecessary libraries from plugins path -->
+   <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+ </Target>
+ <ItemGroup>
+   <None Remove="plugin.json" />
+   <None Remove="Scripts\Select2\dist\css\select2.css" />
+   <None Remove="Scripts\Select2\dist\css\select2.min.css" />
+   <None Remove="Scripts\Select2\dist\js\select2.full.js" />
+   <None Remove="Scripts\Select2\dist\js\select2.full.min.js" />
+   <None Remove="Scripts\style.css" />
+   <None Remove="Scripts\summernote.css" />
+   <None Remove="Scripts\summernote.js" />
+   <None Remove="Scripts\summernote.min.js" />
+   <None Remove="Views\CategoryTicket\Create.cshtml" />
+   <None Remove="Views\CategoryTicket\Edit.cshtml" />
+   <None Remove="Views\CategoryTicket\List.cshtml" />
+   <None Remove="Views\CategoryTicket\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\CategoryTicket\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\Configure.cshtml" />
+   <None Remove="Views\Damages\AnswerDamages.cshtml" />
+   <None Remove="Views\Damages\ListDamages.cshtml" />
+   <None Remove="Views\DepartmentTicket\Create.cshtml" />
+   <None Remove="Views\DepartmentTicket\Edit.cshtml" />
+   <None Remove="Views\DepartmentTicket\ListDepartmentTicket.cshtml" />
+   <None Remove="Views\DepartmentTicket\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\DepartmentTicket\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\FAQ\Create.cshtml" />
+   <None Remove="Views\FAQ\Edit.cshtml" />
+   <None Remove="Views\FAQ\ListFAQ.cshtml" />
+   <None Remove="Views\FAQ\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\FAQ\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\FAQCategory\Create.cshtml" />
+   <None Remove="Views\FAQCategory\Edit.cshtml" />
+   <None Remove="Views\FAQCategory\ListFAQCategory.cshtml" />
+   <None Remove="Views\FAQCategory\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\FAQCategory\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PatternAnswerDamages\Create.cshtml" />
+   <None Remove="Views\PatternAnswerDamages\Edit.cshtml" />
+   <None Remove="Views\PatternAnswerDamages\List.cshtml" />
+   <None Remove="Views\PatternAnswerDamages\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PatternAnswerDamages\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PatternAnswerRequestCOD\Create.cshtml" />
+   <None Remove="Views\PatternAnswerRequestCOD\Edit.cshtml" />
+   <None Remove="Views\PatternAnswerRequestCOD\List.cshtml" />
+   <None Remove="Views\PatternAnswerRequestCOD\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PatternAnswerRequestCOD\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PatternAnswerTicket\Create.cshtml" />
+   <None Remove="Views\PatternAnswerTicket\Edit.cshtml" />
+   <None Remove="Views\PatternAnswerTicket\List.cshtml" />
+   <None Remove="Views\PatternAnswerTicket\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PatternAnswerTicket\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PriorityTicket\Create.cshtml" />
+   <None Remove="Views\PriorityTicket\Edit.cshtml" />
+   <None Remove="Views\PriorityTicket\ListPriorityTicket.cshtml" />
+   <None Remove="Views\PriorityTicket\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PriorityTicket\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\RequestCOD\AnswerRequestCOD.cshtml" />
+   <None Remove="Views\RequestCOD\ListRequestCOD.cshtml" />
+   <None Remove="Views\StaffDepartmentTicket\Create.cshtml" />
+   <None Remove="Views\StaffDepartmentTicket\List.cshtml" />
+   <None Remove="Views\StaffDepartmentTicket\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\StaffDepartmentTicket\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\Ticket\AnswerTicket.cshtml" />
+   <None Remove="Views\Ticket\ListTicket.cshtml" />
+   <None Remove="Views\Ticket\ReadFilePdf.cshtml" />
+   <None Remove="Views\TrainingAcademyTopic\Create.cshtml" />
+   <None Remove="Views\TrainingAcademyTopic\Edit.cshtml" />
+   <None Remove="Views\TrainingAcademyTopic\List.cshtml" />
+   <None Remove="Views\TrainingAcademyTopic\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\TrainingAcademyTopic\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\_ViewImports.cshtml" />
+ </ItemGroup>
+ <ItemGroup>
+   <Content Include="plugin.json">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\css\select2.css">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\css\select2.min.css">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.full.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.full.min.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\style.css">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\summernote.css">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\summernote.js">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\summernote.min.js">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\CategoryTicket\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\CategoryTicket\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\CategoryTicket\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\CategoryTicket\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\CategoryTicket\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Configure.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Damages\AnswerDamages.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Damages\ListDamages.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\DepartmentTicket\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DepartmentTicket\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DepartmentTicket\ListDepartmentTicket.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\DepartmentTicket\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DepartmentTicket\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQ\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQ\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQ\ListFAQ.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\FAQ\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQ\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQCategory\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQCategory\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQCategory\ListFAQCategory.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\FAQCategory\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\FAQCategory\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerDamages\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerDamages\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerDamages\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\PatternAnswerDamages\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerDamages\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerRequestCOD\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerRequestCOD\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerRequestCOD\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\PatternAnswerRequestCOD\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerRequestCOD\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerTicket\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerTicket\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerTicket\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\PatternAnswerTicket\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternAnswerTicket\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PriorityTicket\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PriorityTicket\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PriorityTicket\ListPriorityTicket.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\PriorityTicket\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PriorityTicket\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\RequestCOD\AnswerRequestCOD.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\RequestCOD\ListRequestCOD.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\StaffDepartmentTicket\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\StaffDepartmentTicket\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\StaffDepartmentTicket\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\StaffDepartmentTicket\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Ticket\ListTicket.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Ticket\AnswerTicket.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Ticket\ReadFilePdf.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\TrainingAcademyTopic\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\TrainingAcademyTopic\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\TrainingAcademyTopic\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\TrainingAcademyTopic\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\TrainingAcademyTopic\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\_ViewImports.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+ </ItemGroup>
+ <ItemGroup>
+   <None Update="logo.jpg">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+ </ItemGroup>
+ <ItemGroup>
+   <Folder Include="2-Library\" />
+ </ItemGroup>
+ <ItemGroup>
+   <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+ </ItemGroup>
+ <ItemGroup>
+   <Reference Include="Autofac">
+     <HintPath>2-Library\Autofac.dll</HintPath>
+   </Reference>
+   <Reference Include="Autofac.Extensions.DependencyInjection">
+     <HintPath>2-Library\Autofac.Extensions.DependencyInjection.dll</HintPath>
+   </Reference>
+   <Reference Include="AutoMapper">
+     <HintPath>2-Library\AutoMapper.dll</HintPath>
+   </Reference>
+   <Reference Include="EntityFramework">
+     <HintPath>2-Library\EntityFramework.dll</HintPath>
+   </Reference>
+   <Reference Include="EntityFramework.SqlServer">
+     <HintPath>2-Library\EntityFramework.SqlServer.dll</HintPath>
+   </Reference>
+   <Reference Include="FluentValidation">
+     <HintPath>2-Library\FluentValidation.dll</HintPath>
+   </Reference>
+   <Reference Include="FluentValidation.AspNetCore">
+     <HintPath>2-Library\FluentValidation.AspNetCore.dll</HintPath>
+   </Reference>
+   <Reference Include="itextsharp">
+     <HintPath>2-Library\itextsharp.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+     <HintPath>..\Nop.Plugin.OrdersBulkOrder\2-Library\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Extensions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Features">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Razor">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Razor.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.CSharp" />
+   <Reference Include="Microsoft.Extensions.Configuration">
+     <HintPath>2-Library\Microsoft.Extensions.Configuration.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+     <HintPath>2-Library\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyInjection">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyModel">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyModel.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Options">
+     <HintPath>2-Library\Microsoft.Extensions.Options.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+     <HintPath>2-Library\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Primitives">
+     <HintPath>2-Library\Microsoft.Extensions.Primitives.dll</HintPath>
+   </Reference>
+   <Reference Include="netstandard">
+     <HintPath>2-Library\netstandard.dll</HintPath>
+   </Reference>
+   <Reference Include="Newtonsoft.Json">
+     <HintPath>2-Library\Newtonsoft.Json.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Core">
+     <HintPath>2-Library\Nop.Core.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Data">
+     <HintPath>2-Library\Nop.Data.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.plugin.Orders.ExtendedShipment">
+     <HintPath>..\..\Presentation\Nop.Web\Plugins\Orders.ExtendedShipment\Nop.plugin.Orders.ExtendedShipment.dll</HintPath>
+     <Private>false</Private>
+   </Reference>
+   <Reference Include="Nop.Services">
+     <HintPath>2-Library\Nop.Services.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Web">
+     <HintPath>2-Library\Nop.Web.exe</HintPath>
+   </Reference>
+   <Reference Include="Nop.Web.Framework">
+     <HintPath>2-Library\Nop.Web.Framework.dll</HintPath>
+   </Reference>
+   <Reference Include="NUglify">
+     <HintPath>2-Library\NUglify.dll</HintPath>
+   </Reference>
+   <Reference Include="System.ComponentModel">
+     <HintPath>2-Library\System.ComponentModel.dll</HintPath>
+   </Reference>
+   <Reference Include="System.ComponentModel.Annotations">
+     <HintPath>2-Library\System.ComponentModel.Annotations.dll</HintPath>
+   </Reference>
+   <Reference Include="System.ComponentModel.Composition" />
+   <Reference Include="System.ComponentModel.Composition.Registration" />
+   <Reference Include="System.ComponentModel.DataAnnotations" />
+   <Reference Include="System.ComponentModel.Primitives">
+     <HintPath>2-Library\System.ComponentModel.Primitives.dll</HintPath>
+   </Reference>
+   <Reference Include="System.ComponentModel.TypeConverter">
+     <HintPath>2-Library\System.ComponentModel.TypeConverter.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Data.Entity" />
+   <Reference Include="System.Data.Linq" />
+   <Reference Include="System.Dynamic" />
+   <Reference Include="System.Linq">
+     <HintPath>2-Library\System.Linq.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Linq.Dynamic">
+     <HintPath>2-Library\System.Linq.Dynamic.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Linq.Expressions">
+     <HintPath>2-Library\System.Linq.Expressions.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Linq.Parallel">
+     <HintPath>2-Library\System.Linq.Parallel.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Linq.Queryable">
+     <HintPath>2-Library\System.Linq.Queryable.dll</HintPath>
+   </Reference>
+   <Reference Include="System.Net" />
+   <Reference Include="System.Web" />
+   <Reference Include="System.Web.Entity" />
+   <Reference Include="System.Web.Entity.Design" />
+   <Reference Include="System.Web.Routing" />
+   <Reference Include="System.Web.Services" />
+ </ItemGroup>
+ <ItemGroup>
+   <Compile Update="Models\ConfigurationModel.cs">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Compile>
+ </ItemGroup>
+</Project>

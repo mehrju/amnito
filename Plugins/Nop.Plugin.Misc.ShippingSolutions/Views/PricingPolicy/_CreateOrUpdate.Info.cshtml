@@ -1,0 +1,679 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_PricingPolicy
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    <script>
+        function mPricing(Id, TypeUser, ProviderId,
+            Dealer_Customer_Id, CountryId, MinWeight,
+            MaxWeight, Percent, Mablagh, Tashim,PercentTashim) {
+            this.Id = Id;
+            this.TypeUser = TypeUser;
+            this.ProviderId = ProviderId;
+            this.Dealer_Customer_Id = Dealer_Customer_Id;
+            this.CountryId = CountryId;
+            this.MinWeight = MinWeight;
+            this.MaxWeight = MaxWeight;
+            this.Percent = Percent;
+            this.Mablagh = Mablagh;
+            this.Tashim = Tashim;
+            this.PercentTashim = PercentTashim;
+        }
+        var _mPricing = new mPricing(0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0);
+
+    </script>
+    <script>
+        window.onload = load;
+        function load() {
+
+            $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetCategoryPattern", "ManagePricingPolicy"))",
+                data: null,
+                success: function (data) {
+                    $("#IdCategorySelect").append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $("#IdCategorySelect").append(new Option(item.Text, item.Value, false, false));
+                    });
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+            });
+
+
+
+        }
+
+
+
+
+
+
+    </script>
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        _mPricing.CountryId = @Model.CountryId;
+        _mPricing.Dealer_Customer_Id = @Model.Dealer_Customer_Id;
+        _mPricing.Id = @Model.Id;
+        _mPricing.ProviderId = @Model.ProviderId;
+        _mPricing.TypeUser = @Model.TypeUser;
+
+        $(RegisterPricing).click(function () {
+
+        @*_mPricing.CountryId = @Model.CountryId;
+        _mPricing.Dealer_Customer_Id = @Model.Dealer_Customer_Id;
+        _mPricing.Id = @Model.Id;
+        _mPricing.ProviderId = @Model.ProviderId;
+        _mPricing.TypeUser = @Model.TypeUser;*@
+        _mPricing.MinWeight = txtMinWeight.value;
+        _mPricing.MaxWeight = txtMaxWeight.value;
+        _mPricing.Percent =   txtPercent.value;
+        _mPricing.Mablagh =   txtMablagh.value;
+        _mPricing.Tashim =    txtTashim.value;
+        _mPricing.PercentTashim =   txtPercentTashim.value;
+
+
+        $.ajax({
+            url:"@(Url.Action("AddPricingPolicy", "ManagePricingPolicy"))",
+            data: { _PP: _mPricing },
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+                //$(LoadingGift).show();
+            },
+            success: function (response) {
+                //$(LoadingGift).hide();
+                if (response.success) {
+                    txtMinWeight.value = "";
+                    txtMaxWeight.value = "";
+                    txtPercent.value = "";
+                    txtMablagh.value = "";
+                    txtTashim.value = "";
+                    txtPercentTashim = "";
+                    _mPricing.MinWeight = 0;
+                    _mPricing.MaxWeight = 0;
+                    _mPricing.Percent = 0;
+                    _mPricing.Mablagh = 0;
+                    _mPricing.Tashim = 0;
+                    _mPricing.txtPercentTashim = 0;
+                     alert(response.responseText);
+                    //reload grid
+                    var grid = $('#PricingPolicy-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                } else {
+
+                    alert(response.responseText);
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+            }
+        });
+
+
+
+
+        });
+
+        //=====================================================
+        $(RegisterPricingAll).click(function () {
+            senditem = {};
+
+            Listitem = [];
+
+            $('#table_body_PricingPolicy').find('tr').each(function ()
+            {
+                var Id = this.getAttribute('itemPricingPolicyId');
+                var minw = $("#inputminweight_" + Id).val();
+                var maxw = $("#inputmaxweight_" + Id).val();
+                var per = $("#inputper_" + Id).val();
+                var mab = $("#inputmab_" + Id).val();
+                var tas = $("#inputtas_" + Id).val();
+                var pertas = $("#inputtaspercent_" + Id).val();
+
+                console.log(minw);
+
+
+                item = {};
+                item["MinWeight"] = minw;
+                item["MaxWeight"] = maxw;
+                item["Percent"] = per;
+                item["Mablagh"] = mab;
+                item["Tashim"] = tas;
+                item["PercentTashim"] = pertas;
+
+                
+                Listitem.push(item);
+
+
+
+            });
+
+             senditem["Listitem"] = Listitem;
+            var PostData =
+            {
+                _PP: _mPricing,
+                List_PP: senditem
+            };
+             addAntiForgeryToken(PostData);
+
+        $.ajax({
+            url:"@(Url.Action("AddPricingPolicyAll", "ManagePricingPolicy"))",
+            data:PostData,
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                //$(LoadingGift).hide();
+                if (response.success) {
+                    var table = $("#table_body_PricingPolicy");
+                    table.find("tbody tr").remove();
+                     alert(response.responseText);
+                    //reload grid
+                    var grid = $('#PricingPolicy-grid').data('kendoGrid');
+                    $('#table_body_PricingPolicy').find('tr').each(function () { $(this).remove(); });
+                    grid.dataSource.read();
+                } else {
+
+                    alert(response.responseText);
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+            }
+        });
+
+
+
+
+        });
+
+
+        //=====================================================
+    });
+    </script>
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        $(".checkbox").click(function () {
+            if ($("#checkbox_auto_manual").is(':checked')) {
+                console.log("aaaa");
+                $("#auto").show();
+                $("#manual").hide();
+
+
+            } else {
+
+                $("#manual").show();
+                $("#auto").hide();
+            }
+        });
+
+        $("#IdCategorySelect").change(function () {
+            $('#table_body_PricingPolicy').find('tr').each(function () { $(this).remove(); });
+            var IdCategory = IdCategorySelect.value;
+            var postdata = {
+                Id: IdCategory
+            };
+            addAntiForgeryToken(postdata);
+            $.ajax({
+                url:"@(Url.Action("PricingPoliciesListByIdCategory", "ManagePricingPolicy"))",
+                type: 'Post',
+                dataType: "json",
+                data: postdata,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var table = $('#table_body_PricingPolicy');
+                    table.find("tbody tr").remove();
+                    data.forEach(function (employee) {
+                        table.append(
+                            "<tr id='" + "tr" + employee.id + "'itemPricingPolicyId='" + employee.id + "'>"
+                            +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputminweight_"+ employee.id+"'"+ "value='"+employee.min+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                            +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputmaxweight_"+ employee.id+"'"+ "value='"+employee.max+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputper_"+ employee.id+"'"+ "value='"+employee.per+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-2'>"+
+                                        "<input type='text'  onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputmab_"+ employee.id+"'"+ "value='"+employee.mab+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputtaspercent_"+ employee.id+"'"+ "value='"+employee.taspercent+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))'  id='"+"inputtas_"+ employee.id+"'"+ "value='"+employee.tas+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                            +
+                            "</tr>"
+
+                        );
+                    });
+
+
+                }
+            });
+        });
+    });
+
+
+
+
+</script>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            سیاست جدید به صورت دستی یا انتخاب از پیش نویس ها
+        </div>
+        <div class="panel-body">
+            <div class="row col-md-6">
+                <div class="checkbox">
+                    <label><input type="checkbox" id="checkbox_auto_manual">انتخاب پیش نویس ها</label>
+                </div>
+            </div>
+            <div class="row" id="auto" hidden>
+                <div class="row col-md-6">
+                    <div class="form-group">
+                        <label>انتخاب پیش نویس:</label>
+                        <select tabindex="1" name="IdCategorySelect" id="IdCategorySelect"></select>
+                    </div>
+                </div>
+                @*Grid*@
+                <div class="row col-md-12">
+                    <div class="table-responsive">
+                        <div class="panel-heading clearfix" style="background-color:#ededed;">
+                            <div class="panel-title">لیست قوانین موجود در دسته ی پیش نویس انتخاب شده</div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr style="font-weight:bold;">
+
+                                    <th class="col-2"> از وزن</th>
+                                    <th class="col-2"> تا وزن </th>
+                                    <th class="col-2"> درصد</th>
+                                    <th class="col-2"> مبلغ</th>
+                                    <th class="col-2">درصد تسهیم</th>
+                                    <th class="col-2"> تسهیم</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_body_PricingPolicy">
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <button id="RegisterPricingAll" class="btn btn-success" type="button" style="direction:ltr;"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-sm-12" id="manual">
+
+
+
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyMinWeight")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtMinWeight">
+                </div>
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyMaxWeight")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtMaxWeight">
+                </div>
+                <div class="col-sm-1">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyPercent")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 46 && event.charCode <= 57))" type="text" class="form-control" id="txtPercent">
+                </div>
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyMablagh")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtMablagh">
+                </div>
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyPercentTashim")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 46 && event.charCode <= 57))" type="text" class="form-control" id="txtPercentTashim">
+                </div>
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">@T("Nop.Plugin.Misc.ShippingSolutions.PricingPoliyTashim")</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtTashim">
+                </div>
+                <div class="col-sm-1" style="margin-top:27px;">
+                    <button id="RegisterPricing" class="btn btn-success" type="button"> <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            لیست سیست های قیمت گذاری
+        </div>
+        <div class="panel-body">
+
+            <div class="row" style="margin-top:10px;">
+                <div id="PricingPolicy-grid"></div>
+                <script type="text/javascript">
+                            $(document).ready(function () {
+                                @*@if (Model.TypeUser == 2)
+                                {
+                                    <text>*@
+                                 $("#PricingPolicy-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("PricingPoliciesList", "ManagePricingPolicy"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        }
+
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_MinWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_MinWeight")",
+                                            width: 50
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_MaxWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_MaxWeight")",
+                                            width: 50
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_Percent",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_Percent")",
+                                            width: 50
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_Mablagh",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_Mablagh")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_PricingPolicy_PercentTashim",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_PercentTashim")",
+                                            width: 50
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_PricingPolicy_Tashim",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_Tashim")",
+                                            width: 100
+                                        }
+                                        ,
+
+
+                                        {
+                                            field: "Grid_PricingPolicy_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_IsActive")",
+                                            width: 50,
+                                            template: '# if(Grid_PricingPolicy_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_UserInsert")",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_UserUpdate")",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_DateInsert")",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PricingPolicy_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PricingPolicy_DateUpdate")",
+                                            width: 70
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 70,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="ActivePricingPolicy(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         @*,
+                                        {
+                                        field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.PricingPolicy")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="../EditPricingPolicy/#=Id#"><i class="fa fa-pencil"></i>@T("Nop.Plugin.Misc.ShippingSolutions.PricingPolicy")</a>'
+                                        }*@
+                                    ]
+                                });
+                    //</text>
+                                @*}*@
+
+                            });
+                </script>
+                <script>
+                        function additionalData()
+                        {
+                            var data = {
+                                _PP: _mPricing,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+
+
+                    function ActivePricingPolicy(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("Active", "ManagePricingPolicy"))",
+                                data: {Id:Id},
+                                complete: function (response) {
+                                    if (response.success)
+                                        {
+                                        alert(response.responseText);
+                                        //reload grid
+                                        var grid = $('#PricingPolicy-grid').data('kendoGrid');
+                                        grid.dataSource.read();
+                                        }
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        var selectedIds = [];
+
+        $(document).ready(function () {
+
+
+
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableSelected", "ManagePricingPolicy"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#PricingPolicy-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+
+
+
+            $('#mastercheckbox').click(function () {
+                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            });
+
+            //wire up checkboxes.
+            $('#PricingPolicy-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                var $check = $(this);
+                if ($check.is(":checked") == true) {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked == -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                }
+                else {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds, function (item, index) {
+                            return item != $check.val();
+                        });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+        });
+
+
+
+        function onDataBound(e) {
+            $('#PricingPolicy-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#PricingPolicy-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+            var numChkBoxesChecked = $('#PricingPolicy-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+</script>

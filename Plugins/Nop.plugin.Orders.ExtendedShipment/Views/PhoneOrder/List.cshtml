@@ -1,0 +1,204 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    //page title
+    ViewBag.Title = "سفارشات تلفنی";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Polls");
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        سفارشات تلفنی
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Index" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+    </div>
+
+
+
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="label-wrapper"><label class="control-label" for="FromDate">از تاریخ</label></div>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="FromDate" name="FromDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="FromDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="FromDate_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="label-wrapper"><label class="control-label" for="ToDate">تا تاریخ </label></div>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="k-widget k-datepicker k-header" style=""><span class="k-picker-wrap k-state-default"><input id="ToDate" name="ToDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="ToDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;"><span unselectable="on" class="k-select" role="button" aria-controls="ToDate_dateview"><span unselectable="on" class="k-icon k-i-calendar">select</span></span></span></span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <br />
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" onclick="search(); return false;" name="save" class="btn bg-blue">
+                            <i class="fa fa-search"></i>
+                            جستوجو
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                </div>
+                <br />
+
+
+                <div id="phone-order-grid"></div>
+
+                <script type="text/javascript">
+                        $(document).ready(function () {
+                            debugger;
+                            $("#phone-order-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("GetList", "ManagePhoneOrder"))",
+                                            type: "GET",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "FullName",
+                                        title: "نام و نام خانوادگی"
+                                    },
+                                    {
+                                        field: "PhoneNumber",
+                                        title: "شماره همراه"
+                                    },
+                                    {
+                                        field: "TellNumber",
+                                        title: "شماره ثابت"
+                                    },
+                                    {
+                                        field: "StateName",
+                                        title: "استان"
+                                    },
+                                    {
+                                        field: "CityName",
+                                        title: "شهر"
+                                    },
+                                    {
+                                            field: "Id",
+                                            title: "ویرایش",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                        template:
+                                            '<button onclick="editOrder(this,#=Id#)" class="btn bg-blue">ویرایش<i class="fa fa-pencil"></i></button>'
+                                    },
+                                    {
+                                        field: "Id",
+                                        title: "ثبت به عنوان سفارش",
+                                        width: 100,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template:
+                                            '<a href="/ShipitoCheckout/SavePhoneOrder/#=Id#" target="_blank" #if(HasOrder) {#disabled="disabled"#}# class="btn bg-blue">ثبت<i class="fa fa-chevron-left"></i></button>'
+                                    }
+                                ]
+                            });
+
+                            $("#FromDate").kendoDatePicker();
+                            $("#ToDate").kendoDatePicker();
+
+                        });
+                        function editOrder(el, id) {
+                            var win = window.open('/admin/ManagePhoneOrder/Edit?id=' + id, '_blank');
+                            win.focus();
+                        }
+                        function regOrder(el, id) {
+                            $(el).prop('disabled', 'disabled');
+                            $.ajax({
+                                cache: true,
+                                type: "GET",
+                                url: '/ShipitoCheckout/SavePhoneOrder/'+id,
+                                data: {},
+                                success: function (data) {
+                                    if (data.success) {
+                                        alert('با موفقیت انجام شد');
+                                    }
+                                    else {
+                                        alert(data.message);
+                                    }
+                                    //$(el).prop('disabled', '');
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log('Failed to retrieve ');
+                                    $(el).prop('disabled', '');
+                                }
+                            });
+                    }
+
+
+                    function search() {
+                        var url = "@Html.Raw(Url.Action("GetList", "ManagePhoneOrder"))";
+                        var grid = $("#phone-order-grid").data("kendoGrid");
+                        var fromDate = kendo.toString($("#FromDate").data("kendoDatePicker").value(), 'd');
+                        var toDate = kendo.toString($("#ToDate").data("kendoDatePicker").value(), 'd');
+                        grid.dataSource.transport.options.read.url = url + "?fromDate=" + fromDate + "&toDate=" + toDate;
+                        grid.dataSource.read();
+                        grid.refresh();
+                    }
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

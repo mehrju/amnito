@@ -1,0 +1,589 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.NewCheckoutViewModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiLayout.cshtml";
+    Html.AppendCssFileParts("~/lib/leaflet/leaflet.css");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/lib/leaflet/leaflet.js");
+
+}
+<style>
+.fa-check {
+    color: #2f99fb;
+    cursor: pointer;
+}
+
+.fa-check:hover {
+    color: #4cb439;
+    font-size: 16pt;
+}
+
+.reViewData {
+    padding-right: 10px;
+    font-size: 10pt;
+}
+
+.custom-btn-01 {
+    cursor: pointer;
+    color: white !important;
+}
+#discountCouponCode {
+    display:none;
+    margin-top: 10px;
+    border-color: gray;
+    text-align: center;
+    border-style: solid;
+    border-radius: 50px;
+    border-top: 1px;
+    border-bottom: 1px;
+    border-bottom-style: dotted;
+    border-top-style: dotted;
+}
+</style>
+<span></span>
+<main class="backblue" id="orderSteps">
+    <input id="checkOutModelItemId" type="hidden" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" id="wizard">
+                    <!-- SECTION 1 -->
+                    <h2 class="text-hide">مشخصات پستی</h2>
+                    <section class="postal-info">
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="form-content form-col ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-header">
+                                            <h3>چی میخوای بفرستید؟</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12  col-xl-6 col-lg-6">
+                                        <label>محتویات مرسوله<span class="org-color">*</span></label>
+                                        <input type="text" class="form-control myTooltip" maxlength="100" placeholder="مثلا 2 عدد ساعت " id="GoodsType" name="GoodsType" data-toggle="tooltip"  title="چه چیزی رو میخواهید ارسال کنید">
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>وزن بسته(گرم)<span class="org-color">*</span> </label>
+                                        <input type="text" class="form-control myTooltip" maxlength="6" placeholder="مثلا 500" id="Weight_g" name="Weight_g" data-toggle="tooltip"  title="وزن حدودی مرسوله پستی شما">
+                                        @*<select class="js-example-basic-single form-control" name="Weight_g" id="Weight_g"></select>*@
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>ارزش ریالی محتویات مرسوله<span class="org-color">*</span></label>
+                                        <input type="text" class="form-control myTooltip" maxlength="12" placeholder="مبلغ را به صورت عددی وارد کنید" required id="ApproximateValue" name="ApproximateValue" data-toggle="tooltip"  title="برای بیمه یا غرامت و یا سرویس پرداخت در محل استفاده می شود" />
+                                        <input type="hidden" id="CodGoodsPrice" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label>تعداد تکرار سفارش<span class="org-color">*</span> </label>
+                                        <input type="number" max="50" min="1" class="form-control myTooltip" id="Count" name="count" data-toggle="tooltip"  value="1" title="تعداد بسته پستی شما">
+                                    </div>
+                                </div>
+                                <div class="title-form">
+                                    <h3>مبدا؟</h3>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label for="">استان فرستنده <span class="org-color">*</span></label>
+                                        <select class="js-example-basic-single form-control" name="Sender_Country" id="Sender_Country"></select>
+
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label for="">شهر فرستنده *</label>
+                                        <select class="js-example-basic-single form-control" name="Sender_State" id="Sender_State"></select>
+                                    </div>
+                                </div>
+                                <div class="title-form">
+                                    <h3>مقصد؟</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label for="">استان گیرنده <span class="org-color">*</span></label>
+                                        <select class="js-example-basic-single form-control" name="receiver_Country" id="receiver_Country"></select>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                        <label for="">شهر گیرنده <span class="org-color">*</span></label>
+                                        <select class="js-example-basic-single form-control" name="receiver_State" id="receiver_State"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/Ap/images/Man/image1.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 2 -->
+                    <h2 class="text-hide">انتخاب سرویس</h2>
+                    <section class="choose-services">
+
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="form-content form-col">
+
+                                <div class="form-header">
+                                    <h3>دوست دارید از کدوم سرویس استفاده کنید؟</h3>
+                                </div>
+                                <table id="tblServiceInfo" class="table table-bordered  table-hover">
+
+                                    <tbody></tbody>
+
+                                </table>
+                                <div class="checkbox">
+                                    @*<label><input id="acceptRole" type="checkbox" value=""><a target="_blank" href="/%D9%82%D9%88%D8%A7%D9%86%DB%8C%D9%86-2" class="org-color">قوانین</a> را خواندم و قبول دارم</label>*@
+                                    <label><input id="acceptRole" type="checkbox" value=""><a onclick="divload()"></a> را خواندم و قبول دارم</label>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/Ap/images/Man/image2.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 3 -->
+                    <h2 class="text-hide">خدمات ما</h2>
+                    <section class="services_us">
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="form-content form-col">
+                                <div class="form-header">
+                                    <h3>دوست دارید ما برای شما چه خدمتی اضافه کنیم ؟</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 bime" id="bime">
+                                        <label for="">بیمه <span class="org-color">*</span></label>
+                                        <select class="js-example-basic-single form-control" name="Insurance" id="Insurance" data-toggle="tooltip"  title="مرسوله تون رو بیمه کنید"></select>
+                                    </div>
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                        <label for="">جعبه و بسته بندی</label>
+                                        <select class="js-example-basic-single form-control " name="KartonLafaf" id="KartonLafaf" data-toggle="tooltip"  title="اگر مرسوله شما نیاز به کارتون دارد"></select>
+                                    </div>
+                                    <div class="w-100"></div>
+
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                        <label class="box-label" for="">دسترسی به پرینتر برای چاپ فاکتور روی جعبه<span class="org-color">*</span></label>
+                                        <select class="js-example-basic-single form-control myTooltip" name="HasAccessToPrinter" id="HasAccessToPrinter" data-toggle="tooltip"  title="فاکتور پستی باید چاپ و روی بسته چسبانده شود">
+                                            <option value="true" selected="selected">بلی</option>
+                                            <option value="false">خیر</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12" style="padding-top:35px">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="" id="hasNotifRequest" class="myTooltip" name="hasNotifRequest" data-toggle="tooltip"  title="اگر میخواید شما و گیرنده بدونید مرسوله در هر لحظه کجاست" />در خواست اطلاع رسانی در هر مرحله از ارسال</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="display:none">
+                                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                        <div class="checkbox" id="pickUpNow">
+                                            <label><input type="checkbox" value="" id="getItNow" />بیا همین الان بارم را ببر </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                        <label>آدرس فرستنده <span class="org-color">*</span></label>
+                                        <label id="SenderStateTown" style="color: #ff9300 !important;"></label>
+                                        <div class="map-btn-input">
+                                            <select class="js-example-basic-single form-control" name="senderAddress" data-toggle="tooltip"  id="senderAddress" title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ویرایش آدرس/ثبت آدرس/مشخص مکان بر روی نقشه" data-toggle="tooltip"  style="cursor:pointer" id="get-btn-map" data-val="Sender" aria-hidden="true">
+                                                <span class="addAddress">  ثبت یا ویرایش آدرس</span>
+                                                <i class="fa fa-map-marked"></i><i class="fa fa-plus faa-pulse faa-fast"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                        <label>آدرس گیرنده <span class="org-color">*</span></label>
+                                        <label id="ReceiverStateTown" style="color: #ff9300 !important;"></label>
+                                        <div class="map-btn-input">
+                                            <select class="js-example-basic-single form-control" name="receiverAddress" id="receiverAddress" data-toggle="tooltip"  title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ویرایش آدرس/ثبت آدرس/مکان بر روی نقشه" data-toggle="tooltip"  style="cursor:pointer" id="get-btn-map" data-val="Reciver" aria-hidden="true">
+                                                <span class="addAddress">
+                                                    ثبت یا ویرایش آدرس
+                                                </span>
+                                                <i class="fa fa-map-marked"></i><i class="fa fa-plus faa-pulse faa-fast"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.IsAgent)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                            <label for="">مبلغ خدمات نمایندگی <span class="org-color">*</span></label>
+                                            <input type="text" class="form-control myTooltip" maxlength="12" placeholder="مبلغ را به صورت عددی وارد کنید" required id="AgentSaleAmount" name="AgentSaleAmount" data-toggle="tooltip"  title="در صورتی که خدمت اضافی انجام داده اید میتوانید هزینه آنرا در این قسمت اضافه کنید" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-6 col-sm-12">
+                            <div class="image-holder ">
+                                <img src="~/Themes/Ap/images/Man/image3.png" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<div style="display:none" id="ReViewData">
+    <!-- 3 columns offset Center -->
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-1">
+
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-10">
+                <div class="box">
+                    <div class="header_res">
+                        <div class="col-md-12">
+                            <h4>باز بینی اطلاعات</h4>
+                        </div>
+                    </div>
+                    <div class="body_res">
+                        <div class="body_title_res">
+                            <div class="row">
+                                <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+                                    <span>لطفا از صحت اطلاعات وارد شده اطمینان حاصل فرمایید.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="type_res">
+                            <div class="row">
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>نوع کالا: </label><span class="reViewData" id="_GoodsType"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>قیمت حدودی کالا: </label><span class="reViewData" id="_ApproximateValue"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>وزن بسته: </label><span class="reViewData" id="_Weight"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <label>تعداد بسته: </label><span class="reViewData" id="_Count"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="address_res">
+                            <div class="row">
+                                <div class="col-md-9 col-xl-9 col-lg-9 col-sm-12">
+                                    <div class="address-Sender">
+                                        <label>آدرس فرستنده:</label><span class="reViewData" id="_billingAddressModel"></span>
+                                    </div>
+                                    <div class="addres_Receiver">
+                                        <label>آدرس گیرنده:</label><span class="reViewData" id="_shippingAddressModel"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <div class="btn_edit_res">
+                                        <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="0">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="type_services">
+                            <div class="row">
+                                <div class="col-md-9 col-xl-9 col-lg-9 col-sm-12">
+                                    <label>نوع سرویس:</label><span class="reViewData" id="_ServiceId"></span>
+                                </div>
+                                <div class="col-md-3 col-xl-3 col-lg-3 col-sm-12">
+                                    <div class="btn_edit_res">
+                                        <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="1">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="Insurance_res">
+                            <div class="row">
+                                <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                    <label>بیمه :</label><span class="reViewData" id="_InsuranceName"></span>
+                                </div>
+                                <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12">
+                                    <label>جعبه و بسته بندی :</label><span class="reViewData" id="_CartonSizeName"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="_HasAccessToPrinter" value="">در خواست چاپ فاکتور جهت الصاق روی بسته</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="_hasNotifRequest" value="" />در خواست اطلاع رسانی در هر مرحله از ارسال</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="_getItNow" value="" />بیا همین الان بارم را ببر </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="btn_edit_res">
+                                        <a class="custom-btn-01 faa-parent animated-hover editStep" data-val="2">ویرایش <i class="fa fa-edit faa-flash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="footer_res">
+                    <div class="row">
+                        <div class="col-md-4 col-xl-4 col-lg-4 col-sm-12 ">
+                            <div class="btn-back">
+                                <a id="bnt_gotoOrdersStep" class="custom-btn-02 faa-parent animated-hover" style="width:100% !important" tabindex="-1"> <i class="fa fa-chevron-right faa-horizontal"></i>مرحله قبل </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xl-4 col-lg-6 col-sm-12 ">
+                            <input type="text" class="form-control myTooltip" maxlength="50"
+                                   placeholder=" کد کوپن تخفیف را وارد نمایید" required="" id="discountCouponCode" name="discountCouponCode" data-toggle="tooltip"  title="" data-original-title="در صورتی که کوپن تخفیف دارید کد آنرا وارد کنید">
+                        </div>
+                        <div class="col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                            <div class="btn-forward">
+                                <a id="btn_SaveNext" class="custom-btn-02 btnNext faa-parent animated-hover" style="width:100% !important" tabindex="-1">تاییدو مشاهده فاکتور <i class="fa fa-chevron-left faa-horizontal"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-1">
+
+            </div>
+
+        </div>
+    </div>
+    <div id="loading-img">
+        <button class="btn btn-info">در حال پردازش....</button>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="MapAddressModalLabel" id="mapModal" aria-hidden="true">
+    <div class="modal-dialog  mw-100 w-100">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row" style="width:100% !important">
+                    <div class="col-md-12 col-lg-12 col-xl-6 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                        <h5 class="modal-title" id="MapAddressModalLabel" style="float: right;">آدرس</h5>
+                        <a class="btn btn-success faa-parent animated-hover" style="margin-left:10px;color: white;" id="confirmAddress" title="تایید و ثبت آدرس" tabindex="-1">
+                            تایید و ثبت
+                            <i class="fa fa-check faa-tada" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                        <a data-dismiss="modal" aria-label="Close" title="بستن" tabindex="-1" class="btn btn-warning faa-parent animated-hover">
+                            انصراف
+                            <i class="fa fa-times faa-tada" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-xl-6 col-sm-12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="form-horizontal">
+                    <div class="panel-group">
+                        <div class="panel panel-default panel-search">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="_NewAddress" class="col-md-12 col-lg-12 col-xl-6 col-sm-12">
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>نام <span class="org-color">*</span></label>
+                                            <input type="text" class="form-control" required id="FirstName" tabindex="1" name="FirstName" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>نام خانوادگی <span class="org-color">*</span></label>
+                                            <input type="text" class="form-control" required id="LastName" tabindex="2" name="LastName" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>نام شرکت</label>
+                                            <input type="text" class="form-control" id="Company" tabindex="3" name="Company" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>پست الکترونیک<span class="org-color"></span></label>
+                                            <input type="text" class="form-control" id="Email" tabindex="4" name="Email" />
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>تلفن همراه<span class="org-color">*</span></label>
+                                            <input type="text" class="form-control" required id="PhoneNumber" tabindex="5" name="PhoneNumber" />
+                                        </div>
+                                        <div style="display:none" class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>کد پستی<span class="org-color"></span></label>
+                                            <input type="text" class="form-control" id="ZipPostalCode" tabindex="6" name="ZipPostalCode" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12">
+                                            <label>آدرس <span class="org-color">*</span></label>
+                                            <input type="text" class="form-control" required id="Address1" tabindex="7" name="Address1" />
+                                            <input type="hidden" id="Lat" name="Lat" />
+                                            <input type="hidden" id="Lon" name="Lon" />
+                                            <input type="hidden" id="addressType" name="addressType" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12" style="text-align: left;padding: 10px 0px 10px 10px;">
+                                            <a class="btn btn-success faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="confirmAddress1" title="تایید و ثبت آدرس" tabindex="-1">
+                                                تایید و ثبت
+                                                <i class="fa fa-check faa-tada" aria-hidden="true" style="color: white;"></i>
+                                            </a>
+                                            <a data-dismiss="modal" aria-label="Close" title="بستن" tabindex="-1" class="btn btn-warning faa-parent animated-hover">
+                                                انصراف
+                                                <i class="fa fa-times faa-tada" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div tabindex="-1" class="col-md-12 col-lg-12 col-xl-6 col-sm-12  mw-100 w-100" style="">
+                                        <div id="mapBox" tabindex="-1" class="mw-100 w-100" style="height:500px !important"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/Ap_newCheckout.js?ver=12"></script>
+<script>
+    $(document).ready(function () {
+        $('.top-bar').hide();
+        //$('.actions li:last-child a').click(function () {
+        //
+        //    window.location.href = 'showResults';
+        //    return false;
+        //});
+
+
+        $('#tableSelect tr').click(function () {
+            $(this).find('td input:radio').prop('checked', true);
+        });
+        
+
+        var options = {
+            document: document,
+            wizard: '#wizard',
+            WeightItem: '#Weight_g',
+            InsuranceItem: '#Insurance',
+            SenderCountryItem: '#Sender_Country',
+            SenderStateItem: '#Sender_State',
+            receiverCountryItem: '#receiver_Country',
+            receiverStateItem: '#receiver_State',
+            kartonSizeItem: '#KartonLafaf',
+            IsAgent:@(Model.IsAgent.ToString().ToLower()),
+            IsInCodRole:@(Model.IsInCodRole.ToString().ToLower())
+
+        };
+        var form = new newCheckout(options);
+//===================================Map config===============================================================================
+        var map = L.map('mapBox').setView([35.7248, 51.3817], 13);
+
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '',//'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var currentMarker;
+
+        map.on("click", function (event) {
+            if (currentMarker) {
+                currentMarker._icon.style.transition = "transform 0.3s ease-out";
+                currentMarker._shadow.style.transition = "transform 0.3s ease-out";
+                currentMarker.setLatLng(event.latlng);
+                setTimeout(function () {
+                    currentMarker._icon.style.transition = null;
+                    currentMarker._shadow.style.transition = null;
+                }, 300);
+                return;
+            }
+
+            currentMarker = L.marker(event.latlng, {
+                draggable: true
+            }).addTo(map).on("click", function () {
+                event.originalEvent.stopPropagation();
+            });
+            $('a').attr('tabindex', '-1');
+        });
+//===================================Map config===============================================================================
+        $('#mapModal').on('shown.bs.modal', function () {
+            setTimeout(function () {
+                map.invalidateSize();
+                $('a').attr('tabindex', '-1');
+            }, 300);
+        });
+        $('#mapModal').on('show.bs.modal', function () {
+
+        });
+        $("input[type=text]").focus(function () {
+            $(this).select();
+        });
+
+        document.getElementById('ApproximateValue').addEventListener('input', event =>
+            event.target.value = addNeg(event.target.value, 'ApproximateValue')
+        );
+        document.getElementById('Weight_g').addEventListener('input', event =>
+            event.target.value = addNeg(event.target.value, 'Weight_g')
+        );
+        function addNeg(value,name) {
+            if ((value.replace(/,/g, '')).length >= 9) {
+                value = value.replace(/,/g, '').substring(0, 9);
+            }
+            var result = ToLocalInt(value);
+            if (name == 'Weight_g' && parseInt(result.replace(/,/g, '')) > 30000)
+            {
+                asanPardakht.application.showMessageBox('وزن غیر مجاز', 'حداکثر وزن مجاز 30000 گرم(30 کیلو گرم) در هر بسته می باشد', 1);
+                result=30000;
+            }
+           return result.toLocaleString('en-US');
+        }
+        $('.myTooltip').tooltip();
+        $('a').attr('tabindex', '-1');
+        $('#_NewAddress').find('input').click(function () {
+            myItem = $(this);
+            setTimeout(myItem.focus(), 300);
+        });
+        asanPardakht.application.setPageTitle('امنیتو');
+        asanPardakht.application.beInformedWebAppIsReady('@(Model.ApStartupConfig)');
+    });
+</script>
+
+<div class="modal fade" id="Rule1Modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                @*<div id="content3"  ></div>*@
+                <div class="page-body">
+                    <p style="text-align: right;"> </p>
+                    <p class="MsoNormal" dir="RTL" style="text-align: right; direction: rtl; unicode-bidi: embed;"><span lang="AR-SA" style="font-size: 10pt; line-height: 106%; font-family: 'B Koodak'; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">جعبه های استاندارد پستی چست؟</span></p>
+                    <p class="MsoNormal" dir="RTL" style="text-align: right; direction: rtl; unicode-bidi: embed;"><span lang="AR-SA" style="font-family: 'B Koodak';">ساسا جعبه استاندارد پستی میبایستی </span><span lang="FA" style="font-family: 'B Koodak'; mso-bidi-language: FA;">۳</span><span lang="AR-SA" style="font-family: 'B Koodak';"> تا </span><span lang="FA" style="font-family: 'B Koodak'; mso-bidi-language: FA;">۵</span><span lang="AR-SA" style="font-family: 'B Koodak';"> لایه باشد تا در مسیر جابجایی پستی جعبه متلاشی نگردد.</span></p>
+                    <p class="MsoNormal" dir="RTL" style="text-align: right; direction: rtl; unicode-bidi: embed;"><span lang="AR-SA" style="font-family: 'B Koodak';">حالا شما میتوانید با استفاده از گزینه خرید بسته استاندارد پستی از این سرویس توسط هر یک از فعالین پستی برخوردار شوید</span></p>
+                    <p class="MsoNormal" dir="RTL" style="text-align: right; direction: rtl; unicode-bidi: embed;"><span lang="AR-SA" style="font-family: 'B Koodak';">سایز بسته های استاندارد پستی به شرح ذیل میباشد</span></p>
+                    <p class="MsoNormal" dir="RTL" style="direction: rtl; unicode-bidi: embed; text-align: center;"><span lang="AR-SA" style="font-family: 'B Koodak';"><img src="http://postex.ir/images/uploaded/shipito/Untitled4.png" alt="" width="300" height="500" /></span></p>
+                    <p class="MsoNormal" dir="RTL" style="direction: rtl; unicode-bidi: embed; text-align: center;"><span lang="AR-SA" style="font-family: 'B Koodak';"><img src="http://postex.ir/images/uploaded/shipito/2334.jpg" alt="" width="300" height="300" /></span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function divload() {
+        $('#RuleModal').modal('show');
+    }
+    
+</script>

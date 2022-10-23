@@ -1,0 +1,717 @@
+﻿@model IList<Nop.Plugin.Misc.PostbarDashboard.Models.OrderModel>
+@using System.Net;
+@using Nop.Core;
+@using Newtonsoft.Json;
+@using Nop.Web.Framework.UI;
+@using Nop.Core.Domain.Customers;
+
+@inject IWebHelper webHelper;
+@inject IWorkContext _workContext;
+
+@{
+    //Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postbar/_NewUiDashboardLayout.cshtml";
+    int pageIndex = ViewBag.PageIndex;
+    int pageSize = ViewBag.PageSize;
+    //int rowsCount = ViewBag.RowsCount;
+    bool canChangeStatus = _workContext.CurrentCustomer.IsInCustomerRole("SelfCollector");
+    int i = 1;
+
+
+    <style>
+        a > .fa {
+            top: 1px !important;
+        }
+
+        .postServices {
+            width: 100%;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            z-index: 9997;
+            opacity: 0.5;
+            display: none;
+        }
+
+        .overlayRow {
+            width: 100%;
+            min-height: 50px;
+            background-color: white;
+            border-bottom: 1px solid #bbb9b9;
+            font-size: 9pt;
+            vertical-align: middle;
+            text-align: right !important;
+            padding-right: 16px;
+            padding-top: 10px;
+        }
+
+            .overlayRow:hover {
+                background-color: #cccccc !important;
+            }
+
+        .orderItem {
+            min-height: 110px;
+            border-radius: 6px !important;
+            width: 100%;
+            background-color: white;
+            margin-bottom: 10px
+        }
+
+
+
+        .cardBottom {
+            min-height: 30px;
+            width: 100%;
+        }
+
+        @@media (max-width:768px) {
+            .cardTitle {
+                width: 100%;
+                min-height: 80px;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-bottom-color: gray;
+                font-size: 8pt;
+                color: gray;
+                padding-top: 3px;
+            }
+        }
+
+        @@media (min-width:320px) {
+            .leftCol {
+                width: 70%;
+                float: left;
+                min-height: 80px;
+                margin-left: 2%;
+            }
+
+            .rightCol {
+                width: 25%;
+                float: right;
+            }
+        }
+
+        @@media (min-width:360px) {
+            .leftCol {
+                width: 74%;
+                float: left;
+                min-height: 80px;
+                margin-left: 2%;
+            }
+
+            .rightCol {
+                width: 22%;
+                float: right;
+            }
+        }
+
+        @@media (min-width:425px) {
+            .leftCol {
+                width: 77%;
+                float: left;
+                min-height: 80px;
+                margin-left: 2%;
+            }
+
+            .rightCol {
+                width: 19%;
+                float: right;
+            }
+        }
+
+        @@media (min-width:768px) {
+            .cardTitle {
+                width: 100%;
+                min-height: 80px;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-bottom-color: gray;
+                font-size: 10pt !important;
+                color: gray;
+                padding-top: 3px;
+            }
+
+            .leftCol {
+                width: 90% !important;
+                float: left;
+                min-height: 80px;
+                margin-left: 2%;
+            }
+
+            .rightCol {
+                width: 7% !important;
+                float: right;
+            }
+        }
+
+        .rightColUp {
+            width: 100%;
+            min-height: 65px;
+            margin: 2px;
+            border-radius: 10px;
+        }
+
+        .rightColDown {
+            min-height: 35px;
+            width: 100%;
+            font-size: 8pt;
+            text-align: center;
+            vertical-align: middle;
+            color: black;
+            padding-top: 2px;
+        }
+
+        .orderConsol {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: white;
+            height: 400px;
+            display: none;
+            right: 0px;
+            z-index: 99998;
+        }
+
+        .myLabel {
+            color: black;
+        }
+
+        .status {
+            padding: 0px 3px 0px 3px;
+            border-radius: 10px;
+            float: left;
+            color: white !important;
+        }
+    </style>
+
+}
+
+
+
+
+@foreach (var item in Model)
+{
+    string Color = "";
+    string payColor = "";
+    string imgName = "";
+    int _categoryId = item.CategoryId == null ? 0 : item.CategoryId.Value;
+    #region MyRegion
+    if (new int[] { 654, 655, 667, 670, 662, 661, 660, 698, 697, 696, 695, 694, 693, 691, 690, 722, 723 }.Contains(_categoryId))
+    {
+        imgName = "POSTBAR";
+    }
+    else if (new int[] { 730,731 }.Contains(_categoryId))
+    {
+        imgName = "Mahex";
+    }
+
+    else if (new int[] { 725, 726, 727 }.Contains(_categoryId))
+    {
+        imgName = "shipito";
+    }
+    else if (_categoryId == 568 || _categoryId == 0)
+    {
+        imgName = "wallet";
+    }
+    else if (new int[] { 703, 699, 705, 706 }.Contains(_categoryId))
+    {
+        imgName = "DTS";
+    }
+    else if (new int[] { 702 }.Contains(_categoryId))
+    {
+        imgName = "YARBOX";
+    }
+    else if (new int[] { 701 }.Contains(_categoryId))
+    {
+        imgName = "UBAAR";
+    }
+    else if (new int[] { 707, 708 }.Contains(_categoryId))
+    {
+        imgName = "PDE";
+    }
+    else if (new int[] { 709, 710, 711 }.Contains(_categoryId))
+    {
+        imgName = "TPG";
+    }
+    else if (new int[] { 712, 713, 714, 715 }.Contains(_categoryId))
+    {
+        imgName = "CHAPAR";
+    }
+    else if (new int[] { 717 }.Contains(_categoryId))
+    {
+        imgName = "SNAPBOX";
+    }
+    else if (new int[] { 718 }.Contains(_categoryId))
+    {
+        imgName = "POSTEXPLUS";
+    }
+    else if (new int[] { 719 }.Contains(_categoryId))
+    {
+        imgName = "BLUESKY";
+    }
+     else if (new int[] { 730, 731 }.Contains(_categoryId))
+    {
+        imgName = "Mahex";
+    }
+     else if (new int[] { 733 }.Contains(_categoryId))
+    {
+        imgName = "KBK";
+    }
+    #endregion
+    switch (item.OrderStatusId)
+    {
+        case 10:
+            Color = "#4D4D4F";
+            break;
+        case 20:
+            Color = "#2d89cc";
+            break;
+        case 30:
+            Color = "#379B36";
+            break;
+        case 40:
+            Color = "#F2432E";
+            break;
+    }
+    switch (item.PaymentStatusId)
+    {
+        case 10:
+            payColor = "#4D4D4F";
+            break;
+        case 20:
+            payColor = "#2d89cc";
+            break;
+        case 30:
+            payColor = "#379B36";
+            break;
+        case 40:
+            payColor = "#F2432E";
+            break;
+    }
+
+    <div id="divOrder@(item.OrderId)" class="orderItem">
+        <span style="display:none" class="data">
+            @Html.Raw(JsonConvert.SerializeObject(item))
+        </span>
+        <div class="rightCol">
+            <div class="rightColUp">
+                <img class="postServices" src="../ImageServiceProviderDashboard/@(imgName).png" />
+            </div>
+            <div class="rightColDown">
+                <span class="myLabel">@item.CategoryName</span>
+            </div>
+        </div>
+        <div class="leftCol">
+            <div class="cardTitle ">
+                <div style="width:100%;float:right">
+                    <div style="margin-top: 5px;">
+                        <span class="myLabel">قیمت: @(item.OrderTotal.GetValueOrDefault(0).ToString("N0") + " ريال")</span>
+                        <a href="#" class="orderdetail" onclick="showOrderdetail(this)" title="جزئیات" style="float:left;width:30px">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true" style="font-size: 15px;top: 5px;left: 4px;float:left"></i>
+                        </a>
+                    </div>
+                    <div style="margin-bottom: 3px;margin-top: 8px;">وضعیت سفارش  <span class="myLabel status" style="background-color:@(Color)">@item.OrderStatus</span></div>
+                    <div style="margin-bottom: 3px;">وضعیت پرداخت <span class="myLabel status" style="background-color:@(payColor)">@item.PaymentStatus</span></div>
+                    <div style="margin-bottom: 3px;">وضعیت ارسال <span id="span@(item.OrderId)" class="myLabel status" style="background-color:@(Color)">@item.ShipmentsState</span></div>
+                    
+
+                </div>
+
+            </div>
+            <div class="cardBottom">
+                <div style="width:50%;height:100%;font-size:8pt;padding-top: 6px;color:gray;float:right">
+                    شماره سفارش  @item.OrderId
+                </div>
+                <div style="width: 50%;height: 100%;text-align: left;float: left;padding-top: 6px;font-size: 8pt;color:black !important;">
+                    @item.OrderDate
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    i++;
+}
+
+<div class="orderConsol">
+    <div style="width: 100%;margin: 10px;margin-top: 14px;min-height: 29px;">
+        <div style="width:15%;float:left;">
+            <a href="#" id="closeOrderDetailes">
+                <i class="fa fa-times" aria-hidden="true" style="color:#000000;opacity:0.5;font-size:16pt;margin-left: 20px;top: 5px !important;"></i>
+            </a>
+        </div>
+        <div style="width: 80%;float:right;text-align: right;margin: 0px;">
+            <div style="width:50%;float:right;text-align:center">
+                <span style="color:black;font-size:9pt;" id="serviceName">
+
+                </span>
+            </div>
+            <div style="width:50%;float:left;text-align: left;">
+                <span style="color:black;font-size:9pt" id="orderDate">
+
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="overlayRow" style="background-color:#cccccc;">
+        <div style="float:right;width:25%;text-align:center">
+            <div>شماره سفارش</div>
+            <div style="color:black" id="orderId"></div>
+        </div>
+        <div style="float:right;width:25%;text-align:center">
+            <div>مبلغ سفارش</div>
+            <div style="color:black" id="orderPrice"></div>
+        </div>
+        <div style="float:right;width:25%;text-align:center">
+            <div>وضعیت سفارش</div>
+            <div style="color:black" id="orderState"></div>
+        </div>        
+        @if (canChangeStatus)
+        {
+            <div style="float:right;width:25%;text-align:center">
+                <span>
+                    <a href="#" class="orderdetail" onclick="funChangeToReadyState(this)" title="آماده ارسال به پست">
+                        آماده ارسال
+                    </a>
+                    <div>
+                        وضعیت فعلی : <span id="ShipmentsState"></span>
+                    </div>
+                </span>
+            </div>
+        }      
+
+    </div>
+    <div class="overlayRow" style="" id="payment">
+        <a href="#">
+            <i class="fa fa-credit-card" aria-hidden="true" style="color:#bb0808"></i>
+            <span style="margin-right:10px">وضعیت پرداخت : </span>
+            <span id="paymentStatus"> </span>
+            <span id="payAction">
+                پرداخت کنید
+                <i class="fa fa-arrow-left" style="font-size:7pt;top:0px" aria-hidden="true"></i>
+            </span>
+        </a>
+    </div>
+    <div class="overlayRow" id="downloadFactor">
+        <a href="#">
+            <i class="fa fa-download" aria-hidden="true" style="color:#b5790a"></i>
+            <span style="margin-right:10px" id="factorText"></span>
+        </a>
+    </div>
+    <div class="overlayRow" id="downloadFactor58">
+        <a href="#">
+            <i class="fa fa-download" aria-hidden="true" style="color:#b5790a"></i>
+            <span style="margin-right:10px" id="factorText58"></span>
+        </a>
+    </div>
+    <div class="overlayRow" id="showBarcodes">
+        <a href="#">
+            <i class="fa fa-barcode" aria-hidden="true" style="color:gray"></i>
+
+            <span style="margin-right:10px"> مرسولات،بارکد پستی و آخرین وضعیت هر مرسوله</span>
+        </a>
+    </div>
+    @*<div class="overlayRow" id="cancelOrder">
+            <a href="#">
+                <i class="fa fa-times" aria-hidden="true" style="color:#bb0808"></i>
+
+                <span style="margin-right:10px">کنسل کردن سفارش</span>
+            </a>
+        </div>*@
+    <div class="overlayRow">
+        <a href="#">
+            <i class="fa fa-address-card" aria-hidden="true" style="color:#539412"></i>
+
+            <span style="margin-right:10px">فرستنده:</span>
+            <span id="senderAddress"></span>
+        </a>
+    </div>
+</div>
+<div class="overlay">
+
+</div>
+
+@*<input type="hidden" value="PagesIndex" />*@
+<div id="pagination" style="width:100%;margin-top:15px">
+
+</div>
+<div class="modal fade" id="divPayments" tabindex="-1" role="dialog" aria-labelledby="divPaymentsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="divPaymentsLabel" style="float:right">پرداخت</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divPayments-Body">
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+@*@{
+        string pages = "";
+        for (int j = 0; j < rowsCount; j++)
+        {
+            pages += (pages == "" ? j.ToString() : "," + j);
+        }
+    }*@
+
+<input type="hidden" id="PageIndex" value="" />
+<script type="text/javascript">
+
+    function funChangeToReadyState(item)
+    {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: '@(Url.Action("ChangeOrderState", "PostbarDashboard"))',
+            data: { orderId: $(`#orderId`).html(), state: 1 },
+            success: (response) => {
+                debugger;
+                $(`#ShipmentsState`).html(response.message);
+                var orderId = $(`#orderId`).html();
+                var data = JSON.parse($(`#divOrder${orderId}`).find('.data').html());
+                data.ShipmentsState = response.message;
+                $(`#divOrder${orderId}`).find('.data').html(JSON.stringify(data));
+                $(`#span${orderId}`).html(response.message);
+
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+            }
+        });
+    }
+
+    function showOrderdetail(item) {
+
+        debugger;
+        var data = JSON.parse($(item).parents().eq(4).find('.data').html());
+
+        $('#senderAddress').html('');
+       // $('#cancelOrder').off('click');
+        $('#showBarcodes').off('click');
+        $('#downloadFactor').off('click');
+        $('#downloadFactor58').off('click');
+        $('#factorText').html('');
+        $('#factorText58').html('');
+        $('#payment').off('click');
+        $('#payAction').hide();
+        $('#paymentStatus').html('');
+        $('#orderState').html('');
+        $('#orderPrice').html('');
+        $('#orderId').html('');
+        $('#orderDate').html('');
+        $('#serviceName').html('');
+        $('#senderAddress').html('');
+
+        $('#senderAddress').val(data.strBillingAddress);
+        //$('#cancelOrder').on('click', function () { CancelOrder(data.OrderId, data.CategoryId, data.OrderStatusId); });
+
+        if (data.OrderStatusId == 20 || data.OrderStatusId == 30) {
+            $('#factorText').html('دانلود فاکتور');
+            $('#factorText58').html('دانلود فاکتور 58 میلیمتری');
+            $('#downloadFactor').on('click', function () { openPdf(data.OrderId); });
+            $('#downloadFactor58').on('click', function () { openPdf(data.OrderId,true); });
+        } else {
+            $('#factorText').html('فاکتور ناموجود');
+            $('#factorText58').html('فاکتور ناموجود');
+        }
+        if (data.PaymentStatusId == 10 && data.OrderStatusId != 40) {
+            $('#payAction').show();
+            $('#payment').on('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                payForOrder(data.OrderId);
+            });
+        }
+        else {
+            $('#payment').on('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                alert( 'امکان پرداخت این سفارش وجود ندارد', 1);
+            });
+        }
+        $('#paymentStatus').html(data.PaymentStatus);
+        $('#orderState').html(data.OrderStatus);
+        $('#orderPrice').html(data.OrderTotal);
+        $('#orderId').html(data.OrderId);
+        $('#orderDate').html(data.OrderDate);
+        $('#serviceName').html(data.CategoryName);
+        $('#senderAddress').html(data.strBillingAddress);
+        $('#ShipmentsState').html(data.ShipmentsState);
+
+        //$('#showBarcodes')
+
+        $('.overlay').stop().toggle();
+        $('.orderConsol').stop().slideToggle();
+        return false;
+    };
+    $(document).ready(function () {
+        //$(".orderConsol").off('swipe');
+        //$(".orderConsol").swipe({
+        //    swipeDown: function (event, direction, distance, duration, fingerCount) {
+        //        $('.overlay').stop().toggle();
+        //        $('.orderConsol').slideToggle();
+        //    },
+        //    threshold: 0
+        //});
+        //$('.orderConsol').off('dragstart', 'a');
+        //$('.orderConsol').on('dragstart', 'a', function () {
+        //    return false;
+        //});
+        //$('.overlay').off('click');
+        $('#closeOrderDetailes').off('click');
+        $('#closeOrderDetailes').click(function () {
+            $('.overlay').stop().toggle();
+            $('.orderConsol').stop().slideToggle();
+        });
+        //$('.overlay').click(function () {
+        //    $('.overlay').stop().toggle();
+        //    $('.orderConsol').stop().slideToggle();
+        //});
+        var canAdd = true;
+        $('body').find('.overlay').each(function () {
+            if ($(this).attr('addedToBoady')) {
+                $(this).remove()
+                return;
+            }
+        });
+        $('body').find('.orderConsol').each(function () {
+            if ($(this).attr('addedToBoady')) {
+                $(this).remove()
+                return;
+            }
+        });
+        $('.orderConsol').attr('addedToBoady', 'true');
+        $('.overlay').attr('addedToBoady', 'true');
+        $('.overlay').appendTo("body");
+        $('.orderConsol').appendTo("body");
+
+        var currentPage = parseInt($('#PageIndex').val() == '' ? 0 : $('#PageIndex').val()) + 1;
+
+        @*$('#PagesIndex').val('@pages');*@
+        @*$('#pagination').pagination({
+            dataSource: '@pages'.split(','),
+            pageSize:@(pageSize),
+            pageNumber: currentPage,
+            showGoInput: false,
+            showGoButton: false,
+
+            afterPreviousOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("OrdersPaged", "ApDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterNextOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("OrdersPaged", "ApDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterPageOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("OrdersPaged", "ApDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterGoButtonOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("OrdersPaged", "ApDashboard")", pageIndex, pageSize, '#div_table');
+            }
+        });*@
+
+    });
+    function payForOrder(orderId) {
+
+            $('#divPayments-Body').html('');
+            $('#closeOrderDetailes').click();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                beforeSend: function () {
+                    debugger;
+                    $('#loader').show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                url: "@(Url.Action("PayForOrderIndex", "ShipitoCheckout"))",
+                data: { "orderId": orderId},
+                success: function (data) {
+                    debugger;
+
+                    if (data.message) {
+                        alert(data.message);
+                        return;
+                    }
+                    else {
+                        $('#divPayments-Body').html(data);
+                        $('#divPayments').modal('show', { backdrop: 'static' });
+                        $('#divPayments').appendTo("body");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#divPayments').modal('hide');
+                    alert('خطا');
+                }
+            });
+    }
+    function openPdf(orderId,is58) {
+        debugger;
+        if(!is58)
+            window.location = '/orderdetails/pdf/' + orderId.toString();
+        else
+            window.location = '/printLable/' + orderId.toString();
+    }
+    //function CancelOrder(orderid, categoryId, orderStatusId) {
+
+    //    if (orderStatusId == 40) {
+    //        alert( 'سفارش مورد نظر شما قبلا کنسل شده', 1);
+    //        return;
+    //    }
+    //    var postItems = [654, 655, 660, 661, 662, 677, 698, 697, 696, 695, 694, 693, 691, 690, 659, 660, 661, 662];
+    //    if (orderStatusId != 10) {
+    //        if (postItems.find(function (serviceId) { return serviceId == categoryId })) {
+    //            if (confirm('سفارش مورد نظر مربوط به پست بار می باشد در صورت کنسلی مبلغ هزینه پستی عودت داده نمی شود!')){
+    //                _cancelOrder(orderid);
+    //            }
+    //        }
+    //        else {
+    //            _cancelOrder(orderid);
+    //        }
+    //    } else {
+    //        _cancelOrder(orderid);
+    //    }
+    //}
+    //function _cancelOrder(orderId) {
+    //    $.ajax({
+    //        beforeSend: function () {
+    //            $('#loader').show();;
+    //        },
+    //        complete: function () {
+    //            $('#loader').hide();;
+    //        },
+    //        type: "POST",
+    //        data: { "orderId": orderId},
+    //        url: "/SepDashboard/cancelOrder",
+    //        success: function (data) {
+    //            alert( data.message, 1);
+    //            $('#loader').show();;
+    //            window.location.reload();
+    //        }
+    //    });
+    //}
+    $(document).ready(function () {
+        $('.orders-tbl').css('padding-bottom', $('.navbar.navbar-dark.fixed-bottom').height() + 10);
+
+    });
+
+
+</script>
+<script type="text/javascript" src="~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/infinite-ajax-scroll.min.js"></script>

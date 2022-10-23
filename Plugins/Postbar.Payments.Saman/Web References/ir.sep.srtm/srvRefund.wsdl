@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="srvRefund" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_IsrvRefund_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://srtm.sep.ir/RefundService/srvRefund.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://srtm.sep.ir/RefundService/srvRefund.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://srtm.sep.ir/RefundService/srvRefund.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Refund.DTO" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IsrvRefund_Refund_Reg_InputMessage">
+    <wsdl:part name="parameters" element="tns:Refund_Reg" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_Refund_Reg_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Refund_RegResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_Refund_Exec_InputMessage">
+    <wsdl:part name="parameters" element="tns:Refund_Exec" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_Refund_Exec_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Refund_ExecResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetDailyRefundList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDailyRefundList" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetDailyRefundList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDailyRefundListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetRefundStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRefundStatus" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetRefundStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRefundStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetModifiedRefundList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetModifiedRefundList" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetModifiedRefundList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetModifiedRefundListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetRefundDetail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRefundDetail" />
+  </wsdl:message>
+  <wsdl:message name="IsrvRefund_GetRefundDetail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRefundDetailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IsrvRefund">
+    <wsdl:operation name="Refund_Reg">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/Refund_Reg" message="tns:IsrvRefund_Refund_Reg_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/Refund_RegResponse" message="tns:IsrvRefund_Refund_Reg_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Refund_Exec">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/Refund_Exec" message="tns:IsrvRefund_Refund_Exec_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/Refund_ExecResponse" message="tns:IsrvRefund_Refund_Exec_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDailyRefundList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/GetDailyRefundList" message="tns:IsrvRefund_GetDailyRefundList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/GetDailyRefundListResponse" message="tns:IsrvRefund_GetDailyRefundList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/GetRefundStatus" message="tns:IsrvRefund_GetRefundStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/GetRefundStatusResponse" message="tns:IsrvRefund_GetRefundStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModifiedRefundList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/GetModifiedRefundList" message="tns:IsrvRefund_GetModifiedRefundList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/GetModifiedRefundListResponse" message="tns:IsrvRefund_GetModifiedRefundList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundDetail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IsrvRefund/GetRefundDetail" message="tns:IsrvRefund_GetRefundDetail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IsrvRefund/GetRefundDetailResponse" message="tns:IsrvRefund_GetRefundDetail_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IsrvRefund" type="tns:IsrvRefund">
+    <wsp:PolicyReference URI="#BasicHttpBinding_IsrvRefund_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Refund_Reg">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/Refund_Reg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Refund_Exec">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/Refund_Exec" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDailyRefundList">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/GetDailyRefundList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundStatus">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/GetRefundStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModifiedRefundList">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/GetModifiedRefundList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRefundDetail">
+      <soap:operation soapAction="http://tempuri.org/IsrvRefund/GetRefundDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="srvRefund">
+    <wsdl:port name="BasicHttpBinding_IsrvRefund" binding="tns:BasicHttpBinding_IsrvRefund">
+      <soap:address location="https://srtm.sep.ir/RefundService/srvRefund.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

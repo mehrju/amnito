@@ -1,0 +1,89 @@
+﻿@model Nop.Plugin.Misc.Ticket.Domain.Tbl_Ticket_Staff_Department
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Misc.Ticket/Scripts/Select2/dist/css/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Misc.Ticket/Scripts/Select2/dist/js/select2.full.min.js");
+
+}
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="UserId" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-select asp-for="UserId" asp-items="Model.ListUsers" />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IdDepartment" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-select asp-for="IdDepartment" asp-items="Model.ListDepartments" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+         
+
+        </div>
+            </div>
+        </div>
+
+<script type="text/javascript">
+
+            $(document).ready(function()
+                   {
+
+                $('#UserId').select2({
+
+                        width: '100%',
+                        placeholder: "جستجو نام کاربری",
+                        minimumInputLength: 7,
+                        ajax:
+                        { // instead of writing the function to execute the request we use Select2's convenient helper
+                            url: '@Url.Action("GetCustomerList", "ManageStaffDepartmentTicket")',
+                            dataType: 'json',
+                            quietMillis: 250,/*, page*/
+                            data: function(term) {
+                                var data = { 'searchtext': term.term };
+                            addAntiForgeryToken(data);
+                            return data;
+                        },
+                            results: function(data) { // parse the results into the format expected by Select2.
+                            debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                            return { results: data };
+                        },
+                            cache: true
+                        },
+                        dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+                });
+
+
+
+
+
+        });
+
+
+
+
+</script>
+

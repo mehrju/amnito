@@ -1,0 +1,11 @@
+﻿{
+  "Group": "1_NopFarsi",
+  "FriendlyName": "آسان پرداخت",
+  "SystemName": "NopFarsi.Payments.AsanPardakht",
+  "Version": "4.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "NopFarsi.ir  (MJ Vakili)",
+  "DisplayOrder": 10,
+  "FileName": "NopFarsi.Payments.AsanPardakht.dll",
+  "Description": "این پلاگین امکان پرداخت از طریق سامانه آسان پرداخت را فراهم می کند."
+}

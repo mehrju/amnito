@@ -1,0 +1,94 @@
+﻿@model IList<Nop.Plugin.Misc.PostbarDashboard.Models.CustomerSubsetModel>
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@{
+    //Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postbar/_NewUiDashboardLayout.cshtml";
+    int pageIndex = ViewBag.PageIndex;
+    int pageSize = ViewBag.PageSize;
+    int rowsCount = ViewBag.RowsCount;
+    int i = 1;
+    <link href="~/Scripts/style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+}
+
+<table id="myTable" class="table table-responsive-sm ">
+    <tbody>
+        <tr>
+            <th>#</th>
+            <th>نام و نام خانوادگی</th>
+            <th> موبایل</th>
+            <th>تاریخ ثبت نام</th>
+            <th>مجموع مبلغ سفارشات</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(pageIndex * pageSize + i)</td>
+                <td>@item.fullname</td>
+                <td>@item.mobile</td>
+                <td>@item.DateRegister </td>
+                <td>@item.Total</td>
+                @*<td>
+                    <a class="btn bg-purple" target="_blank" title="جزییات" href="/PostbarDashboard/DetailSupport/@(item.SupportId)">
+
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </td>*@
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+
+<div id="pagination" style="width:100%;margin-top:15px">
+
+</div>
+@{
+    string pages = "";
+    int pageNumbers = Convert.ToInt32(rowsCount / pageSize);
+    if (rowsCount % pageSize > 0)
+    {
+        pageNumbers++;
+    }
+    for (int j = 0; j < pageNumbers; j++)
+    {
+        pages += (pages == "" ? j.ToString() : "," + j);
+    }
+
+}
+
+<input type="hidden" id="PageIndex" value="" />
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var currentPage = parseInt($('#PageIndex').val() == '' ? 0 : $('#PageIndex').val())+1;
+        $("#pagination").pagination({
+            dataSource: '@pages'.split(','),
+            pageSize:@(pageSize),
+            pageNumber: currentPage,
+            showGoInput: true,
+            showGoButton: true,
+
+            afterPreviousOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("CustomersubsetPaged", "PostbarDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterNextOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("CustomersubsetPaged", "PostbarDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterPageOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("CustomersubsetPaged", "PostbarDashboard")", pageIndex, pageSize, '#div_table');
+            },
+            afterGoButtonOnClick: function (e, pageIndex) {
+                pageIndex -= 1;
+                loadData("@Url.Action("CustomersubsetPaged", "PostbarDashboard")", pageIndex, pageSize, '#div_table');
+            }
+        });
+
+    });
+</script>

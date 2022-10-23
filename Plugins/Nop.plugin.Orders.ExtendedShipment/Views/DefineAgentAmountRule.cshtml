@@ -1,0 +1,418 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.AgentAmountRuleModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+    //page title
+}
+
+<div class="content">
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="Name" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-editor asp-for="Name" />
+                            </div>
+                            <div class="col-md-2">
+                                <nop-label asp-for="ProductId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="ProductId" asp-items="Model.AvailableProduct" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="ProductAttributeId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="ProductAttributeId" />
+                            </div>
+                            <div class="col-md-2">
+                                <nop-label asp-for="ProductAttributeValueId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="ProductAttributeValueId" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="MinCount" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-editor asp-for="MinCount" />
+                            </div>
+                            <div class="col-md-2">
+                                <nop-label asp-for="MaxCount" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-editor asp-for="MaxCount" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="Price" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-editor asp-for="Price" />
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: left;">
+                            <button type="button" id="Save-AgentAmountRule" class="btn btn-primary btn-save">
+                                <i class="fa fa-save"></i>
+                                ذخیره
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="deleteAgentAmountRuleModal" tabindex="-1" role="dialog" aria-labelledby="deleteAgentAmountRuleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteAgentAmountRuleModalLabel">حذف</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>آیا از حذف قانون نماینده اطمینان دارید؟</h3>
+                            <br />
+                            در صورت حذف، قانون مذکور برای نمایندگان قابل استفاده نمی باشد و می بایست قانون جدید برای این حالت تعریف و به نمایندگان انتصاب دهید
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="_AgentAmountRuleId" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                            <button type="button" id="deleteAgentAmountRule" class="btn btn-primary">بله،حذف شود</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="AgentAmountRule-grid"></div>
+            <script type="text/javascript">
+                var $sgentAmountRuleId = $('#_AgentAmountRuleId');
+                $(document).ready(function () {
+                    
+                    $("#AgentAmountRule-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("getAgentAmountList", "AgentAmountRule"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: additionalData
+                                } ,
+                                update: {
+                                    url: "@Html.Raw(Url.Action("UpdateAgentAmountRule", "AgentAmountRule"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: addAntiForgeryToken
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors",
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false, type: "int" },
+                                        Name: { editable: true, type: "string" },
+                                        ProductName: { editable: false, type: "string" },
+                                        ProductAttributeName: { editable: false, type: "string" },
+                                        ProductAttributeValueName: { editable: false, type: "string" },
+                                        Price: { editable: false, type: "int" },
+                                        MinCount: { editable: false, type: "int" },
+                                        MaxCount: { editable: false, type: "int" },
+                                        CreateDate: { editable: false, type: "date" }
+                                    }
+                                }
+                            },
+                            requestEnd: function(e) {
+                                if (e.type == "read") {
+                                    var response = e.response;
+                                    if (response) {
+                                        //store extra data
+                                        reportAggregates = e.response["ExtraData"];
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: false
+                        },
+                        dataBound: function(e) {
+                            //$('#AgentAmountRule-grid').css('overflow', 'unset');
+                            //$('.k-grid-header').css('padding-right', '0px');
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },editable: {
+                            confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                            mode: "inline"
+                        },
+                        //height: 700,
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "Id",
+                                title: "شناسه",
+                                width: 50
+                            },
+                            {
+                                field: "Name",
+                                title: "عنوان",
+                                width: 300,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "ProductName",
+                                title: "محصول",
+                                width: 200,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "ProductAttributeName",
+                                title: "ویژگی محصول",
+                                width: 150
+                            },
+                            {
+                                field: "ProductAttributeValueName",
+                                title: "مقدار ویژگی محصول",
+                                width: 150
+
+                            },
+                            {
+                                field: "MinCount",
+                                title: "تعداد از",
+                                width: 100
+
+                            },
+                            {
+                                field: "MaxCount",
+                                title: "تعداد تا",
+                                width: 100
+
+                            },
+                            {
+                                field: "Price",
+                                title: "مبلغ نمایندگی",
+                                width: 150
+
+                            },
+                            {
+                                field: "CreateDate",
+                                title: "تاریخ ثبت",
+                                width: 150,
+                                type: "date",
+                                format: "{0:G}"
+                            }
+                            , {
+                                command: {
+                                    name: "edit",
+                                    text: {
+                                        edit: "@T("Admin.Common.Edit")",
+                                        update: "@T("Admin.Common.Update")",
+                                        cancel: "@T("Admin.Common.Cancel")"
+                                    }
+                                },
+                                title: "@T("Admin.Common.Edit")",
+                                width: 100
+                            }
+                            , {
+                                field: "Id",
+                                title: "حذف",
+                                width: 50,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template:
+                                    '<a class="btn btn-default" onClick="ConfirmDeleteRule(#=Id#)" ><i class="fa fa-times" style="color:red"></i></a>'
+                            }
+                        ]
+                    });
+                });
+
+                function additionalData() {
+                    data = {};
+                    addAntiForgeryToken(data);
+                    return data;
+                }
+                function ConfirmDeleteRule(_agentAmountRuleId) {
+                    debugger;
+                    $sgentAmountRuleId.val(_agentAmountRuleId);
+                    $('#deleteAgentAmountRuleModal').modal('show', { backdrop: 'static' });
+                    $('#deleteAgentAmountRuleModal').appendTo("body");
+                }
+                
+           
+                function refreshGrid() {
+                    var grid = $('#AgentAmountRule-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                }
+                $(document).ready(function() {
+                    $('#deleteAgentAmountRule').click(function () {
+                            debugger;
+                        var agentAmountRuleId = $sgentAmountRuleId.val();
+                        if (!agentAmountRuleId) {
+                            $sgentAmountRuleId.val('');
+                            $('#deleteAgentAmountRuleModal').modal('hide');
+                            alert('لطفا مجددا سعی کنید');
+                            return;
+                        }
+                        var postData = { 'agentAmountRuleId': agentAmountRuleId};
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeleteAgentAmountList", "AgentAmountRule"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.message) {
+                                    alert(result.message);
+                                    $sgentAmountRuleId.val('');
+                                    $('#deleteAgentAmountRuleModal').modal('hide');
+                                    refreshGrid();
+                                }
+                            }
+                        });
+                    });
+                    $('#Save-AgentAmountRule').click(function () {
+                        debugger;
+                        var model = {
+                            Name: $('#Name').val(),
+                            ProductId: $('#ProductId').val(),
+                            ProductAttributeId: $('#ProductAttributeId').val(),
+                            ProductAttributeValueId: $('#ProductAttributeValueId').val(),
+                            Price: $('#Price').val(),
+                            MinCount: $('#MinCount').val(),
+                            MaxCount: $('#MaxCount').val()
+                        };
+                        if (!model.Name) {
+                            alert('عنوان را وارد کنید');
+                            return false;
+                        }
+                        if (model.ProductId==0) {
+                            alert('کالای مورد نظر را انتخاب کنید');
+                            return false;
+                        }
+                        if (model.ProductAttributeId==0) {
+                            alert('وِیژگی مورد نظر را انتخاب کنید');
+                            return false;
+                        }
+                        if (model.ProductAttributeValueId==0) {
+                            alert('مقدار ویژگی مورد نظر را انتخاب کنید');
+                            return false;
+                        }
+                        if (!model.Price || data.Price <=0) {
+                            alert('حق السهم نمایندگی را به درستی وارد نمایید');
+                            return false;
+                        }
+                        if (!model.MinCount || data.MinCount <= 0) {
+                            alert('تعداد از را به درستی وارد نمایید');
+                            return false;
+                        }
+                        if (!model.MaxCount || data.MaxCount <= 0) {
+                            alert('تعداد تا را به درستی وارد نمایید');
+                            return false;
+                        }
+                        addAntiForgeryToken(model);
+                        $.ajax({
+                            type: "POST",
+                            data: model,
+                            dataType: "json",
+                            url: "@(Url.Action("SaveAgentAmountRule", "AgentAmountRule"))",
+                            success: function (data) {
+                                if (data.success) {
+                                    refreshGrid();
+                                }
+                                alert(data.message);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to Save Agent Amount Rule.');
+                            },
+                            traditional: true
+                        });
+                    });
+                    $("#@Html.IdFor(model => model.ProductId)").change(function() {
+                        var selectedItem = $(this).val();
+                        var ddlProductAttribute = $("#@Html.IdFor(model => model.ProductAttributeId)");
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: "@(Url.Action("getProductAttribute", "AgentAmountRule"))",
+                            data: { "productId": selectedItem },
+                            success: function(data) {
+                                ddlProductAttribute.html('');
+                                $.each(data,
+                                    function(id, option) {
+                                        ddlProductAttribute.append($('<option></option>').val(option.Value).html(option.Text));
+                                    });
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve ProductAttribute.');
+                            }
+                        });
+                    });
+                    $("#@Html.IdFor(model => model.ProductAttributeId)").change(function() {
+                        var selectedItem = $(this).val();
+                        var ddlProductAttributeValue = $("#@Html.IdFor(model => model.ProductAttributeValueId)");
+                        var productId = $("#@Html.IdFor(model => model.ProductId)").val();
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: "@(Url.Action("getProductAttributeValue", "AgentAmountRule"))",
+                            data: { "productId": productId, "productAttributeId": selectedItem },
+                            success: function(data) {
+                                ddlProductAttributeValue.html('');
+                                $.each(data,
+                                    function(id, option) {
+                                        ddlProductAttributeValue.append($('<option></option>').val(option.Value).html(option.Text));
+                                    });
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve ProductAttributeValue.');
+                            }
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+

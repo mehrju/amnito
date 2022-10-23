@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Post Shipment tracking",
+  "SystemName": "Widgets.ShipmentTracking",
+  "Version": "1.38",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "nopMaster team, Ehsan Karimi",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.ShipmentTracking.dll",
+  "Description": ""
+}

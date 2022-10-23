@@ -1,0 +1,356 @@
+﻿@model Nop.Plugin.Misc.PrintedReports_Requirements.Models.Search.Search_ServiceProviderDashboard
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = T("Nop.Plugin.Misc.PrintedReports_Requirements.ServiceProviderDashboard_pagetitle").Text;
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+}
+
+
+<form asp-controller="ManageServiceProviderDashboard" asp-action="List" method="post">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.PrintedReports_Requirements.ServiceProviderDashboard_title")
+
+        </h1>
+        <div class="pull-right">
+
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                جدید
+            </a>
+            <button type="button" id="Active-selected" class="btn btn-success">
+                <i class="fa fa-check"></i>
+                فعال سازی(انتخاب شده)
+            </button>
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                غیرفعال سازی(انتخاب شده)
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ServiceProviderDashboard_Title" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_ServiceProviderDashboard_Title" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ServiceProviderDashboard_IsActive" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_ServiceProviderDashboard_IsActive" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group" style="display:none;">
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="Search_ServiceProviderDashboard_ActiveSearch" />
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    جستجو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="products-grid"></div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ProviderList", "ManageServiceProviderDashboard"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        }
+                                        , {
+                                                field: "Grid_ServiceProviderDashboard_UrlImage",
+                                                title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_UrlImage")",
+                                                width: 150,
+                                                template: '<img src="#=Grid_ServiceProviderDashboard_UrlImage#" style="width:100px;"/>',
+                                                headerAttributes: { style: "text-align:center;width:100px;" },
+                                                attributes: { style: "text-align:centerwidth:100px;" }
+                                             }
+                                    ,
+
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_Title",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_Title")",
+                                            width: 100
+                                        }
+
+                                       ,
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_ServiceProviderDashboard_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ServiceProviderDashboard_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.PrintedReports_Requirements.Grid_ServiceProviderDashboard_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+
+                                    ]
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var selectedIds = [];
+
+        $(document).ready(function () {
+            //search button
+            $('#search-products').click(function () {
+                //search
+
+                $('.Search_ServiceProviderDashboard_ActiveSearch').attr('checked', true).change();
+                $('#@Html.IdFor(model => model.Search_ServiceProviderDashboard_ActiveSearch)').attr('checked', true).change();
+                var grid = $('#products-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                //clear selected checkboxes
+                $('.checkboxGroups').attr('checked', false).change();
+                selectedIds = [];
+                return false;
+            });
+
+            $("#@Html.IdFor(model => model.Search_ServiceProviderDashboard_Title)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableSelected", "ManageServiceProviderDashboard"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+            //Active
+            $('#Active-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ActiveSelected", "ManageServiceProviderDashboard"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+            $('#mastercheckbox').click(function () {
+                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            });
+
+            //wire up checkboxes.
+            $('#products-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                var $check = $(this);
+                if ($check.is(":checked") == true) {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked == -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                }
+                else {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds, function (item, index) {
+                            return item != $check.val();
+                        });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+        });
+
+        function additionalData() {
+            var data = {
+                Search_ServiceProviderDashboard_ActiveSearch: $('#@Html.IdFor(model => model.Search_ServiceProviderDashboard_ActiveSearch)').is(':checked'),
+                Search_ServiceProviderDashboard_Title: $('#Search_ServiceProviderDashboard_Title').val(),
+                Search_ServiceProviderDashboard_IsActive: $('#@Html.IdFor(model => model.Search_ServiceProviderDashboard_IsActive)').is(':checked'),
+                };
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function onDataBound(e) {
+            $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+            var numChkBoxesChecked = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+    </script>
+
+</form>

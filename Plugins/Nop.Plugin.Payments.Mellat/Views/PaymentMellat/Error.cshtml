@@ -1,0 +1,52 @@
+﻿@inject Nop.Core.IStoreContext _storeContext;
+@if (_storeContext.CurrentStore.Id == 5)
+{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postexNew/_NewUiLayout.cshtml";
+}
+else
+{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Postbar/_NewUiLayout.cshtml";
+}
+
+@using Nop.Web.Framework;
+
+@{
+    var text = ViewBag.result;
+    int order = 0;
+    if (ViewBag.orderId != null)
+    {
+        order = (int)ViewBag.orderId;
+    }
+}
+    <div>
+        <br />
+        <h1>نتیجه بازگشت از درگاه پرداخت اینترنتی</h1>
+        <hr />
+        <div style="text-align: center;">
+            <p>@text</p>
+            @{ int t = 0;
+                @if (!int.TryParse(text, out t) && t != 0)
+                {
+                    <p>کد خطا: @ViewBag.ErrorCode</p>
+                    <p>لطفا جهت جلوگیری از به وجود آمدن این مشکل از درگاهی غیر از در گاه بانک ملت استفاده کنید</p>
+                }
+            }
+
+        </div>
+        <hr />
+        @if (order != 0)
+        {
+            <div style="text-align: center;">
+                @if (_storeContext.CurrentStore.Id == 5)
+                {
+                    <a href="/dashboard#list-arch">سفارشات من</a>
+                }
+                else
+                {
+                    <a href="/Dashboard/Orders">سفارشات من</a>
+                }
+            </div>
+            <hr />
+        }
+    </div>
+

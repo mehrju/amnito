@@ -1,0 +1,432 @@
+﻿@model Nop.Plugin.Misc.PrintedReports_Requirements.Models.vm_SaleCartonWrapper1
+@using Microsoft.AspNetCore.Http.Extensions
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_PubllicNewUiLayout.cshtml";
+    string message = "";
+    if (TempData["PaymentMsg"] != null)
+    {
+        message = (string)TempData["PaymentMsg"];
+        TempData["PaymentMsg"] = null;
+    }
+}
+
+<div class="container">
+
+    <div class="page-body">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">خرید کارتن و لفاف</h1>
+            </div>
+        </section>
+
+        @Html.ValidationSummary(false)
+
+        <div class="container" style="padding: 10px;background-color: white;border-radius: 10px;margin-bottom:20px">
+            <div class="row">
+
+                <div class="table-responsive table-responsive-stack" id="myTable" style="width: 99%;">
+                    <table id="myTable" class="table  table-striped" style="width:99% !important;margin-right: 10px;">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col" class="text-center">نام کالا</th>
+                                <th scope="col" class="text-center">تعداد</th>
+                                <th scope="col" class="text-center">قیمت واحد</th>
+                                <th scope="col" class="text-center">قیمت </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ProductDetailsModel.ProductAttributes)
+                            {
+                                foreach (var item2 in item.Values)
+                                {
+                                    <tr>
+                                        @if (!string.IsNullOrEmpty(item2.ImageSquaresPictureModel.ImageUrl))
+                                        {
+
+                                            <td style="text-align: center; vertical-align: middle;"><img src="@item2.ImageSquaresPictureModel.ImageUrl" height="50" width="50" /> </td>
+                                        }
+                                        else
+                                        {
+
+                                            <td style="text-align: center; vertical-align: middle;"></td>
+                                        }
+                                        <td class="text-center" style="text-align: center; vertical-align: middle;">
+                                            <input type="hidden" id="sizeName" value="@item2.Name.Trim()" />
+                                            <span>
+                                                @item2.Name.Trim()
+                                            </span>
+                                        </td>
+                                        <td class="text-center" style="text-align: center; vertical-align: middle;"><input class="text-center quant" style="border-radius:10px" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="0" id="@item2.Id" data-id="@item2.Id" data-price="@item2.PriceAdjustmentValue" /></td>
+                                        <td style="text-align: center; vertical-align: middle;" class="text-center price" data-price="@item2.PriceAdjustmentValue">@item2.PriceAdjustment</td>
+                                        <td style="text-align: center; vertical-align: middle;" class="text-center amount" id="txtamount+@item2.Id">0</td>
+
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="row" style="padding: 10px;background-color: lightgray;margin: 10px;border-radius: 10px;color: black !important;font-weight: bold;">
+                <div class="col-md-6 text-center">
+                    <div class="col-md-3" style="float:right">
+                        <label style="color:black !important">قیمت کل</label>
+                    </div>
+                    <div class="col-md-9" style="float:left">
+                        <label class="text-center total" style="color:black !important">0</label>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="col-md-3" style="float:right">
+                        <label style="color:black !important">شماره محموله پستی(موجود در بالای فاکتور پستی مختص به هر مرسوله)</label>
+                    </div>
+                    <div class="col-md-9" style="float:left;color:black !important">
+                        <input class="text-center " tabindex="10" title="در صورتی که برای سفارش پستی خود نیاز به کارتن دارید می بایستی شماره محموله مربوط به آن را وارد نمایید" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="0" id="txt_shipmentId" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row payment-method">
+                <form asp-route="_Sh_ConfirmAndPaySaleCarton" id="Pay_Confrim" method="post" class="col-md-12">
+                    <input type='hidden' id="data" name="data" value="" />
+                    @if (Model.PaymentMethods != null)
+                    {
+                        <div class="row">
+                            @if (Model.PaymentMethods.DisplayRewardPoints && Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+                                <div class="use-reward-points col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="payment-logo">
+                                                <label for="paymentmethod_500">
+                                                    <img src="~/Plugins/Orders.MultiShipping/Content/Wallet.jpg" style="width:80px" alt="پرداخت با کیف پول" />
+                                                </label>
+                                            </div>
+                                            <input type="checkbox" id="_UseRewardPoints" />
+                                            <label for="UseRewardPoints" class="card-title">پرداخت با کیف پول. موجودی شما :@(Model.PaymentMethods.RewardPointsBalance) ريال</label>
+                                            @*@if (Model.PaymentMethods.RewardPointsEnoughToPayForOrder)
+                                            {*@
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#_UseRewardPoints").change(toggleUseRewardPoints);
+                                                    toggleUseRewardPoints();
+                                                });
+                                                function toggleUseRewardPoints() {
+                                                    $('#UseRewardPoints').val($('#_UseRewardPoints').is(':checked'));
+                                                    if ($('#_UseRewardPoints').is(':checked')) {
+                                                        $('.payment-method-block').hide();
+                                                    } else {
+                                                        $('.payment-method-block').show();
+                                                    }
+                                                }
+                                            </script>
+                                            @*}*@
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+
+                                @for (var i = 0; i < Model.PaymentMethods.PaymentMethods.Count; i++)
+                                {
+                                    var paymentMethod = Model.PaymentMethods.PaymentMethods[i];
+                                    var paymentMethodName = paymentMethod.Name;
+                                    if (paymentMethod.PaymentMethodSystemName.ToLower().Contains("wallet"))
+                                    {
+                                        continue;
+                                    }
+                                    if (!string.IsNullOrEmpty(paymentMethod.Fee))
+                                    {
+                                        paymentMethodName = T("Checkout.SelectPaymentMethod.MethodAndFee", paymentMethodName, paymentMethod.Fee).Text;
+                                    }
+                                    <div class="payment-method-block col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="method-name">
+                                                    @if (!string.IsNullOrEmpty(paymentMethod.LogoUrl))
+                                                    {
+                                                        <div class="payment-logo">
+                                                            <label for="paymentmethod_@(i)">
+                                                                <img src="@paymentMethod.LogoUrl" alt="@paymentMethodName" />
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                    <div class="payment-details">
+                                                        <input id="paymentmethod_@(i)" type="radio" name="paymentmethod" alt="" style="display:inline !important" value="@(paymentMethod.PaymentMethodSystemName)" />
+                                                        <label for="paymentmethod_@(i)">@paymentMethodName</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="message-error">
+                                    @T("Checkout.NoPaymentMethods")
+                                </div>
+                            }
+                        </div>
+                    }
+                </form>
+
+
+            </div>
+            <div class="row">
+                <div class="col mb-2">
+                    <div style="margin-top: 20px;margin: 20px 20px 10px 20px;">
+                        <button id="Sale" type="button" tabindex="15" class="btn btn-lg btn-block btn-success text-uppercase">
+                            ثبت سفارش و پرداخت
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div class="modal fade" id="divPayments" tabindex="-1" role="dialog" aria-labelledby="divPaymentsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="divPaymentsLabel" style="float:right">پرداخت</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divPayments-Body">
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ('@message') {
+            alert('@message');
+        }
+        if ('@Html.Raw(@Html.TempData["error"])') {
+            alert('@Html.Raw(@Html.TempData["error"])')
+        }
+        
+
+        update();
+        $(".quant").change(function () {
+            update();
+        });
+
+        function update() {
+            $('.total').text(getSum() + ' ریال');
+        }
+        function getSum() {
+            var sum = 0;
+            var quantity;
+            $('#myTable > tbody  > tr').each(function () {
+
+                quantity = $(this).find('.quant').val();
+                var price = parseInt($(this).find('.price').attr('data-price').replace(',', ''));
+                var amount = (quantity * price);
+
+                sum += amount;
+                $(this).find('.amount').text('' + amount + ' ریال');
+            });
+            return sum;
+        }
+
+
+        $('#Sale').click(function () {
+            debugger;
+            if ($('.payment-method').find('input[type="radio"]').length > 0 || $('#_UseRewardPoints').is(':visible')) {
+                if ($('.payment-method').find('input[type="radio"]:checked').length == 0 && !$('#_UseRewardPoints').is(':checked')) {
+                    alert('انتخاب روش پرداخت الزامی می باشد');
+                    return;
+                }
+            }
+            var _shipmentId = txt_shipmentId.value;
+            if (!_shipmentId || _shipmentId == '0') {
+                alert('وارد کردن شماره محموله که میخواهید برای آن کارتن و لفاف خریداری کنید الزامی می باشد');
+                return;
+            }
+            senditem = {};
+            Listitem = [];
+            var _paymentmethod = $('.payment-method').find('input[type="radio"]:checked').val();
+            var _UseRewardPoints = $('#_UseRewardPoints').is(':checked');
+            $('#myTable > tbody  > tr').each(function () {
+                var Id = $(this).find('.quant').attr('data-id');
+                var Count = parseInt($(this).find('.quant').val());
+                var Name = $(this).find('#sizeName').val();
+                if (Count > 0) {
+                    item = {};
+                    item.Id = Id;
+                    item.Name = Name;
+                    item.Count = Count;
+                    Listitem.push(item);
+                }
+            });
+            if (Listitem.length == 0) {
+                alert('حداقل یک سایز از کارتون و لفاف را انتخاب کنید و تعداد مورد نیاز آن را وارد نمایید');
+                return;
+            }
+
+            var PostData = JSON.stringify(
+                {
+                    Amount: getSum(),
+                    UseRewardPoints: _UseRewardPoints,
+                    paymentmethod: _paymentmethod,
+                    ShipmentId: _shipmentId,
+                    List_Sizeitem: Listitem,
+                    isFromApp: isAndroid()
+                });
+            $('#data').val(PostData);
+            $('#Pay_Confrim').submit();
+
+        });
+
+    });
+</script>
+
+
+<style>
+
+    .validation-summary-errors > ul > li {
+        color: #ad0000;
+        margin-bottom: 10px;
+    }
+    .table-responsive-stack tr {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+
+    .table-responsive-stack td,
+    .table-responsive-stack th {
+        display: block;
+        /*
+    flex-grow | flex-shrink | flex-basis   */
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .table-responsive-stack .table-responsive-stack-thead {
+        font-weight: bold;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .table-responsive-stack tr {
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            border-bottom: 3px solid #ccc;
+            display: block;
+        }
+        /*  IE9 FIX   */
+        .table-responsive-stack td {
+            float: left\9;
+            width: 100%;
+        }
+    }
+</style>
+
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('.table-responsive-stack').find("th").each(function (i) {
+
+            $('.table-responsive-stack td:nth-child(' + (i + 1) + ')').prepend('<span class="table-responsive-stack-thead">' + $(this).text() + ':</span> ');
+            $('.table-responsive-stack-thead').hide();
+        });
+
+
+
+
+
+        $('.table-responsive-stack').each(function () {
+            var thCount = $(this).find("th").length;
+            var rowGrow = 100 / thCount + '%';
+            //console.log(rowGrow);
+            $(this).find("th, td").css('flex-basis', rowGrow);
+        });
+
+
+
+
+        function flexTable() {
+            if ($(window).width() < 768) {
+
+                $(".table-responsive-stack").each(function (i) {
+                    $(this).find(".table-responsive-stack-thead").show();
+                    $(this).find('thead').hide();
+                });
+
+
+                // window is less than 768px
+            } else {
+
+
+                $(".table-responsive-stack").each(function (i) {
+                    $(this).find(".table-responsive-stack-thead").hide();
+                    $(this).find('thead').show();
+                });
+
+
+
+            }
+            // flextable
+        }
+
+        flexTable();
+
+        window.onresize = function (event) {
+            flexTable();
+        };
+
+
+
+
+
+
+        // document ready
+    });
+
+
+
+
+
+</script>

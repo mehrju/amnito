@@ -1,0 +1,38 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_PatternPricingPolicy
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Misc.ShippingSolutions.Page_Titel_PatternPricingPoliy").Text;
+
+
+}
+
+<form asp-controller="ManagePatternPricingPolicy" asp-action="Create" method="post" id="category-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.ShippingSolutions.New_PatternPricingPoliy")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Nop.Plugin.Misc.ShippingSolutions.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("/Plugins/Misc.ShippingSolutions/Views/PatternPricingPolicy/_CreateOrUpdate.cshtml")
+
+</form>

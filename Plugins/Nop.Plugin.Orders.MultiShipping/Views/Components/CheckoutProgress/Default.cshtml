@@ -1,0 +1,84 @@
+﻿@model Mus_CheckoutProgressModel
+@using Nop.Core
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using Nop.Core.Http.Extensions
+@using Nop.Plugin.Orders.MultiShipping.Models.Checkout
+
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IWebHelper webHelper
+@inject IWorkContext workContext
+@{
+    var Step = HttpContextAccessor.HttpContext.Session.GetInt32("ShipmentStep");
+
+}
+
+<div class="order-progress" style="margin: 0;">
+
+    <ul>
+        @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_progress_before" })
+
+
+        @{
+            if (Step == 0) // Multiple Shipment is NOT Being Used
+            {
+                <li class="active-step">
+                    <a @(Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Complete ? @Html.Raw($" href=\"{Url.RouteUrl("ShoppingCart")}\"") : null)>@T("Checkout.Progress.Cart")</a>
+                </li>
+
+                <li @(Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Address || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Shipping || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Shipment || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Payment || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Confirm || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Complete ? @Html.Raw(" class=\"active-step\"") : @Html.Raw(" class=\"inactive-step\""))>
+                    <a @(Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Cart && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Shipment && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Complete ? @Html.Raw($" href=\"{Url.RouteUrl("CheckoutBillingAddress")}\"") : null)>@T("Checkout.Progress.Address")</a>
+                </li>
+
+                <li @(Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Shipping || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Payment || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Confirm || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Complete ? @Html.Raw(" class=\"active-step\"") : @Html.Raw(" class=\"inactive-step\""))>
+                    <a @(Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Cart && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Address && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Complete ? @Html.Raw($" href=\"{Url.RouteUrl("CheckoutShippingMethod")}\"") : null)>@T("Checkout.Progress.Shipping")</a>
+                </li>
+                <li @(Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Payment || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Confirm || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Complete ? @Html.Raw(" class=\"active-step\"") : @Html.Raw(" class=\"inactive-step\""))>
+                    <a @(Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Cart && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Address && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Shipping && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Complete ? @Html.Raw($" href=\"{Url.RouteUrl("Mus_PaymentMethod")}\"") : null)>@T("Checkout.Progress.Payment")</a>
+                </li>
+                <li @(Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Confirm || Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Complete ? @Html.Raw(" class=\"active-step\"") : @Html.Raw(" class=\"inactive-step\""))>
+                    <a @(Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Cart && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Address && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Shipping && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Payment && Model.CheckoutProgressStep != Mus_CheckoutProgressStep.Complete ? @Html.Raw($" href=\"{Url.RouteUrl("Mus_CheckoutConfirm")}\"") : null)>@T("Checkout.Progress.Confirm")</a>
+                </li>
+                <li @(Model.CheckoutProgressStep == Mus_CheckoutProgressStep.Complete ? @Html.Raw(" class=\"active-step\"") : @Html.Raw(" class=\"inactive-step\""))>
+                    <a>@T("Checkout.Progress.Complete")</a>
+                </li>
+            }
+            else
+            {
+                <li class="inactive-step">
+                    <a @Html.Raw($" href=\"{Url.RouteUrl("ShoppingCart")}\"")>
+                        <span>@T("Checkout.Progress.Cart")</span>
+                    </a>
+                </li>
+                <li class="@(Step!=1 ? "in" : "")active-step">
+                    <a href="/checkout/shipment?ShipmentStep=1">
+                        <span>حمل و نقل</span>
+                    </a>
+                </li>
+                <li class="@(Step!=2 ? "in" : "")active-step">
+                    <a href="/checkout/shipment?ShipmentStep=2">
+                        <span>آدرس</span>
+                    </a>
+                </li>
+                <li class="@(Step!=3 ? "in" : "")active-step">
+                    <a href="/checkout/shipment?ShipmentStep=3">
+                        <span>نحوه ارسال</span>
+                    </a>
+                </li>
+                <li class="@(Step!=4 ? "in" : "")active-step">
+                    <a href="">
+                        <span>@T("Checkout.Progress.Payment")</span>
+                    </a>
+                </li>
+                <li class="inactive-step">
+                    <a href="@(Step!=5 ? "in" : "")active-step">
+                        <span>@T("Checkout.Progress.Confirm")</span>
+                    </a>
+                </li>
+            }
+        }
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_progress_after" })
+    </ul>
+    <ul></ul>
+</div>

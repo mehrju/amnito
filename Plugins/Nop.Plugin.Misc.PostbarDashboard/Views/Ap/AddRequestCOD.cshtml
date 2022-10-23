@@ -1,0 +1,241 @@
+﻿@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject IWorkContext _workContext;
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiDashboardLayout.cshtml";
+}
+
+
+<style>
+    .cntLabel {
+        color: white !important;
+        font-size: 9pt !important;
+    }
+</style>
+
+<div class="justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class=" text-center" style="padding-top:25px">
+            <h3 style="color:white !important">درخواست فعال سازی حساب پس کرایه</h3>
+        </div>
+        <hr style="background-color:white;margin:0px 10px 0px 10px" />
+        <div class="body-dash send-data-from" style="background-color:transparent !important">
+
+            <div>
+
+                <div class="row" style="padding-left: 0px;">
+
+                    <div class="col-sm-12">
+                        <div class="form-group text-right">
+                            <label class="cntLabel">نام<span class="org-color">*</span></label>
+                            <input id="Fname" asp-for="Fname" tabindex="1" maxlength="100" class="form-control" type="text">
+                        </div>
+                        <div class="form-group text-right">
+                            <label class="cntLabel">نام خانوادگی<span class="org-color">*</span></label>
+                            <input id="Lname" asp-for="Lname" tabindex="2" maxlength="100" class="form-control" type="text">
+                        </div>
+                        <div class="form-group text-right">
+                            <label class="cntLabel">شماره ملی<span class="org-color">*</span></label>
+                            <input id="NationalCode" asp-for="NationalCode" tabindex="3" maxlength="100" class="form-control" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+
+                        <div class="form-group text-right">
+                            <label class="cntLabel">نوع کسب و کار<span class="org-color">*</span></label>
+                            <input id="BusinessType" asp-for="BusinessType" tabindex="4" maxlength="100" class="form-control" type="text">
+                        </div>
+                        <div class="form-group text-right">
+                            <label class="cntLabel">شماره شبا<span class="org-color">*</span></label>
+                            <input id="Shaba" asp-for="Shaba" tabindex="5" maxlength="100" class="form-control" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                        </div>
+                        <div class="form-group text-right">
+                            <label class="cntLabel">کد پستی<span class="org-color">*</span></label>
+                            <input id="CodePosti" asp-for="CodePosti" tabindex="5" maxlength="100" class="form-control" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group text-right">
+                            <label class="cntLabel">آدرس<span class="org-color">*</span></label>
+                            <textarea id="$('#Address')." asp-for="$('#Address')." tabindex="6" rows="2" maxlength="2000" class="form-control" placeholder="آدرس را وارد نمایید"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 text-center">
+                        <div id="captcha">
+                        </div>
+                        <div class="form-group text-right">
+                            <input type="text" placeholder="اعداد را وارد نمایید" id="cpatchaTextBox" tabindex="8" maxlength="10" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row justify-content-md-center" style="background-color: white;margin: 5px;border-radius: 10px;padding: 10px;color: gray;">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <span class="pre-text-warn">کاربر محترم ۴۸ ساعت کاری پس از بار گذاری موارد فوق شما امکان استفاده از سرویس های cod و پسکرایه را خواهید داشت.لذا چنانچه آدرس فرستنده را تغییر دهید امکان استفاده از سرویس برای شما از بین خواهد رفت.</span>
+                    </div>
+                </div>
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <div class="form-group btn-sub">
+                            <button id="BtnInsertTicket" tabindex="8" class="btn btn-orang-theme">
+                                ثبت
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = load;
+    function load() {
+        createCaptcha();
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        document.getElementById('NationalCode').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        $(BtnInsertTicket).click(function () {
+            var msg = '';
+                
+            if (!$('#Fname').val()) {
+                    msg += " نام را وارد نمایید"+"\r\n";
+
+                }
+            if (!$('#Lname').val()) {
+                    msg += " نام خانوادگی را وارد نمایید" + "\r\n";
+
+                }
+            if (!$('#NationalCode').val()) {
+                    msg += " شماره ملی را وارد نمایید" + "\r\n";
+                }
+            if (!$('#BusinessType').val()) {
+                    msg += " نوع کسب و کار را وارد نمایید" + "\r\n";
+                }
+            if (!$('#Address').val()) {
+                    msg += " آدرس را وارد نمایید" + "\r\n";
+                }
+            if (!$('#Shaba').val()) {
+                    msg += " شماره شبای حساب خود را وارد نمایید" + "\r\n";
+                }
+                if (document.getElementById("cpatchaTextBox").value != code_cod) {
+                    msg += "کد امنیتی اشتباه وارد شده است";
+                }
+                if (msg != '') {
+                    asanPardakht.application.showMessageBox('توجه', msg, 1);
+                    return;
+                }
+                debugger;
+                // disabled the submit button
+                $(BtnInsertTicket).prop("disabled", true);
+                asanPardakht.application.fileManager.upload('https://postex.ir/api/customer/UpladBulkOrder'
+                    , {}
+                    , {
+                        Fname: $('#Fname').val(),
+                        Fname: $('#Fname').val(),
+                        Lname: $('#Lname').val(),
+                        NationalCode: $('#NationalCode').val(),
+                        BusinessType: $('#BusinessType').val(),
+                        Address: $('#Address').val(),
+                        Shaba: $('#Shaba').val(),
+                        CodePosti: $('#CodePosti').val(),
+                        CustomerId:@(_workContext.CurrentCustomer.Id)
+                    }
+                    , 'بارگذاری فایل نشان تجاری '
+                    , 'ارسال فایل نشان تجاری جهت درخواست حساب پسکرایه'
+                    , asanPardakht.application.fileManager.types.image
+                    , '.jpg,.jpeg,.bmp'
+                    , (5 * 1024)
+                    , null
+                    , 500
+                    , 500
+                    , 100
+                    , 100
+                    , function (data) {
+                        $(BtnInsertTicket).prop("disabled", false);
+                        try {
+                            if (data.errorCode == 0) {
+                                asanPardakht.application.showMessageBox("تایید", "درخواست شما با موفقیت ثبت شد.نتیجه از طریق پیامک اطلاع رسانی خواهد شد", 1);
+                                window.location.reload();
+                            }
+                            else if(data.message) {
+                                asanPardakht.application.showMessageBox("خطا", data.message,2);
+                            }
+                            else
+                                asanPardakht.application.showMessageBox("خطا", 'در زمان آپلود فایل خطایی بوجود آمد.لطفا مجددا تلاش کنید', 2);
+                        }
+                        catch (ex) {
+                            asanPardakht.application.showMessageBox("خطا", err.message, 2);
+                        }
+                    }, function (data) {
+                        $(BtnInsertTicket).prop("disabled", false);
+                        try {
+                            var msg = '';
+                            if (data.errorCode == -1) {
+                                msg = 'لطفاً ارتباط خود را چک کنید';
+                            }
+                            else if (data.errorCode == -2) {
+                                msg = 'خطای داخلی سیستم';
+                            }
+                            else if (data.errorCode == -3) {
+                                msg = 'لطفاً ارتباط خود را چک کنید (timeout)';
+                            }
+                            else if (data.errorCode == -4) {
+                                msg = 'خطای نامشخص';
+                            }
+                            if (msg != '')
+                                    asanPardakht.application.showMessageBox("خطا", msg, 2);
+                            }
+                        catch (ex) {
+                            console.log(err.message);
+                        }
+                    }
+                );
+
+        });
+
+
+    });
+</script>
+
+<script>
+
+    function createCaptcha() {
+        //clear the contents of captcha div first
+        document.getElementById('captcha').innerHTML = "";
+        var charsArray =
+            "0123456789";/*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*/
+        var lengthOtp = 6;
+        var captcha = [];
+        for (var i = 0; i < lengthOtp; i++) {
+            //below code_cod will not allow Repetition of Characters
+            var index = Math.floor(Math.random() * charsArray.length + 1); //get the next character from the array
+            if (captcha.indexOf(charsArray[index]) == -1)
+                captcha.push(charsArray[index]);
+            else i--;
+        }
+        var canv = document.createElement("canvas");
+        canv.id = "captcha";
+        canv.width = 150;
+        canv.height = 50;
+        var ctx = canv.getContext("2d");
+        ctx.font = "25px Georgia";
+        ctx.strokeText(captcha.join(""), 0, 30);
+        //storing captcha so that can validate you can save it somewhere else according to your specific requirements
+        code_cod = captcha.join("");
+        document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+    }
+
+</script>

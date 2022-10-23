@@ -1,0 +1,299 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.NotificationModel.NotifItemsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+
+@{
+    var defaultGridPageSize = 50;// adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+}
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body" style="margin-left: 15px;">
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="hidden" id="NotifItemsId" />
+                            <div class="col-md-2">
+                                <nop-label asp-for="NotifTitleId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="NotifTitleId" asp-items="Model.AvailableNotifTitle" />
+                            </div>
+                            <div class="col-md-2">
+                                <nop-label asp-for="NotifCategoryId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="NotifCategoryId" asp-items="Model.AvailableCategory" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="NotifTamplate" />
+                            </div>
+                            <div class="col-md-10">
+                                <nop-textarea asp-for="NotifTamplate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="IsActive" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-editor asp-for="IsActive" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label" for="IsActive">موارد قابل استفاده در متن پیام</label>
+                            </div>
+                            <div class="col-md-4">
+                                {0}: شماره سفارش
+                                <br />
+                                {1}: شماره محموله
+                                <br />
+                                {2}: کد رهگیری
+                                <br />
+                                {3}:موبایل فرستنده
+                                <br />
+                                {4}: موبایل گیرنده
+                                <br />
+                                {5}: آدرس سایت
+                                <br />
+                                {7}: کد های رهگیری یک سفارش
+                                <br />
+                                {9}: آخرین وضعیت محموله
+                                <br />
+                                {10}:نام فرستنده
+                                <br />
+                                {11}: نام گیرنده
+                                <br />
+                                {12}: شهر و استان فرستنده
+                                <br />
+                                {13}: شهر و استان گیرنده
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: left;">
+                            <button type="button" id="Save-NotifItems" class="btn btn-primary btn-save">
+                                <i class="fa fa-save"></i>
+                                ذخیره
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="NotifItems-grid"></div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    function onChange(e) {
+                        var rows = e.sender.select();
+                        rows.each(function (e) {
+                            var grid = $("#NotifItems-grid").data("kendoGrid");
+                            var dataItem = grid.dataItem(this);
+
+                            console.log(dataItem);
+                        })
+                    };
+                    $('#NotifTamplate').css('max-width', 'none');
+                    $("#NotifItems-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Html.Raw(Url.Action("getNotifItemsList", "NotifConfig"))",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: additionalData
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors"
+                            },
+                            requestEnd: function(e) {
+                                if (e.type == "read") {
+                                    var response = e.response;
+                                    if (response) {
+                                        //store extra data
+                                        reportAggregates = e.response["ExtraData"];
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: false
+                        },
+                        dataBound: function(e) {
+                            //$('#AgentAmountRule-grid').css('overflow', 'unset');
+                            //$('.k-grid-header').css('padding-right', '0px');
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        //height: 700,
+                        change: onChange,
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "Id",
+                                title: "شناسه",
+                                width: 50
+                            },
+                            {
+                                field: "NotifTypeName",
+                                title: "روش اطلاع رسانی",
+                                width: 150,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "NotifTitle",
+                                title: "عنوان اطلاع رسانی",
+                                width: 250,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "NotifCategoryName",
+                                title: "نوع سرویس پستی",
+                                width: 150,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "NotifTamplate",
+                                title: "متن پیام",
+                                width: 400,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "Str_IsActive",
+                                title: "فعال؟",
+                                width: 50,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" }
+                            },
+                            {
+                                field: "Id",
+                                title: "ویرایش",
+                                width: 50,
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template:
+                                    '<a class="btn btn-default" title="ویرایش" onClick="showEditMode(#=Id#,this)" ><i class="fa fa-pencil-square-o style="color:green"></i></a>'
+                                           
+                            }
+                        ]
+                    });
+                });
+
+                function additionalData() {
+                    data = { 'NotifTypeId':@(Model.NotifTypeId)};
+                    addAntiForgeryToken(data);
+                    return data;
+                }
+
+            </script>
+
+
+            <script type="text/javascript">
+                function showEditMode(notifItemId,btn) {
+                    debugger;
+                    var grid = $('#NotifItems-grid').data('kendoGrid');
+                    row = $(btn).closest("tr");
+                    var rowIdx = $("tr", grid.tbody).index(row);
+                    var grid = $("#NotifItems-grid").data("kendoGrid");
+                    var data = grid.dataSource._data[rowIdx];
+
+                    $('#NotifItemsId').val(data.Id);
+                    $('#NotifTitleId').val(data.NotifTitleId);
+                    $('#NotifCategoryId').val(data.NotifCategoryId);
+                    $('#NotifTamplate').val(data.NotifTamplate);
+                    if (data.IsActive == true) {
+                        $('#IsActive').attr('checked', 'checked');
+                    }
+                    else {
+                        $('#IsActive').removeAttr('checked');
+                    }
+                   
+                }
+                function resetControl() {
+                    $('#NotifItemsId').val('');
+                    $('#NotifTitleId').val('0');
+                    $('#NotifCategoryId').val('0');
+                    $('#NotifTamplate').val('');
+                    $('#IsActive').removeAttr('checked');
+                }
+                function refreshGrid() {
+                    var grid = $('#NotifItems-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                }
+                $(document).ready(function() {
+                    $('#Save-NotifItems').click(function () {
+                        debugger;
+                        var model = {
+                            Id:$('#NotifItemsId').val()
+                            , NotifTitleId : $('#NotifTitleId').val()
+                            , NotifCategoryId : $('#NotifCategoryId').val()
+                            , NotifTypeId : @(Model.NotifTypeId)
+                            , NotifTamplate : $('#NotifTamplate').val()
+                            , IsActive: $('#IsActive').is(':checked')
+                        };
+                        if (model.NotifTitleId ==0) {
+                            alert('عنوان اطلاع رسانی را انتخاب کنید');
+                            return false;
+                        }
+                        if (model.NotifCategoryId==0) {
+                            alert('نوع سرویس را انتخاب کنید');
+                            return false;
+                        }
+                        if (!model.NotifTamplate) {
+                            alert('متن اطلاع رسانی  را وارد نمایید');
+                            return false;
+                        }
+
+                        addAntiForgeryToken(model);
+                        $.ajax({
+                            type: "POST",
+                            data: model,
+                            dataType: "json",
+                            url: "@(Url.Action("SaveNotifItems", "NotifConfig"))",
+                            success: function (data) {
+                                if (data.success) {
+                                    resetControl();
+                                    refreshGrid();
+                                }
+                                alert(data.message);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('خطا در زمان ثبت تنظیمات اطلاع رسانی');
+                            },
+                            traditional: true
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

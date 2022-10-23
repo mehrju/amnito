@@ -1,0 +1,322 @@
+﻿@model BS.Plugin.NopStation.MobileWebApi.Models.SliderImageModel.SliderImageModel
+@using Nop.Core.Infrastructure
+@using BS.Plugin.NopStation.MobileWebApi.Extensions
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+@{
+
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var gridPageSizes = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSizes;
+
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = T("Admin.Plugins.SliderImage").Text;
+}
+
+<div class="raw form-horizontal clearfix">
+
+    <script>
+        $(document).ready(function () {          
+            $('#addProductPicture').click(function () {
+
+                var pictureId = $("#@Html.IdFor(model => model.PictureId)").val();
+                // var overrideAltAttribute = $("#@Html.IdFor(model => model.OverrideAltAttribute)").val();
+                //  var overrideTitleAttribute = $("#@Html.IdFor(model => model.OverrideTitleAttribute)").val();
+                //  var shortDescription = $("#@Html.IdFor(model => model.ShortDescription)").val();
+                // var campaignType = $("#@Html.IdFor(model => model.CampaignType)").val();
+                // var imageIdFor = $("#ImageIdFor").val();
+                var sliderActiveStartDate = $("#@Html.IdFor(model => model.SliderActiveStartDate)").val();
+                var sliderActiveEndDate = $("#@Html.IdFor(model => model.SliderActiveEndDate)").val();
+                var isProduct = $("#@Html.IdFor(model => model.IsProduct)").is(':checked');
+                var productOrCategory = $("#@Html.IdFor(model => model.ProductOrCategory)").val();
+
+                if (pictureId == 0) {
+                    alert('Select Picture');
+                    return;
+                }
+                if (!sliderActiveStartDate) {
+                    alert('Select sliderActiveStartDate');
+                    return;
+                }
+                if (!sliderActiveEndDate) {
+                    alert('Select sliderActiveEndDate');
+                    return;
+                }
+
+                var postData = {
+                    pictureId: pictureId,
+                    sliderActiveStartDate: sliderActiveStartDate,
+                    sliderActiveEndDate: sliderActiveEndDate,
+                    isProduct: isProduct,
+                    productOrCategory: productOrCategory
+                };
+
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("SliderImageAdd", "MobileWebApiConfiguration", new { id = Model.Id, area = "Admin" }))",
+                    data: postData,
+                    success: function (data) {
+                        if (data.Result) {
+                            $("#@Html.IdFor(model => model.PictureId)").val("");
+                            $("#@Html.IdFor(model => model.SliderActiveStartDate)").val("");
+                            $("#@Html.IdFor(model => model.SliderActiveEndDate)").val("");
+
+                            var grid = $("#sliderpictures-grid");
+                            grid.data('kendoGrid').dataSource.read();
+                        }
+                        else {
+                            alert(data.responseText);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    }
+                });
+
+            });
+        });
+    </script>
+    <div class="col-md-12">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>@T("Plugins.NopMobile.WebApi.Slider")</strong>
+                </div>
+            <div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.PictureId)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.PictureId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.SliderActiveStartDate)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.SliderActiveStartDate)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.SliderActiveEndDate)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.SliderActiveEndDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.IsProduct)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.IsProduct)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ProductOrCategory)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.ProductOrCategory)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <input type="button" id="addProductPicture" class="k-button" value="@T("Admin.Catalog.Products.Pictures.AddButton")"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="sliderpictures-grid"></div>
+
+                        <script>
+                            $(document).ready(function () {
+
+                                $("#sliderpictures-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("SliderImageList", "MobileWebApiConfiguration", new { id = Model.Id, area = "Admin" }))",
+                                                type: "POST",
+                                                dataType: "json"
+                                            },
+                                            update: {
+                                                url: "@Html.Raw(Url.Action("SliderImageUpdate", "MobileWebApiConfiguration", new { area = "Admin" }))",
+                                                type: "POST",
+                                                dataType: "json"
+                                            },
+                                            destroy: {
+                                                url: "@Html.Raw(Url.Action("SliderImageDelete", "MobileWebApiConfiguration", new {id = Model.Id, area = "Admin" }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors",
+                                            model: {
+                                                id: "Id",
+                                                fields: {
+                                                    PictureUrl: { editable: false, type: "string" },
+                                                    ImageIdDropDownFor: { editable: true, type: "string" },
+                                                    ImageTextDropDownFor: { editable: true, type: "string" },
+                                                    SliderActiveStartDateInGrid: { editable: true, type: 'date' },
+                                                    SliderActiveEndDateInGrid: { editable: true, type: 'date' },
+                                                    IsProduct: { editable: true, type: "boolean" },
+                                                    ProductOrCategory: { editable: true, type: "number" },
+                                                    SliderActiveStartDateInGridString: { editable: true, type: "date" },
+                                                    SliderActiveEndDateInGridString: { editable: true, type: "date" }
+                                                }
+                                            }
+                                        },
+                                        requestEnd: function (e) {
+                                            if (e.type == "update") {
+                                                this.read();
+                                            }
+                                        },
+                                        error: function (e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        numeric: false,
+                                        previousNext: false,
+                                        info: false
+                                    },
+                                    edit: function (e) {
+                                        if (e.model.isNew()) {
+                                            if (imgForDropDownArray > 0) {
+                                                e.model.imageIdFor = imgForDropDownArray[0].Value;
+                                            }
+                                        }
+                                    },
+                                    dataBound: onDataBound,
+                                    editable: {
+                                        confirmation: false,
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    columns: [
+                                    {
+                                        field: "PictureUrl",
+                                        title: "@T("Admin.Catalog.Products.Pictures.Fields.Picture")",
+                                        template: '<a href="#=PictureUrl#" target="_blank"><img alt="#=PictureId#" src="#=PictureUrl#" width="150" /></a>',
+                                        width: 150
+                                    },
+                                    {
+                                        field: "SliderActiveStartDateInGrid",
+                                        title: "@T("Admin.BSSlider.Fields.SliderActiveStartDate")",
+                                        width: 150,
+                                        type: "date",
+                                        format: "{0:dd-MM-yyyy HH:mm}",
+                                        //template: "#= kendo.toString(kendo.parseDate(PreShipmentDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                                        editor: sliderActiveStartDate
+                                    },
+                                    {
+                                        field: "SliderActiveEndDateInGrid",
+                                        title: "@T("Admin.BSSlider.Fields.SliderActiveEndDate")",
+                                        width: 150,
+                                        type: "date",
+                                        format: "{0:dd-MM-yyyy HH:mm}",
+                                        //template: "#= kendo.toString(kendo.parseDate(PreShipmentDate, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                                        editor: SliderActiveEndDate
+                                    },
+                                    {
+                                        field: "IsProduct",
+                                        title: "@T("Admin.BSSlider.Fields.IsProduct")",
+                                        width: 100
+                                    },
+                                    {
+                                        field: "ProductOrCategory",
+                                        title: "@T("Admin.BSSlider.Fields.ProductOrCategory")",
+                                        width: 100
+                                    },
+                                    {
+                                        command: [
+                                        {
+                                            name: "edit",
+                                            text: {
+                                                edit: "@T("Admin.Common.Edit")",
+                                                update: "@T("Admin.Common.Update")",
+                                                cancel: "@T("Admin.Common.Cancel")"
+                                            }
+                                        }, {
+                                            name: "destroy",
+                                            text: "@T("Admin.Common.Delete")"
+                                        }
+                                        ],
+                                        width: 200
+                                    }
+                                    ]
+                                });
+                            });
+
+                            var imgForDropDownArray =
+                            [
+                                @{
+                <text>
+                                                            { Value: 0, Text: "Default" },
+                                                            { Value: 1, Text: "Slider" },
+                                                            { Value: 2, Text: "Banner" },
+                                                            { Value: 3, Text: "Login" },
+                                                            { Value: 4, Text: "HomeTop" },
+                                                            { Value: 5, Text: "HomeFirst" },
+                                                            { Value: 6, Text: "HomeSecond" }
+                                                        </text>
+            }
+                            ];
+
+                            var campaignTypeDropDownArray =
+                            [
+                                @{
+                <text>
+                                                        { Value: 1, Text: "Text" },
+                                                        { Value: 2, Text: "Image" }
+                                                    </text>
+            }
+                            ];
+
+
+                            function sliderActiveStartDate(container, options) {
+
+                                $('<input required data-text-field="Name" data-value-field="Id" data-bind="value:SliderActiveStartDateInGridString"/>')
+                                    .appendTo(container)
+                                    .kendoDateTimePicker({  format: "{0:dd-MM-yyyy HH:mm}" });
+
+                            }
+
+                            function SliderActiveEndDate(container, options) {
+                                $('<input required data-text-field="Name" data-value-field="Id" data-bind="value:SliderActiveEndDateInGridString"/>')
+                                    .appendTo(container)
+                                    .kendoDateTimePicker({  format: "{0:dd-MM-yyyy HH:mm}" });
+                            }
+                        </script>
+                        <script type="text/javascript">
+
+                            function onDataBound(e) {
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

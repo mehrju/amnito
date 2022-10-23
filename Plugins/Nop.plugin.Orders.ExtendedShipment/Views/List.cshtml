@@ -1,0 +1,1563 @@
+﻿@model Nop.Web.Areas.Admin.Models.Orders.OrderListModel
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@inject IStoreService storeService
+
+@using Nop.Services.Stores
+
+@{
+	Layout = "_AdminLayout";
+	var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+	var gridPageSizes = adminAreaSettings.GridPageSizes + ",250,500";
+	var stores = storeService.GetAllStores();
+
+	//page title
+	ViewBag.Title = T("Admin.Orders").Text;
+	//active menu item (system name)
+	Html.SetActiveMenuItemSystemName("Orders");
+	Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/bootstrap-treeview.js?ver=9");
+	Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/pagination.min.js?ver=7");
+}
+<script>
+	function mTrackingUbaar(OrderId, Status, Des) {
+		this.OrderId = OrderId;
+		this.Status = Status;
+		this.Des = Des;
+	}
+	var _mTrackingUbaar = new mTrackingUbaar(0, 0, "");
+</script>
+<style>
+	.CODclass {
+		background-color: cadetblue !important
+	}
+
+	.topStatictis {
+		margin: 5px;
+		text-align: center;
+		background-color: #9dd99d;
+		border-radius: 10px;
+		padding-top: 5px;
+		color: white;
+	}
+
+	.treeview .list-group-item {
+		cursor: pointer
+	}
+
+	.treeview span.indent {
+		margin-left: 10px;
+		margin-right: 10px
+	}
+
+	.treeview span.icon {
+		width: 12px;
+		margin-right: 5px
+	}
+
+	.treeview .node-disabled {
+		color: silver;
+		cursor: not-allowed
+	}
+
+	.node-treeview6 {
+		color: #428bca;
+	}
+
+		.node-treeview6:not(.node-disabled):hover {
+			background-color: #F5F5F5;
+		}
+</style>
+
+
+<form asp-controller="Order" asp-action="List" method="post">
+	<div class="content-header clearfix">
+		<h1 class="pull-left">
+			@T("Admin.Orders")
+		</h1>
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-success">
+					<i class="fa fa-download"></i>
+					@T("Admin.Common.Export")
+				</button>
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<span class="caret"></span>
+					<span class="sr-only">&nbsp;</span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<button type="submit" name="exportxml-all">
+							<i class="fa fa-file-code-o"></i>
+							@T("Admin.Common.ExportToXml.All")
+						</button>
+					</li>
+					<li>
+						<button type="button" id="exportxml-selected">
+							<i class="fa fa-file-code-o"></i>
+							@T("Admin.Common.ExportToXml.Selected")
+						</button>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<button type="submit" name="exportexcel-all">
+							<i class="fa fa-file-excel-o"></i>
+							@T("Admin.Common.ExportToExcel.All")
+						</button>
+					</li>
+					<li>
+						<button type="button" id="exportexcel-selected">
+							<i class="fa fa-file-excel-o"></i>
+							@T("Admin.Common.ExportToExcel.Selected")
+						</button>
+					</li>
+				</ul>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn bg-purple">
+					<i class="fa fa-file-pdf-o"></i>
+					@T("Admin.Orders.PdfInvoices")
+				</button>
+				<button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<span class="caret"></span>
+					<span class="sr-only">&nbsp;</span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<button type="submit" name="pdf-invoice-all">
+							@T("Admin.Orders.PdfInvoices.All")
+						</button>
+					</li>
+					<li>
+						<button type="button" id="pdf-invoice-selected">
+							@T("Admin.Orders.PdfInvoices.Selected")
+						</button>
+					</li>
+				</ul>
+			</div>
+			@await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_list_buttons" })
+		</div>
+	</div>
+	<div class="content">
+		<div class="form-horizontal">
+			<div class="panel-group">
+				<div style="display: none">
+					<select id="orderState">
+						<option value="1">هماهنگ نشده</option>
+						<option value="16" selected="selected">سفارش اولی ها</option>
+						<option value="2">جمع آوری نشده</option>
+						<option value="3">ارسال نشده</option>
+						<option value="11">مفقود شده</option>
+						<option value="12">غرامت خسارت</option>
+						<option value="13">غرامت مفقودی</option>
+						<option value="14">غرامت تاخیر</option>
+						<option value="17">معلق</option>
+						<option value="18">کنسلی</option>
+						@*<option value="19">سفارش انبوه</option>*@
+						<option value="15">شکایت</option>
+						<option value="20">مشکوک به مفقودی</option>
+						<option value="21">جمع آوری نشده مشکوک</option>
+						@*<option value="22">پست ویژه</option>*@
+						<option value="0">کلی</option>
+					</select>
+					<input type="hidden" id="treeCountryId" name="treeCountryId" />
+					<input type="hidden" id="treeStateId" name="treeStateId" />
+					<input type="hidden" id="treeCustomerId" name="treeCustomerId" />
+				</div>
+				<nop-tabs id="ShipmentStatus">
+					<nop-tab asp-name="tab-Order_16" class="tabItem" asp-title="سفارش اولی ها" asp-default="true"></nop-tab>
+					@*<nop-tab asp-name="tab-Order_19" class="tabItem" asp-title="سفارش انبوه"></nop-tab>*@
+					<nop-tab asp-name="tab-Order_1" class="tabItem" asp-title="هماهنگ نشده"></nop-tab>
+					<nop-tab asp-name="tab-Order_2" class="tabItem" asp-title="جمع آوری نشده"></nop-tab>
+					<nop-tab asp-name="tab-Order_3" class="tabItem" asp-title="ارسال نشده"></nop-tab>
+					<nop-tab asp-name="tab-Order_11" class="tabItem" asp-title="مفقود شده"></nop-tab>
+
+					<nop-tab asp-name="tab-Order_18" class="tabItem" asp-title="کنسل شده"></nop-tab>
+					<nop-tab asp-name="tab-Order_17" class="tabItem" asp-title="معلق"></nop-tab>
+
+					<nop-tab asp-name="tab-Order_12" class="tabItem" asp-title="غرامت خسارت"></nop-tab>
+					<nop-tab asp-name="tab-Order_13" class="tabItem" asp-title="غرامت مفقودی"></nop-tab>
+					<nop-tab asp-name="tab-Order_14" class="tabItem" asp-title="غرامت تاخیر"></nop-tab>
+					<nop-tab asp-name="tab-Order_15" class="tabItem" asp-title="شکایت"></nop-tab>
+					<nop-tab asp-name="tab-Order_20" class="tabItem" asp-title="مشکوک به مفقودی"></nop-tab>
+					<nop-tab asp-name="tab-Order_21" class="tabItem" asp-title="جمع آوری نشده مشکوک"></nop-tab>
+					@*<nop-tab asp-name="tab-Order_22" class="tabItem" asp-title="پست ویژه"></nop-tab>*@
+					<nop-tab asp-name="tab-Order_0" class="tabItem" asp-title="تمام سفارشات"></nop-tab>
+				</nop-tabs>
+				<div class="box box-info" id="PnlOverViewOrder">
+					<div class="box-header with-border clearfix">
+						<div class="box-title">
+							<i class="fa ion-stats-bars"></i>
+							نمای کلی از سفارشات
+						</div>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div id="treeview1" class="treeview">
+
+								</div>
+							</div>
+
+						</div>
+						<script>
+							$(document).ready(function () {
+
+								gettree1();
+							});
+						</script>
+					</div>
+				</div>
+				<div class="box box-info collapsed-box" id="PnlOrderSerch">
+					<div class="box-header with-border clearfix">
+						<div class="box-title">
+							<i class="fa ion-stats-bars"></i>
+							سفارشات
+						</div>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+
+						<div class="panel panel-default panel-search">
+							<div class="panel-body">
+
+								<div class="row" style="display:none">
+									<div class="col-md-2 topStatictis" style="background-color: #17a2b8">
+										<label id="BoxCount"></label>
+									</div>
+									<div class="col-md-2 topStatictis" style="background-color: #1e7e34">
+										<label id="RouteCount"></label>
+									</div>
+									<div class="col-md-2 topStatictis" style="background-color: #d39e00">
+										<label id="CustomerCount"></label>
+									</div>
+									<div class="col-md-2 topStatictis" style="background-color: #bd2130">
+										<label id="PostSupervisor"></label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5">
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="StartDate" />
+											</div>
+											<div class="col-md-8">
+												<nop-editor asp-for="StartDate" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="EndDate" />
+											</div>
+											<div class="col-md-8">
+												<nop-editor asp-for="EndDate" />
+											</div>
+										</div>
+										<div class="form-group" @(Model.AvailableWarehouses.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="WarehouseId" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="WarehouseId" asp-items="Model.AvailableWarehouses" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="ProductId" />
+											</div>
+											<div class="col-md-8">
+												<input type="text" id="search-product-name" autocomplete="off" class="form-control" />
+												<span id="search-product-friendly-name"></span>
+												<button type="button" id="search-product-clear" class="btn bg-gray" style="display: none; margin-top: 5px;">@T("Admin.Common.Clear")</button>
+												<input asp-for="ProductId" autocomplete="off" style="display: none;" />
+												<script type="text/javascript">
+                                                $(document).ready(function() {
+                                                        $('#search-product-name').autocomplete({
+                                                            delay: 500,
+                                                            minLength: 3,
+                                                            source: '@(Url.Action("ProductSearchAutoComplete"))',
+                                                            select: function(event, ui) {
+                                                                    $('#@Html.IdFor(model => model.ProductId)').val(ui.item.productid);
+                                                                    $('#search-product-friendly-name').text(ui.item.label);
+
+                                                                    $('#search-product-clear').show();
+                                                                    return false;
+                                                            }
+                                                        });
+
+                                                        //remove button
+                                                        $('#search-product-clear').click(function() {
+                                                            $('#@Html.IdFor(model => model.ProductId)').val('0');
+                                                            $('#search-product-friendly-name').text('');
+                                                            $('#search-product-clear').hide();
+                                                            return false;
+                                                        });
+                                                });
+												</script>
+											</div>
+										</div>
+										<div class="form-group" @(Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="OrderStatusIds" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="OrderStatusIds" asp-items="Model.AvailableOrderStatuses" asp-multiple="true" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="SenderName">نام فرستنده</label>
+													<div title="فیلتر بر اساس نام و نام خانوادگی فرستنده." class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<input class="form-control text-box single-line" id="SenderName"
+													   name="SenderName" type="text" value="">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="ReciverName">نام گیرنده</label>
+													<div title="فیلتر بر اساس نام و نام خانوادگی گیرنده." class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<input class="form-control text-box single-line" id="ReciverName"
+													   name="ReciverName" type="text" value="">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="PaymentStatusIds" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="PaymentStatusIds" asp-items="Model.AvailablePaymentStatuses" asp-multiple="true" />
+											</div>
+										</div>
+										<div class="form-group" @(Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="ShippingStatusIds" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="ShippingStatusIds" asp-items="Model.AvailableShippingStatuses" asp-multiple="true" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="IsOrderOutDate">سفارشات مشکل دار</label>
+													<div title="فیلتر بر اساس سفارشاتی که محموله ندارند یا محموله آنها تاریخ تحویل ندراد و از تاریخ سفارش آنها 5 روز گذشته باشد ." class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<input type="checkbox" id="IsOrderOutDate" name="IsOrderOutDate" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-7">
+										<div class="form-group" @(Model.AvailableStores.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="StoreId" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="StoreId" asp-items="Model.AvailableStores" />
+											</div>
+										</div>
+										<div class="form-group" @(Model.AvailableVendors.SelectionIsNotPossible() || Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="VendorId" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="VendorId" asp-items="Model.AvailableVendors" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="BillingEmail" />
+											</div>
+											<div class="col-md-8">
+												<nop-editor asp-for="BillingEmail" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="BillingLastName" />
+											</div>
+											<div class="col-md-8">
+												<nop-editor asp-for="BillingLastName" />
+											</div>
+										</div>
+										<div class="form-group" @(Model.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="BillingCountryId" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="BillingCountryId" asp-items="Model.AvailableCountries" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="SenderStateProvinceId">شهرستان مبدا</label>
+													<div title="فیلتر توسط شهرستان مبدا" class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<select class="form-control valid" data-val="true" id="SenderStateProvinceId" name="SenderStateProvinceId" placeholder="انتخاب کنید">
+													<option selected="selected" value="0">*</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group" @(Model.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="ReciverCountryId">استان مقصد</label>
+													<div title="فیلتر توسط استان مقصد" class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<select class="form-control valid" data-val="true" id="ReciverCountryId" name="ReciverCountryId" placeholder="انتخاب کنید">
+													@foreach (var item in Model.AvailableCountries)
+													{
+														<option value="@(item.Value)">@(item.Text)</option>
+													}
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-4">
+												<div class="label-wrapper">
+													<label class="control-label" for="ReciverStateProvinceId">شهرستان مقصد</label>
+													<div title="فیلتر توسط شهرستان مقصد" class="ico-help"><i class="fa fa-question-circle"></i></div>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<select class="form-control valid" data-val="true" id="ReciverStateProvinceId" name="ReciverStateProvinceId" placeholder="انتخاب کنید">
+													<option selected="selected" value="0">*</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group" @(Model.AvailablePaymentMethods.SelectionIsNotPossible() || Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+											<div class="col-md-4">
+												<nop-label asp-for="PaymentMethodSystemName" />
+											</div>
+											<div class="col-md-8">
+												<nop-select asp-for="PaymentMethodSystemName" asp-items="Model.AvailablePaymentMethods" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="OrderNotes" />
+											</div>
+											<div class="col-md-8">
+												<nop-editor asp-for="OrderNotes" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-4">
+												<nop-label asp-for="GoDirectlyToCustomOrderNumber" />
+											</div>
+											<div class="col-md-8">
+												<div class="input-group input-group-short">
+													<nop-editor asp-for="GoDirectlyToCustomOrderNumber" />
+													<span class="input-group-btn">
+														<button type="submit" id="go-to-order-by-number" name="go-to-order-by-number" class="btn btn-info btn-flat">
+															@T("Admin.Common.Go")
+														</button>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+                                    <div class="col-md-12" style="text-align: center">
+                                        <button type="button" id="confrim-orders" class="btn btn-primary btn-success" title="تکمیل سفارش ها"
+                                                style="margin-top: 13px; float: right">
+                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" id="clean-orders" class="btn btn-primary btn-warning" title="پاک کردن اطلاعات ارسال(order note) جهت ارسال مجدد به پست"
+                                                style="margin-top: 13px; float: right; margin-right: 5px">
+                                            <i class="fa fa-eraser" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" id="PostCoordination" class="btn btn-primary btn-info" title="ثبت هماهنگی با پست"
+                                                style="margin-top: 13px; float: right; margin-right: 5px">
+                                            <i class="fa fa-users " aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" id="search-orders" class="btn btn-primary btn-search">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+
+                                        <button type="button" id="update-from-post" class="btn btn-primary btn-info" title="بروزرسانی از پست"
+                                                style="margin-top: 13px; float: right; margin-right: 5px">
+                                            <i class="fa fa-exchange " aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" id="CanncelOrder" class="btn btn-primary btn-danger" title="کنسل کردن سفارش ها"
+                                                style="margin-top: 13px; float: right; margin-right: 5px">
+                                            <i class="fa fa-ban " aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<!-- Central Modal Small -->
+						<div class="modal fade" id="sendSmsToPostAdmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+							 aria-hidden="true">
+							<div class="modal-dialog modal-sm" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<label> ارسال پیامک ناظر پست<input type="checkbox" id="Chk_PostSupervisor" checked="checked" /> </label>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">انصراف</button>
+										<button type="button" id="Save_PostCoordination" class="btn btn-primary btn-sm">ارجاع</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Central Modal Small -->
+						<div class="modal fade" id="EditCoordinationDateModal" tabindex="-1" role="dialog" aria-labelledby="EditCoordinationDateModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="EditCoordinationDateModalLabel">ویرایش تاریخ ارجاع به پست</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="form-horizontal">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<div class="col-md-4">
+															<label class="control-label" for="CoordinationDate">تاریخ ارجاع به پست</label>
+														</div>
+														<div class="col-md-8">
+															<input class="form-control text-box single-line" id="CoordinationDate"
+																   name="CoordinationDate" type="text" value="">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<input type="hidden" id="EditOrderId" />
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+										<button type="button" id="EditCoordinationDate" class="btn btn-primary">تایید،ویرایش</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div id="orders-grid"></div>
+
+                                <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $('#PostCoordination').click(function() {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+                                    $('#sendSmsToPostAdmin').modal({ backdrop: 'static' });
+                                    $('#sendSmsToPostAdmin').appendTo("body");
+                                });
+                                $('#Save_PostCoordination').click(function () {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+                                    var IdData = { "ordersId": selectedIds, sendSmsToPostAdmin: $('#Chk_PostSupervisor').is(':checked') };
+                                    addAntiForgeryToken(IdData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("savePostCord", "ExtendedOrder"))",
+                                        data: IdData,
+                                        success: function (data) {
+                                            $('#sendSmsToPostAdmin').modal('hide');
+                                            alert('عملیات انجام شد');
+                                            var grid = $('#orders-grid').data('kendoGrid');
+                                           // grid.dataSource.read();
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            $('#sendSmsToPostAdmin').modal('hide');
+                                            alert('خطا در زمان  ثبت اعلام به پست');
+                                        }
+                                    });
+                                });
+                                $('#update-from-post').click(function () {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+									var IdData = { "ordersIds": selectedIds};
+                                    addAntiForgeryToken(IdData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("getUpdateFromPostByOrderIDs", "ExtendedOrder"))",
+                                        data: IdData,
+                                        success: function (data) {
+                                            alert('عملیات انجام شد');
+											var grid = $('#orders-grid').data('kendoGrid');
+                                           grid.dataSource.read();
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            alert('خطا در زمان  ثبت اعلام به پست');
+                                            var grid = $('#orders-grid').data('kendoGrid');
+											grid.dataSource.read();
+
+                                        }
+                                    });
+                                });
+                                $('#CanncelOrder').click(function () {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+									var IdData = { "ordersIds": selectedIds};
+                                    addAntiForgeryToken(IdData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("CancelOrderByOrderIDs", "ExtendedOrder"))",
+                                        data: IdData,
+                                        success: function (data) {
+                                            alert(data.message);
+											var grid = $('#orders-grid').data('kendoGrid');
+                                           grid.dataSource.read();
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            alert('خطا در زمان  کنسل کردن سفارش،لطفا ارتباط شبکه خود را بررسی کنید');
+                                            var grid = $('#orders-grid').data('kendoGrid');
+											grid.dataSource.read();
+
+                                        }
+                                    });
+                                });
+                                $('#clean-orders').click(function () {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+                                    var IdData = { "ordersId": selectedIds };
+                                    addAntiForgeryToken(IdData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("CleanToSendDataToPostAgain", "ExtendedOrder"))",
+                                        data: IdData,
+                                        success: function(data) {
+                                            alert('عملیات انجام شد');
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            alert('خطا در زمان پاک کردن اطلاعات ارسال');
+                                        }
+                                    });
+                                });
+                                $('#confrim-orders').click(function () {
+                                    if ($(selectedIds).size() == 0) {
+                                        alert('ابتدا سفارشات مورد نظر را انتخاب نمایید');
+                                        return;
+                                    }
+                                    var IdData = { "ordersId": selectedIds };
+                                    addAntiForgeryToken(IdData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("ChangeOrdersStatus", "ExtendedOrder"))",
+                                        data: IdData,
+                                        success: function(data) {
+                                            var grid = $('#orders-grid').data('kendoGrid');
+                                            grid.dataSource.read();
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            alert('خطا در زمان تکمیل سفارش ها');
+                                        }
+                                    });
+                                });
+                                $("#@Html.IdFor(model => model.BillingCountryId)").change(function() {
+                                var selectedItem = $(this).val();
+                                    var ddlStates = $("#SenderStateProvinceId");
+                                $.ajax({
+                                    cache: false,
+                                    type: "GET",
+                                    url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                                    data: { "countryId": selectedItem, "addAsterisk": "true" },
+                                    success: function(data) {
+                                        ddlStates.html('');
+                                        $.each(data, function(id, option) {
+                                            ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                        });
+                                    },
+                                    error: function(xhr, ajaxOptions, thrownError) {
+                                        alert('Failed to retrieve states.');
+                                    }
+                                });
+                                });
+                                $("#ReciverCountryId").change(function() {
+                                    var selectedItem = $(this).val();
+                                    var ddlStates = $("#ReciverStateProvinceId");
+                                    $.ajax({
+                                        cache: false,
+                                        type: "GET",
+                                        url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                                        data: { "countryId": selectedItem, "addAsterisk": "true" },
+                                        success: function(data) {
+                                            ddlStates.html('');
+                                            $.each(data, function(id, option) {
+                                                ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                            });
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            alert('Failed to retrieve states.');
+                                        }
+                                    });
+                                });
+                                $("#orders-grid").kendoGrid({
+                                    autoBind: false,
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("OrderList", "ExtendedOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        requestEnd: function (e) {
+                                            if (e.type == "read") {
+                                                var response = e.response;
+                                                if (response) {
+                                                    //store extra data
+                                                    var extraData = e.response["ExtraData"];
+                                                    reportAggregates = extraData.orderAggreratorModel
+                                                    setOrderStateStatistic(extraData.CoardinationStatistic);
+                                                }
+                                            }
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        }, {
+                                            field: "CustomOrderNumber",
+                                            title: "@T("Admin.Orders.Fields.CustomOrderNumber")",
+                                            width: 80,
+                                            template: "#if(IsFirstORder) {#"
+                                                + "<i style=\"color:red\" aria-hidden=\"true\" class=\"fa fa-first-order\" title=\"اولین سفارش\"></i>"
+                                                + "#}#"
+                                                + "#if(NeedPrinter) {#"
+                                                + "<i style=\"color:green\" aria-hidden=\"true\" class=\"fa fa-print\" title=\"نیاز به چاپ رسید\"></i>"
+                                                + "#}#"
+                                                + "#if(NeedCarton) {#"
+                                                + "<i style=\"color:red\" aria-hidden=\"true\" class=\"fa fa-gift\" title=\"نیاز به کارتون #=CartonSizeName#\"></i>"
+                                                + "#}#"
+                                                + " #=Id#"
+                                        },
+                                        @if (!Model.IsLoggedInAsVendor)
+                                        {
+                                            //a vendor does not have access to this functionality
+                                            <text>{
+                                            field: "OrderStatus",
+                                            title: "@T("Admin.Orders.Fields.OrderStatus")",
+                                            width: 100,
+                                            template: "#if(PaymentMethodSystemName == 'Payments.CashOnDelivery') {#"
+	                                            + "<span class=\"grid-report-item " +
+	                                            "# if(OrderStatusId == 10) {# yellow #} #" +
+	                                            "# if(OrderStatusId == 20) {# blue #} #" +
+	                                            "# if(OrderStatusId == 30) {# green #} #" +
+	                                            "# if(OrderStatusId == 40) {# red #} #" +
+	                                            "\">COD - #=OrderStatus#</span>"
+	                                            + "#} else {#"
+	                                            + "<span class=\"grid-report-item " +
+	                                            "# if(OrderStatusId == 10) {# yellow #} #" +
+	                                            "# if(OrderStatusId == 20) {# blue #} #" +
+	                                            "# if(OrderStatusId == 30) {# green #} #" +
+	                                            "# if(OrderStatusId == 40) {# red #} #" +
+	                                            "\">#=OrderStatus#</span>#}#"
+                                        },</text>
+                                        }
+                                        {
+                                            field: "PaymentStatus",
+                                            title: "@T("Admin.Orders.Fields.PaymentStatus")",
+                                            width: 100
+                                        },
+                                        @if (!Model.IsLoggedInAsVendor)
+                                        {
+                                            //a vendor does not have access to this functionality
+                                            <text>{
+                                            field: "ShippingStatus",
+                                            title: "@T("Admin.Orders.Fields.ShippingStatus")",
+                                            width: 150
+                                        },</text>
+                                        }
+                                        {
+                                            field: "CustomerEmail",
+                                            title: "@T("Admin.Orders.Fields.Customer")",
+                                            width: 250,
+                                            template: '#=CustomerFullName# (#=CustomerEmail#)'
+                                        },
+                                        {
+                                            field: "StoreName",
+                                            hidden: @(stores.Count > 1 ? "false" : "true"),
+                                            title: "@T("Admin.Orders.Fields.Store")",
+                                            width: 100,
+                                            template: "#if(IsInternalForForeign == true) {#"
+                                                + "<span class=\"grid-report-item " +
+                                                "# {# blue #} #" +
+                                                "\">#=StoreName#</span>"
+                                                + "#} else {#"
+                                                + "<span class=\"grid-report-item " +
+                                                "\">#=StoreName#</span>#}#"
+                                        }, {
+                                            field: "CreatedOn",
+                                            title: "@T("Admin.Orders.Fields.CreatedOn")",
+                                            width: 150,
+                                            type: "date",
+                                            format: "{0:G}"
+                                        },{
+                                            field: "CoordinationDate",
+                                            title: "اعلام به پست",
+                                            width: 150,
+                                            type: "date",
+                                            format: "{0:G}"
+                                        },
+                                        {
+                                            field: "Id",
+                                            title: "ویرایش تاریخ ارجاع به پست",
+                                            width: 50,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: `<a class="btn btn-default" onClick="showEditModal(#=Id#,'#=CoordinationDate#')" ><i class="fa fa-pencil-square-o"></i></a>`
+                                        },
+                                        @if (!Model.IsLoggedInAsVendor)
+                                        {
+                                            //a vendor does not have access to this functionality
+                                            <text>{
+                                            field: "OrderTotal",
+                                            title: "@T("Admin.Orders.Fields.OrderTotal")",
+                                            width: 100,
+                                            footerTemplate: '<div><strong>@T("Admin.Orders.Report.Summary")</strong></div>' +
+                                                '<div>@T("Admin.Orders.Report.Profit") <span id=\"aggregator-profit-block\"></span></div>' +
+                                                '<div>@T("Admin.Orders.Report.Shipping") <span id=\"aggregator-shipping-block\"></span></div>' +
+                                                '<div>@T("Admin.Orders.Report.Tax") <span id=\"aggregator-tax-block\"></span></div>' +
+                                                '<div>@T("Admin.Orders.Report.Total") <span id=\"aggregator-total-block\"></span></div>'
+                                        },</text>
+                                        }
+                                        {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.View")",
+                                            width: 50,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-eye"></i></a>'
+                                        },
+                                        {
+                                            field: "Id",
+                                            title: "بروزرسانی از پست",
+                                            width: 50,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+											template: '<a data-value="#=Id#" class="btn btn-info" onclick="updateFromPost(this)"  title="به روز سانی از پست"><i class="fa fa-exchange"></i></a>'
+                                        },
+                                        {
+                                    field: "Id",
+                                    title: "اعلام وضعیت محموله های سنگین",
+                                    width:70,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:"#if(IsUbaar) {#"
+                                                + `<a class="btn btn-default" onClick="OpenTrackingModal(#=Id#)" ><i class="fa fa-gavel" style="color:green"></i></a>`
+                                    + "#}#"
+                                     }
+                                    ]
+                                } );
+                            });
+
+
+                                    function OpenTrackingModal(id) {
+                                        _mTrackingUbaar.OrderId = id;
+                                        TxtDescription.value = "";
+                                        $("#Radio_Status_gheymat").prop('checked', false);
+                                        $("#Radio_Status_yes").prop('checked', false);
+                                        ///
+                                        $('#table_body_orderitem').find('tr').each(function () { $(this).remove(); });
+                                        var postDataorderitem = { _OrderId: id };
+                addAntiForgeryToken(postDataorderitem);
+                 $.ajax({
+                url:"@(Url.Action("ListOrderItem", "ExtendedOrder"))",
+                type: 'Post',
+                dataType: "json",
+                data: postDataorderitem,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    var table = $('#table_body_orderitem');
+                    table.find("tbody tr").remove();
+                    data.forEach(function (employee) {
+                        table.append(
+                            "<tr id='" + "tr" + employee.id + "'itemOrderItemId='" + employee.id + "'>"
+                            +
+                            "<td class='col-8'>"+
+                                        "<span id='"+"inputnameproduct_"+ employee.id+"'"+ "value='"+employee.name+"'"+">"+employee.name+"</span>"+
+                            "</td>"
+                            +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputprice_"+ employee.id+"'"+ "value='"+employee.price+"'"+"class='form-control'" +"disabled />"+
+                            "</td>"
+                             +
+                            "<td class='col-2'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputnewprice_"+ employee.id+"'"+ "value='0'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "</tr>"
+
+                        );
+                    });
+
+
+                }
+            });
+
+
+
+
+                                        ///
+                                        $('#modalTrackingUbaar').modal('show', { backdrop: 'static' });
+                                        $('#modalTrackingUbaar').appendTo("body");
+                                    }
+
+                            function showEditModal(orderId, CoordinationDate) {
+                                $('#EditOrderId').val(orderId);
+                                $('#CoordinationDate').val((CoordinationDate == 'null' ? '' : CoordinationDate));
+                                $('#CoordinationDate').kendoDateTimePicker({
+                                    dateInput: true,
+                                    format: 'yyyy/MM/dd HH:mm:ss',
+                                    value: ($('#CoordinationDate').val() ? new Date($('#CoordinationDate').val()) : '')
+                                });
+                                $('#EditCoordinationDateModal').modal('show', { backdrop: 'static' });
+                                $('#EditCoordinationDateModal').appendTo("body");
+                            }
+                            $('#EditCoordinationDate').click(function () {
+                                var orderId = $('#EditOrderId').val();
+                                if (!orderId ) {
+                                    $('#EditOrderId').val('');
+                                    $('#EditCoordinationDateModal').modal('hide');
+                                    alert('لطفا مجددا سعی کنید');
+                                    return;
+                                }
+                                var postData = { 'OrderId': orderId, 'CoordinationDate': $('#CoordinationDate').val()};
+                                addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("EditCoordinationDate", "ExtendedOrder"))",
+                                    data: postData,
+                                    success: function (result) {
+                                        if (result.message)
+                                            alert(result.message);
+                                        if (result.success) {
+                                            $('#EditCoordinationDateModal').modal('hide');
+                                            $('#EditOrderId').val('');
+                                            var grid = $('#orders-grid').data('kendoGrid');
+                                            grid.dataSource.read();
+                                        }
+                                    }
+                                });
+                            });
+                                </script>
+
+								<script type="text/javascript">
+                        var selectedIds = [];
+                        var reportAggregates = "";
+                        function updateFromPost(btn) {
+                        orderId = $(btn).attr('data-value');
+							var postData = { "orderId": orderId};
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("getUpdateFromPostByOrderID", "ExtendedOrder"))",
+                            data: postData,
+                            success: function(data) {
+                                if (!data.IsOk) {
+                                    alert('خطا درزمان به روز رسانی');
+                                }
+								var grid = $('#orders-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    }
+
+                                    $(document).ready(function () {
+                            //search button
+                            $('#search-orders').click(function () {
+                                //search
+                                var grid = $('#orders-grid').data('kendoGrid');
+                                grid.dataSource.page(1); //new search. Set page size to 1
+                                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                                //clear selected checkboxes
+                                $('.checkboxGroups').attr('checked', false).change();
+                                selectedIds = [];
+                                return false;
+                            });
+
+                            $("".concat("#@Html.IdFor(model => model.BillingEmail),",
+                                "#@Html.IdFor(model => model.BillingLastName),",
+                                "#@Html.IdFor(model => model.OrderNotes)")).keydown(function (event) {
+                                if (event.keyCode === 13) {
+                                    $("#search-orders").click();
+                                    return false;
+                                }
+                            });
+
+                            $("#@Html.IdFor(model => model.GoDirectlyToCustomOrderNumber)").keydown(function(event) {
+                                if (event.keyCode === 13) {
+                                    $("#go-to-order-by-number").click();
+                                    return false;
+                                }
+                            });
+
+                            $('#mastercheckbox').click(function () {
+                                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+                            });
+
+                            //wire up checkboxes.
+                            $('#orders-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                                var $check = $(this);
+                                if ($check.is(":checked") == true) {
+                                    var checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked == -1) {
+                                        //add id to selectedIds.
+                                        selectedIds.push($check.val());
+                                    }
+                                }
+                                else {
+                                    var checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked > -1) {
+                                        //remove id from selectedIds.
+                                        selectedIds = $.grep(selectedIds, function (item, index) {
+                                            return item != $check.val();
+                                        });
+                                    }
+                                }
+                                updateMasterCheckbox();
+                            });
+                            $('#ShipmentStatus').find('.tab-content').remove();
+                        });
+                        $('.tabItem').click(function () {
+                            debugger;
+                            var status = $(this).find('a').attr('data-tab-name').split('_')[1];
+                            $('#orderState').val(status);
+                            $('#treeCountryId').val('');
+                            $('#treeStateId').val('');
+                            $('#treeCustomerId').val('');
+                            $(`#treeview1`).html('');
+
+                            gettree1();
+                        });
+                        function setOrderStateStatistic(data) {
+                            @*var IdData = { "state": orderState};
+                            addAntiForgeryToken(IdData);
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("OrderStateStatistic", "ExtendedOrder"))",
+                                data: IdData,
+                                success: function (data) {
+                                    if (data) {*@
+                                        $('#BoxCount').html(' تعداد بسته '+': '+ data.BoxCount);
+                                        $('#RouteCount').html(' تعداد مسیر ' + ': ' + data.RouteCount);
+                                        $('#CustomerCount').html(' تعداد مشتری ' + ': ' + data.CustomerCount);
+                                        $('#PostSupervisor').html(' تعداد ناظر ' + ': ' + data.PostSupervisor);
+                                //    }
+                                //},
+                                //error: function (xhr, ajaxOptions, thrownError) {
+                                //}
+                            //});
+                        }
+                        @*function getOrderStateStatistic(orderState) {
+                            var IdData = { "state": orderState};
+                            addAntiForgeryToken(IdData);
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("OrderStateStatistic", "ExtendedOrder"))",
+                                data: IdData,
+                                success: function (data) {
+                                    if (data) {
+                                        $('#BoxCount').html(' تعداد بسته '+': '+ data.BoxCount);
+                                        $('#RouteCount').html(' تعداد مسیر ' + ': ' + data.RouteCount);
+                                        $('#CustomerCount').html(' تعداد مشتری ' + ': ' + data.CustomerCount);
+                                        $('#PostSupervisor').html(' تعداد ناظر ' + ': ' + data.PostSupervisor);
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                }
+                            });
+                        }*@
+                        function additionalData() {
+
+                            var data = {
+                                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                                OrderStatusIds: $('#@Html.IdFor(model => model.OrderStatusIds)').val(),
+                                PaymentStatusIds: $('#@Html.IdFor(model => model.PaymentStatusIds)').val(),
+                                ShippingStatusIds: $('#@Html.IdFor(model => model.ShippingStatusIds)').val(),
+                                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+                                WarehouseId: $('#@Html.IdFor(model => model.WarehouseId)').val(),
+                                BillingEmail: $('#@Html.IdFor(model => model.BillingEmail)').val(),
+                                BillingLastName: $('#@Html.IdFor(model => model.BillingLastName)').val(),
+                                BillingCountryId: $('#@Html.IdFor(model => model.BillingCountryId)').val(),
+                                PaymentMethodSystemName: $('#@Html.IdFor(model => model.PaymentMethodSystemName)')
+                                    .val(),
+                                ProductId: $('#@Html.IdFor(model => model.ProductId)').val(),
+                                OrderNotes: $('#@Html.IdFor(model => model.OrderNotes)').val(),
+                                SenderStateProvinceId: $('#SenderStateProvinceId').val(),
+                                ReciverCountryId: $('#ReciverCountryId').val(),
+                                ReciverStateProvinceId: $('#ReciverStateProvinceId').val(),
+                                ReciverName: $('#ReciverName').val(),
+                                SenderName: $('#SenderName').val(),
+                                IsOrderOutDate: $('#IsOrderOutDate').is(':checked'),
+                                orderState: ($('#orderState').val() == '' ? 16 : $('#orderState').val()),
+                                treeCountryId: $('#treeCountryId').val(),
+                                treeStateId: $('#treeStateId').val(),
+                                treeCustomerId: $('#treeCustomerId').val()
+
+                            };
+                            return data;
+                           // getOrderStateStatistic($('#orderState').val() == '' ? 16 : $('#orderState').val());
+
+
+
+                        }
+                        function onDataBound(e) {
+                            $('#orders-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                                var currentId = $(this).val();
+                                var checked = jQuery.inArray(currentId, selectedIds);
+                                //set checked based on if current checkbox's value is in selectedIds.
+                                $(this).attr('checked', checked > -1);
+                            });
+
+                            updateMasterCheckbox();
+
+                            //update order totals summary
+                            if (reportAggregates != "") {
+                                for (var key in reportAggregates) {
+                                    $('#aggregator-profit-block').text(reportAggregates['aggregatorprofit']);
+                                    $('#aggregator-shipping-block').text(reportAggregates['aggregatorshipping']);
+                                    $('#aggregator-tax-block').text(reportAggregates['aggregatortax']);
+                                    $('#aggregator-total-block').text(reportAggregates['aggregatortotal']);
+                                }
+                            }
+                            var rows = e.sender.tbody.children();
+
+                            for (var j = 0; j < rows.length; j++) {
+                                var row = $(rows[j]);
+                                var dataItem = e.sender.dataItem(row);
+
+                                if (dataItem.get("CardName") == "COD") {
+                                    row.addClass("CODclass");
+                                }
+                            }
+                        }
+
+                        function updateMasterCheckbox() {
+                            var numChkBoxes = $('#orders-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+                            var numChkBoxesChecked = $('#orders-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+                            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+                        }
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</form>
+
+@*export selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportXmlSelected" method="post" id="export-xml-selected-form">
+	<input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#exportxml-selected').click(function (e) {
+			e.preventDefault();
+			var ids = selectedIds.join(",");
+			$('#export-xml-selected-form #selectedIds').val(ids);
+			$('#export-xml-selected-form').submit();
+			return false;
+		});
+	});
+</script>
+
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportExcelSelected" method="post" id="export-excel-selected-form">
+	<input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#exportexcel-selected').click(function (e) {
+			e.preventDefault();
+			var ids = selectedIds.join(",");
+			$('#export-excel-selected-form #selectedIds').val(ids);
+			$('#export-excel-selected-form').submit();
+			return false;
+		});
+	});
+</script>
+
+@*Print packaging slips selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="PdfInvoiceSelected" method="post" id="pdf-invoice-selected-form">
+	<input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#pdf-invoice-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            $('#pdf-invoice-selected-form #selectedIds').val(ids);
+            $('#pdf-invoice-selected-form').submit();
+            return false;
+        });
+    });
+    function gettree1() {
+        var IdData = { "orderState": $('#orderState').val()};
+        addAntiForgeryToken(IdData);
+            $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("getOrderOverView", "ExtendedOrder"))",
+            data: IdData,
+                success: function (data) {
+                    if (data) {
+                        $(`#treeview1`).treeview({
+                            expandIcon: "glyphicon glyphicon-plus",
+                            collapseIcon: "glyphicon glyphicon-minus",
+                            nodeIcon: "glyphicon glyphicon-user",
+                            showBorder: true,
+                            showTags: true,
+                            highlightSelected: true,
+                            color: "#428bca",
+                            enableLinks: false,
+                            levels: 1,
+                            data: data,
+                            refrechSubData: function (countryId, stateId, customerId) {
+                                debugger;
+                                $('#treeCustomerId').val(customerId);
+                                $('#treeStateId').val(stateId);
+                                $('#treeCountryId').val(countryId);
+                                if ($('#PnlOrderSerch').hasClass('collapsed-box')) {
+                                    $('#PnlOrderSerch').find("[data-widget='collapse']").click();
+                                }
+                                if (!$('#PnlOverViewOrder').hasClass('collapsed-box')) {
+                                    $('#PnlOverViewOrder').find("[data-widget='collapse']").click();
+                                }
+                                var g
+                                var grid = $('#orders-grid').data('kendoGrid');
+                                grid.dataSource.page(1);
+                            }
+                        });
+                        if (!($('#PnlOrderSerch').hasClass('collapsed-box'))) {
+                            $('#PnlOrderSerch').find("[data-widget='collapse']").click();
+                        }
+                        if ($('#PnlOverViewOrder').hasClass('collapsed-box')) {
+                            $('#PnlOverViewOrder').find("[data-widget='collapse']").click();
+                        }
+                    }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('خطا در زمان  دریافت اطلاعات سفارشات');
+            }
+        });
+    }
+</script>
+<script>
+    function SetNumberNotification(arr)
+    {
+        $('#ShipmentStatus > ul  > li > a').each(function () {
+            debugger;
+            var status = $(this).attr('data-tab-name').split('_')[1];
+            if (status == 0)
+                return;
+            debugger;
+            var tab = jQuery.grep(arr, function (a) {
+                return a.Key == parseInt(status);
+            });
+            if (tab[0]) {
+                s = " (" + tab[0].Value + ") " + $(this).text();
+                $(this).text(s);
+                if (parseInt(status) == 20 || parseInt(status) == 21 || parseInt(status) == 12 || parseInt(status) == 15 || parseInt(status) == 13 || parseInt(status) == 14|| parseInt(status) == 22) {
+                    $(this).css('color', 'red');
+                }
+            }
+
+
+        });
+    }
+    $(document).ready(function () {
+
+       var postData = {};
+            addAntiForgeryToken(postData);
+
+         $.ajax({
+                type: "POST",
+             url: "@(Url.Action("getOrderTabStatistic", "ExtendedOrder"))",
+             data: postData,
+                success: function (data) {
+                    SetNumberNotification(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات تعداد سفارشات در هر تب');
+                }
+          });
+    });
+</script>
+
+
+<div class="modal fade" id="modalTrackingUbaar" tabindex="-1" role="dialog" aria-labelledby="EditShipmentModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="EditShipmentModalLabel">اعلام وضعیت محموله های سنگین</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-horizontal">
+					<div class="row">
+						<div class="col-md-12">
+							<p>کاربر گرامی، آخرین وضعیت محموله  سنگین را ثبت بفرمایید</p>
+
+							<div class="form-group">
+								<div class="col-md-3">
+									<label class="control-label" for="Radio_mafghod">اعلام وضعیت:</label>
+								</div>
+								<div class="col-md-12">
+									<div class="radio radio-inline radio-replace">
+										<input type="radio" name="Radio_Status" id="Radio_Status_gheymat" value="1">
+										<label for="Radio_Status_gheymat">اعلام قیمت توسط اوبار </label>
+									</div>
+
+									<div class="radio radio-inline radio-replace">
+										<input type="radio" name="Radio_Status" id="Radio_Status_yes" value="2">
+										<label for="Radio_Status_yes">تایید راننده </label>
+									</div>
+									@*<div class="radio radio-inline radio-replace">
+											<input type="radio" name="Radio_Status" id="Radio_Status_conflict_Increase" value="3">
+											<label for="Radio_Status_conflict_Increase">اعلام مغایرت-افزایش مبلغ پستی </label>
+										</div>
+										<div class="radio radio-inline radio-replace" hidden>
+											<input type="radio" name="Radio_Status" id="Radio_Status_conflict_decrease" value="4">
+											<label for="Radio_Status_conflict_decrease">اعلام مغایرت-کاهش مبلغ پستی </label>
+										</div>*@
+								</div>
+							</div>
+							<div class="row" id="div_order_item">
+								<div class="table-responsive">
+									<div class="panel-heading clearfix" style="background-color:#ededed;">
+										<div class="panel-title">جزییات سفارش اوبار</div>
+									</div>
+									<table class="table">
+										<thead>
+											<tr style="font-weight:bold;">
+												<th class="col-8"> نام محصول</th>
+												<th class="col-2"> قیمت </th>
+												<th class="col-2"> قیمت جدید</th>
+											</tr>
+										</thead>
+										<tbody id="table_body_orderitem">
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-12">
+									<textarea class="form-control" rows="2" id="TxtDescription" placeholder="توضیحات را وارد نمایید"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="hidden" id="EditShipmentId" />
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+				<button type="button" id="TrackOrderUbaar" class="btn btn-primary">تایید،ثبت</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('#div_order_item').hide();
+
+        $('input[type=radio]').change(function () {
+            if (Radio_Status_gheymat.checked)
+            {
+                $('#div_order_item').show();
+                /// پر کردن جدول
+
+            }
+
+            else {
+                $('#div_order_item').hide();
+
+            }
+        });
+
+});
+
+
+
+    $('#TrackOrderUbaar').click(function () {
+            senditem = {};
+            Listitem = [];
+
+
+        if (Radio_Status_gheymat.checked) {
+            _mTrackingUbaar.Status = 1;
+               $('#table_body_orderitem').find('tr').each(function () {
+                var Id = this.getAttribute('itemOrderItemId');
+                var price = $("#inputprice_" + Id).val();
+                var newprice = $("#inputnewprice_" + Id).val();
+                if (newprice == "0" || newprice == "")
+                {
+                     alert('کاربر گرامی خواهشمند است مبالغ جدید ،بزرگتر از صفر باشد');
+                     return;
+                }
+
+                item = {};
+                item["_OrderItemId"] = Id;
+                item["_price"] = price;
+                item["_newprice"] = newprice;
+                Listitem.push(item);
+           });
+            senditem["Listitem"] = Listitem;
+            insert();
+          }
+          else if (Radio_Status_yes.checked) {
+            _mTrackingUbaar.Status = 3;
+            insert();
+          }
+          //else if (Radio_Status_conflict_Increase.checked) {
+          //    _mTracking.Status = 3;
+          //}
+          //else if (Radio_Status_conflict_decrease.checked) {
+          //    _mTracking.Status = 4;
+          //}
+        else
+        {
+              alert('کاربر گرامی خواهشمند است یکی از وضعیت ها را انتخاب بفرمایید');
+                                  return;
+          }
+
+    });
+
+    function insert()
+    {
+        _mTrackingUbaar.Des = TxtDescription.value;
+        var postData = {
+            _OrderId: _mTrackingUbaar.OrderId,
+            _Status:_mTrackingUbaar.Status,
+            _Des: _mTrackingUbaar.Des,
+            List_PP: senditem
+        };
+        debugger;
+       addAntiForgeryToken(postData);
+       $.ajax({
+           cache: false,
+           type: "POST",
+           url: "@(Url.Action("TrackUbaar", "ExtendedOrder"))",
+           data: postData,
+           success: function (result) {
+
+               if (result.success == true) {
+
+                   alert(result.message);
+
+                   $('#modalTrackingUbaar').modal('hide');
+                   $('#table_body_orderitem').find('tr').each(function () { $(this).remove(); });
+                   TxtDescription.value = "";
+                   $("#Radio_Status_gheymat").prop('checked', false);
+                   $("#Radio_Status_yes").prop('checked', false);
+               }
+           }
+       });
+    }
+
+</script>

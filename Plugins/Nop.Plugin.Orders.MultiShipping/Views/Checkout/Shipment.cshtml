@@ -1,0 +1,141 @@
+﻿@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using Nop.Web.Controllers;
+
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IWebHelper webHelper
+@inject IWorkContext workContext
+
+@{
+    Layout = "_ColumnsOne";
+    //title
+    Html.AddTitleParts(T("PageTitle.Checkout").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-checkout-page");
+    //Html.AppendPageCssClassParts("html-billing-address-page");
+}
+<div class="page checkout-page billing-address-page">
+    @await Component.InvokeAsync("Mus_CheckoutProgress", new { step = Mus_CheckoutProgressStep.Shipment })
+    <div class="page-title">
+        <h1>ارسال به چند مقصد</h1>
+    </div>
+    <div class="page-body checkout-data">
+        <div class="buttons">
+            <input onclick="shipmentStep(@HttpContextAccessor.HttpContext.Session.GetInt32("ShipmentStep"))" type="submit" name="nextstep" value="@T("Checkout.NextButton")" class="button-1 new-address-next-step-button" />
+        </div>
+        <div class="section order-summary" style="margin-top:20px !important">
+
+            @if (HttpContextAccessor.HttpContext.Session.GetInt32("ShipmentStep") == 1)
+            {
+                <div class="title">
+                    <h4>ارسال به چند مقصد: انتخاب مقصد کالا/ها برای سهولت انتخاب آدرس</h4>
+                    <span>
+                        هر مقصد نشان گر یک آدرس در مرحله بعد می باشد بدین صورت که:
+                        <br />
+                        آیتم هایی که داری یک شماره مقصد مشابه می باشند به یک آدرس که در مرحله بعد انتخاب می شود ارسال می شوند
+                    </span>
+                </div>
+                @await Component.InvokeAsync("Mus_OrderSummaryShipment");
+            }
+            else if (HttpContextAccessor.HttpContext.Session.GetInt32("ShipmentStep") == 2)
+            {
+                <div class="title">
+                    <strong>ارسال به چند مقصد: انتخاب آدرس</strong>
+                </div>
+                @await Component.InvokeAsync("Mus_OrderSummaryShippingAddress");
+
+            }
+            else if (HttpContextAccessor.HttpContext.Session.GetInt32("ShipmentStep") == 3)
+            {
+                <div class="title">
+                    <strong>ارسال به چند مقصد: نحوه ارسال</strong>
+                </div>
+                @await Component.InvokeAsync("Mus_OrderSummaryShippingMethod");
+            }
+        </div>
+
+        <br />
+        <br />
+    </div>
+</div>
+<script>
+    
+    function getShipmentAddresses() {
+        debugger;
+        var allSelects = $(".addressSelect");
+        var output = [];
+        debugger;
+        for (i = 0; i < allSelects.length; i++) {
+            var eachItem = {};
+            eachItem.Address = $($(".addressSelect")[i]).val();//addresses[allSelects[i].selectedIndex].Id;
+            eachItem.ShipmentNumber = allSelects[i].id.split("_")[1];
+            output.push(eachItem);
+        }
+
+        return output;
+    }
+    function getShippingMethodSelect() {
+        var allSelects = $(".shippingMethodSelect");
+        var output = [];
+
+        for (i = 0; i < allSelects.length; i++) {
+            var eachItem = {};
+            eachItem.ShippingMethod = allSelects[i][allSelects[i].selectedIndex].value;
+            eachItem.ShipmentNumber = allSelects[i].id.split("_")[1];
+            eachItem.DeliveryDate = document.getElementById('deliverydatepicker_' + eachItem.ShipmentNumber).value;
+            output.push(eachItem);
+        }
+
+        return output;
+    }
+    function shipmentStep(step) {
+        if (step == 1) {
+            $.ajax({
+                type: "POST",
+                url: "/checkout/SaveShipmentNumbers",
+                data: { 'shipmentValues': getShipmentNumbers() },
+                success: function (data) {
+                    debugger;
+                    window.location = '/checkout/shipment?ShipmentStep=2';
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+        }
+        else if (step == 2) {
+            $.ajax({
+                type: "POST",
+                url: "/checkout/SaveShipmentAddresses",
+                // The key needs to match your method's input parameter (case-sensitive).
+                data: { 'addressValues': getShipmentAddresses()},
+                success: function (data) {
+                    debugger;
+                    window.location = '/checkout/shipment?ShipmentStep=3';
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+            
+        }
+        else if (step == 3){
+            $.ajax({
+                type: "POST",
+                url: "/checkout/SaveShipmentMethods",
+                // The key needs to match your method's input parameter (case-sensitive).
+                data: { 'shippingMethodValues': getShippingMethodSelect()},
+                success: function (data) {
+                    window.location = '/checkout/Mus_PaymentMethod';
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+            
+        }
+    }
+</script>
+

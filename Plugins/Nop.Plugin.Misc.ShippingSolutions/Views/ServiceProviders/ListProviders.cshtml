@@ -1,0 +1,844 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Models.Search.Search_Provider_Model
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+}
+
+
+<form asp-controller="ManageServiceProvider" asp-action="List" method="post">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            لیست سرویس دهنده ها
+        </h1>
+        <div class="pull-right">
+            <a asp-controller="ManageServiceType" asp-action="Index" class="btn bg-purple">
+                <i class="fa fa-navicon"></i>
+                مدیریت سرویس ها
+            </a>
+            @*<a asp-controller="ManageTransportaionType" asp-action="Index" class="btn bg-purple">
+                <i class="fa fa-navicon"></i>
+                مدیریت روشهای حمل و نقل
+            </a>*@
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                جدید
+            </a>
+            <button type="button" id="Active-selected" class="btn btn-success">
+                <i class="fa fa-check"></i>
+                فعال سازی(انتخاب شده)
+            </button>
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                غیرفعال سازی(انتخاب شده)
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchServicesProviderName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchServicesProviderName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchServicesProviderAgentName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchServicesProviderAgentName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxOrder" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxOrder" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMinWeight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMinWeight" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxWeight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxWeight" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxTimeDeliver" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxTimeDeliver" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxlength" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxlength" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxwidth" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxwidth" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxheight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxheight" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxbillingamountCOD" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxbillingamountCOD" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsActive" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsActive" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Searchadvancefreight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Searchadvancefreight" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Searchfreightforward" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Searchfreightforward" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Searchcod" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Searchcod" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsPishtaz" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsPishtaz" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsSefareshi" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsSefareshi" />
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+                            <div class="col-md-6">
+
+
+                                <div class="form-group" @(Model.ListCategory.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchCategoryId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchCategoryId" asp-items="Model.ListCategory" />
+                                        @*<select class="js-example-basic-single" name="state" asp-for="SearchCategoryId" id="ahmad"></select>*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group" @(Model.ListOffice_City.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchOfficeId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchOfficeId" asp-items="Model.ListOffice_City" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchServiceTypeId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchServiceTypeId" asp-items="Model.ListServiceTypes" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchStoreId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchStoreId" asp-items="Model.ListStores" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchStartTime" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchStartTime" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchEndTime" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchEndTime" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsAdjoining" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsAdjoining" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsNotAdjacent" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsNotAdjacent" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsHeavyTransport" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsHeavyTransport" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsForeign" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsForeign" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsInCity" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsInCity" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsTwoStep" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsTwoStep" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchHasHagheMaghar" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchHasHagheMaghar" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsDroonOstani" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsDroonOstani" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsVIje" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsVIje" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsNromal" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsNromal" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @**@
+                            <div class="form-group" style="display:none;">
+
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="ActiveSearch" />
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    جستجو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="products-grid"></div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ServiceProvidresList", "ManageServiceProvider"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        },
+
+                                        {
+                                            field: "Grid_Provider_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_Name")",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_CategoryName",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_CategoryName")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_Provider_ServiceTypeName",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_ServiceTypeName")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_AgentName",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.FiledNameInNewProviderAgentName")",
+                                            width: 100
+                                        }
+                                       
+                                        ,
+                                        {
+                                            field: "Grid_Provider_MaxOrder",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MaxOrder")",
+                                            width: 70
+                                        }
+
+                                         ,
+                                        {
+                                            field: "Grid_Provider_MaxTimeDeliver",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MaxTimeDeliver")",
+                                            width: 70
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_MinWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MinWeight")",
+                                            width: 70
+                                        }
+                                          ,
+                                        {
+                                            field: "Grid_Provider_MaxWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MaxWeight")",
+                                            width: 70
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_Maxlength",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MaxMaxlength")",
+                                            width: 70
+                                        }
+                                          ,
+                                        {
+                                            field: "Grid_Provider_Maxwidth",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_Maxwidth")",
+                                            width: 70
+                                        }
+                                          ,
+                                        {
+                                            field: "Grid_Provider_Maxheight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_Maxheight")",
+                                            width: 70
+                                        }
+                                          ,
+                                        {
+                                            field: "Grid_Provider_MaxbillingamountCOD",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_MaxbillingamountCOD")",
+                                            width: 70
+                                        }
+                                        
+                                        ,
+                                        {
+                                            field: "Grid_Provider_advancefreight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_advancefreight")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_advancefreight) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_Provider_freightforward",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_freightforward")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_freightforward) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_Provider_cod",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_cod")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_cod) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsPishtaz",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsPishtaz")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsPishtaz) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsSefareshi",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsSefareshi")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsSefareshi) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsVIje",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsVIje")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsVIje) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsNromal",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsNromal")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsNromal) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsDroonOstani",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsDroonOstani")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsDroonOstani) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsAdjoining",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsAdjoining")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsAdjoining) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsNotAdjacent",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsNotAdjacent")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsNotAdjacent) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsHeavyTransport",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsHeavyTransport")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsHeavyTransport) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsForeign",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsForeign")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsForeign) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsInCity",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsInCity")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsInCity) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsAmanat",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsAmanat")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsAmanat) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_IsTwoStep",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsTwoStep")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsTwoStep) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_HasHagheMaghar",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_HasHagheMaghar")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_HasHagheMaghar) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+
+                                        ,
+                                        {
+                                            field: "Grid_Provider_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsActive")",
+                                            width: 50,
+                                            template: '# if(Grid_Provider_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_DateInsert")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_DateUpdate")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_UserInsert")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Provider_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_UserUpdate")",
+                                            width: 50,
+                                        }
+                                        , {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+                                    ]
+                                });
+                            });
+                        </script>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var selectedIds = [];
+
+        $(document).ready(function () {
+            //search button
+            $('#search-products').click(function () {
+                //search
+
+                $('.ActiveSearch').attr('checked', true).change();
+                $('#@Html.IdFor(model => model.ActiveSearch)').attr('checked', true).change();
+                var grid = $('#products-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                //clear selected checkboxes
+                $('.checkboxGroups').attr('checked', false).change();
+                selectedIds = [];
+                return false;
+            });
+
+            $("#@Html.IdFor(model => model.SearchServicesProviderName)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableSelected", "ManageServiceProvider"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+        //Active
+            $('#Active-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ActiveSelected", "ManageServiceProvider"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+            $('#mastercheckbox').click(function () {
+                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            });
+
+            //wire up checkboxes.
+            $('#products-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                var $check = $(this);
+                if ($check.is(":checked") == true) {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked == -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                }
+                else {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds, function (item, index) {
+                            return item != $check.val();
+                        });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+        });
+
+        function additionalData() {
+            var data = {
+                ActiveSearch: $('#@Html.IdFor(model => model.ActiveSearch)').is(':checked'),
+                SearchServicesProviderName: $('#@Html.IdFor(model => model.SearchServicesProviderName)').val(),
+                SearchServicesProviderAgentName: $('#@Html.IdFor(model => model.SearchServicesProviderAgentName)').val(),
+                SearchCategoryId: $('#SearchCategoryId').val(),
+                SearchServiceTypeId: $('#SearchServiceTypeId').val(),
+
+                SearchIsActive: $('#@Html.IdFor(model => model.SearchIsActive)').is(':checked'),
+                SearchMaxOrder: $('#SearchMaxOrder').val(),
+                SearchMaxWeight: $('#SearchMaxWeight').val(),
+                SearchMinWeight: $('#SearchMinWeight').val(),
+                SearchMaxTimeDeliver: $('#SearchMaxTimeDeliver').val(),
+                SearchMaxlength: $('#SearchMaxlength').val(),
+                SearchMaxwidth: $('#SearchMaxwidth').val(),
+                SearchMaxheight: $('#SearchMaxheight').val(),
+                SearchMaxbillingamountCOD: $('#SearchMaxbillingamountCOD').val(),
+
+                Searchadvancefreight: $('#@Html.IdFor(model => model.Searchadvancefreight)').is(':checked'),
+                Searchfreightforward: $('#@Html.IdFor(model => model.Searchfreightforward)').is(':checked'),
+                Searchcod: $('#@Html.IdFor(model => model.Searchcod)').is(':checked'),
+                SearchOfficeId: $('#SearchOfficeId').val(),
+               
+                SearchStoreId: $('#SearchStoreId').val(),
+
+                SearchIsPishtaz: $('#@Html.IdFor(model => model.SearchIsPishtaz)').is(':checked'),
+                SearchIsSefareshi: $('#@Html.IdFor(model => model.SearchIsSefareshi)').is(':checked'),
+                SearchIsVIje: $('#@Html.IdFor(model => model.SearchIsVIje)').is(':checked'),
+                SearchIsNromal: $('#@Html.IdFor(model => model.SearchIsNromal)').is(':checked'),
+                SearchIsDroonOstani: $('#@Html.IdFor(model => model.SearchIsDroonOstani)').is(':checked'),
+                SearchIsAdjoining: $('#@Html.IdFor(model => model.SearchIsAdjoining)').is(':checked'),
+                SearchIsNotAdjacent: $('#@Html.IdFor(model => model.SearchIsNotAdjacent)').is(':checked'),
+                SearchIsHeavyTransport: $('#@Html.IdFor(model => model.SearchIsHeavyTransport)').is(':checked'),
+                SearchIsForeign: $('#@Html.IdFor(model => model.SearchIsForeign)').is(':checked'),
+                SearchIsInCity: $('#@Html.IdFor(model => model.SearchIsInCity)').is(':checked'),
+             
+                SearchIsTwoStep: $('#@Html.IdFor(model => model.SearchIsTwoStep)').is(':checked'),
+                SearchHasHagheMaghar: $('#@Html.IdFor(model => model.SearchHasHagheMaghar)').is(':checked'),
+
+                SearchStartTime: $('#SearchStartTime').val(),
+                SearchEndTime: $('#SearchEndTime').val()
+                            };
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function onDataBound(e) {
+            $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+            var numChkBoxesChecked = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+    </script>
+
+
+
+
+
+
+
+
+</form>

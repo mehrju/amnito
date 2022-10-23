@@ -1,0 +1,11 @@
+﻿{
+  "Group": "1_NopMaster",
+  "FriendlyName": "لاگین با موبایل",
+  "SystemName": "Nop.Plugin.Misc.PhoneLogin",
+  "Version": "4",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "NopMaster.ir  (Ehsan karimi)",
+  "DisplayOrder": 11,
+  "FileName": "Nop.Plugin.Misc.PhoneLogin.dll",
+  "Description": "لاگین با موبایل"
+}

@@ -1,0 +1,437 @@
+﻿@model Nop.Plugin.Misc.Ticket.Models.Search.Search_TrainingAcademyTopic
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Misc.Ticket.TrainingAcademyTopic_pagetitle").Text;
+
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+}
+
+
+<form asp-controller="ManageTrainingAcademyTopic" asp-action="List" method="post">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.Ticket.TrainingAcademyTopic_title")
+            
+        </h1>
+        <div class="pull-right">
+
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                جدید
+            </a>
+            <button type="button" id="Active-selected" class="btn btn-success">
+                <i class="fa fa-check"></i>
+                فعال سازی(انتخاب شده)
+            </button>
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                غیرفعال سازی(انتخاب شده)
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_Title" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_TrainingAcademyTopic_Title" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_Description" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_TrainingAcademyTopic_Description" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_SystemName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_TrainingAcademyTopic_SystemName" />
+                                    </div>
+                                </div>
+                              
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_StoreId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Search_TrainingAcademyTopic_StoreId" asp-items="Model.ListStore" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_TopicId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Search_TrainingAcademyTopic_TopicId" asp-items="Model.ListTopic" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_TrainingAcademyTopic_IsActive" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_TrainingAcademyTopic_IsActive" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group" style="display:none;">
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="Search_TrainingAcademyTopic_ActiveSearch" />
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    جستجو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="products-grid"></div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("TrainingTopicList", "ManageTrainingAcademyTopic"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        }
+                                        , {
+                                                field: "Grid_TrainingAcademyTopic_UrlImage",
+                                                title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_UrlImage")",
+                                                width: 150,
+                                                template: '<img src="#=Grid_TrainingAcademyTopic_UrlImage#" />',
+                                                headerAttributes: { style: "text-align:center;width:100px;" },
+                                                attributes: { style: "text-align:center" }
+                                             }
+                                    ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_Title",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_Title")",
+                                            width: 100
+                                        }
+                                           
+                                           ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_SystemName",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_SystemName")",
+                                            width: 100
+                                        }  
+                                           ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_StoresName",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_StoresName")",
+                                            width: 100
+                                        }  
+                                            
+                                       ,                                        
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_TrainingAcademyTopic_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_TrainingAcademyTopic_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.Ticket.Grid_TrainingAcademyTopic_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+                                         ,
+                                        {
+                                            field: "UrlPage",
+                                            title: "مشاهده صفحه",
+                                            width: 70,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" target="_blank" href="#=UrlPage#""><i class="fa fa-pencil"></i>مشاهده صفحه</a>'
+                                        }
+                                    ]
+                                });
+                            });
+                        </script>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var selectedIds = [];
+
+        $(document).ready(function () {
+            //search button
+            $('#search-products').click(function () {
+                //search
+
+                $('.Search_TrainingAcademyTopic_ActiveSearch').attr('checked', true).change();
+                $('#@Html.IdFor(model => model.Search_TrainingAcademyTopic_ActiveSearch)').attr('checked', true).change();
+                var grid = $('#products-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                //clear selected checkboxes
+                $('.checkboxGroups').attr('checked', false).change();
+                selectedIds = [];
+                return false;
+            });
+
+            $("#@Html.IdFor(model => model.Search_TrainingAcademyTopic_Title)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+             $("#@Html.IdFor(model => model.Search_TrainingAcademyTopic_Description)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+             });
+             $("#@Html.IdFor(model => model.Search_TrainingAcademyTopic_SystemName)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableSelected", "ManageTrainingAcademyTopic"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+            //Active
+            $('#Active-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ActiveSelected", "ManageTrainingAcademyTopic"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+            $('#mastercheckbox').click(function () {
+                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            });
+
+            //wire up checkboxes.
+            $('#products-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                var $check = $(this);
+                if ($check.is(":checked") == true) {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked == -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                }
+                else {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds, function (item, index) {
+                            return item != $check.val();
+                        });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+        });
+
+        function additionalData() {
+            var data = {
+                Search_TrainingAcademyTopic_ActiveSearch: $('#@Html.IdFor(model => model.Search_TrainingAcademyTopic_ActiveSearch)').is(':checked'),
+                Search_TrainingAcademyTopic_Title: $('#Search_TrainingAcademyTopic_Title').val(),
+                Search_TrainingAcademyTopic_Description: $('#Search_TrainingAcademyTopic_Description').val(),
+                Search_TrainingAcademyTopic_SystemName: $('#Search_TrainingAcademyTopic_SystemName').val(),
+                Search_TrainingAcademyTopic_IsActive: $('#@Html.IdFor(model => model.Search_TrainingAcademyTopic_IsActive)').is(':checked'),
+                Search_TrainingAcademyTopic_StoreId: $('#Search_TrainingAcademyTopic_StoreId').val(),
+                Search_TrainingAcademyTopic_TopicId: $('#Search_TrainingAcademyTopic_TopicId').val(),
+
+                            };
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function onDataBound(e) {
+            $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+            var numChkBoxesChecked = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+    </script>
+
+
+
+
+
+
+
+
+</form>

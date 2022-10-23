@@ -1,0 +1,587 @@
+﻿@*@model Nop.plugin.Orders.ExtendedShipment.Models.AgentConfigResultModel*@
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "تنظیمات نمایندگان";
+
+    //active menu item (system name)
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+}
+<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+<style>
+    .select2-selection {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: super;
+        border: 1px solid #1d1d1d;
+        border-radius: 3px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection__choice {
+        color: black !important;
+    }
+</style>
+
+<div class="content">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div style="padding:10px;">
+                        <div class="row" style="margin-top:20px;">
+                            <input name="AgentConfigId" id="AgentConfigId" type="hidden" />
+                            <input name="StateId" id="StateId" type="hidden" />
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <nop-label name="agentName" />نماینده :
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="agents" name="agents" class="select3-placeholer form-control" data-placeholder="انتخاب نماینده"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <nop-label name="collectorName" />جمع آور :
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="collectors" name="collectors" class="select3-placeholer form-control" data-placeholder="انتخاب جمع آور"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <nop-label name="provinceName" />استان :
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="js-example-basic-single form-control" name="Country" id="country" data-placeholder="انتخاب استان"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <nop-label name="cityName" />شهرستان :
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="js-example-basic-single form-control" name="State" id="state" data-placeholder="انتخاب شهرستان"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div class="row">
+                            <div class="col-md-3">
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group text-center">
+                                    <button type="submit" id="save-agentConfig" class="btn btn-primary">
+                                        <span id="save-agentConfigSpan">ذخیره</span>
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" id="Cancel-agentConfig" class="btn btn-primary">
+                                        <span id="cancel-agentConfigSpan">انصراف</span>
+                                        <i class="fa fa-ban"></i>
+                                    </button>
+                                    <button type="button" id="Search-agentConfig" class="btn btn-primary">
+                                        <span id="search-agentConfigSpan">جستجو</span>
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+
+                            </div>
+                        </div>
+
+                        <div id="agentConfig-grid"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal fade" id="ServiceDiscountModal" tabindex="-1" role="dialog" aria-labelledby="ServiceDiscountModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ServiceDiscountModal">تخفیف سرویس ها</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label id="CustomerName"></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input id="CustomerId" hidden type="text" value="">
+                                        <div class="col-md-4">
+                                            <label class="control-label"> سرویس‌ها : </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select id="ServiceId" name="ServiceId" class="select3-placeholer form-control" data-placeholder="انتخاب سرویس"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="btn-group mybtn-group" role="group" data-toggle="buttons-radio">
+                                                <button type="button" id="PercentRadio" data-toggle="button" name="Percent" value="Percent" class="btn btn-primary btn1 active">درصد تخفیف</button>
+                                                <button type="button" id="PriceRadio" data-toggle="button" name="Price" value="Price" class="btn btn2">مبلغ تخفیف</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" id="Discount"
+                                                   name="Discount" type="number" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div style="padding:10px;">
+                                                <div id="ServiceDiscount-grid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" id="EditOrderId" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                                        <button type="button" id="btnSaveServiceDiscount" onclick="SaveServiceDiscount()" class="btn btn-primary">ذخیره</button>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+</div>
+
+
+                <script>
+
+    $(document).ready(function () {
+
+        //====================================Load Country & State==========================================================
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/ShipitoCheckout/getCountryList",
+            data: {},
+            success: function (data) {
+                $('#country').append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $('#country').append(new Option(item.Text, item.Value, false, false));
+                });
+                $('#country').select2();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve Countries.');
+            }
+        });
+
+        function onCountryChange() {
+            var selectedItem = $(this).val();
+            var ddlStates = $('#state');
+            ddlStates.html('');
+
+            ddlStates.append(new Option('درحال بارگزاری....', '-1', true, true));
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "/ShipitoCheckout/GetStatesByCountryId",
+                data: { "countryId": selectedItem, "isCod": true },
+                success: function (reuslt) {
+                    ddlStates.html('');
+                    ddlStates.append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(reuslt, function (id, item) {
+                        ddlStates.append(new Option(item.Text, item.Value, false, false));
+                    });
+                    $('#state').select2();
+                    if ($('#StateId').val() > 0) {
+                        $("#state").val($('#StateId').val()).trigger('change');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('Failed to retrieve states.');
+                }
+            });
+        }
+        $('#country').on('change', onCountryChange);
+
+        //==================================================================================================================
+        var Agentdata = {};
+        addAntiForgeryToken(Agentdata);
+
+        $.ajax({
+            url: '@Url.Action("GetAgents", "ExtendedCustomer")',
+            type:'POST',
+            data: Agentdata,
+            success: function (data) {
+                $('#agents').append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $('#agents').append(new Option(item.text, item.id, false, false));
+                });
+                $('#agents').select2();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve Countries.');
+            },
+            cache: true
+        });
+         $.ajax({
+            url: '@Url.Action("GetCollectors", "ExtendedCustomer")',
+            type:'POST',
+             data: Agentdata,
+             success: function (data) {
+                 $('#collectors').append(new Option('انتخاب کنید....', '0', true, true));
+                 $.each(data, function (id, item) {
+                     $('#collectors').append(new Option(item.text, item.id, false, false));
+                 });
+                 $('#collectors').select2();
+             },
+             error: function (xhr, ajaxOptions, thrownError) {
+                 console.log('Failed to retrieve Countries.');
+             },
+            cache: true
+         });
+
+        $("#agentConfig-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Url.Action("GridAgentConfig", "ExtendedCustomer")",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: additionalData
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors"
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: false,
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "Id",
+                                title: "شناسه",
+                                hidden: true
+                            },
+                            {
+                                field: "AgentCustomerId",
+                                title: "شناسه جمع آور",
+                                hidden: true
+                            },
+                            {
+                                field: "NearStateId",
+                                title: "شناسه شهر",
+                                hidden: true
+                            },
+                            {
+                                field: "RepresentativeCustomerId",
+                                title: "شناسه نماینده",
+                                hidden: true
+                            },
+                            {
+                                field: "RepresentativeCustomerName",
+                                title: "نماینده"
+                            },
+                            {
+                                field: "NearCountryName",
+                                title: "استان"
+                            },
+                            {
+                                field: "NearStateName",
+                                title: "شهرستان"
+                            },
+                            {
+                                field: "AgentCustomerName",
+                                title: "جمع آور"
+                            },
+                            {
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template: `<a class="btn btn-edit" title="ویرایش" ><i class="fa fa-edit"></i></a>`,
+                                title: "ویرایش",
+                                width: 80
+                            },
+                            {
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template: `<a class="btn btn-success" title="تخفیف سرویس‌ها"><i class="fa fa-eye"></i></a>`,
+                                title: "تخفیف سرویس‌ها",
+                                width: 80
+                            }
+                        ]
+        });
+
+        $("#ServiceDiscount-grid").kendoGrid({
+                        autoBind: false,
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Url.Action("GridServiceDiscount", "ExtendedCustomer")",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: ServiceDiscountData
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                //total: "Total",
+                                errors: "Errors"
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: false,
+                            serverFiltering: false,
+                            serverSorting: false
+                        },
+                        editable: false,
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "ServiceName",
+                                title: "نام سرویس"
+                            },
+                            {
+                                field: "Discount",
+                                title: "درصد/مبلغ تخفیف"
+                            }
+                        ]
+        });
+
+        $('#save-agentConfig').click(function () {
+            var entryId = $('#AgentConfigId').val();
+            var agentId = $("#agents :selected").val();
+            var stateId = $("#state :selected").val();
+            var collectorId = $("#collectors :selected").val();
+
+            if (agentId < 1 || stateId < 1 || collectorId < 1) {
+                alert('لطفا همه فیلدها را انتخاب نمایید');
+                return;
+            }
+            var model = {
+                Id: entryId
+                , AgentCustomerId: collectorId
+                , NearStateId: stateId
+                , RepresentativeCustomerId: agentId
+
+            };
+            if (entryId != '') {
+                UpdateAgentConfig(model);
+                return;
+            }
+            addAntiForgeryToken(model);
+            $.ajax({
+                type: "POST",
+                data: model,
+                dataType: "json",
+                url: "@(Url.Action("SaveAgentConfig", "ExtendedCustomer"))",
+                success: function (data) {
+                    alert('با موفقیت ثبت شد')
+                    var grid = $('#agentConfig-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                    $('#Cancel-agentConfig').click();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                },
+                traditional: true
+            });
+        });
+
+        $(document).on('click', ".btn-edit", function (e) {
+            e.preventDefault()
+            var data = $("#agentConfig-grid")
+                .data("kendoGrid")
+                .dataItem($(e.currentTarget).closest("tr"));
+            $("#AgentConfigId").val(data.Id);
+            $('#agents').val(data.RepresentativeCustomerId).trigger('change');
+            $("#collectors").val(data.AgentCustomerId).trigger('change');
+            $('#StateId').val(data.NearStateId);
+            $("#country").val(data.NearCountryId).trigger('change');
+
+            $('#save-agentConfigSpan').text('ویرایش');
+        });
+
+        function UpdateAgentConfig(model) {
+            addAntiForgeryToken(model);
+            $.ajax({
+                type: "POST",
+                data: model,
+                dataType: "json",
+                url: "@(Url.Action("UpdateAgentConfig", "ExtendedCustomer"))",
+                success: function (data) {
+                    alert('با موفقیت ویرایش شد')
+                    var grid = $('#agentConfig-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                    $('#Cancel-agentConfig').click();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                },
+                traditional: true
+            });
+        }
+
+        $('#Cancel-agentConfig').click(function () {
+            $("#agents").val("0").trigger('change');
+            $("#state").val("0").trigger('change');
+            $("#collectors").val("0").trigger('change')
+            $("#country").val("0").trigger('change');
+            $('#AgentConfigId').val("");
+            $('#StateId').val("");
+            $('#save-agentConfigSpan').text('ذخیره');
+            var grid = $('#agentConfig-grid').data('kendoGrid');
+            grid.dataSource.read();
+        });
+
+        $('#Search-agentConfig').click(function () {
+            var grid = $('#agentConfig-grid').data('kendoGrid');
+            grid.dataSource.read();
+        });
+
+        $(document).on('click', ".btn-success", function (e) {
+            e.preventDefault();
+            var grid = $("#ServiceDiscount-grid").data("kendoGrid");
+            var data = $("#agentConfig-grid").data("kendoGrid").dataItem($(e.currentTarget).closest("tr"));
+            $("#CustomerName").text(data.RepresentativeCustomerName);
+            $("#CustomerId").val(data.RepresentativeCustomerId);
+            grid.dataSource.read();
+            grid.refresh();
+
+            var serviceData = {};
+            addAntiForgeryToken(serviceData);
+            $.ajax({
+                url: '@Url.Action("GetServices", "ExtendedCustomer")',
+                type: 'POST',
+                data: serviceData,
+                success: function (data) {
+                    $('#ServiceId').append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $('#ServiceId').append(new Option(item.text, item.id, false, false));
+                    });
+                    $('#ServiceId').select2();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('Failed to retrieve Services.');
+                },
+                cache: true
+            });
+
+            $("#ServiceDiscountModal").modal('show', { backdrop: 'static' });
+        });
+
+        $(".btn-group > .btn").click(function () {
+            $(".btn-group > .btn").removeClass("active btn-primary");
+            $(this).addClass("active btn-primary");
+        });
+    });
+
+     function additionalData() {
+         var data = {
+             AgentCustomerId: $("#collectors").val() > 0 ? $("#collectors").val() : 0,
+             RepresentativeCustomerId: $("#agents").val() > 0 ? $("#agents").val() : 0,
+             NearCountryId: $("#country").val() > 0 ? $("#country").val() : 0,
+             NearStateId: $("#state").val() > 0 ? $("#state").val() : 0
+         };
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    function ServiceDiscountData() {
+        var data = { CustomerId: parseInt($("#CustomerId").val()) };
+        addAntiForgeryToken(data);
+        return data;
+    }
+
+    function SaveServiceDiscount() {
+        var DiscountPercent = null;
+        var DiscountPrice = null;
+        if ($(".btn1").hasClass("active")) {
+            DiscountPercent = $("#Discount").val();
+        } else {
+            DiscountPrice = $("#Discount").val();
+        }
+        var model = {
+            CustomerId: parseInt($("#CustomerId").val()),
+            ServiceId: parseInt($("#ServiceId :selected").val()),
+            DiscountPercent: DiscountPercent,
+            DiscountPrice: DiscountPrice,
+            IsActive: 1
+        }
+        addAntiForgeryToken(model);
+            $.ajax({
+                url: '@Url.Action("SaveServiceDiscount", "ExtendedCustomer")',
+                type: 'POST',
+                data: model,
+                success: function (data) {
+                    alert('با موفقیت ثبت شد')
+                    var grid = $('#ServiceDiscount-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                    $("#ServiceId").val("0").trigger('change');
+                    $("#Discount").val("");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('Failed to retrieve Services.');
+                },
+                cache: true
+            });
+    }
+                </script>

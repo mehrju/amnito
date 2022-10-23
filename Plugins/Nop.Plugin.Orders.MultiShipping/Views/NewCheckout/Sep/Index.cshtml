@@ -1,0 +1,504 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_PubllicNewUiLayout.cshtml";
+}
+
+<div class="modal fade bd-example-modal-lg" id="notification-modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius: 10px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title" id="notification-modal-title"></h5>
+            </div>
+            <div class="modal-body" id="notification-modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container" style="padding-left: 10px;padding-right: 10px;">
+    <div class="menuRowDesk">
+        <div class="row">
+            @*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="hardBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout")+"?pa=h")">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/سنگین بار.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/سنگین بار1.png" />
+                </a>
+            </div>*@
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="exterBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout")+"?pa=f")">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/خارجی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/خارجی1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="interBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout"))">
+                    <img class="menuHome menuHomeDakheli img1" src="~/Themes/postexNew/images/Home/1/داخلی.png" />
+                    <img class="menuHome menuHomeDakheli img2" src="~/Themes/postexNew/images/Home/2/داخلی1.png" />
+                </a>
+            </div>
+            @*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="walletBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("_Sh_ChargeWallet"))">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/کیف.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/کیف1.png" />
+                </a>
+            </div>*@
+            @*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="orderBTN">
+                <a class="pRelative" href="/Bulkorder">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/سفارش.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/سفارش1.png" />
+                </a>
+            </div>*@
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="packingBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepSaleCartonwrapper"))">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/بسته بندی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/بسته بندی1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="postServicesBTN">
+                <a class="pRelative" href="#dropdownMenu">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/خدمات.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/خدمات1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="rulesBTN">
+                <a class="pRelative" href="javascript:$('#showRule').click()">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/قوانین.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/قوانین1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="agencyBTN">
+                <a class="pRelative" href="https://crm.postex.ir/My/PublicForm.aspx?TypeId=6d67cede-2f28-46f8-983d-2a5a36d62c40">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/نمایندگی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/نمایندگی1.png" />
+                </a>
+            </div>
+            @*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="commentsBTN">
+                <a class="pRelative" href="#dropdownMenu">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/نظرات.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/نظرات1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="supportBTN">
+                <a class="pRelative" href="tel:02191300250">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/پشتیبانی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/پشتیبانی1.png" />
+                </a>
+            </div>*@
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="aboutBTN">
+                <a class="pRelative" href="/%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3-%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87-%D9%85%D8%A7">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/درباره ما.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/درباره ما1.png" />
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="menuRowMobile" id="menuRowMobile">
+        <div class="row">
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="hardBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout")+"?pa=h")">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/سنگین بار.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/سنگین بار1.png" />
+                </a>
+            </div>*@
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="interBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout"))">
+                    <img class="menuHome menuHomeDakheli img1" src="~/Themes/postexNew/images/Home/1/داخلی.png" />
+                    <img class="menuHome menuHomeDakheli img2" src="~/Themes/postexNew/images/Home/2/داخلی1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="exterBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepCheckout")+"?pa=f")">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/خارجی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/خارجی1.png" />
+                </a>
+            </div>
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="walletBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("_Sh_ChargeWallet"))">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/کیف.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/کیف1.png" />
+                </a>
+            </div>*@
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="orderBTN">
+                <a class="pRelative" href="/Bulkorder">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/سفارش.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/سفارش1.png" />
+                </a>
+            </div>*@
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="packingBTN">
+                <a class="pRelative" href="@(Url.RouteUrl("SepSaleCartonwrapper"))">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/بسته بندی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/بسته بندی1.png" />
+                </a>
+            </div>
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="postServicesBTN">
+            <a class="pRelative" href="#dropdownMenu">
+                <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/خدمات.png" />
+                <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/خدمات1.png" />
+            </a>
+        </div>*@
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="rulesBTN">
+                <a class="pRelative"  href="javascript:$('#showRule').click()">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/قوانین.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/قوانین1.png" />
+                </a>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="agencyBTN">
+                <a class="pRelative" href="https://crm.postex.ir/My/PublicForm.aspx?TypeId=6d67cede-2f28-46f8-983d-2a5a36d62c40">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/نمایندگی.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/نمایندگی1.png" />
+                </a>
+            </div>
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="commentsBTN">
+            <a class="pRelative" href="/">
+                <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/نظرات.png" />
+                <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/نظرات1.png" />
+            </a>
+        </div>*@
+            @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="supportBTN">
+            <a class="pRelative" href="/">
+                <img class="menuHome img1" src="~/Themes/postexNew/images/news/اخبار1.png" />
+                <img class="menuHome img2" src="~/Themes/postexNew/images/news/موس.png" />
+            </a>
+        </div>*@
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN">
+                <a class="pRelative" href="javascript:$('.showHelp').click()">
+                    <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/_Guide.png" />
+                    <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/_Guide.png" />
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <div class="dropdownMobile">
+      <div class="row">
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+          <a class="pRelative" href="#dropdownMobile" id="pde">
+            <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/امنیتو.png" />
+            <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس امنیتو2.png" />
+          </a>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+          <a class="pRelative" href="submitComments.html" id="comment">
+            <img class="menuHome img1" src="~/Themes/postexNew/images/comments/ثبت نظرات1.png" />
+            <img class="menuHome img2" src="~/Themes/postexNew/images/comments/موس2.png" />
+          </a>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+          <a class="pRelative" href="userComments.html" id="comment">
+            <img class="menuHome img1" src="~/Themes/postexNew/images/comments/سایر نظرات1.png" />
+            <img class="menuHome img2" src="~/Themes/postexNew/images/comments/موس1.png" />
+          </a>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+          <a class="pRelative" href="#dropdownMobile" id="oBar">
+            <img class="menuHome img1" src="~/Themes/postexNew/images/news/اخبار1.png" />
+            <img class="menuHome img2" src="~/Themes/postexNew/images/news/موس.png" />
+          </a>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+          <a class="pRelative" href="about.html" id="about">
+            <img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/درباره ما.png" />
+            <img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/درباره ما1.png" />
+          </a>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="d-none dropdownMenu" id="dropdownMenu">
+        <div class="d-none dropdownMenuHome" id="postServices">
+            <p style="text-align: center; font-size: 30px; margin: 20px;">خدمات پستی</p>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2" id="dtc">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/پست بار.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس پست بار2.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3" id="postex">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/امنیتو.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس امنیتو2.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/PDE" id="pde">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/pde.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/pde1.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/TPG" id="tpg">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/tpg.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/tpg1.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D8%B1%D8%A7%D9%87-%D8%A2%D8%A8%DB%8C-%D8%A2%D8%B3%D9%85%D8%A7%D9%86" id="snapp">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/آسمان آبی.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/آسمان آبی 1.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D8%A7%D8%B3%D9%86%D9%BE" id="oBar">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/اسنپ.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/اسنپ1.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D8%A7%D9%88%D8%A8%D8%A7%D8%B1" id="persia">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/اوبار.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/اوبار1.png" />
+                    </a>
+                </div>
+                @*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                        <a class="pRelative" href="#dropdownMenu" id="postBar">
+                            <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/پرشیا.png" />
+                            <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/پرشیا1.png" />
+                        </a>
+                    </div>*@
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%DA%A9%D8%A7%D9%84%D8%A7-%D8%B1%D8%B3%D8%A7%D9%86%D8%A7%D9%86-%DA%86%D8%A7%D9%BE%D8%A7%D8%B1" id="chaPar">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/چاپار.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس چاپار2.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%DB%8C%D8%A7%D8%B1%D8%A8%D8%A7%DA%A9%D8%B3" id="parBox">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/یارباکس.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس یارباکس2.png" />
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="d-none dropdownMenuHome" id="rules">
+            <p style="text-align: center; font-size: 30px; margin: 20px;">قوانین و آموزش</p>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="@(Url.RouteUrl("TopicCollection"))" id="learn">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/Help/آموزش1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/Help/موس2.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative showHelp"  id="showHelp" >
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/Help/راهنما1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/Help/موس.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D9%82%D9%88%D8%A7%D9%86%DB%8C%D9%86-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87-%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3" id="rules">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/Help/قوانین1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/Help/موس 1.png" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none dropdownMenuHome" id="comments">
+            <p style="text-align: center; font-size: 30px; margin: 20px;">ثبت نظرات</p>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="#" id="comment">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/comments/ثبت نظرات1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/comments/موس2.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="#" id="comment">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/comments/سایر نظرات1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/comments/موس1.png" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none dropdownMenuHome" id="agency">
+            <p style="text-align: center; font-size: 30px; margin: 20px;">اخذ نمایندگی</p>
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="/%D9%88%D8%B8%D8%A7%DB%8C%D9%81-%D9%85%D8%AF%D8%A7%DA%A9-%D9%88-%D8%B4%D8%B1%D8%A7%DB%8C%D8%B7-%D9%86%D9%85%D8%A7%DB%8C%D9%86%D8%AF%DA%AF%DB%8C-%DA%86%DB%8C%D8%B3%D8%AA" id="agency">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/agency/شرایط اخذ نمایندگی1.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/agency/موس+.png" />
+                    </a>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+                    <a class="pRelative" href="#dropdownMenu" id="ok">
+                        <img class="menuHome img1" src="~/Themes/postexNew/images/agency/آموزش نمایندگان و همکاران2.png" />
+                        <img class="menuHome img2" src="~/Themes/postexNew/images/agency/موس.png" />
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="d-none" id="about">
+          <div class="row">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+              <a href="#dropdownMenu" id="aboutme">
+                <img class="menuDrop" src="~/Themes/postexNew/images/about/درباره ما.png" />
+              </a>
+            </div>
+          </div>
+        </div> -->
+
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-light bg-light navBottom" style="direction: ltr;">
+        <table class="table mb-0" style="text-align: center;">
+            <tbody>
+                <tr>
+
+                    <td>
+                        <a href="@(Url.RouteUrl("_SepStartup"))">
+                            <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/homeMobile.png" />
+                            <p class="Pnav">خانه</p>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@(Url.RouteUrl("Sep.Orders"))">
+                            <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/marsolatMobile.png" />
+                            <p class="Pnav">مرسولات من</p>
+                        </a>
+                    </td>
+
+                    @*<td>
+            <a onclick="document.getElementById('id2').style.display='block'">
+                <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/asanMobile.png" />
+                <p class="Pnav">سفارش آسان</p>
+            </a>
+        </td>*@
+                    <td>
+                        <a id="myAccount" href="#" class="maimAction">
+                            <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/hesabMobile.png" />
+                            <p class="Pnav">حساب من</p>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="tel:+982191300250">
+                            <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/poshtMobile.png" />
+                            <p class="Pnav">پشتیبانی</p>
+                        </a>
+                    </td>
+                    @*<td>
+            <a id="showHelp" class="maimAction showHelp">
+                <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconBottom/helpMobile.png" />
+                <p class="Pnav">راهنما</p>
+            </a>
+        </td>*@
+                    <td>
+                        <a href="http://724.ir/app/home?action=open">
+                            <img class="iconNav" src="~/Themes/sep/images/ApImages/Exit.png" />
+                            <p class="Pnav">خروج</p>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal 1 -->
+        <div id="id2" class="w3-modal ">
+            <div class="w3-modal-content w3-animate-top w-25">
+                <header class="w3-container">
+
+                    <span onclick="document.getElementById('id2').style.display='none'"
+                          class="w3-button w3-display-topleft">&times;</span>
+                    <h5 class="modal-title">سفارش آسان</h5>
+                </header>
+                <hr style="border-top: 1px solid #f79f19 ; margin: 10px;" />
+                <div class="w3-container row">
+                    <div class="col-6">
+                        <a class="" href="preOrders.html">
+                            <button class="button btn js-btn-prev" type="button" title="Prev">
+                                تکرار سفارشات قبلی
+                                <p></p>
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a class="" href="customPosting.html">
+                            <button class="button btn js-btn-prev" type="button" title="Prev">
+                                ارسال سفارشی<p>
+                                </p>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <hr style="border-top: 1px solid #f79f19; margin: 10px;" />
+                <footer class="w3-container">
+                    <button class="button btn js-btn-prev" type="button" title="Prev"
+                            onclick="document.getElementById('id2').style.display='none'">
+                        خروج<p></p>
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </nav>
+
+</div>
+@*<script>
+    window.onpopstate = function () {
+        window.location.href = 'http://724.ir/app/home?action=open';
+    }
+    window.addEventListener('popstate', (event) => {
+        window.location.href = 'http://724.ir/app/home?action=open';
+    });
+    if (performance.navigation.type == 2) {
+        window.location.href = 'http://724.ir/app/home?action=open';
+    }
+</script>*@
+@*<script>
+    $(function () {
+
+        var cookieIds = getCookie("notifyIds");
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "@Url.Action("GetLatestNotification", "ShipitoHome")" + "?cookieIds=" + cookieIds,
+            dataType: 'json',
+            success: function (data) {
+                if (data && data.Content) {
+                    $('#notification-modal-body').html(data.Content);
+                    $('#notification-modal-title').html(data.Title);
+                    $('#notification-modal').modal('show');
+                    var cookieName = "notifyIds";
+                    var cookieValues = data.Id + "," + cookieIds;
+                    setCookie(cookieName, cookieValues, 60);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            },
+            traditional: true
+        });
+    });
+
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+</script>*@
+

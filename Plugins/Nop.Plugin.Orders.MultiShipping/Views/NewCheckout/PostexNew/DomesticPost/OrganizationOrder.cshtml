@@ -1,0 +1,47 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("ارسال  انبوه مرسولات ");
+	Html.AddMetaKeywordParts("ارسال انبوه ");
+	Html.AddMetaDescriptionParts("ارسال انبوه مرسولات پستی خدمت جدید امنیتو به شما فروشگاداران و... که مرسولات خود را به صورت یکجا به هر نقطه ای از ایران میخواهید ارسال کنید ");
+
+}
+
+<div class="container landing">
+		<div class="row">
+			<div class="col-md-12 content">
+				<h1>چرا سفارش سازمانی؟</h1>
+				<ul class="breadcrumb">
+					<li><a href="/">خانه</a></li>
+					<li><a href="/Home/DomesticPost">پست داخلی</a></li>
+					<li>سفارش سازمانی</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col-md-2 center mobile-center">
+				<a class="" href="/Bulkorder">
+					<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/oragnizationOrders.png?ver=@(imgVer)"  alt="پست سازمانی "/>
+				</a>
+			</div>
+			<div class="col-md-8">
+				<p>
+					امنیتو سفارش انبوه را جهت تسهیل فرایند ثبت سفارش برای کاربران خود، که دارای سفارشات فراوانی در طی روز هستند و احتمالا این ثبت سفارشات میبایستی با استفاده از خروجی های اکسل انجام پذیرد ابداع نموده است .
+				</p>
+				<p>
+					کاربر میتواند با مشخص کردن نوع سرویس مد نظر خود به راحتی و در مدت زمانی بسیار کوتاه سفارشات فراوانی را در بخش سفارش سازمانی و با دانلود و آپلود یک اکسل ثبت نماید.
+				</p>
+				<p>
+					بر اساس برآوردهای امنیتو ثبت سفارش هر یک مرسوله در این بخش حداکثر در مدت زمان پانزده ثانیه قابل انجام است.
+				</p>
+				<span class="slogan">با ثبت سفارش سازمانی، سازمان ات رو کوچیک تر کن</span>
+				<div class="content m-4">
+					<a class="btn center" href="/Bulkorder">شروع ثبت سفارش</a>
+				</div>
+			</div>
+
+		</div>
+</div>

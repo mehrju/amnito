@@ -1,0 +1,260 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.PreOrderModel.CheckoutParcellModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.plugin.Orders.ExtendedShipment.Services.IExtendedShipmentService _extendedShipmentService
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postexNew/_NewUiLayout.cshtml";
+    Html.AppendCssFileParts("~/Themes/postexNew/assets/css/offcanvas.css");
+}
+<style>
+    .bg-purple {
+        background-color: #01a0e1 !important;
+    }
+
+    .lh-125 {
+        margin-right: 10px !important;
+    }
+
+    /* Horizontal line */
+    .collapsible-link::before {
+        content: '';
+        width: 14px;
+        height: 2px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 1px);
+        right: 1rem;
+        display: block;
+        transition: all 0.3s;
+    }
+
+    /* Vertical line */
+    .collapsible-link::after {
+        content: '';
+        width: 2px;
+        height: 14px;
+        background: #333;
+        position: absolute;
+        top: calc(50% - 7px);
+        right: calc(1rem + 6px);
+        display: block;
+        transition: all 0.3s;
+    }
+
+    .collapsible-link[aria-expanded='true']::after {
+        transform: rotate(90deg) translateX(-1px);
+    }
+
+    .collapsible-link[aria-expanded='true']::before {
+        transform: rotate(180deg);
+    }
+
+    tr, th, td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #parcellTable {
+        width: 100%;
+    }
+
+    .info-box {
+        width: 50%;
+        float: right;
+    }
+
+</style>
+<main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        @*<img class="mr-3" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">*@
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">مشخصات مرسوله</h6>
+            <small>پیش نمایش ثبت سفارش</small>
+        </div>
+    </div>
+    <div class="my-3 p-3 bg-white rounded box-shadow info-box">
+        <h6 class="border-bottom border-gray pb-2 mb-0">اطلاعات فرستنده</h6>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e6243659%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e6243659%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">نام و نام خانوادگی</strong>
+                <span class="preOrderData">
+                    @Model.SenderAddress.FirstName @Model.SenderAddress.LastName
+                </span>
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=e83e8c&amp;fg=e83e8c&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e624365c%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e624365c%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">شماره تماس</strong>
+                <span class="preOrderData">
+                    @Model.SenderAddress.PhoneNumber
+                </span>
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=6f42c1&amp;fg=6f42c1&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e624365c%20text%20%7B%20fill%3A%236f42c1%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e624365c%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%236f42c1%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">آدرس فرستنده</strong>
+                <span class="preOrderData">
+                    @Model.SenderAddress.Address
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow info-box">
+        <h6 class="border-bottom border-gray pb-2 mb-0">اطلاعات گیرنده</h6>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e6243659%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e6243659%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">نام و نام خانوادگی</strong>
+                <span class="preOrderData">
+                    @Model.ParcellList.First().ReceiverAddress.FirstName @Model.ParcellList.First().ReceiverAddress.LastName
+                </span>
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=e83e8c&amp;fg=e83e8c&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e624365c%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e624365c%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">شماره تماس</strong>
+                <span class="preOrderData">
+                    @Model.ParcellList.First().ReceiverAddress.PhoneNumber
+                </span>
+            </p>
+        </div>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&amp;bg=6f42c1&amp;fg=6f42c1&amp;size=1" alt="32x32" class="mr-2 rounded" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_178e624365c%20text%20%7B%20fill%3A%236f42c1%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_178e624365c%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%236f42c1%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.828125%22%20y%3D%2216.965625%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="width: 32px; height: 32px;">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">آدرس فرستنده</strong>
+                <span class="preOrderData">
+                    @Model.ParcellList.First().ReceiverAddress.Address
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="container" style="clear: both;">
+        @{int i = 1;}
+        @foreach (var Item in Model.ParcellList)
+        {
+            <div class="row">
+                <div class="col-lg-9 mx-auto">
+                    <!-- Accordion -->
+                    <div id="accordion" class="accordion shadow">
+
+                        <!-- Accordion items -->
+                        <div class="card" style="border: aqua; border-style: outset;">
+                            <div id="@Html.DisplayName("heading" + Convert.ToString(i))" class="card-header bg-white shadow-sm border-0">
+                                <h6 class="mb-0 font-weight-bold">
+                                    <a href="#" data-toggle="collapse" data-target="#@Html.DisplayName("collapse" + Convert.ToString(i))"
+                                       aria-expanded="false" aria-controls="@Html.DisplayName("collapse" + Convert.ToString(i))"
+                                       class="d-block position-relative text-dark text-uppercase collapsible-link py-2" style="padding-right: 7%;">
+                                        مرسوله @(i)
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="@Html.DisplayName("collapse" + Convert.ToString(i))" aria-labelledby="@Html.DisplayName("heading" + Convert.ToString(i))" data-parent="#accordion" class="collapse">
+                                <div class="card-body p-5">
+                                    <p class="font-weight-light m-0">
+                                        <table id="parcellTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>وزن</th>
+                                                    <th>ابعاد</th>
+                                                    <th>محتویات</th>
+                                                    <th>ارزش ریالی</th>
+                                                    <th>بیمه</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>@Item.Weight</td>
+                                                    <td>@Item.Lenght*@Item.Width*@Item.Height</td>
+                                                    <td>@Item.Content</td>
+                                                    <td>@Item.ContentValuePrice</td>
+                                                    <td>@Item.InsuranceTitle</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="container button-group" style="text-align: center;">
+        <br /><br />
+        <div class="input-group" style="text-align:center;">
+            <div class="checkbox" style="padding:10px;width:100%">
+                <input type="checkbox" id="acceptRole" name="acceptRole" style="display: none;">
+                <label for="acceptRole" class="check">
+                    <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                        <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                        </path>
+                        <polyline points="1 9 7 14 15 4"></polyline>
+                    </svg>
+                </label>
+                <label>
+                    قوانین را خواندم و قبول دارم
+                </label>
+            </div>
+        </div>
+        <button class="button btn btn-success basebtn" type="button" title="انتخاب سرویس مورد نظر" id="chooseService" style="width: 30%;">
+            مرحله بعد
+        </button>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="servicesModalLabel" id="servicesModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+            <div class="modal-content">
+                <div class="modal-header" style="padding:9px !important">
+                    <div class="row" style="width:100% !important">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                            <h5 class="modal-title" id="servicesModalLabel" style="float: right;">لیست سرویس ها</h5>
+                            <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <div class="form-horizontal">
+                        <div class="form-content row" id="serviceContent" style="padding: 0px !important;">
+                            <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                                <table id="tblServiceInfo" class="table table-bordered  table-hover">
+
+                                    <tbody></tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:0 !important">
+                    <div class="col-md-12" style="margin-top:10px;">
+                        <div class="form-group">
+
+                            <button class="button btn js-btn-prev btn-danger" type="button" style="width:28% !important" id="cancelService">
+                                <span></span>انصراف
+                            </button>
+                            <button class="button btn js-btn-next btn-success basebtn" type="button" title="انتخاب سرویس و ادامه" style="width:63% !important" id="confirmService">
+                                تایید و پرداخت<p></p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/PreOrder.js?ver=4"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var options = @Json.Serialize(Model);
+        var _PreOrder = new PreOrder(options);
+    });
+</script>

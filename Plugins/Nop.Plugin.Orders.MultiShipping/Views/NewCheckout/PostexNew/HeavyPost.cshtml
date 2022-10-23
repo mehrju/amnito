@@ -1,0 +1,45 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	Html.AddTitleParts("حمل و نقل سنگین");
+	Html.AddMetaKeywordParts("حمل و نقل سنگین, سنگین بار");
+	Html.AddMetaDescriptionParts("لودکس حمل و نقل سنگین و فوق سنگین هوشمند بار به صورت درون شهری و برون شهری با قیمتی مناسب  و امنیت بالا ");
+}
+<div class="container landing">
+	<div class="row ">
+		<div class="col-md-12 content">
+			<h1>لودکس چیست؟</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li>لودکس</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="/Order/Sh_Checkout?pa=h">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/1_base.png" alt="لودکس حمل و نقل سنگین" />
+			</a>
+		</div>
+		<div class="col-md-9 content">
+
+			<p>
+				لودکس سرویسی است با رویکرد ایجاد گسترده ترین، زنجیره حمل و نقل کشور با همراهی کارگروهی از جوانان نخبه کشور.
+			</p>
+			<p>
+				لودکس با استفاده از تجربیات حمل و نقل و با برداشت سنتی باربری و با استفاده از تیمی به روز و پرتلاش، سعی کرده است تا با به روز ترین  و کارآمدترین فناوری، سامانه اینترنتی لوکس را به یکی از گسترده ترین سامانه های حمل و نقل در بخش سنگین بار کشور تبدیل نمایند که در لودکس میتوان با قیمتی مناسب از 1 تا 22 تن بار و تنوعی گسترده از انواع خودرو ها ی سنگین و نیمه سنگین خدمت دریافت نمود .
+			</p>
+			<p>
+				دراین سامانه فرستنده با ارائه موقعیت مکانی خود درخواست خود را به نزدیکترین خودروهای یا شرکت حمل و نقل اطرافش ارسال می نماید که در صورت پذیرش سفارش از سوی راننده مراجعه جهت حمل مرسوله آغاز خواهد گردید لودکس با تجربه ای 2 ساله و تیمی متشکل از نخبگان فناوری و اطلاعات در کشور ،آماده ارائه سرویس می باشد.
+			</p>
+			<div class="content m-4">
+				<a class="btn center" href="/Order/Sh_Checkout?pa=h"> ثبت سفارش سنگین بار </a>
+			</div>
+		</div>
+
+	</div>
+
+</div>

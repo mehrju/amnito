@@ -1,0 +1,1421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="Send_Bajeh">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_BajehResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_BajehResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_KhoshData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_KhoshDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_KhoshDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_KhoshDataNormal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_KhoshDataNormalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_KhoshDataNormalResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_MassKhoshData_Date">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToDate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_MassKhoshData_DateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_MassKhoshData_DateResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_MassKhoshData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReferenceCode" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="PostNodeCode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Send_MassKhoshDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Send_MassKhoshDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushKHoshData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConstContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushKHoshDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushKHoshDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConstContractParcels">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConstContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConstContractParcelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushConstContractParcelsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConstContractParcels_V2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConstContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConstContractParcels_V2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushConstContractParcels_V2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConst2Barcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConstContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushConst2BarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushConst2BarcodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushMellatNotices">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DistributedNotices" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ReturnsNotices" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UndecidedNotices" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="RelapseNotices" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReceiptDate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="State_code" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushMellatNoticesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushMellatNoticesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarContractParcelsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_V2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_V2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarContractParcels_V2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushTaxiData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushTaxiDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushTaxiDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarArray_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarArray" type="tns:ArrayOfArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PushVarArray_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarArray_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarArray_SMS_v2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarArray" type="tns:ArrayOfArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarArray_SMS_v2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarArray_SMS_v2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarArray">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarArray" type="tns:ArrayOfArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarArrayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarArrayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushGateWayParcels">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushGateWayParcelsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushGateWayParcelsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarContractParcels_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_SMS_V2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VarContractDT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushVarContractParcels_SMS_V2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushVarContractParcels_SMS_V2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushPostalCodeData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostalCodeData">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushPostalCodeDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushPostalCodeDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ParcelPrice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_ParcelPriceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_ParcelPriceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ErrorText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushPishkhanData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PostNodeCode" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="RDate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PushPishkhanDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PushPishkhanDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_PostNodeData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_PostNodeDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_PostNodeDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetContractAccountsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractIpAddresses">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractIpAddressesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetContractIpAddressesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractPostNodes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractPostNodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetContractPostNodesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractsInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ContractCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContractName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="OrganizationCode" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ServiceType" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExecuterCode" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TotalCost" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostPortion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ContractorPortion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tax" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="PostalCostCategoryID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="PostalCostTypeFlag" type="s1:char" />
+            <s:element minOccurs="1" maxOccurs="1" name="InsuranceCost" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContractsInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetContractsInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetOrganizaitionInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OrganizationName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="OrganizationCode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetOrganizaitionInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetOrganizaitionInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="char">
+        <s:restriction base="s:unsignedShort" />
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Send_BajehSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_Bajeh" />
+  </wsdl:message>
+  <wsdl:message name="Send_BajehSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_BajehResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_KhoshDataSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_KhoshData" />
+  </wsdl:message>
+  <wsdl:message name="Send_KhoshDataSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_KhoshDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_KhoshDataNormalSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_KhoshDataNormal" />
+  </wsdl:message>
+  <wsdl:message name="Send_KhoshDataNormalSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_KhoshDataNormalResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_MassKhoshData_DateSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_MassKhoshData_Date" />
+  </wsdl:message>
+  <wsdl:message name="Send_MassKhoshData_DateSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_MassKhoshData_DateResponse" />
+  </wsdl:message>
+  <wsdl:message name="Send_MassKhoshDataSoapIn">
+    <wsdl:part name="parameters" element="tns:Send_MassKhoshData" />
+  </wsdl:message>
+  <wsdl:message name="Send_MassKhoshDataSoapOut">
+    <wsdl:part name="parameters" element="tns:Send_MassKhoshDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushKHoshDataSoapIn">
+    <wsdl:part name="parameters" element="tns:PushKHoshData" />
+  </wsdl:message>
+  <wsdl:message name="PushKHoshDataSoapOut">
+    <wsdl:part name="parameters" element="tns:PushKHoshDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushConstContractParcelsSoapIn">
+    <wsdl:part name="parameters" element="tns:PushConstContractParcels" />
+  </wsdl:message>
+  <wsdl:message name="PushConstContractParcelsSoapOut">
+    <wsdl:part name="parameters" element="tns:PushConstContractParcelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushConstContractParcels_V2SoapIn">
+    <wsdl:part name="parameters" element="tns:PushConstContractParcels_V2" />
+  </wsdl:message>
+  <wsdl:message name="PushConstContractParcels_V2SoapOut">
+    <wsdl:part name="parameters" element="tns:PushConstContractParcels_V2Response" />
+  </wsdl:message>
+  <wsdl:message name="PushConst2BarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:PushConst2Barcode" />
+  </wsdl:message>
+  <wsdl:message name="PushConst2BarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:PushConst2BarcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushMellatNoticesSoapIn">
+    <wsdl:part name="parameters" element="tns:PushMellatNotices" />
+  </wsdl:message>
+  <wsdl:message name="PushMellatNoticesSoapOut">
+    <wsdl:part name="parameters" element="tns:PushMellatNoticesResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcelsSoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcelsSoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_V2SoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_V2" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_V2SoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_V2Response" />
+  </wsdl:message>
+  <wsdl:message name="PushTaxiDataSoapIn">
+    <wsdl:part name="parameters" element="tns:PushTaxiData" />
+  </wsdl:message>
+  <wsdl:message name="PushTaxiDataSoapOut">
+    <wsdl:part name="parameters" element="tns:PushTaxiDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArray_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarArray_SMS" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArray_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarArray_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArray_SMS_v2SoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarArray_SMS_v2" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArray_SMS_v2SoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarArray_SMS_v2Response" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArraySoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarArray" />
+  </wsdl:message>
+  <wsdl:message name="PushVarArraySoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarArrayResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushGateWayParcelsSoapIn">
+    <wsdl:part name="parameters" element="tns:PushGateWayParcels" />
+  </wsdl:message>
+  <wsdl:message name="PushGateWayParcelsSoapOut">
+    <wsdl:part name="parameters" element="tns:PushGateWayParcelsResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_SMS" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_SMS_V2SoapIn">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_SMS_V2" />
+  </wsdl:message>
+  <wsdl:message name="PushVarContractParcels_SMS_V2SoapOut">
+    <wsdl:part name="parameters" element="tns:PushVarContractParcels_SMS_V2Response" />
+  </wsdl:message>
+  <wsdl:message name="PushPostalCodeDataSoapIn">
+    <wsdl:part name="parameters" element="tns:PushPostalCodeData" />
+  </wsdl:message>
+  <wsdl:message name="PushPostalCodeDataSoapOut">
+    <wsdl:part name="parameters" element="tns:PushPostalCodeDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_ParcelPriceSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_ParcelPrice" />
+  </wsdl:message>
+  <wsdl:message name="Get_ParcelPriceSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_ParcelPriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="PushPishkhanDataSoapIn">
+    <wsdl:part name="parameters" element="tns:PushPishkhanData" />
+  </wsdl:message>
+  <wsdl:message name="PushPishkhanDataSoapOut">
+    <wsdl:part name="parameters" element="tns:PushPishkhanDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_PostNodeDataSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_PostNodeData" />
+  </wsdl:message>
+  <wsdl:message name="Get_PostNodeDataSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_PostNodeDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetContractAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetContractAccounts" />
+  </wsdl:message>
+  <wsdl:message name="SetContractAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetContractAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetContractIpAddressesSoapIn">
+    <wsdl:part name="parameters" element="tns:SetContractIpAddresses" />
+  </wsdl:message>
+  <wsdl:message name="SetContractIpAddressesSoapOut">
+    <wsdl:part name="parameters" element="tns:SetContractIpAddressesResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetContractPostNodesSoapIn">
+    <wsdl:part name="parameters" element="tns:SetContractPostNodes" />
+  </wsdl:message>
+  <wsdl:message name="SetContractPostNodesSoapOut">
+    <wsdl:part name="parameters" element="tns:SetContractPostNodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetContractsInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:SetContractsInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetContractsInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:SetContractsInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetOrganizaitionInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:SetOrganizaitionInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetOrganizaitionInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:SetOrganizaitionInfoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MassContractsServiceSoap">
+    <wsdl:operation name="Send_Bajeh">
+      <wsdl:input message="tns:Send_BajehSoapIn" />
+      <wsdl:output message="tns:Send_BajehSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshData">
+      <wsdl:input message="tns:Send_KhoshDataSoapIn" />
+      <wsdl:output message="tns:Send_KhoshDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshDataNormal">
+      <wsdl:input message="tns:Send_KhoshDataNormalSoapIn" />
+      <wsdl:output message="tns:Send_KhoshDataNormalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData_Date">
+      <wsdl:input message="tns:Send_MassKhoshData_DateSoapIn" />
+      <wsdl:output message="tns:Send_MassKhoshData_DateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData">
+      <wsdl:input message="tns:Send_MassKhoshDataSoapIn" />
+      <wsdl:output message="tns:Send_MassKhoshDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushKHoshData">
+      <wsdl:input message="tns:PushKHoshDataSoapIn" />
+      <wsdl:output message="tns:PushKHoshDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels">
+      <wsdl:input message="tns:PushConstContractParcelsSoapIn" />
+      <wsdl:output message="tns:PushConstContractParcelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels_V2">
+      <wsdl:input message="tns:PushConstContractParcels_V2SoapIn" />
+      <wsdl:output message="tns:PushConstContractParcels_V2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushConst2Barcode">
+      <wsdl:input message="tns:PushConst2BarcodeSoapIn" />
+      <wsdl:output message="tns:PushConst2BarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushMellatNotices">
+      <wsdl:input message="tns:PushMellatNoticesSoapIn" />
+      <wsdl:output message="tns:PushMellatNoticesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels">
+      <wsdl:input message="tns:PushVarContractParcelsSoapIn" />
+      <wsdl:output message="tns:PushVarContractParcelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_V2">
+      <wsdl:input message="tns:PushVarContractParcels_V2SoapIn" />
+      <wsdl:output message="tns:PushVarContractParcels_V2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushTaxiData">
+      <wsdl:input message="tns:PushTaxiDataSoapIn" />
+      <wsdl:output message="tns:PushTaxiDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS">
+      <wsdl:input message="tns:PushVarArray_SMSSoapIn" />
+      <wsdl:output message="tns:PushVarArray_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS_v2">
+      <wsdl:input message="tns:PushVarArray_SMS_v2SoapIn" />
+      <wsdl:output message="tns:PushVarArray_SMS_v2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray">
+      <wsdl:input message="tns:PushVarArraySoapIn" />
+      <wsdl:output message="tns:PushVarArraySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushGateWayParcels">
+      <wsdl:input message="tns:PushGateWayParcelsSoapIn" />
+      <wsdl:output message="tns:PushGateWayParcelsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS">
+      <wsdl:input message="tns:PushVarContractParcels_SMSSoapIn" />
+      <wsdl:output message="tns:PushVarContractParcels_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS_V2">
+      <wsdl:input message="tns:PushVarContractParcels_SMS_V2SoapIn" />
+      <wsdl:output message="tns:PushVarContractParcels_SMS_V2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushPostalCodeData">
+      <wsdl:input message="tns:PushPostalCodeDataSoapIn" />
+      <wsdl:output message="tns:PushPostalCodeDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_ParcelPrice">
+      <wsdl:input message="tns:Get_ParcelPriceSoapIn" />
+      <wsdl:output message="tns:Get_ParcelPriceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PushPishkhanData">
+      <wsdl:input message="tns:PushPishkhanDataSoapIn" />
+      <wsdl:output message="tns:PushPishkhanDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_PostNodeData">
+      <wsdl:input message="tns:Get_PostNodeDataSoapIn" />
+      <wsdl:output message="tns:Get_PostNodeDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetContractAccounts">
+      <wsdl:input message="tns:SetContractAccountsSoapIn" />
+      <wsdl:output message="tns:SetContractAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetContractIpAddresses">
+      <wsdl:input message="tns:SetContractIpAddressesSoapIn" />
+      <wsdl:output message="tns:SetContractIpAddressesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetContractPostNodes">
+      <wsdl:input message="tns:SetContractPostNodesSoapIn" />
+      <wsdl:output message="tns:SetContractPostNodesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetContractsInfo">
+      <wsdl:input message="tns:SetContractsInfoSoapIn" />
+      <wsdl:output message="tns:SetContractsInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetOrganizaitionInfo">
+      <wsdl:input message="tns:SetOrganizaitionInfoSoapIn" />
+      <wsdl:output message="tns:SetOrganizaitionInfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MassContractsServiceSoap" type="tns:MassContractsServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Send_Bajeh">
+      <soap:operation soapAction="http://tempuri.org/Send_Bajeh" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshData">
+      <soap:operation soapAction="http://tempuri.org/Send_KhoshData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshDataNormal">
+      <soap:operation soapAction="http://tempuri.org/Send_KhoshDataNormal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData_Date">
+      <soap:operation soapAction="http://tempuri.org/Send_MassKhoshData_Date" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData">
+      <soap:operation soapAction="http://tempuri.org/Send_MassKhoshData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushKHoshData">
+      <soap:operation soapAction="http://tempuri.org/PushKHoshData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels">
+      <soap:operation soapAction="http://tempuri.org/PushConstContractParcels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels_V2">
+      <soap:operation soapAction="http://tempuri.org/PushConstContractParcels_V2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConst2Barcode">
+      <soap:operation soapAction="http://tempuri.org/PushConst2Barcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushMellatNotices">
+      <soap:operation soapAction="http://tempuri.org/PushMellatNotices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels">
+      <soap:operation soapAction="http://tempuri.org/PushVarContractParcels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_V2">
+      <soap:operation soapAction="http://tempuri.org/PushVarContractParcels_V2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushTaxiData">
+      <soap:operation soapAction="http://tempuri.org/PushTaxiData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS">
+      <soap:operation soapAction="http://tempuri.org/PushVarArray_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS_v2">
+      <soap:operation soapAction="http://tempuri.org/PushVarArray_SMS_v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray">
+      <soap:operation soapAction="http://tempuri.org/PushVarArray" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushGateWayParcels">
+      <soap:operation soapAction="http://tempuri.org/PushGateWayParcels" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS">
+      <soap:operation soapAction="http://tempuri.org/PushVarContractParcels_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS_V2">
+      <soap:operation soapAction="http://tempuri.org/PushVarContractParcels_SMS_V2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushPostalCodeData">
+      <soap:operation soapAction="http://tempuri.org/PushPostalCodeData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ParcelPrice">
+      <soap:operation soapAction="http://tempuri.org/Get_ParcelPrice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushPishkhanData">
+      <soap:operation soapAction="http://tempuri.org/PushPishkhanData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_PostNodeData">
+      <soap:operation soapAction="http://tempuri.org/Get_PostNodeData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractAccounts">
+      <soap:operation soapAction="http://tempuri.org/SetContractAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractIpAddresses">
+      <soap:operation soapAction="http://tempuri.org/SetContractIpAddresses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractPostNodes">
+      <soap:operation soapAction="http://tempuri.org/SetContractPostNodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractsInfo">
+      <soap:operation soapAction="http://tempuri.org/SetContractsInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetOrganizaitionInfo">
+      <soap:operation soapAction="http://tempuri.org/SetOrganizaitionInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MassContractsServiceSoap12" type="tns:MassContractsServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Send_Bajeh">
+      <soap12:operation soapAction="http://tempuri.org/Send_Bajeh" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshData">
+      <soap12:operation soapAction="http://tempuri.org/Send_KhoshData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_KhoshDataNormal">
+      <soap12:operation soapAction="http://tempuri.org/Send_KhoshDataNormal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData_Date">
+      <soap12:operation soapAction="http://tempuri.org/Send_MassKhoshData_Date" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Send_MassKhoshData">
+      <soap12:operation soapAction="http://tempuri.org/Send_MassKhoshData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushKHoshData">
+      <soap12:operation soapAction="http://tempuri.org/PushKHoshData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels">
+      <soap12:operation soapAction="http://tempuri.org/PushConstContractParcels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConstContractParcels_V2">
+      <soap12:operation soapAction="http://tempuri.org/PushConstContractParcels_V2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushConst2Barcode">
+      <soap12:operation soapAction="http://tempuri.org/PushConst2Barcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushMellatNotices">
+      <soap12:operation soapAction="http://tempuri.org/PushMellatNotices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels">
+      <soap12:operation soapAction="http://tempuri.org/PushVarContractParcels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_V2">
+      <soap12:operation soapAction="http://tempuri.org/PushVarContractParcels_V2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushTaxiData">
+      <soap12:operation soapAction="http://tempuri.org/PushTaxiData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS">
+      <soap12:operation soapAction="http://tempuri.org/PushVarArray_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray_SMS_v2">
+      <soap12:operation soapAction="http://tempuri.org/PushVarArray_SMS_v2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarArray">
+      <soap12:operation soapAction="http://tempuri.org/PushVarArray" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushGateWayParcels">
+      <soap12:operation soapAction="http://tempuri.org/PushGateWayParcels" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS">
+      <soap12:operation soapAction="http://tempuri.org/PushVarContractParcels_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushVarContractParcels_SMS_V2">
+      <soap12:operation soapAction="http://tempuri.org/PushVarContractParcels_SMS_V2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushPostalCodeData">
+      <soap12:operation soapAction="http://tempuri.org/PushPostalCodeData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_ParcelPrice">
+      <soap12:operation soapAction="http://tempuri.org/Get_ParcelPrice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushPishkhanData">
+      <soap12:operation soapAction="http://tempuri.org/PushPishkhanData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_PostNodeData">
+      <soap12:operation soapAction="http://tempuri.org/Get_PostNodeData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractAccounts">
+      <soap12:operation soapAction="http://tempuri.org/SetContractAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractIpAddresses">
+      <soap12:operation soapAction="http://tempuri.org/SetContractIpAddresses" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractPostNodes">
+      <soap12:operation soapAction="http://tempuri.org/SetContractPostNodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContractsInfo">
+      <soap12:operation soapAction="http://tempuri.org/SetContractsInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetOrganizaitionInfo">
+      <soap12:operation soapAction="http://tempuri.org/SetOrganizaitionInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MassContractsService">
+    <wsdl:port name="MassContractsServiceSoap" binding="tns:MassContractsServiceSoap">
+      <soap:address location="http://poffice.post.ir/contracts/MassContractsService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MassContractsServiceSoap12" binding="tns:MassContractsServiceSoap12">
+      <soap12:address location="http://poffice.post.ir/contracts/MassContractsService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

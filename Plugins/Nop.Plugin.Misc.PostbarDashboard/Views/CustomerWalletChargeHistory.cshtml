@@ -1,0 +1,721 @@
+﻿
+@model Nop.plugin.Orders.ExtendedShipment.Models.RewardPointsCashoutInputModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+@inject IWorkContext workContext
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/shipito/_NewUiDashboardLayout.cshtml";
+
+    var defaultGridPageSize = 10;
+    var gridPageSizes = "10,50,100,1000";
+    Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    var kendoVersion = "2014.1.318";
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.rtl.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.default.min.css");
+    Html.AppendCssFileParts($"~/lib/kendo/{kendoVersion}/kendo.common.min.css");
+    
+    Html.AppendScriptParts("~/Plugins/Orders.BulkOrder/Scripts/kendo.web.min.js");
+
+    
+}
+
+<link rel="stylesheet" href="~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver=5">
+
+<script src="~/Plugins/Orders.MultiShipping/Content/MapResource/js/jquery.md.bootstrap.datetimepicker.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/datePicker.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jquery.mousewheel.min.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jQuery.WSlot.min.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js"></script>
+<script src="~/Plugins/Orders.MultiShipping/Content/common.js"></script>
+<style>
+    @@media(min-width: 300px) and (max-width: 480px) {
+        #date1, #date2 {
+            display:none;
+        }
+        .tabParent
+        {
+            padding:0px !important;
+            margin-right:0px !important;
+        }
+        ._dateControl
+        {
+               padding-left:15px !important;
+        }
+        .m1{
+            margin-bottom:10px;
+        }
+
+    }
+    .tablinks{
+        font-size:13px;
+    }
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+<style>
+    .select2-selection__rendered{
+        text-align:center;
+    }
+    .tbody {
+        display: contents !important;
+    }
+
+    td {
+        text-align: center !important;
+    }
+
+    th {
+        text-align: center !important;
+    }
+
+    .select2 {
+        width: auto !important;
+        min-width: 150px !important;
+    }
+
+    .select2-container {
+        display: block;
+    }
+
+    .modal-header, .modal-footer {
+        text-align: center;
+    }
+</style>
+<div style="padding:10px;margin-right:20px;" class="tabParent">
+
+    <div class="tab row" style="margin-left:0px;margin-right:0px;font-size:10px;">
+        <button id="btnCashoutTab" class="tablinks" onclick="openTab(this,'cashout')">لیست تراکنش ها</button>
+        <button class="tablinks" onclick="openTab(this,'setting')">تنظیمات تسویه خودکار</button>
+    </div>
+        <div id="setting" class="tabcontent">
+            <div class="panel panel-default" style="margin-right:20px;">
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <div class="col-md-1" style="text-align:right;">
+                            <label for="autoCashout" style="font-size:12px">
+                                تسویه خودکار
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="autoCashout" name="autoCashout" class="select3-placeholer form-control" data-placeholder="  تسویه خودکار"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-11 pull-left">
+                            <button id="btnSaveSettings" onclick="funSaveSettings()" type="button" class="btn btn-success">
+                                ثبت تغییرات
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*-------------------------------------*@
+        <div id="cashout" class="tabcontent">
+            <div class="panel panel-default" >
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <label class="col-sm-1 control-label" style="direction:rtl; text-align:right; font-size:12px"> از تاریخ </label>
+                        <div class="col-sm-2  _dateControl" style="padding-left:0px">
+                            <input type="text" id="dateFrom" asp-for="dateFrom" onclick="$('#_DateFrom').click()" class="form-control" aria-label="_DateFrom" aria-describedby="_DateFrom">
+                        </div>
+
+                        <div id="date1" class="col-sm-1 " style="padding:0px">
+                            <div class="input-group-prepend ">
+                                <span class="input-group-text cursor-pointer" id="_DateFrom" style="top:0px !important;padding: 4px;background-color: transparent;" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                                    <img src="/Themes/Ap/images/ApImages/calendar.png">
+                                </span>
+                            </div>
+                        </div>
+
+                        <label class="col-sm-1 control-label" style="direction:rtl; font-size:12px; text-align:right;"> تا تاریخ </label>
+                        <div class="col-sm-2 _dateControl" style="padding-left:0px">
+                            <input type="text" id="dateTo" onclick="$('#_DateTo').click()" asp-for="dateTo" class="form-control" aria-label="_DateFrom" aria-describedby="_DateFrom">
+                        </div>
+
+                        <div id="date2" class="col-sm-1" style="padding:0px">
+                            <div class="input-group-prepend ">
+                                <span class="input-group-text cursor-pointer" id="_DateTo" style="top:0px !important;padding: 4px;background-color: transparent;" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                                    <img src="/Themes/Ap/images/ApImages/calendar.png">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="text-align:right">
+                            <label for="chargeWalletTypeId" style="font-size:12px">
+                                نوع تراکنش
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="chargeWalletTypeId" asp-for="chargeWalletType" name="chargeWalletType" class="select3-placeholer form-control" data-placeholder="انتخاب نوع تراکنش"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-1" style="text-align:right">
+                            <label for="paid" style="font-size:12px">
+                                وضعیت تسویه
+                            </label>
+                        </div>
+                        <div class="col-md-3 m1" >
+                            <select id="paid" asp-for="chargeWalletType" name="paid" class="select3-placeholer form-control" data-placeholder="وضعیت تسویه"></select>
+                        </div>
+                        <div class="col-md-2 m1">
+                            <button type="button" id="search-CustomerWalletHistory" class="btn btn-primary" style="width:100%">
+                                <i class="fa fa-search"></i>
+                                جستجو
+                            </button>
+                        </div>
+                        <div class="col-md-2 m1">
+                            <button type="button" id="excel-CustomerWalletHistory" class="btn btn-success" style="width:100%">
+                                <i class="fa fa-file-excel"></i>
+                                خروجی اکسل
+                            </button>
+                        </div>
+                        <div class="col-md-2 m1">
+                            <button type="button" class="btn btn-warning" style="width:100%" data-toggle="modal" data-target="#myModal">
+                                <i class="fa fa-paper-plane"></i>
+                                درخواست تسویه
+                            </button>
+                        </div>
+                        @*<div class="col-md-2">
+            <button type="button" id="requestAll-CustomerWalletHistory" class="btn btn-warning" style="width:100%">
+                 تسویه کامل
+            </button>
+        </div>*@
+                    </div>
+
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" style="text-align:center">درخواست تسویه</h4>
+                                </div>
+                                <div class="modal-body" style="padding:20px;">
+                                    <div id="divCashout" class="form-group row">
+                                        <div class="col-md-5">
+                                            <select id="CashoutTypeId" name="CashoutTypeId" class="select3-placeholer form-control" data-placeholder="انتخاب نوع تسویه"></select>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input id="txtSheba" name="Sheba" class="form-control" style="display:none;" placeholder="شبا" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="request-CustomerWalletHistory" class="btn btn-warning">
+                                        <i class="fa fa-paper-plane"></i>
+                                        ارسال درخواست
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right:20px">انصراف</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <div class="col-md-12" style="font-size:8pt;margin:0px;">
+                    <div class="panel-body" style="overflow-y:scroll">
+                        <div id="CustommerWalletHistory-grid"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+</div>
+<script type="text/javascript">
+    function openTab(currentTarget, TabName)
+    {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(TabName).style.display = "block";
+        if (currentTarget != null)
+        currentTarget.className += " active";
+    }
+
+                var shebaNeeded = false;
+
+                function RequestWallet(requestAll)
+                {
+                    if (!requestAll)
+                    {
+                        var checkedcounter = 0;
+                        var counter = 0;
+                        var Ids = "";
+                        $("input:checkbox.checkboxGroups").each((e, ea) => {
+                            counter++;
+                            if ($(ea).prop('checked')) {
+                                checkedcounter++;
+                                Ids += $(ea).val() + ",";
+                            }
+                        });
+                        if (checkedcounter == 0) {
+                            requestAll = true;
+                            if (counter == 0) {
+                                alert("هیچ سطری انتخاب نشده است");
+                                return;
+                            }
+                        }
+
+                    }
+
+                    var CashoutTypeId2 = $("#CashoutTypeId").val();
+
+                                    swal({
+						                    title: "",
+						                    text: "آیا مطمعن هستید؟",
+						                    icon: "warning",
+						                    showCancelButton: true,
+						                    confirmButtonText: 'بله',
+						                    cancelButtonText: "خیر"
+                                    },
+                                function (isConfirm) {
+                                    if (isConfirm !== true) return;
+
+                                    var data3 = { ChargeWalletIds: Ids, CashoutTypeId: CashoutTypeId2, ShebaToInsert: $("#txtSheba").val() };
+
+                                    if (requestAll) {
+                                        data3 = {
+                                            dateFrom: persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val()),
+                                            dateTo: persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val()),
+                                            chargeWalletType: ($('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : ''),
+                                            strPaid: ($('#paid').val() != null ? $('#paid').val().join(',') : ''),
+                                            ChargeWalletIds: (requestAll ? "requestAll" : Ids),
+                                            CashoutTypeId: CashoutTypeId2,
+                                            ShebaToInsert: $("#txtSheba").val()
+                                        };
+                                    }
+                                    addAntiForgeryToken(data3);
+
+								    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@Html.Raw(Url.Action("PayRequest", "PostbarDashboard"))",
+                                        data: data3,
+                                        success: function (data) {
+                                            if (data.message == "InsertSheba") {
+                                                alert("شماره شبا در سیستم برای شما ثبت نشده است ، لطفا یک شماره شبا وارد کرده و مجددا دکمه ی درخواست تسویه را بزنید");
+                                                $("#txtSheba").fadeIn();
+                                                shebaNeeded = true;
+                                                return;
+                                            }
+                                            
+                                            alert(data.message);
+                                            if (data.message.includes("شماره شبا جهت واریز =")) shebaNeeded = false;
+
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            
+                                        }
+								    });
+						                }
+                            );
+                }
+
+
+							$(document).ready(function () {
+                                
+								$('#_DateFrom').MdPersianDateTimePicker({
+									targetTextSelector: '#dateFrom',
+								});
+
+								$('#_DateTo').MdPersianDateTimePicker({
+									targetTextSelector: '#dateTo',
+                                });
+                                $("#requestAll-CustomerWalletHistory").click(function () {
+                                    RequestWallet(true);
+                                });
+
+                                $("#request-CustomerWalletHistory").click(function () {
+                                    RequestWallet(false);
+                                });
+                                $('#excel-CustomerWalletHistory').click(function () {
+                                    swal({
+                                        title: "",
+                                        text: "آیا مطمعن هستید؟",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonText: 'بله',
+                                        cancelButtonText: "خیر"
+                                    },
+                                        function (isConfirm) {
+                                            
+                                            if (isConfirm == true) {
+                                                var d1 = $('#@Html.IdFor(model => model.dateFrom)').val();
+                                                var d2 = $('#@Html.IdFor(model => model.dateTo)').val();
+                                                if (d1 == "" || d2 == "") {
+                                                    swal("لطفا فیلد های تاریخ  را وارد نمایید");
+                                                    return;
+                                                }
+                                                var data4 = { d1: persianToEnglish(d1), d2: persianToEnglish(d2) };
+                                                addAntiForgeryToken(data4);
+                                                $.ajax({
+                                                    cache: false,
+                                                    type: "POST",
+                                                    url: "@Html.Raw(Url.Action("CheckDate", "PostbarDashboard"))",
+                                                    data: data4,
+                                                    success: function (data) {
+                                                        if (data.message != "") {
+                                                            alert(data.message);
+                                                            return;
+                                                        }
+
+                                                        var dateFrom = persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val());
+                                                        var dateTo = persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val());
+                                                        var chargeWalletType = $('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : '';
+                                                        var strPaid = ($('#paid').val() != null ? $('#paid').val().join(',') : '');
+
+                                                        window.location = "@Url.Action("ExcelCustommerWalletHistory", "PostbarDashboard")?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&chargeWalletType=" + chargeWalletType + "&strPaid" + strPaid;
+                                                    }, error: function (xhr, ajaxOptions, thrownError) {
+                                                        
+                                                    }
+                                                }
+                                                );
+                                            }
+                                        });
+                                });
+							$('#search-CustomerWalletHistory').click(function () {
+							var d1 = $('#@Html.IdFor(model => model.dateFrom)').val();
+							var d2 = $('#@Html.IdFor(model => model.dateTo)').val();
+
+							    if (d1 == "" || d2 == "")
+							    {
+								    swal("لطفا فیلد های تاریخ  را وارد نمایید");
+								    return;
+                                }
+                                var data4 = { d1: persianToEnglish(d1), d2: persianToEnglish( d2) };
+                                    addAntiForgeryToken(data4);
+								    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@Html.Raw(Url.Action("CheckDate", "PostbarDashboard"))",
+                                        data: data4,
+                                        success: function (data) {
+                                            if (data.message != "") {
+                                                alert(data.message);
+                                                return;
+                                            }
+                                            var grid = $('#CustommerWalletHistory-grid').data('kendoGrid');
+                                            grid.dataSource.page(1); //new search. Set page size to 1
+                                            $("tbody").css("display", "contents");
+
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            
+                                        }
+                                });
+
+
+							});
+
+								$("#CustommerWalletHistory-grid").kendoGrid({
+									dataBound: function (e) { $('.k-grid-header').css('papadding-right', '0 !important'); },
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("GridCustommerWalletHistory", "PostbarDashboard"))",
+                                                type: "POST",
+												dataType: "json",
+												data: additionalData
+                                            }
+                                        },
+                                        schema: {
+											data: "Data",
+											total: "Total",
+											errors: "Errors"
+										},
+										requestEnd: function (e) {
+											$("tbody").css("display", "contents");
+											if (e.type == "update") {
+												this.read();
+											}
+											$('.k-grid-header').css('papadding-right', '0 !important')
+										},
+                                        error: function () {
+                                            
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_GridPagerMessages.cshtml")
+									},
+									editable: {
+										confirmation: true,
+										mode: "inline"
+									},
+									filterable: false,
+									sortable: false,
+									scrollable: false,
+									//dataBound: onDataBound,
+									columns: [
+										{
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: {style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+											title: "شماره ",
+											width: 50
+										},
+										{
+											field: "orderId",
+											title: "شماره سفارش",
+											width: 80
+										},
+										{
+											field: "ChargeWalletTypeName",
+											title: "نوع تراکنش",
+											width: 80
+										},
+										{
+											field: "Point",
+											title: "مبلغ",
+                                            width: 80,
+                                            attributes: { class: "clsCurrency", style: "text-align:center" }
+										},
+										{
+											field: "xShamsiDate",
+											title: "تاریخ",
+											width: 80
+                                        },
+                                        {
+                                            field: "xShamsiRequestPayDate",
+                                            title: "تاریخ درخواست تسویه",
+                                            width: 80
+                                        },
+                                        {
+                                            field: "xShamsiPayDate",
+                                            title: "تاریخ تسویه",
+                                            width: 80
+                                        },
+										{
+											field: "Description",
+											title: "توضیحات",
+											width: 80
+										}
+									]
+								});
+
+
+								$.ajax({
+                                    cache: false,
+                                    type: "GET",
+                                    url: "@Html.Raw(Url.Action("GetchargeWalletTypes", "PostbarDashboard"))",
+                                    data: {},
+                                    success: function (data) {
+							            $('#chargeWalletTypeId').append(new Option('همه', '-1', false, false));
+                                        $.each(data, function (id, item) {
+								            $('#chargeWalletTypeId').append(new Option(item.Text, item.Value, false, false));
+                                        });
+
+							            $('#chargeWalletTypeId').select2({
+                                            placeholder: "نوع تراکنش",
+                                            allowClear: true,
+                                            //dropdownParent: $('#myModal'),
+                                            multiple: true
+                                        });
+                                        $('#chargeWalletTypeId').val([]);
+
+                                        $('#paid').append(new Option("همه", null, false));
+                                        $('#paid').append(new Option("تسویه شده", true, false));
+                                        $('#paid').append(new Option("تسویه نشده", false, true));
+
+
+                                        $('#paid').select2({
+                                            placeholder: "وضعیت تسویه",
+                                            allowClear: true,
+                                            //dropdownParent: $('#myModal'),
+                                            multiple: true
+                                        });
+                                        $('#paid').val([]);
+                                        $('#paid').change((a, b, c) => {
+                                            
+                                        });
+                                        //autoCashout
+                                        $('#autoCashout').append(new Option("هیچکدام", null, false));
+                                        $('#autoCashout').append(new Option("روزانه", 1, false));
+                                        $('#autoCashout').append(new Option("هفتگی", 2, true));
+                                        $('#autoCashout').append(new Option("ماهانه", 3, true));
+
+
+                                        $('#autoCashout').select2({
+                                            placeholder: "تسویه حساب خودکار",
+                                            allowClear: true,
+                                            multiple: false
+                                        });
+                                        $('#autoCashout').val([]);
+
+
+                                        $('#CashoutTypeId').append(new Option("انتخاب روش تسویه", null, false));
+                                        $('#CashoutTypeId').append(new Option("واریز به حساب بانکی", true, false));
+                                        $('#CashoutTypeId').append(new Option("واریز به کیف پول", false, true));
+
+
+                                        $('#CashoutTypeId').select2({
+                                            placeholder: "وضعیت تسویه",
+                                            allowClear: true,
+                                            //dropdownParent: $('#myModal'),
+                                            multiple: false
+                                        });
+                                        $('#CashoutTypeId').val([]);
+                                        $('#CashoutTypeId').change((a, b, c) => {
+                                            
+                                            if ($(a.currentTarget).val() == "true" && shebaNeeded == true) {
+                                                $("#txtSheba").fadeIn();
+                                            }
+                                            else {
+                                                $("#txtSheba").fadeOut();
+                                            }
+                                        });
+
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        //console.log('Failed to retrieve Countries.');
+                                    }
+								});
+
+                                //var dtf =  new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDate() - 30).toLocaleDateString('fa-IR');
+                                $('#dateFrom').val(new Date().toLocaleDateString('fa-IR'));//.val(dtf);
+                                $('#dateTo').val(new Date().toLocaleDateString('fa-IR'));
+
+                                $("#mastercheckbox").change(() => {
+                                    var v = $("#mastercheckbox").prop("checked");
+                                    $("input:checkbox.checkboxGroups").prop('checked', v);
+                                });
+                                openTab(btnCashoutTab,'cashout')
+    });
+    
+				function additionalData() {
+                    var data = {
+						dateFrom: persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val()),
+						dateTo: persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val()),
+						chargeWalletType: ($('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : ''),
+                        strPaid: ($('#paid').val() != null ? $('#paid').val().join(',') : '')
+                      };
+                    firstRead = true;
+                    addAntiForgeryToken(data);
+                    return data;
+				}
+
+                function onDataBound(e)
+                {
+					$('#CustommerWalletHistory-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+						var currentId = $(this).val();
+						var checked = jQuery.inArray(currentId, selectedIds);
+						//set checked based on if current checkbox's value is in selectedIds.
+						$(this).attr('checked', checked > -1);
+					});
+
+
+                    var numChkBoxes = $('#CustommerWalletHistory-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+                    var numChkBoxesChecked = $('#CustommerWalletHistory-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+                    $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+                }
+
+				function persianToEnglish(input) {
+					var inputstring = input;
+					var persian = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+					var english = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                    for (var i = 0; i < 10; i++)
+                    {
+						var regex = new RegExp(persian[i], 'g');
+						inputstring = inputstring.toString().replace(regex, english[i]);
+					}
+					return inputstring;
+                }
+                //$(".clsCurrency").
+                function formatCurrencyfunc(container, options) {
+                    
+                    $(container).innerHtml(ToRial(options.Value));
+                }
+                function ToRial(str) {
+                    str = str.replace(/\,/g, '');
+                    var objRegex = new RegExp('(-?[0-9]+)([0-9]{3})');
+
+                    while (objRegex.test(str)) {
+                        str = str.replace(objRegex, '$1,$2');
+                    }
+
+                    return str;
+    }
+     function funSaveSettings() {
+         var data4 = { automaticCashoutMethod: $("#autoCashout").val()};
+            addAntiForgeryToken(data4);
+			$.ajax({
+                cache: false,
+                type: "POST",
+                url: "@Html.Raw(Url.Action("SaveCahoutSetting", "PostbarDashboard"))",
+                data: data4,
+                success: function (data) {
+                        alert(data.message);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    
+                }
+        });
+    }
+</script>

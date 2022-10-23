@@ -1,0 +1,69 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.CustomerSetting
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+
+
+}
+
+<style>
+</style>
+
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1> تنظـیـمات </h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+
+        </div>
+
+        <div class="body-dash send-data-from" style="overflow: auto;">
+
+            <div class="container col-md-12" style="margin-top: 20px;">
+                <form action="@Url.Action("CustomerSetting", "PostbarDashboard")" method="post">
+                    <div class="row">
+                        <div class="col-md-6 form-group text-right">
+                            <input type="checkbox" name="ShowDiscountOnPrintPdf" asp-for="ShowDiscountOnPrintPdf" />
+                            <label class="form-check-label">نمایش تخفیفات در چاپ فاکتور</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                        <button type="submit" class="btn btn-orang-theme col-md-2">
+                            ذخیره تغییرات
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <div class="col-md-5"></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

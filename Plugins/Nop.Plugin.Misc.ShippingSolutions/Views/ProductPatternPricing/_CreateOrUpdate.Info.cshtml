@@ -1,0 +1,288 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_Product_PatternPricing
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+    //Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Misc.ShippingSolutions/Scripts/Select2/dist/css/select2.min.css");
+    //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Misc.ShippingSolutions/Scripts/Select2/dist/js/select2.full.min.js");
+
+}
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-6">
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <nop-label asp-for="IdProduct" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-select asp-for="IdProduct" asp-items="Model.ListProduct" asp-required="true" />
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <nop-label asp-for="StateApplyPricingPolicy" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-select asp-for="StateApplyPricingPolicy" asp-items="Model.ListStateApplyPricingPolicy" asp-required="true" />
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <nop-label asp-for="StateClaculateMonth" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-editor asp-for="StateClaculateMonth" asp-required="true" />
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Price" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Price"  asp-required="true" />
+                            <span asp-validation-for="Price"></span>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <nop-label asp-for="_IdPatternPricing" />
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nop-select asp-for="_IdPatternPricing" asp-items="Model.ListPatternPricing" asp-multiple="true" asp-required="true" />
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var storesIdsInput = $('#@Html.IdFor(model => model._IdPatternPricing)')
+                                        .data("kendoMultiSelect");
+                                    storesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                });
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div id="Providers-grid"></div>
+                <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#Providers-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("PatternPricingList", "ManageProductPatternPricing"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+
+                                       {
+                                            field: "Grid_PatternPricingPolicy_Category_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_Category_Name")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.PatternPricingPoliyNamePattern")",
+                                            width: 100
+                 }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_MinCount",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.PatternPricingPoliyMinCount")",
+                                            width: 100
+                 }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_MaxCount",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.PatternPricingPoliyMaxCount")",
+                                            width: 100
+                                        }
+                                       ,
+                                        {
+                                            field: "Grid_PatternPricingPolicy_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_PatternPricingPolicy_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_PatternPricingPolicy_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_PatternPricingPolicy_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="EnableProvider(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Disable")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn bg-red"  onclick="DisableProvider(#=Id#)" type="button"><i class="fa fa-trash-o"></i></button>'
+                                        }
+
+                                    ]
+                                });
+                            });
+                </script>
+                <script>
+                        function additionalData()
+                        {
+                         var data = {
+                         Id:@Model.Id,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+                        function DisableProvider(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisablePatternPricing", "ManageProductPatternPricing"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Providers-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableProvider(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActivePatternPricing", "ManageProductPatternPricing"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Providers-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

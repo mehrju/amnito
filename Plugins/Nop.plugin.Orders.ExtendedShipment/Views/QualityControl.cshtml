@@ -1,0 +1,367 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.QualityControlInputModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "کنترل کیفیت مرسولات پستی";
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Product.QualityControl");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+}
+
+<div class="content">
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <nop-tabs id="ShipmentStatus">
+                        <nop-tab asp-name="tab-NotCollect_2" class="tabItem" asp-title="هماهنگ نشده" asp-default="true"></nop-tab>
+                        <nop-tab asp-name="tab-NotShipped_3" class="tabItem" asp-title="جمع آوری نشده"></nop-tab>
+                        <nop-tab asp-name="tab-NotDelivered_4" class="tabItem" asp-title="ارسال نشده"></nop-tab>
+                        <nop-tab asp-name="tab-NotDelivered_5" class="tabItem" asp-title="مشمول غرامت"></nop-tab>
+                    </nop-tabs>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="dateFrom" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="dateFrom" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="dateTo" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="dateTo" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="trackingNumber" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="trackingNumber" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="label-wrapper">
+                                        <nop-label asp-for="countryId" />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="countryId" asp-items="Model.AvailableCountries" placeholder="انتخاب کنید" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="label-wrapper">
+                                        <nop-label asp-for="stateId" />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="stateId" asp-items="Model.AvailableStates" placeholder="انتخاب کنید" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="display: none">
+                                <div class="col-md-4">
+                                    <div class="label-wrapper">
+                                        <nop-label asp-for="orderState" />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="orderState" asp-items="Model.AvailableOrderState" placeholder="انتخاب کنید" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="orderId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="orderId" />
+                                </div>
+                            </div>
+                            
+                            @*<div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="PostmanId">پستچی</label>
+                                            <div title="جستجو براساس پستچی" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid google" data-val="true" id="PostmanId" name="PostmanId" data-search="true" theme="google" placeholder="انتخاب کنید">
+                                            <option selected="selected" value="0">*</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: left;">
+                            <button type="button" id="search-QualityControl" class="btn btn-primary btn-search">
+                                <i class="fa fa-search"></i>
+                                @T("Admin.Common.Search")
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="QualityControl-grid"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#QualityControl-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("getQualityControlList", "QualityControl"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: additionalData
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id"
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true
+                                },
+                                dataBound: function(e) {
+                                    $('#QualityControl-grid').css('overflow', 'unset');
+                                    $('.k-grid-header').css('padding-right', '0px');
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                height: 700,
+                                scrollable: true,
+                                columns: [
+                                    {
+                                        field: "ShipmentId",
+                                        title: "شماره محموله",
+                                        width: 100
+                                    },
+                                    {
+                                        field: "Id",
+                                        title: "سفارش",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '<a class="btn btn-success" target="_blank" rel="noopener noreferrer" href="Order/Edit/#=OrderId#"><i class="fa fa-eye">#=OrderId#</i></a>'
+                                    },
+                                    {
+                                        field: "TrackingNumber",
+                                        title: "کد رهگیری",
+                                        width: 230
+                                    },
+                                    {
+                                        field: "LastEvent",
+                                        title: "آخرین وضعیت",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "CreatedOnUtc",
+                                        title: "تاریخ سفارش",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "CoordinationDate",
+                                        title: "تاریخ هماهنگی",
+                                        width: 150,
+                                        type: "date"
+                                    },
+                                    {
+                                        field: "DataCollect",
+                                        title: "تاریخ جمع آوری",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "ShippedDate",
+                                        title: "تاریخ ارسال",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "DeliveryDate",
+                                        title: "تاریخ تحویل",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "delayDataCollect",
+                                        title: "تاخیر جمع آوری",
+                                        width: 100
+                                    },
+                                    {
+                                        field: "ShippedDate",
+                                        title: "تاریخ ارسال",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "delayShippedDate",
+                                        title: "تاخیر ارسال",
+                                        width: 100
+                                    },
+                                    {
+                                        field: "DeliveryDate",
+                                        title: "تاریخ تحویل",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "SalDate",
+                                        title: "SLA تاریخ تحویل ",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "SlaDelay",
+                                        title: " SLA تاخیر ",
+                                        width: 100
+                                    },
+                                    {
+                                        field: "fullName",
+                                        title: "نام مشتری",
+                                        width: 200
+                                    },
+                                    {
+                                        field: "PhoneNumber",
+                                        title: "شماره تماس مشتری",
+                                        width: 110
+                                    },
+                                    {
+                                        field: "IndemnityBySla",
+                                        title: "غرامت",
+                                        width: 250
+                                    },
+                                    {
+                                        field: "ItemWeight",
+                                        title: "رده وزنی",
+                                        width: 130
+                                    },
+                                    {
+                                        field: "catgoryName",
+                                        title: "نوع سرویس",
+                                        width: 130
+                                    },
+                                    {
+                                        field: "PostSupervisorInfo",
+                                        title: "ناظر پستی",
+                                        width: 250
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+
+                </div>
+            </div>
+            <script type="text/javascript">
+
+                $(document).ready(function() {
+                    $('#search-QualityControl').click(function() {
+                        var grid = $('#QualityControl-grid').data('kendoGrid');
+                        grid.dataSource.page(1); //new search. Set page size to 1
+                    });
+                    //load states when changing a country dropdownlist
+                    $("#@Html.IdFor(model => model.countryId)").change(function() {
+                        var selectedItem = $(this).val();
+                        var ddlStates = $("#@Html.IdFor(model => model.stateId)");
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                            data: { "countryId": selectedItem, "addAsterisk": "true" },
+                            success: function(data) {
+                                ddlStates.html('');
+                                $.each(data,
+                                    function(id, option) {
+                                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                    });
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    });
+                    $("#@Html.IdFor(model => model.trackingNumber)").keydown(function(event) {
+                        if (event.keyCode === 13) {
+                            $("#search-QualityControl").click();
+                            return false;
+                        }
+                    });
+
+                    //search button
+                    $('#search-QualityControl').click(function() {
+                        //search
+                        var grid = $('#QualityControl-grid').data('kendoGrid');
+                        grid.dataSource.page(1); //new search. Set page size to 1
+                        return false;
+                    });
+
+                    //"ship selected" button
+
+                });
+                var firstRead = true;
+
+                function additionalData() {
+                    var data = {
+                        dateFrom: $('#@Html.IdFor(model => model.dateFrom)').val(),
+                        dateTo: $('#@Html.IdFor(model => model.dateTo)').val(),
+                        trackingNumber: $('#@Html.IdFor(model => model.trackingNumber)').val(),
+                        countryId: $('#@Html.IdFor(model => model.countryId)').val(),
+                        stateId: $('#@Html.IdFor(model => model.stateId)').val(),
+                        orderId: $('#@Html.IdFor(model => model.orderId)').val(),
+                        orderState: firstRead ? "2" : $('#@Html.IdFor(model => model.orderState)').val()
+                    };
+                    firstRead = false;
+                    console.dir(data);
+                    addAntiForgeryToken(data);
+                    return data;
+                }
+
+                $(document).ready(function ($) {
+
+                    $('select').select2();
+                    $('#ShipmentStatus').find('.tab-content').remove();
+                    $('.tabItem').click(function () {
+                        var status = $(this).find('a').attr('data-tab-name').split('_')[1];
+                        $('#orderState').val(status);
+                        var grid = $('#QualityControl-grid').data('kendoGrid');
+                        grid.dataSource.page(1);
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,40 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.vm_customerconfirmorder
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+}
+
+
+<style>
+    #headerPopup {
+        width: 75%;
+        margin: 0 auto;
+    }
+
+        #headerPopup iframe {
+            width: 100%;
+            margin: 0 auto;
+        }
+</style>
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1>تایید سفارش حمل و نقل سنگین</h1>
+        </div>
+        <div class="body-dash">
+            <div class="mt-3 row justify-content-md-center mt-3 text-blue"><span class="col-md-12 col-lg-9 col-xl-9 text-right">سلام @Model.NameCustomer عزیز
+                     <br />
+                     سفارش شما به شماره @Model.OrderId
+                     و مبلغ @Model.Price
+                     .مورد تایید شما قرار گرفت،منتظر تایید راننده بمانید.
+                    <br />
+                سپاس فراوان
+                     </span></div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,76 @@
+﻿@model IList<Nop.Core.Domain.Customers.RewardPointsHistory>
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@{
+    //Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postbar/_NewUiDashboardLayout.cshtml";
+    int pageIndex = ViewBag.PageIndex;
+    int pageSize = ViewBag.PageSize;
+    int rowsCount = ViewBag.RowsCount;
+    int i = 1;
+}
+<table id="myTable" class="table table-responsive-sm ">
+    <tbody>
+        <tr>
+            <th>ردیف</th>
+            <th>افزایش - کاهش</th>
+            <th>موجودی</th>
+            <th>پیام</th>
+            <th>تاریخ</th>
+        </tr>
+        @foreach (var rewardPointsHistory in Model)
+        {
+            <tr>
+                <td>@(pageIndex * pageSize + i)</td>
+                <td>@rewardPointsHistory.Points ریال</td>
+                <td>@rewardPointsHistory.PointsBalance ریال</td>
+                <td>@rewardPointsHistory.Message</td>
+                <td>@rewardPointsHistory.CreatedOnUtc</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @*<li class="page-item prev">
+                <a class="page-link" href="#" tabindex="-1">قبلی</a>
+            </li>*@
+        @for (int j = 0; j < Math.Ceiling((float)rowsCount / pageSize); j++)
+        {
+            if (j == pageIndex)
+            {
+                <li class="page-item active">
+                    <a class="page-link" href="#">@(j + 1)</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="#">@(j + 1)</a>
+                </li>
+            }
+        }
+        @*<li class="page-item">
+                <a class="page-link next" href="#">بعدی</a>
+            </li>*@
+    </ul>
+</nav>
+
+<script type="text/javascript">
+    var pageIndex=0;
+
+    $('.page-link').click(function () {
+        if ($(this).hasClass('next')) {
+            pageIndex++;
+        } else if ($(this).hasClass('prev')) {
+            pageIndex--;
+        } else {
+            pageIndex = parseInt($(this).text()) - 1;
+        }
+
+        loadData("@Url.Action("WalletPaged", "PostbarDashboard")", pageIndex, pageSize, '#div_table');
+
+    })
+</script>

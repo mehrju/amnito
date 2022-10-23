@@ -1,0 +1,264 @@
+﻿@model string
+@{
+    int ScriptVersion = 5;
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/postbar/js/jquery.modal.min.js?ver=" + ScriptVersion);
+    Html.AppendCssFileParts("~/Themes/postbar/css/jquery.modal.min.css?ver=" + ScriptVersion);
+}
+<style>
+    .lbl2 {
+        color: orange;
+    }
+    .lbl3 {
+        color: #08317d
+    }
+</style>
+<div class="tracking-code text-center">
+    <div class="container">
+        @*<a class="tracking-code-img">
+            <img src="~/lib/PluginContent/images/logo.png" alt="">
+        </a>*@
+        <h1>
+            سامانه رهگیری مرسولات
+        </h1>
+        <p class="text-center desc">
+            با یکی از روش های زیر وضعیت پستی خود را دنبال کنید
+        </p>
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" class="custom-input tracking-code-input" maxlength="25" id="TrackingAllInput" placeholder="کد رهگیری مرسوله یا شماره سفارش در سامانه پست بار یا شماره موبایل فرستنده یا گیرنده">
+                <input type="text" class="custom-input tracking-code-input rightTrackInput" maxlength="25" id="RhTrackingNumber" placeholder="کد رهگیری پستی ">
+                <input type="text" class="custom-input tracking-code-input centerTrackInput" maxlength="8" id="RhOrderId" placeholder=" شماره سفارش در سامانه پست بار   ">
+                <input type="text" class="custom-input tracking-code-input leftTrackInput" maxlength="14" id="RhMobile" placeholder=" شماره موبایل فرستنده یا گیرنده">
+            </div>
+            <a id="TrackShipment" class="pbtn btn custom-btn-01 btn-search-modal">
+                رهگیری
+                <span> بسته پستی</span>
+            </a>
+        </form>
+    </div>
+    @*<div class="panel panel-default" id="trackingResult" style="display:none">
+            <div class="panel-heading">نتیجه رهگیری</div>
+            <div class="panel-body">
+                <div id="accordion">
+                </div>
+            </div>
+        </div>*@
+    <div id="modalBody" class="modal modal_search" style="height:auto !important">
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('body').addClass('blocker-modal');
+        document.getElementById('RhTrackingNumber').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('RhOrderId').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('RhMobile').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('TrackingAllInput').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+
+        $('#TrackShipment').click(function () {
+            
+            $('#modalBody').html('');
+            var trackingNumber = $('#RhTrackingNumber').val();
+            var orderId = $('#RhOrderId').val();
+            var mobileNo = $('#RhMobile').val();
+            var allinput = $('#TrackingAllInput').val()
+            var data = { 'TrackingAllInput' : allinput,'trackingNumber': trackingNumber, 'orderId': orderId, 'MobileNo': mobileNo}
+            //addAntiForgeryToken(data );
+            $.ajax({
+                beforeSend: function () {
+                    $('.ajax-loading-block-window').show();
+                },
+                complete: function () {
+                    $('.ajax-loading-block-window').hide();
+                },
+                traditional: true,
+                type: "POST",
+                url: "@(Url.Action("GetTrackingResult", "ShipmentTracking"))",
+                data: data,
+                success: function (result) {
+                    if (result.data) {
+                        createDataView(result.data);
+                        $("#modalBody").modal({
+                            fadeDuration: 300
+                        });
+                    }
+                    else if (result.message)
+                        alert(result.message);
+                    else
+                        alert('اطلاعاتی جهت رهگیری مرسوله شما در دسترس نمی باشد');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('خطا در زمان رهگیری مرسولات، لطفا صفحه را رفرش کنید');
+                }
+            });
+        });
+    });
+    function CloseModal() {
+        $.modal.close();
+    }
+    function createDataView(data) {
+        var itemLinke = '';
+        var itemDiv = '';
+        var countr = 1;
+        var active = '';
+        $('#modalBody').html('');
+        $(data).each(function () {
+            
+            var crItem = this;
+            if (countr == 1)
+                active = 'show';
+            else
+                active = '';
+            countr++;
+            debugger;
+            var mLastSate = '';
+            if (crItem.AllState) {
+                var trackingResult = JSON.parse(crItem.AllState);
+
+                var masterRow = '';
+                var i = 0;
+                $.each(trackingResult, function () {
+                    var descItems = this.desc.split('،');
+                    i++;
+                    var innerRow = '';
+                    $.each(descItems, function () {
+                        var rowItem = this.split(':');
+                        innerRow += `<div class="row">
+                             <div class="col-lg-12">
+                                <span class="lbl2">
+                                <span class="fa fa-arrow-circle-left" style="margin-left:5px;">
+                                </span>${rowItem[0]}:</span>
+                                <span class="lbl3">${rowItem[1]}</span>
+                             </div>
+                          </div>`;
+                    });
+                    masterRow += `<div class="row">
+                       <div class="col-lg-1">${i}</div>
+                       <div class="col-lg-3">${this.date}</div>
+                       <div class="col-lg-8">
+                         ${innerRow}
+                       </div>
+                    </div><hr/>`
+                });
+                var container = `<div class="content">
+                    <div class="container">
+                   ${masterRow} 
+                    </div>
+                </div>`;
+                mLastSate = container;
+            }
+            else {
+                mLastSate = crItem.LastSates;
+            }
+            var html = `<div class="row">
+                    <div class="col-md-12">
+                        <!-- Table  -->
+                        <table class="table table-responsive-sm">
+                            <thead>
+                                <tr class="brd text-right">
+                                    <th></th>
+                                    <th class="td-header">نتیجه رهگیری آخرین مرسوله شما</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-right">
+                                `+(crItem.DataCollect?`
+                                <tr>
+                                    
+                                    <th scope="row">تاریخ جمع آوری</th>
+                                    <td>${crItem.DataCollect}</td>
+                                </tr>
+                            `: ``) +
+                            (mLastSate?`
+                                <tr>
+                                    
+                                    <td colspan="2" style="width:100%;font-size: 9pt;" id="mLastSate">${mLastSate}</td>
+                                </tr>
+                            `:``) +
+                            (crItem.ShippedDate ?`
+                                 <tr>
+                                    <th scope="row">تاریخ ارسال</th>
+                                    <td>${crItem.ShippedDate}</td>
+                                </tr>
+                            `: ``) +
+                            (crItem.DeliveryDate ?`
+                                 <tr>
+                                    <th scope="row">تاریخ تحویل</th>
+                                    <td>${crItem.DeliveryDate}</td>
+                                </tr>
+                            `: ``) +
+                            (crItem.SenderFullName ?`
+                                <tr>
+                                    <th scope="row">نام فرستنده</th>
+                                    <td>${crItem.SenderFullName}</td>
+                                </tr>
+                            `: ``) +
+                            (crItem.SenderAddress ?`
+                                <tr>
+                                    <th scope="row">آدرس فرستنده</th>
+                                    <td>${crItem.SenderAddress}</td>
+                                </tr>
+                            `: ``) +
+                            (crItem.ReceiverFullName ?`
+                                <tr>
+                                    <th scope="row">نام گیرنده</th>
+                                    <td>${crItem.ReceiverFullName}</td>
+                                </tr>
+                            `: ``) +
+                            (crItem.ReceiverAddress?`
+                                <tr>
+                                    <th scope="row">آدرس گیرنده</th>
+                                    <td>${crItem.ReceiverAddress}</td>
+                                </tr>
+                            `: ``) +`
+                            </tbody>
+                            <!-- Table body -->
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                        <div class="footer-modal-home">
+                            <div class="row">
+                               
+                                <div class="col-md-4">
+                                    <span>${crItem.ShipmentWeight ? crItem.ShipmentWeight:``}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span>کد رهگیری: ${crItem.TrackingNumber}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span>تاریخ ثبت: ${crItem.CreatedOn ? crItem.CreatedOn:`....`}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Table  -->
+                    </div>
+                    <a href="#" rel="modal:close"></a>
+                </div>`;
+            //var acardion = `<div class="card">
+            //              <div class="card-header">
+            //                <a class ="card-link" data-toggle="collapse" href="#collapse${countr}">
+            //                      رهگیری: ${crItem.TrackingNumber}
+            //                </a>
+            //             </div>
+            //              <div id="collapse${countr}" class = "collapse" data-parent="#accordion">
+            //                <div class="card-body">
+            //                ${html}
+            //                </div>
+            //              </div>
+            //            </div>`;
+
+            
+
+            $('#modalBody').append($(html));
+        });
+    }
+</script>
+

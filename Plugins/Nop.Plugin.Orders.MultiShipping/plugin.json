@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Order shippment",
+  "FriendlyName": "Orders multi shippment",
+  "SystemName": "Orders.MultiShipping",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "karimy.ehsan@gmail.com(E.Karimi)",
+  "DisplayOrder": 3,
+  "FileName": "Nop.Plugin.Orders.MultiShipping.dll",
+  "Description": ""
+}

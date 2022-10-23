@@ -1,0 +1,674 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.ExtendedShipmentSettingModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+<form id="frm_ExtendedOrderSetting" asp-controller="ExtendedOrderSetting" asp-action="Configure" method="post">
+    <nop-tabs id="ExtendedShipmentsetting">
+        <nop-tab asp-name="tab-setting" asp-title="تنظیمات" asp-default="true">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="StoreAdminRoleId" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-select asp-for="StoreAdminRoleId" asp-items="Model.RoleList" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostAdminRoleId" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-select asp-for="PostAdminRoleId" asp-items="Model.RoleList" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostmanRoleId" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-select asp-for="PostmanRoleId" asp-items="Model.RoleList" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostUserName" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-editor asp-for="PostUserName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostPassword" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-editor asp-for="PostPassword" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="StoreAdminMessageTemplate" value="" />
+                            </div>
+                            <div class="col-md-6">
+                                <nop-editor asp-for="StoreAdminMessageTemplate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostAdminMessageTemplate" />
+                            </div>
+                            <div class="col-md-6">
+                                <nop-editor asp-for="PostAdminMessageTemplate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostmanMessageTemplate" />
+                            </div>
+                            <div class="col-md-6">
+                                <nop-editor asp-for="PostmanMessageTemplate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="CustomerMessageTemplate" />
+                            </div>
+                            <div class="col-md-6">
+                                <nop-editor asp-for="CustomerMessageTemplate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="UpdateFromPostInterval" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-editor asp-for="UpdateFromPostInterval" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="PostType" />
+                            </div>
+                            <div class="col-md-3">
+                                <nop-editor asp-for="PostType" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-7 col-md-offset-5">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </nop-tab>
+        <nop-tab asp-name="tab-Codes" asp-title="کد پست(استان، شهرستان)">
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="CountryId">استان</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control valid" data-val="true" id="CountryId" name="CountryId">
+                        <option selected="selected" value="0">*</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="StateId">شهر گیرنده</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control valid" data-val="true" id="StateId" name="StateId">
+                        <option selected="selected" value="0">*</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="CountryCode">کد استان</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true"
+                           type="number"
+                           maxlength="6"
+                           max="999999"
+                           id="CountryCode" name="CountryCode" />
+                </div>
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="StateCode">کد گیرنده(کد شهر)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true"
+                           type="number"
+                           maxlength="6"
+                           max="999999"
+                           id="StateCode"
+                           name="StateCode" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="SenderStateCode">کد فرستنده(کد بازار متریال)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true"
+                           type="number"
+                           maxlength="6"
+                           max="999999"
+                           id="SenderStateCode"
+                           name="SenderStateCode" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-5">
+                    <input type="button" id="CountryStateCode_Save" name="save" class="btn bg-primary" value="ذخیره" />
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="countrStateCode-grid"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#countrStateCode-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                            read: {
+                                                /**/
+                                                url: "@Html.Raw(Url.Action("ReadCountryStateCode", "ExtendedOrderSetting"))",
+                                                /**/
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Id: { editable: false, type: "string" },
+                                                countryName: { editable: false, type: "string" },
+                                                stateName: { editable: false, type: "string" },
+                                                countryCode: { editable: false, type: "string" },
+                                                stateCode: { editable: false, type: "string" },
+                                                SenderStateCode: { editable: false, type: "string" }
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function (e) {
+                                        if (e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function (e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: 10,
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [10]
+                                },
+                                editable: {
+                                    confirmation: true,
+                                    mode: "inline"
+                                },
+                                filterable: true,
+                                sortable: true,
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "countryName",
+                                        title: "استان"
+                                    },
+                                    {
+                                        field: "countryCode",
+                                        title: "کد استان"
+                                    },
+                                    {
+                                        field: "stateName",
+                                        title: "شهر"
+                                    },
+                                     {
+                                        field: "stateCode",
+                                        title: "کد گیرنده",
+                                        filterable: false
+                                    }
+                                    ,
+                                    {
+                                        field: "SenderStateCode",
+                                        title: "کد فرستنده",
+                                        filterable: false
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    var ddlCountry = $("#CountryId");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        /**/
+                        url: "@(Url.Action("GetAllCountry", "ExtendedOrderSetting"))",
+                        /**/
+                        success: function (data) {
+                            ddlStates.html('');
+                            $.each(data, function (id, option) {
+                                ddlCountry.append($('<option></option>').val(option.Value).html(option.Text));
+                            });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed to retrieve country.');
+                        }
+                    });
+                    var ddlStates = $("#StateId");
+                    $(ddlCountry).change(function () {
+                        var selectedItem = $(this).val();
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            /**/
+                            url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                            /**/
+                            data: { "countryId": selectedItem, "addAsterisk": "true" },
+                            success: function (data) {
+                                ddlStates.html('');
+                                $.each(data, function (id, option) {
+                                    ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                });
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    });
+                    $('#CountryStateCode_Save').click(function () {
+                        if (!$(ddlCountry).val()) {
+                            alert('اتنخاب استان الزامی می باشد');
+                            return;
+                        }
+                        if (!$(ddlStates).val()) {
+                            alert('اتنخاب شهرستان الزامی می باشد');
+                            return;
+                        }
+                        if (!$('#CountryCode').val()) {
+                            alert('وارد کردن کد استان الزامی می باشد');
+                            return;
+                        }
+                        if (!$('#StateCode').val()) {
+                            alert('وارد کردن کد شهر گیرنده الزامی می باشد');
+                            return;
+                        }
+                        if (!$('#SenderStateCode').val()) {
+                            alert('وارد کردن کد شهر فرستنده الزامی می باشد');
+                            return;
+                        }
+                        var model = {
+                            countryId: $(ddlCountry).val()
+                            , stateId: $(ddlStates).val()
+                            , countryCode: $('#CountryCode').val()
+                            , stateCode: $('#StateCode').val()
+                            , SenderStateCode: $('#SenderStateCode').val()
+                        };
+                        addAntiForgeryToken(model);
+                        $.ajax({
+                            type: "POST",
+                            data: model,
+                            dataType: "json",
+                            url: "@(Url.Action("SaveCode", "ExtendedOrderSetting"))",
+                            success: function (data) {
+                                var grid = $('#countrStateCode-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(thrownError);
+                            },
+                            traditional: true
+                        });
+                    });
+                });
+            </script>
+        </nop-tab>
+        <nop-tab asp-name="tab-Barcode" asp-title="مخزن بارکد">
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @{
+                        Html.AddCssFileParts("~/lib/fineuploader/fineuploader-4.2.2.min.css");
+                        Html.AddScriptParts(ResourceLocation.Footer, "~/lib/fineuploader/jquery.fineuploader-4.2.2.min.js");
+                        var controlId = "BarcodeRepository";
+                        <div id="@(controlId)uploader"></div>
+                        <script type="text/template" id="@(controlId)-qq-template">
+                            <div class="qq-uploader-selector qq-uploader">
+                                <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                                    <span>@T("Common.FileUploader.DropFiles")</span>
+                                </div>
+                                <div class="qq-upload-button-selector qq-upload-button">
+                                    <div>@T("Common.FileUploader.Upload")</div>
+                                </div>
+                                <span class="qq-drop-processing-selector qq-drop-processing">
+                                    <span>@T("Common.FileUploader.Processing")</span>
+                                    <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                                </span>
+                                <ul class="qq-upload-list-selector qq-upload-list">
+                                    <li>
+                                        <div class="qq-progress-bar-container-selector">
+                                            <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                                        </div>
+                                        <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                                        <span class="qq-upload-file-selector qq-upload-file"></span>
+                                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                        <span class="qq-upload-size-selector qq-upload-size"></span>
+                                        <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">@T("Common.FileUploader.Cancel")</a>
+                                        <a class="qq-upload-retry-selector qq-upload-retry" href="#">@T("Common.FileUploader.Retry")</a>
+                                        <a class="qq-upload-delete-selector qq-upload-delete" href="#">@T("Common.FileUploader.Delete")</a>
+                                        <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                        <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#@(controlId)uploader").fineUploader({
+                                request: {
+                                    endpoint: '@Url.Action("SaveBarcodeExcelFile", "ExtendedOrderSetting")'
+                                },
+                                template: "@(controlId)-qq-template",
+                                multiple: false,
+                                validation: {
+                                    allowedExtensions: ['xsl','xlsx']
+                                }
+                            }).on("complete",
+                                function(event, id, name, responseJSON, xhr) {
+                                    if (responseJSON.success) {
+                                        var grid = $('#barcodeRepository-grid').data('kendoGrid');
+                                        grid.dataSource.read();
+                                    }
+                                    if (responseJSON.message) {
+                                        alert(responseJSON.message);
+                                    }
+                                });
+                        });
+                        </script>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="Barcode">بارکد</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true" type="text" id="Barcode" name="Barcode" />
+                </div>
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="StateId">کد محموله</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true" type="number" id="shipmentId" name="shipmentId" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-5">
+                    <input type="button" id="searchBarcode" name="searchBarcode" class="btn bg-primary" value="جستجو" />
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="barcodeRepository-grid"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#searchBarcode').click(function() {
+                                var grid = $('#barcodeRepository-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            });
+                            $("#barcodeRepository-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            /**/
+                                            url: "@Html.Raw(Url.Action("ReadBarcodeRepository", "ExtendedOrderSetting"))",
+                                            /**/
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: function() {
+                                                var Inputdata = {
+                                                    barcode: $('#Barcode').val(),
+                                                    shipmentId: $('#shipmentId').val()
+                                                };
+                                                addAntiForgeryToken(Inputdata);
+                                                return JSON.parse(JSON.stringify(Inputdata));
+                                            }
+                                        },
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Id: { editable: false, type: "number" },
+                                                Barcode: { editable: false, type: "string" },
+                                                ShipmentId: { editable: false, type: "number" },
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if (e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: 10,
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [10]
+                                },
+                                editable: {
+                                    confirmation: true,
+                                    mode: "inline"
+                                },
+                                filterable: true,
+                                sortable: true,
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "Barcode",
+                                        title: "بارکد"
+                                    },
+                                    {
+                                        field: "ShipmentId",
+                                        title: "کد محوله"
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </nop-tab>
+        <nop-tab asp-name="tab-categuryPostType" asp-title="نوع پست - دسته بندی محصولات">
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="categury">دسته بندی محصولات</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select id="categury" name="categury" class="form-control valid" data-val="true">
+                        @foreach (var item in Model.AllCategory)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="postType"> کد نوع پست</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control valid" data-val="true" type="number" id="postType" name="postType" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-5">
+                    <input type="button" id="SavePostTypeCategury" name="SavePostTypeCategury" class="btn bg-primary" value="ذخیره" />
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="categuryPostType-grid"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#SavePostTypeCategury').click(function () {
+                                var categuryId = $('#categury').val();
+                                var categuryText = $('#categury option:selected').text();
+                                var postType = $('#postType').val();
+                                if (!categuryId) {
+                                    alert('انتخاب دسته بندی الزامی می باشد');
+                                    return;
+                                }
+                                if (!postType) {
+                                    alert('وارد کردن کد نوع پست الزامی می باشد');
+                                    return;
+                                }
+                                var model = {
+                                    CateguryId: categuryId
+                                    , CateguryName: categuryText
+                                    , PostType: postType
+
+                                };
+                                addAntiForgeryToken(model);
+                                $.ajax({
+                                    type: "POST",
+                                    data: model,
+                                    dataType: "json",
+                                    url: "@(Url.Action("SaveCateguryPostType", "ExtendedOrderSetting"))",
+                                    success: function (data) {
+                                        var grid = $('#categuryPostType-grid').data('kendoGrid');
+                                        grid.dataSource.read();
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        alert(thrownError);
+                                    },
+                                    traditional: true
+                                });
+                            });
+                            $("#categuryPostType-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            /**/
+                                            url: "@Html.Raw(Url.Action("ReadCategoryPostType", "ExtendedOrderSetting"))",
+                                            /**/
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("DeleteCategoryPostType", "ExtendedOrderSetting"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                Id: { editable: false, type: "number" },
+                                                CateguryName: { editable: false, type: "string" },
+                                                PostType: { editable: false, type: "number" },
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if (e.type == "update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: 10,
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [10]
+                                },
+                                editable: {
+                                    confirmation: true,
+                                    mode: "inline"
+                                },
+                                filterable: true,
+                                sortable: true,
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "CateguryName",
+                                        title: "دسته بندی محصولات",
+                                    },
+                                    {
+                                        field: "PostType",
+                                        title: "کد نوع پست"
+                                    },
+                                     {
+                                        command: { name: "destroy", text: "@T("Admin.Common.Delete")" },
+                                        title: "@T("Admin.Common.Delete")",
+                                            width: 100
+                                    }
+                                ]
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </nop-tab>
+    </nop-tabs>
+</form>

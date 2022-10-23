@@ -1,0 +1,455 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.BillAndPaymentModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject INewCheckout _newCheckout
+@using Nop.Plugin.Orders.MultiShipping.Services;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_NewUiLayout.cshtml";
+    string msg = "";
+    bool canPay = true;
+
+    if (Model.SafeBuy) { canPay = false;
+        msg = "سفارش شما با موفقیت ثبت شد";// + Environment.NewLine + "";
+    }
+    else
+    if (Model != null && Model.FactorItems != null && Model.FactorItems.Any())
+    {
+        canPay = _newCheckout.CanPayForOrder(Model.FactorItems.First().OrderId, out msg);
+    }
+}
+<style>
+    @@media only screen and (min-width: 767px) {
+        .box {
+            margin-top: 80px !important;
+        }
+
+        .hr-val {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 767px) {
+        .paycontainer {
+            padding-right: 0px !important;
+        }
+
+        .hr-val {
+            width:100% !important;
+        }
+    }
+
+    .value {
+        background-color: transparent !important;
+        border: none;
+        box-shadow: none;
+        color: green !important;
+    }
+</style>
+@if (Model == null || Model.FactorItems == null || !Model.FactorItems.Any())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="padding: 50px;text-align: center;margin-top: 118px;background-color: white;border-radius: 10px;">
+                <span> اطلاعات سفارش شما دارای اشکال می باشد لطفا مجددا اقدام به ثبت سفارش بفرمایید</span>
+                <a href="/Order/Sh_Checkout" class="btn custom-btn-01" style="padding-left: 14px;">
+                    <i class="fa fa-plus" style="top: 2px;margin-left: 10px;margin-right: 5px;"></i>ثبت سفارش جدید
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+
+
+        <div class="row" id="rowmain">
+            <div class="col-xs-12 col-sm-6 col-md-1"></div>
+            <div class="col-xs-12 col-sm-6 col-md-10">
+                <div class="box">
+                    @*<div class="img-logo">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="/Themes/PostexNew/images/logoNav.png" alt="" style="width: 70px;">
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="details-factor">
+                        <div class="row">
+                            @*<div class="col-md-3 col-lg-3">
+                                    <span>سفارش شماره:@(item.OrderId)</span>
+                                </div>*@
+                            <div class="col-md-3 col-lg-3">
+                                @if (Model != null && Model.FactorItems != null && Model.FactorItems.Any())
+                                {
+                                    <span>تاریخ :@(Model.FactorItems.First().CreateDate.ToString())</span>
+                                }
+                            </div>
+                            <div class="col-md-3 col-lg-4">
+                                @if (Model != null && Model.FactorItems != null && Model.FactorItems.Any())
+                                {
+                                    <span style="color:#ffa318">شماره سفارش : @(Model.FactorItems.First().OrderId)</span>
+                                }
+                            </div>
+                            <div class="col-md-2  col-lg-2">
+                                <span>www.postex.ir</span>
+                            </div>
+                        </div>
+                    </div>
+                    @foreach (var item in Model.FactorItems)
+                    {
+
+                        <div class="container" style="padding-left:0px !important;padding-right:0px !important">
+                            <div class="row">
+                                <div class="col-md-12" id="accordion" style="padding:0px !important">
+
+
+                                    <div class="card">
+                                        <div class="card-header" style="background-color: #E7E7E7;">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse@(item.ShipmentId)" aria-expanded="true" style="font-size:8pt !important">
+                                                پیش فاکتور پستی و خدمات فنی محموله شماره :
+                                                @(item.ShipmentId)
+                                            </a>
+                                        </div>
+                                        <div id="collapse@(item.ShipmentId)" class="collapse">
+                                            <div class="card-body" style="padding:0px !important;font-size:7pt !important">
+                                                <div class="row  ">
+                                                    <div class="col-md-3 text-center"><span>خدمات پستی</span></div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-md-12">
+                                                        <div class="tbl_1">
+                                                            <table class="table">
+                                                                <thead class="thead-light">
+                                                                    <tr class="brd">
+                                                                        <th scope="col">ردیف</th>
+                                                                        <th scope="col">شرح</th>
+                                                                        <th scope="col">تعداد</th>
+                                                                        <th scope="col">(ريال)قیمت</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var PItem in item.PostItems)
+                                                                    {
+                                                                        <tr>
+                                                                            <th scope="row">@(PItem.RowNumber)</th>
+                                                                            <td>@(PItem.description)</td>
+                                                                            <td>@(PItem.Count)</td>
+                                                                            <td>@(PItem.Price.ToString("N0")) </td>
+                                                                        </tr>
+                                                                    }
+                                                                    @if (item.hasPostPriceTax)
+                                                                    {
+                                                                        <tr>
+                                                                            <th scope="row">@(item.PostItems.Max(p => p.RowNumber) + 1)</th>
+                                                                            <td>مالیات بر ارزش افزوده</td>
+                                                                            <td>1</td>
+                                                                            <td>@(((item.PostItems.Sum(p => p.Price) * 9) / 100).ToString("N0")) ريال </td>
+                                                                        </tr>
+                                                                    }
+                                                                    <tr>
+                                                                        <th scope="row"></th>
+                                                                        <td></td>
+                                                                        <td>جمع</td>
+                                                                        <td>@(((item.PostItems.Sum(p => p.Price)) + (item.hasPostPriceTax ? ((item.PostItems.Sum(p => p.Price) * 9) / 100) : 0)).ToString("N0")) ريال شامل مالیات </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-md-3 text-center"><span> خدمات فنی و پشتیبانی</span></div>
+                                                    @*<div class="col-md-4"><a class="btn custom-btn-03">شماره سفارش : @(item.OrderId)</a></div>*@
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-md-12">
+                                                        <table class="table">
+                                                            <thead class="">
+                                                                <tr class="brd">
+                                                                    <th scope="col">ردیف</th>
+                                                                    <th scope="col">شرح</th>
+                                                                    <th scope="col">تعداد</th>
+                                                                    <th scope="col">(ريال)قیمت</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var EItem in item.EngItems)
+                                                                {
+                                                                    <tr>
+                                                                        <th scope="row">1</th>
+                                                                        <td>@(EItem.description)</td>
+                                                                        <td>@(EItem.Count)</td>
+                                                                        <td>@(EItem.Price.ToString("N0")) </td>
+                                                                    </tr>
+                                                                }
+                                                                @if (!item.EngItems.Any(p => p.description.Contains("مالیات")))
+                                                                {
+                                                                    <tr>
+                                                                        <th scope="row">2</th>
+                                                                        <td>مالیات بر ارزش افزوده</td>
+                                                                        <td>1</td>
+                                                                        <td>@(((item.EngItems.Where(p => p.description != "تخفیف").Sum(p => p.Price) * 9) / 100).ToString("N0")) </td>
+                                                                    </tr>
+                                                                }
+                                                                <tr>
+                                                                    <th scope="row"></th>
+                                                                    <td></td>
+                                                                    <td>جمع</td>
+                                                                    @if (!item.EngItems.Any(p => p.description.Contains("مالیات")))
+                                                                    {
+                                                                        <td>@(((item.EngItems.Where(p => p.description != "تخفیف").Sum(p => p.Price) + (item.EngItems.Where(p => p.description != "تخفیف" ).Sum(p => p.Price) * 9) / 100) - (item.EngItems.Where(p => p.description == "تخفیف").Sum(p => p.Price))).ToString("N0"))</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>@((item.EngItems.Where(p => p.description != "تخفیف").Sum(p => p.Price) - (item.EngItems.Where(p => p.description == "تخفیف").Sum(p => p.Price))).ToString("N0"))</td>
+                                                                    }
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    <div class="card">
+                        <div class="card-header">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                <i class="fa fa-credit-card" aria-hidden="true" style="top:2px;margin-left:10px"></i>پرداخت
+                            </a>
+                        </div>
+                        <div id="collapseThree" class="form-inline">
+                            <div class="col-md-12 paycontainer" style="padding-right: 50px;padding-top: 20px;padding-bottom: 20px;">
+                                <div class="details-tbl-1 ">
+                                    <div class="row">
+                                        <div class="col-md-6 text-center">
+                                            <div class="sum-res">
+                                                <span>مجموع سفارش:</span>
+                                                <button class="btn btn-success basebtn value">@(Model.FactorItems.Sum(p => p.OrderTotal).ToString("N0")) ريال</button>
+                                            </div>
+                                        </div>
+                                        <hr class="hr-val" />
+                                        @if (Model.FactorItems.Any(p => p.discountbyRule > 0))
+                                        {
+                                            <div class="col-md-6 text-center">
+                                                <div class="sum-res">
+                                                    <span style="font-size: 10pt !important;">این مبلغ پس از پرداخت به عنوان هدیه به کیف پول شما واریز می شود:</span>
+                                                    <button class="btn btn-success basebtn value">@(Model.FactorItems.Sum(p => p.discountbyRule).ToString("N0")) ريال</button>
+                                                </div>
+                                            </div>
+                                            <hr class="hr-val" />
+                                        }
+                                    </div>
+                                    <div class="row ">
+                                        <div class="section payment-method" style="width:100%">
+                                            <form asp-route="_Sh_ConfirmAndPay" id="Pay_Confrim" method="post">
+                                                <input type="hidden" id="isFromApp" name="isFromApp" />
+                                                <input type="hidden" id="isForeign" name="isForeign" value="@(Model.FactorItems.Any(p=> p.IsForeign)?"true":"false")" />
+                                                <input type='hidden' id="orderId" name="orderId" value="@(Model.FactorItems[0].OrderId)" />
+                                                <input type='hidden' id="UseRewardPoints" name="UseRewardPoints" value="false" />
+                                                @if (!canPay)
+                                                {
+                                                    <h3 class="paynotif">@msg</h3>
+                                                }
+                                                @if (Model.PaymentMethods != null && canPay)
+                                                {
+                                                    <div class="row">
+                                                        @if (Model.PaymentMethods.DisplayRewardPoints && Model.PaymentMethods.PaymentMethods.Count > 0)
+                                                        {
+                                                            <div class="use-reward-points col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                                                <div class="card" style="margin:5px">
+                                                                    <div class="card-body">
+                                                                        <div class="payment-logo">
+                                                                            <label for="paymentmethod_500">
+                                                                                <img src="~/Plugins/Orders.MultiShipping/Content/Wallet.jpg" style="width:80px" alt="پرداخت با کیف پول" />
+                                                                            </label>
+                                                                        </div>
+                                                                        <input type="checkbox" id="_UseRewardPoints" />
+                                                                        <label for="UseRewardPoints" class="card-title">پرداخت با کیف پول. موجودی شما :@(Model.PaymentMethods.RewardPointsBalance) ريال</label>
+                                                                        @*@if (Model.PaymentMethods.RewardPointsEnoughToPayForOrder)
+                                                                            {*@
+                                                                        <script type="text/javascript">
+                                                                            $(document).ready(function () {
+                                                                                $("#_UseRewardPoints").change(toggleUseRewardPoints);
+                                                                                toggleUseRewardPoints();
+                                                                            });
+                                                                            function toggleUseRewardPoints() {
+                                                                                $('#UseRewardPoints').val($('#_UseRewardPoints').is(':checked'));
+                                                                                if ($('#_UseRewardPoints').is(':checked')) {
+                                                                                    $('.payment-method-block').hide();
+                                                                                } else {
+                                                                                    $('.payment-method-block').show();
+                                                                                }
+                                                                            }
+                                                                        </script>
+                                                                        @*}*@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        @if (Model.PaymentMethods.PaymentMethods.Count > 0)
+                                                        {
+
+                                                            @for (var i = 0; i < Model.PaymentMethods.PaymentMethods.Count; i++)
+                                                            {
+                                                                var paymentMethod = Model.PaymentMethods.PaymentMethods[i];
+                                                                var paymentMethodName = paymentMethod.Name;
+                                                                if (paymentMethod.PaymentMethodSystemName.ToLower().Contains("wallet"))
+                                                                {
+                                                                    continue;
+                                                                }
+                                                                if (!string.IsNullOrEmpty(paymentMethod.Fee))
+                                                                {
+                                                                    paymentMethodName = T("Checkout.SelectPaymentMethod.MethodAndFee", paymentMethodName, paymentMethod.Fee).Text;
+                                                                }
+                                                                <div class="payment-method-block col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                                                    <div class="card" style="margin:5px">
+                                                                        <div class="card-body">
+                                                                            <div class="method-name">
+                                                                                @if (!string.IsNullOrEmpty(paymentMethod.LogoUrl))
+                                                                                {
+                                                                                    <div class="payment-logo">
+                                                                                        <label for="paymentmethod_@(i)">
+                                                                                            <img src="@paymentMethod.LogoUrl" alt="@paymentMethodName"  style="width: auto"/>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                }
+                                                                                <div class="payment-details">
+                                                                                    <input id="paymentmethod_@(i)" type="radio" name="paymentmethod" value="@(paymentMethod.PaymentMethodSystemName)" />
+                                                                                    <label for="paymentmethod_@(i)">@paymentMethodName</label>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="message-error">
+                                                                @T("Checkout.NoPaymentMethods")
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="clearfix" style="margin: 5rem"></div>
+                                <div class="factor-btn-footer ">
+                                    <div class="row">
+                                        <div class="col-md-6 ">
+                                            <div class="btn-footer-res text-center">
+                                                <a class="btn btn-warning basebtn" id="CancelOrder" style="cursor:pointer"> <i class="fas fa-times"></i>لغو</a>
+                                                <a href="/Order/Sh_Checkout" class="btn btn-info basebtn"> <i class="fa fa-plus"></i>ثبت سفارش جدید</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            <div class="final-btn">
+                                                <a class="btn btn-success basebtn" id="ConfirmAndPay">@((Model.FactorItems.Any(p => p.IsCod || p.IsForeign) || !canPay) ? "تایید و ادامه" : "تایید و پرداخت")<i class="fa fa-chevron-left"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:50px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-1"></div>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+
+        $('.top-bar').hide();
+            $('#ConfirmAndPay').click(function () {
+                $('#isFromApp').val(isAndroid());
+            if ($('.payment-method').find('input[type="radio"]').length > 0 || $('#_UseRewardPoints').is(':visible')) {
+                if ($('.payment-method').find('input[type="radio"]:checked').length == 0 && !$('#_UseRewardPoints').is(':checked')) {
+                    alert('انتخاب روش پرداخت الزامی می باشد');
+                    return;
+                }
+            }
+            $(".container ,nav").css({"filter": "blur(5px)"});
+            $("body").css({"overflowY": "hidden",});
+
+            setTimeout(function () {
+                $(".container ,nav").css({"opacity": "1", "filter": "blur(0px)"});
+                $("body").css({"overflowY": "auto"});
+            },15000);
+            $('#Pay_Confrim').submit();
+            return;
+        });
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+        var msgId = getUrlParameter('msg');
+        if(msgId==1)
+        {
+            alert('سفارش شما کنسل شده و امکان پرداخت برای آن وجود ندارد');
+        }
+        else if(msgId==2)
+        {
+            alert('موجودی کیف پول شما باید حداقل به اندازه مبلغ سفارش باشد');
+        }
+        else if(msgId==3)
+        {
+            alert('روش پرداخت انتخابی نامعتبر می باشد');
+        }
+        $('#CancelOrder').click(function () {
+            $.ajax({
+                beforeSend: function () {
+                    $('.ajax-loading-block-window').show();
+                },
+                complete: function () {
+                    $('.ajax-loading-block-window').hide();
+                },
+                type: "POST",
+                url: '@Url.Action("CancelOrder", "ShipitoCheckout")',
+                data: { "id": @( (Model != null && Model.FactorItems != null && Model.FactorItems.Any()) ? Model.FactorItems[0].OrderId : 0) },
+                success: function (result) {
+                    if(result.message)
+                        alert(result.message);
+                    if (result.success == true) {
+                        window.location = '@(Url.RouteUrl("_Sh_Checkout"))';
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('کاربر گرامی در زمان ثبت انصراف از سفارش شما اشکالی به وجود آمده، لطفا ارتباط اینترنتی دستگاه خود را بررسی کنید');
+                }
+            });
+        });
+        $('.payment-method').find('.card').css('height','162px');
+    });
+    </script>
+}

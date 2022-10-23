@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Communication Ways",
+  "FriendlyName": "Ticket,FAQ,...",
+  "SystemName": "Misc.Ticket",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "PostBar team,Ghasemian",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.Ticket.dll",
+  "Description": "This plugin offers Communication Ways Such as Ticket,FAQ,..."
+}

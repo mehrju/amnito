@@ -1,0 +1,318 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.Tbl_Carousel_slideshow
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+<script>
+        $(document).ready(function () {
+        
+            $(BtnInsertTicket).click(function () {
+                debugger;
+                var title = Title_Carousel_slideshow.value;
+                var Dis = Discrition_Carousel_slideshow.value;
+                var urlpage = UrlPage.value;
+                var isvideo = IsVideo.value;
+                var _timeinterval = TimeInterval.value;
+                var ds = DateStart.value;
+                var de = DateExpire.value;
+                var strores = StoreId.value;
+                var stores = []; 
+                $("#StoreId :selected").each(function(){
+                 stores.push($(this).val()+","); 
+                 });
+                    //_StoreList StoreId.value;$('#_StoreList').val();
+                if (title == "" || title == null)
+                {
+                    alert("کاربر گرامی عنوان وارد بفرمایید");
+                    return;
+                }
+                if (stores == null) {
+                    alert("کاربر گرامی فروشگاه را انتخاب بفرمایید");
+                    return;
+                }
+                if (ds == "" || ds == null)
+                {
+                    alert("کاربر گرامی تاریخ شروع را انتخاب  بفرمایید");
+                    return;
+                }
+                //if (file1.files[0] == null && file1.files[0] == "") {
+                //    alert("کاربر گرامی عکس انتخاب بفرمایید");
+                //    return;
+                //}
+
+                else {
+                    //stop submit the form, we will post it manually.
+                    event.preventDefault();
+
+
+                     @*var state_update = false;
+                    if (@Model.NameTopic4Edit!= null ||@Model.NameTopic4Edit!= "")
+                    {
+                        state_update = true;
+                    }*@
+
+                    debugger;
+
+                    var fdInsertTicket = new FormData();
+                   //params
+                    fdInsertTicket.append('Title', title);
+                    fdInsertTicket.append('UrlPage', urlpage);
+                    fdInsertTicket.append('Dis', Dis);
+                    fdInsertTicket.append('IsVideo', isvideo);
+                    fdInsertTicket.append('Id', @Model.Id);
+                    fdInsertTicket.append('TimeInterval', _timeinterval);
+                    fdInsertTicket.append('_DS', ds);
+                    fdInsertTicket.append('_DE', de);
+                    fdInsertTicket.append('_Store', stores);
+
+                    //file
+                    if (file1.files[0] != null && file1.files[0] != "") {
+                        fdInsertTicket.append('_files', file1.files[0],"Des");
+                    }
+                     if (file2.files[0] != null && file2.files[0] != "") {
+                        fdInsertTicket.append('_files', file2.files[0],"Mobile");
+                    }
+                    if (file3.files[0] != null && file3.files[0] != "") {
+                        fdInsertTicket.append('_files', file3.files[0],"video");
+                    }
+                    // disabled the submit button
+                    $(BtnInsertTicket).prop("disabled", true);
+
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        //dataType: "json",
+                        url:"@(Url.Action("SlideShowDashboard", "ManageSlideShow"))",
+                        data: fdInsertTicket,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+
+                            alert("با موفقیت ثبت شد");
+                            $(BtnInsertTicket).prop("disabled", false);
+                            //location.reload();
+                            location.href = "../";
+                        },
+                        error: function (data) {
+
+                            if (data.status == 110) {
+                                alert("کاربر گرامی عنوان انتخاب فرمایید");
+                                return;
+                            }
+                            if (data.status == 111) {
+                                alert("کاربر گرامی صفحه ای با دسته بندی انتخاب شده در لیست وجود دارد، صفحه ای تکراری نمیتوانید ثبت کنید");
+                                return;
+                            }
+                            if (data.status == 112) {
+                                alert("کاربر گرامی فایل عکسی انتخاب بفرمایید");
+                                return;
+                            }
+                            if (data.status == 113) {
+                                alert("حجم فایل انتخاب شده بیش از 3 مگا بایت میباشد");
+                                return;
+                            }
+                            $(BtnInsertTicket).prop("disabled", false);
+
+                        }
+                    });
+
+
+                }
+
+
+
+            });
+
+        });
+</script>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="IsVideo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsVideo" tabindex="1" />
+                        <span asp-validation-for="IsVideo"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Title_Carousel_slideshow" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Title_Carousel_slideshow" tabindex="2" />
+                        <span asp-validation-for="Title_Carousel_slideshow"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <nop-label asp-for="StoreId" />
+                    </div>
+                    <div class="col-md-8">
+                        <nop-select asp-for="StoreId" asp-items="Model.ListStores" id="_StoreList" asp-multiple="true" />
+                        @*<select class="js-example-basic-single" name="state" asp-for="SearchCategoryId" id="ahmad"></select>*@
+                    </div>
+                </div>
+                <div id="divbaner">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Discrition_Carousel_slideshow" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="Discrition_Carousel_slideshow" tabindex="3" />
+                            <span asp-validation-for="Discrition_Carousel_slideshow"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="UrlPage" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UrlPage" tabindex="4" />
+                            <span asp-validation-for="UrlPage"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>انتخاب عکس(اندازه عکس:طول 1100 پیکس، ارتفاع 500 پیکس باشد)</span>
+                            <i class="fa fa-upload" onclick="return file1.click()" style="text-align:center;width:200px;"></i>
+                            <input type="file" tabindex="6" name="files" id="file1" accept=".jpg" style="display:none;" onchange="updateInput1(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload1" style="font-size:12px; text-align:center;direction:ltr;"></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>انتخاب عکس در حالت موبایل(اندازه عکس:طول .... پیکس، ارتفاع .... پیکس باشد)</span>
+                            <i class="fa fa-upload" onclick="return file2.click()" style="text-align:center;width:200px;"></i>@*,.png*@
+                            <input type="file" tabindex="7" name="files" id="file2" accept=".jpg" style="display:none;" onchange="updateInput2(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload2" style="font-size:12px; text-align:center;direction:ltr;"></label>
+                    </div>
+                </div>
+
+                <div id="divvideo">
+
+                    <div class="form-group">
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>انتخاب ویدئو</span>
+                            <i class="fa fa-upload" onclick="return file3.click()" style="text-align:center;width:200px;"></i>@*,.png*@
+                            <input type="file" tabindex="7" name="files" id="file3" accept="video/mp4,video/x-m4v" style="display:none;" onchange="updateInput3(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload3" style="font-size:12px; text-align:center;direction:ltr;"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TimeInterval" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TimeInterval" tabindex="1" />
+                        <span asp-validation-for="TimeInterval"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="DateStart" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DateStart" tabindex="3" />
+                        <span asp-validation-for="DateStart"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="DateExpire" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DateExpire" tabindex="4" />
+                        <span asp-validation-for="DateExpire"></span>
+                    </div>
+                </div>
+
+
+                <button id="BtnInsertTicket" tabindex="4" class="btn btn-blue-theme" style="text-align:center;background-color:blue;color:white;">
+                    ثبت
+                    <i class="fa fa-edit"></i>
+                </button>
+            </div>
+            <div class="col-md-6" id="divpicbaner">
+                <div class="col-md-3">
+                    <span>عکس </span>
+                    <a href="/@Model.UrlImage" style="text-align:center;">
+                        <img src="/@Model.UrlImage" alt="image">
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <span>عکس حالت موبایل </span>
+                    <a href="/@Model.UrlImageMobile" style="text-align:center;">
+                        <img src="/@Model.UrlImageMobile" alt="image">
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function updateInput1(ish) {
+        document.getElementById("LabelfileUpload1").innerHTML = ish;
+    }
+    function updateInput2(ish) {
+        document.getElementById("LabelfileUpload2").innerHTML = ish;
+    }
+    function updateInput3(ish) {
+        document.getElementById("LabelfileUpload3").innerHTML = ish;
+    }
+</script>
+<style>
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 150px;
+    }
+
+        img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>
+<script type="text/javascript">
+
+            $(document).ready(function()
+            {
+                toggleTax();
+                $("#@Html.IdFor(model => model.IsVideo)").click(toggleTax);
+        });
+
+    function toggleTax() {
+        debugger;
+        if ($('#@Html.IdFor(model => model.IsVideo)').is(':checked')) {
+            $('#divvideo').show();
+            IsVideo.value=true;
+            $('#divpicbaner').hide();
+            $('#divbaner').hide();
+
+        }
+        else {
+            $('#divvideo').hide();
+            IsVideo.value=false;
+            $('#divpicbaner').show();
+            $('#divbaner').show();
+
+        }
+    }
+
+</script>

@@ -1,0 +1,1062 @@
+﻿@model Nop.Web.Areas.Admin.Models.Orders.OrderModel
+@using Nop.Core.Domain.Tax;
+@using Nop.Core.Domain.Orders;
+@using Nop.Services;
+@using Nop.Core;
+@using  Nop.Core.Domain.Customers;
+@inject IWorkContext _workContext;
+<script>
+    var modalcancel ='#modalcancel';
+    $(document).ready(function () {
+
+          var postData = {};
+            addAntiForgeryToken(postData);
+           $.ajax({
+                cache: true,
+                type: "GET",
+                url: "@(Url.Action("GetListCancellDescriptionAnswer", "MultiShippingCheckout"))",
+                data: postData,
+               success: function (data) {
+                     $('#IdDesCancalSelect').empty();
+                    $('#IdDesCancalSelect').append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $('#IdDesCancalSelect').append(new Option(item.Text, item.Value, false, false));
+                    });
+                    //$('#IdDesCancalSelect').select2();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+           });
+
+
+
+        $("#BtnInsertCancelReason").click(function () {
+            var statesProgress = $("#states-loading-progress");
+            statesProgress.show();
+            var iddis1 = $('#IdDesCancalSelect').val();
+            console.log(iddis1);
+
+            if (iddis1==0) {
+                alert('دلیل کنسلی را انتخاب نمایید');
+                return;
+            }
+            else {
+                var cancelOrderCostInfos = $('.hasValue').map(function () {
+                    return {
+                        Type: $(this).data("type"),
+                        EnteredValue: $(this).data("enteredValue"),
+                        AttrId: $(this).data("attrId")
+                    }
+                }).get();
+                var postData = {
+                    IdOrder: @(Model.Id),
+                    idDescription: iddis1,
+                    cancelOrderCostInfos: cancelOrderCostInfos
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    url: '@(Url.Action("PreCancelOrder", "ManageCancelOrderReason"))',
+                    data: postData,
+                    type: "POST",
+                    success: function (data) {
+                         if (data.status == 400) {
+                            $(modalcancel).modal('hide');
+                            alert("خطایی اتفاق افتاده است");
+                            return;
+                        }
+                        if (data.message)
+                            alert(data.message);
+                        else {
+                            alert("با موفقیت ثبت شد");
+                            $("#cancelorder").click();
+                        }
+                        $(modalcancel).modal('hide');
+                    },
+                    error: function (data) {
+                        if (data.status == 110) {
+                            alert("کاربر غیرمجاز");
+                            $(modalcancel).modal('hide');
+                            return;
+                        }
+
+                        statesProgress.hide();
+                    }
+                });
+                $(modalcancel).hide();
+            }
+        });
+    })
+
+</script>
+<script>
+
+    function completeOrderClick(id) {
+        if (confirm("آیا وضعیت سفارش به تکمیل تغییر یابد ؟")) {
+            $.ajax({
+                cache: true,
+                type: "GET",
+                url: "@(Url.Action("SetOrderToComplite", "ManageCancelOrderReason"))?orderId=" + id,
+                success: function (data) {
+                    if (data) {
+                        alert("با موفقیت انجام شد");
+                        location.reload();
+                    }
+                    else {
+                        alert("خطا در انجام عملیات")
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در انجام عملیات');
+                }
+           });
+        }
+
+    }
+
+
+    function mcancel(id) {
+
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url:  "@(Url.Action("GetOrderItemsCost", "MultiShippingCheckout"))?orderId=" + id,
+            success: function (data) {
+                if (data) {
+                    var singleEl = '<div class="col-md-6" style="border: 1px solid;height: 112px;"></div>'
+                    var jEl = $(singleEl);
+                    $('#order-cancel').html('');
+                    for (var i = 0; i < data.length; i++) {
+                        var current = data[i];
+                        var newJEl = jEl.clone();
+                        var innerElements = "<div class='row' style='background-color: #f5f5f5;'><input type='checkbox' onchange='changeEnable(`" + current.AttrId +"`)' style='position:inherit !important; min-width: 45px;margin-top: 15px;margin-bottom: 12px;'>" + current.Name + "</div>";
+                        innerElements += `<div class='row' class="" disabled='disabled' id='content_` + current.AttrId +`'>
+                        <div class='col-md-6'><input disabled type='radio' checked='checked' name="`+ current.AttrId + `" onchange="enteredPriceChanged('` + current.AttrId + `')" id="` + current.AttrId + `_Cost" value="` + current.Cost + `" style="text-decoration: underline !important;">هزینه : ` + current.Cost + `</div>
+                        <div class='col-md-6'><input disabled type='radio' name="`+ current.AttrId + `" onchange="enteredPriceChanged('` + current.AttrId + `')" id="` + current.AttrId + `_Price" value="` + current.Price + `" style="text-decoration: underline !important;">مبلغ دریافتی : ` + current.Price + `</div>
+                        <div calss='row'><input disabled type='radio' class='col-md-1' name="`+ current.AttrId + `" onchange="enteredPriceChanged('` + current.AttrId + `')" value="0" style="text-decoration: underline !important;">مقدار دستی : <input disabled type='number' id="` + current.AttrId + `_Custom" oninput="enteredPriceChanged('` + current.AttrId +`')" ></div>
+                        </div>`;
+                        newJEl.html(innerElements);
+                        $('#order-cancel').append(newJEl.clone());
+                    }
+                    $(modalcancel).modal('show', { backdrop: 'static' });
+                    $(modalcancel).appendTo("body");
+                }
+                else {
+                    alert("خطا در انجام عملیات")
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('خطا در انجام عملیات');
+            }
+        });
+
+    }
+
+    function changeEnable(name) {
+        var status = $("#content_" + name).attr('disabled');
+        if (status == 'disabled') {
+            $("#content_" + name).removeAttr('disabled');
+            $("#content_" + name).find('*').removeAttr('disabled');
+            $("#content_" + name).addClass('hasValue');
+            enteredPriceChanged(name);
+        }
+        else {
+            $("#content_" + name).attr('disabled', 'disabled');
+            $("#content_" + name).find('*').prop('disabled', 'disabled');
+            $("#content_" + name).removeClass('hasValue');
+        }
+
+    }
+
+
+    function enteredPriceChanged(name) {
+        if ($("#" + name + "_Price").is(':checked')) {
+            $("#content_" + name).data('enteredValue', $("#" + name + "_Price").val());
+            $("#content_" + name).data('type', 'Price');
+            $("#content_" + name).data('attrId', name);
+        }
+        else if ($("#" + name + "_Cost").is(':checked')) {
+            $("#content_" + name).data('enteredValue', $("#" + name + "_Cost").val());
+            $("#content_" + name).data('type', 'Cost');
+        }
+        else {
+            $("#content_" + name).data('enteredValue', $("#" + name + "_Custom").val());
+            $("#content_" + name).data('type', 'Custom');
+        }
+        $("#content_" + name).data('attrId', name);
+    }
+
+</script>
+@if (!Model.IsLoggedInAsVendor)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toggleChangeOrderStatus(false);
+            toggleOrderTotals(false);
+            toggleCC(false);
+        });
+
+        function toggleChangeOrderStatus(editmode) {
+            if (editmode) {
+                $('#pnlChangeOrderStatus').show();
+                $('#btnChangeOrderStatus').hide();
+            } else {
+                $('#pnlChangeOrderStatus').hide();
+                $('#btnChangeOrderStatus').show();
+            }
+        }
+
+        function toggleOrderTotals(editmode) {
+            if (editmode) {
+                $('#trEditOrderTotals').show();
+                $('#btnEditOrderTotals').hide();
+                $('#btnSaveOrderTotals').show();
+                $('#btnCancelOrderTotals').show();
+            } else {
+                $('#trEditOrderTotals').hide();
+                $('#btnEditOrderTotals').show();
+                $('#btnSaveOrderTotals').hide();
+                $('#btnCancelOrderTotals').hide();
+            }
+        }
+
+        function toggleCC(editmode) {
+            if (editmode) {
+                $('#lblCardType').hide();
+                $('#@Html.IdFor(model => model.CardType)').show();
+                $('#lblCardName').hide();
+                $('#@Html.IdFor(model => model.CardName)').show();
+                $('#lblCardNumber').hide();
+                $('#@Html.IdFor(model => model.CardNumber)').show();
+                $('#lblCardCvv2').hide();
+                $('#@Html.IdFor(model => model.CardCvv2)').show();
+                $('#lblCardExpirationMonth').hide();
+                $('#@Html.IdFor(model => model.CardExpirationMonth)').show();
+                $('#lblCardExpirationYear').hide();
+                $('#@Html.IdFor(model => model.CardExpirationYear)').show();
+                $('#btnEditCC').hide();
+                $('#btnSaveCC').show();
+                $('#btnCancelCC').show();
+            } else {
+                $('#lblCardType').show();
+                $('#@Html.IdFor(model => model.CardType)').hide();
+                $('#lblCardName').show();
+                $('#@Html.IdFor(model => model.CardName)').hide();
+                $('#lblCardNumber').show();
+                $('#@Html.IdFor(model => model.CardNumber)').hide();
+                $('#lblCardCvv2').show();
+                $('#@Html.IdFor(model => model.CardCvv2)').hide();
+                $('#lblCardExpirationMonth').show();
+                $('#@Html.IdFor(model => model.CardExpirationMonth)').hide();
+                $('#lblCardExpirationYear').show();
+                $('#@Html.IdFor(model => model.CardExpirationYear)').hide();
+                $('#btnEditCC').show();
+                $('#btnSaveCC').hide();
+                $('#btnCancelCC').hide();
+            }
+        }
+    </script>
+}
+<div class="panel-group">
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_details_info_top", additionalData = Model.Id })
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @if (!Model.IsLoggedInAsVendor)
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="OrderStatus" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-short">
+                            <div class="input-group-text">
+                                <strong>
+                                    <div class="form-text-row">@Model.OrderStatus</div>
+                                </strong>
+                            </div>
+
+                            <div class="input-group-btn">
+                                @if (Model.CanCancelOrder)
+                                {
+                                    <button type="button" name="_cancelorder" id="_cancelorder" onclick="mcancel(@Model.Id)" class="btn bg-red" style="margin-right: 3px;">
+                                        @T("Admin.Orders.Fields.OrderStatus.Cancel")
+                                    </button>
+                                    <button id="cancelorder" name="cancelorder" style="display:none" type="submit" class="btn btn-primary">بله</button>
+                                    @*<nop-action-confirmation asp-button-id="BtnInsertCancelReason" />*@
+                                }
+                                @if (Model.OrderStatusId != 40 && _workContext.CurrentCustomer.IsInCustomerRole("Administrators"))
+                                {
+                                    <button type="submit" name="btnChangeOrderStatus" onclick="toggleChangeOrderStatus(true);return false;" id="btnChangeOrderStatus" class="btn btn-primary">
+                                        @T("Admin.Orders.Fields.OrderStatus.Change")
+                                    </button>
+                                    <div id="pnlChangeOrderStatus" style="margin-top: 3px;">
+                                        sdfsdfsdf
+                                        <nop-select asp-for="OrderStatusId" asp-items="@(((OrderStatus)Model.OrderStatusId).ToSelectList().Where(p => p.Value != "40").ToList())" />
+                                        <button type="submit" name="btnSaveOrderStatus" id="btnSaveOrderStatus" class="btn btn-primary" style="margin-left: 3px">
+                                            @T("Admin.Common.Save")
+                                        </button>
+                                        <nop-action-confirmation asp-button-id="btnSaveOrderStatus" />
+                                        <button type="submit" name="btnCancelOrderStatus" onclick="toggleChangeOrderStatus(false);return false;" id="btnCancelOrderStatus" class="btn bg-teal" style="margin-left: 3px">
+                                            @T("Admin.Common.Cancel")
+                                        </button>
+                                        <div class="input-group-btn-hint">
+                                            <em>@T("Admin.Orders.Fields.OrderStatus.Change.ForAdvancedUsers")</em>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.OrderStatusId == 40)
+                                {
+                                    <button type="button" name="completeOrder" id="completeOrder" onclick="completeOrderClick(@Model.Id)" class="btn btn-primary" style="margin-right: 3px;">
+                                        تغییر وضعیت به تکمیل
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                //vendors should see whether or order is cancelled
+                if (Model.OrderStatusId == (int)OrderStatus.Cancelled)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-9">
+                            <strong>
+                                @T("Admin.Orders.Fields.OrderStatus.CancelledNotification")
+                            </strong>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="CustomOrderNumber" />
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.CustomOrderNumber</div>
+                </div>
+            </div>
+            @if (!Model.IsLoggedInAsVendor)
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="OrderGuid" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">@Model.OrderGuid</div>
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="StoreName" />
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.StoreName</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.IsLoggedInAsVendor)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CustomerId" />
+                    </div>
+                    <div class="col-md-9">
+                        <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.CustomerId">@Model.CustomerInfo</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CustomerIp" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">@Model.CustomerIp</div>
+                    </div>
+                </div>
+                @if (Model.RecurringPaymentId > 0)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="RecurringPaymentId" />
+                        </div>
+                        <div class="col-md-9">
+                            <a asp-controller="RecurringPayment" asp-action="Edit" asp-route-id="@Model.RecurringPaymentId">@T("Admin.Common.View")</a>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.VatNumber))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="VatNumber" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.VatNumber</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.AffiliateId > 0)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AffiliateId" />
+                        </div>
+                        <div class="col-md-9">
+                            <a asp-controller="Affiliate" asp-action="Edit" asp-route-id="@Model.AffiliateId">@Model.AffiliateName - @T("Admin.Common.View")</a>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="control-label">@T("Admin.Orders.Fields.OrderSubtotal")</label>
+                            <div class="ico-help" title="@T("Admin.Orders.Fields.OrderSubtotal.Hint")">
+                                <i class="fa fa-question-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax)
+                            {
+                                <div class="col-md-2">
+                                    <div class="form-text-row">
+                                        @Model.OrderSubtotalInclTax <strong>@T("Admin.Orders.Fields.OrderSubtotalInclTax")</strong>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax)
+                            {
+                                <div class="col-md-10">
+                                    <div class="form-text-row">
+                                        @Model.OrderSubtotalExclTax <strong>@T("Admin.Orders.Fields.OrderSubtotalExclTax")</strong>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax) && !string.IsNullOrEmpty(Model.OrderSubTotalDiscountInclTax)) ||
+      ((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax) && !string.IsNullOrEmpty(Model.OrderSubTotalDiscountExclTax)))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">@T("Admin.Orders.Fields.OrderSubTotalDiscount")</label>
+                                <div class="ico-help" title="@T("Admin.Orders.Fields.OrderSubTotalDiscount.Hint")">
+                                    <i class="fa fa-question-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                @if ((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax) && !string.IsNullOrEmpty(Model.OrderSubTotalDiscountInclTax))
+                                {
+                                    <div class="col-md-2">
+                                        <div class="form-text-row">
+                                            @Model.OrderSubTotalDiscountInclTax <strong>@T("Admin.Orders.Fields.OrderSubTotalDiscountInclTax")</strong>
+                                        </div>
+                                    </div>
+                                }
+                                @if ((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax) && !string.IsNullOrEmpty(Model.OrderSubTotalDiscountExclTax))
+                                {
+                                    <div class="col-md-10">
+                                        <div class="form-text-row">
+                                            @Model.OrderSubTotalDiscountExclTax <strong>@T("Admin.Orders.Fields.OrderSubTotalDiscountExclTax")</strong>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper">
+                            <label class="control-label">@T("Admin.Orders.Fields.OrderShipping")</label>
+                            <div class="ico-help" title="@T("Admin.Orders.Fields.OrderShipping.Hint")">
+                                <i class="fa fa-question-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax)
+                            {
+                                <div class="col-md-2">
+                                    <div class="form-text-row">
+                                        @Model.OrderShippingInclTax <strong>@T("Admin.Orders.Fields.OrderShippingInclTax")</strong>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax)
+                            {
+                                <div class="col-md-2">
+                                    <div class="form-text-row">
+                                        @Model.OrderShippingExclTax <strong>@T("Admin.Orders.Fields.OrderShippingExclTax")</strong>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax) && !string.IsNullOrEmpty(Model.PaymentMethodAdditionalFeeInclTax)) ||
+      ((Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax) && !string.IsNullOrEmpty(Model.PaymentMethodAdditionalFeeExclTax)))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper">
+                                <label class="control-label">@T("Admin.Orders.Fields.PaymentMethodAdditionalFee")</label>
+                                <div class="ico-help" title="@T("Admin.Orders.Fields.PaymentMethodAdditionalFee.Hint")">
+                                    <i class="fa fa-question-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.IncludingTax)
+                                {
+                                    <div class="col-md-2">
+                                        <div class="form-text-row">
+                                            @Model.PaymentMethodAdditionalFeeInclTax <strong>@T("Admin.Orders.Fields.PaymentMethodAdditionalFeeInclTax")</strong>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.AllowCustomersToSelectTaxDisplayType || Model.TaxDisplayType == TaxDisplayType.ExcludingTax)
+                                {
+                                    <div class="col-md-2">
+                                        <div class="form-text-row">
+                                            @Model.PaymentMethodAdditionalFeeExclTax <strong>@T("Admin.Orders.Fields.PaymentMethodAdditionalFeeExclTax")</strong>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Model.DisplayTaxRates)
+                {
+                    foreach (var tr in Model.TaxRates)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <nop-label asp-for="Tax" /> <span style="padding-top: 7px;margin-right: 5px;float: right;">@tr.Rate%</span>
+                            </div>
+                            <div class="col-md-9">
+                                @tr.Value
+                            </div>
+                        </div>
+                    }
+                }
+                @if (Model.DisplayTax)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Tax" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.Tax</div>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.OrderTotalDiscount))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderTotalDiscount" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.OrderTotalDiscount</div>
+                        </div>
+                    </div>
+                }
+                @foreach (var gc in Model.GiftCards)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.GiftCards[0].CouponCode" />
+                            <span style="padding-top: 7px;margin-right: 5px;float: right;">(@(gc.CouponCode))</span>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@gc.Amount</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.RedeemedRewardPoints > 0)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="RedeemedRewardPoints" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.RedeemedRewardPoints + @T("Admin.Orders.Fields.RedeemedRewardPoints.Points").Text + "/" + @Model.RedeemedRewardPointsAmount</div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="OrderTotal" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">@Model.OrderTotal</div>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.RefundedAmount))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="RefundedAmount" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.RefundedAmount</div>
+                        </div>
+                    </div>
+                }
+                @if (Model.UsedDiscounts.Count > 0)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="UsedDiscounts" />
+                        </div>
+                        <div class="col-md-9">
+                            @for (var i = 0; i < Model.UsedDiscounts.Count; i++)
+                            {
+                                var discount = Model.UsedDiscounts[i];
+                                <a asp-controller="Discount" asp-action="Edit" asp-route-id="@discount.DiscountId">@discount.DiscountName</a>
+                                if (i != Model.UsedDiscounts.Count - 1)
+                                {
+                                    <text>,</text>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Profit" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">@Model.Profit</div>
+                    </div>
+                </div>
+                <div id="trEditOrderTotals">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderSubtotalInclTaxValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="pull-left margin-r-10">
+                                @T("Admin.Orders.Fields.Edit.InclTax")
+                                <nop-editor asp-for="OrderSubtotalInclTaxValue" />
+                            </div>
+                            <div class="pull-left">
+                                @T("Admin.Orders.Fields.Edit.ExclTax")
+                                <nop-editor asp-for="OrderSubtotalExclTaxValue" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderSubTotalDiscountInclTaxValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="pull-left margin-r-10">
+                                @T("Admin.Orders.Fields.Edit.InclTax")
+                                <nop-editor asp-for="OrderSubTotalDiscountInclTaxValue" />
+                            </div>
+                            <div class="pull-left">
+                                @T("Admin.Orders.Fields.Edit.ExclTax")
+                                <nop-editor asp-for="OrderSubTotalDiscountExclTaxValue" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderShippingInclTaxValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="pull-left margin-r-10">
+                                @T("Admin.Orders.Fields.Edit.InclTax")
+                                <nop-editor asp-for="OrderShippingInclTaxValue" />
+                            </div>
+                            <div class="pull-left">
+                                @T("Admin.Orders.Fields.Edit.ExclTax")
+                                <nop-editor asp-for="OrderShippingExclTaxValue" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="PaymentMethodAdditionalFeeInclTaxValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="pull-left margin-r-10">
+                                @T("Admin.Orders.Fields.Edit.InclTax")
+                                <nop-editor asp-for="PaymentMethodAdditionalFeeInclTaxValue" />
+                            </div>
+                            <div class="pull-left">
+                                @T("Admin.Orders.Fields.Edit.ExclTax")
+                                <nop-editor asp-for="PaymentMethodAdditionalFeeExclTaxValue" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="TaxRatesValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="TaxRatesValue" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="TaxValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="TaxValue" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderTotalDiscountValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="OrderTotalDiscountValue" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderTotalValue" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="OrderTotalValue" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <button type="submit" name="btnEditOrderTotals" onclick="toggleOrderTotals(true);return false;" id="btnEditOrderTotals" class="btn btn-primary">
+                            @T("Admin.Orders.Fields.EditOrderTotals")
+                        </button>
+
+                        <button type="submit" name="btnSaveOrderTotals" id="btnSaveOrderTotals" class="btn btn-primary">
+                            @T("Admin.Orders.Fields.SaveOrderTotals")
+                        </button>
+                        <nop-action-confirmation asp-button-id="btnSaveOrderTotals" />
+
+                        <button type="submit" name="btnCancelOrderTotals" onclick="toggleOrderTotals(false);return false;" id="btnCancelOrderTotals" class="btn bg-teal">
+                            @T("Admin.Common.Cancel")
+                        </button>
+                    </div>
+                </div>
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardType" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardType">
+                                <div class="form-text-row">@Model.CardType</div>
+                            </div>
+                            <nop-editor asp-for="CardType" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardName" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardName">
+                                <div class="form-text-row">@Model.CardName</div>
+                            </div>
+                            <nop-editor asp-for="CardName" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber || !string.IsNullOrEmpty(Model.CardNumber))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardNumber" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardNumber">
+                                <div class="form-text-row">@Model.CardNumber</div>
+                            </div>
+                            <nop-editor asp-for="CardNumber" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardCvv2" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardCvv2">
+                                <div class="form-text-row">@Model.CardCvv2</div>
+                            </div>
+                            <nop-editor asp-for="CardCvv2" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardExpirationMonth" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardExpirationMonth">
+                                <div class="form-text-row">@Model.CardExpirationMonth</div>
+                            </div>
+                            <nop-editor asp-for="CardExpirationMonth" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CardExpirationYear" />
+                        </div>
+                        <div class="col-md-9">
+                            <div id="lblCardExpirationYear">
+                                <div class="form-text-row">@Model.CardExpirationYear</div>
+                            </div>
+                            <nop-editor asp-for="CardExpirationYear" />
+                        </div>
+                    </div>
+                }
+                @if (Model.AllowStoringCreditCardNumber)
+                {
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" name="btnEditCC" onclick="toggleCC(true);return false;" id="btnEditCC" class="btn btn-primary">
+                                @T("Admin.Orders.Fields.EditCC")
+                            </button>
+
+                            <button type="submit" name="btnSaveCC" id="btnSaveCC" class="btn btn-primary">
+                                @T("Admin.Orders.Fields.SaveCC")
+                            </button>
+                            <nop-action-confirmation asp-button-id="btnSaveCC" />
+
+                            <button type="submit" name="btnCancelCC" onclick="toggleCC(false);return false;" id="btnCancelCC" class="btn bg-teal">
+                                @T("Admin.Common.Cancel")
+                            </button>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.AuthorizationTransactionId))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AuthorizationTransactionId" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.AuthorizationTransactionId</div>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.CaptureTransactionId))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="CaptureTransactionId" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.CaptureTransactionId</div>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SubscriptionTransactionId))
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="SubscriptionTransactionId" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.SubscriptionTransactionId</div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentMethod" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">@Model.PaymentMethod</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PaymentStatus" />
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.PaymentStatus</div>
+                </div>
+            </div>
+            @if (Model.CanCapture || Model.CanMarkOrderAsPaid || Model.CanRefund || Model.CanRefundOffline ||
+  Model.CanPartiallyRefund || Model.CanPartiallyRefundOffline || Model.CanVoid || Model.CanVoidOffline)
+            {
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        @if (!Model.IsLoggedInAsVendor)
+                        {
+                            if (Model.CanCapture)
+                            {
+                                <button type="submit" name="captureorder" id="captureorder" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.Capture")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="captureorder" />
+                            }
+                            if (Model.CanMarkOrderAsPaid)
+                            {
+                                <button type="submit" name="markorderaspaid" id="markorderaspaid" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.MarkAsPaid")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="markorderaspaid" />
+                            }
+                            if (Model.CanRefund)
+                            {
+                                <button type="submit" name="refundorder" id="refundorder" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.Refund")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="refundorder" />
+                            }
+                            if (Model.CanRefundOffline)
+                            {
+                                <button type="submit" name="refundorderoffline" id="refundorderoffline" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.RefundOffline")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="refundorderoffline" />
+                            }
+                            if (Model.CanPartiallyRefund)
+                            {
+                                <button type="submit" id="partiallyrefundorder" name="partiallyrefundorder" onclick="javascript:OpenWindow('@(Url.Action("PartiallyRefundOrderPopup", "Order", new {id = Model.Id, online = true, btnId = "btnRefreshPage", formId = "order-form"}))', 500, 300, true); return false;" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.PartialRefund")
+                                </button>
+                                <text>&nbsp;</text>
+                            }
+                            if (Model.CanPartiallyRefundOffline)
+                            {
+                                <button type="submit" id="partiallyrefundorderoffline" name="partiallyrefundorderoffline" onclick="javascript:OpenWindow('@(Url.Action("PartiallyRefundOrderPopup", "Order", new {id = Model.Id, online = false, btnId = "btnRefreshPage", formId = "order-form"}))', 500, 300, true); return false;" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.PartialRefundOffline")
+                                </button>
+                                <text>&nbsp;</text>
+                            }
+                            if (Model.CanVoid)
+                            {
+                                <button type="submit" name="voidorder" id="voidorder" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.Void")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="voidorder" />
+                            }
+                            if (Model.CanVoidOffline)
+                            {
+                                <button type="submit" name="voidorderoffline" id="voidorderoffline" class="btn btn-primary">
+                                    @T("Admin.Orders.Fields.VoidOffline")
+                                </button>
+                                <text>&nbsp;</text>
+                                <nop-action-confirmation asp-button-id="voidorderoffline" />
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.CustomValues != null && Model.CustomValues.Count > 0)
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CustomValues" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-text-row">
+                            @foreach (var item in Model.CustomValues)
+                            {
+                                <ul class="common-list">
+                                    <li>
+                                        @item.Key: @(item.Value != null ? item.Value.ToString() : "")
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="CreatedOn" />
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.CreatedOn</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_details_info_bottom", additionalData = Model.Id })
+</div>
+
+
+<div id="modalcancel" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">آیا مطمئن هستید؟</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body col-sm-12" style="margin-left:5px;margin-right:5px;">
+                <p>آیا از کسنل  کردن سفارش اطمینان دارید</p>
+                <div class="form-group">
+                    <label>دلیل انصراف :</label>
+                    <select tabindex="1" style="width:80%;" data-placeholder="انتخاب کنید" class="form-control required" id="IdDesCancalSelect" name="IdDesCancalSelect"></select>
+
+                    <div id="order-cancel" style="margin-top:25px">
+
+                        @*<div class="col-md-6" style="border: 1px dotted;height: 112px;background-color: #f7f7f7;"></div>*@
+
+                    </div>
+
+                    @*<textarea id="Des" name="Des" tabindex="1" rows="5" maxlength="2000" class="form-control" placeholder="توضیحات را وارد نمایید"></textarea>*@
+                </div>
+                @*<button  type="button"onclick="BtnInsertCancelReason()" style="background-color:green;color:white;">ثبت دلیل انصراف</button>*@
+            </div>
+            <div class="modal-footer">
+                <button id="BtnInsertCancelReason" type="button" class="btn btn-primary">بله</button>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+

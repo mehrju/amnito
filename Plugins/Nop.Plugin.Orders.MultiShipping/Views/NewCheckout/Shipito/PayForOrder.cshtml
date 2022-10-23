@@ -1,0 +1,147 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.OrderBillAndPaymentModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Services.Orders.IRewardPointService _rewardPointService;
+@inject Nop.Core.IStoreContext _storeContext;
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    int rewardPointsBalance =
+                        _rewardPointService.GetRewardPointsBalance(_workContext.CurrentCustomer.Id, _storeContext.CurrentStore.Id);
+}
+
+<div class="tracking-code text-center">
+
+    <div class="container">
+        <div class="row mr-top-30">
+            <div class="section payment-method" style="width:100%">
+                <form asp-route="_Sh_ConfirmAndPay" id="Pay_Confrim" method="post">
+                    <input type='hidden' id="orderId" name="orderId" value="@(Model.order.Id)" />
+                    <input type='hidden' id="UseRewardPoints" name="UseRewardPoints" value="false" />
+                    <input type="hidden" id="isFromApp" name="isFromApp" />
+                   
+                    @if (Model.PaymentMethods != null)
+                    {
+                        <div class="row">
+                            @if (Model.PaymentMethods.DisplayRewardPoints && Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+                                <div class="use-reward-points col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="payment-logo">
+                                                <label for="paymentmethod_500">
+                                                    <img src="~/Plugins/Orders.MultiShipping/Content/Wallet.jpg" style="width:80px" alt="پرداخت با کیف پول" />
+                                                </label>
+                                            </div>
+                                            <input type="checkbox" id="_UseRewardPoints" />
+                                            <label for="UseRewardPoints" class="card-title">پرداخت با کیف پول. موجودی شما :@(Model.PaymentMethods.RewardPointsBalance) ريال</label>
+                                            @*@if (Model.PaymentMethods.RewardPointsEnoughToPayForOrder)
+                                {*@
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $("#_UseRewardPoints").change(toggleUseRewardPoints);
+                                                    toggleUseRewardPoints();
+                                                });
+                                                function toggleUseRewardPoints() {
+                                                    $('#UseRewardPoints').val($('#_UseRewardPoints').is(':checked'));
+                                                    if ($('#_UseRewardPoints').is(':checked')) {
+                                                        $('.payment-method-block').hide();
+                                                    } else {
+                                                        $('.payment-method-block').show();
+                                                    }
+                                                }
+                                            </script>
+                                            @*}*@
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.PaymentMethods.PaymentMethods.Count > 0)
+                            {
+
+                                @for (var i = 0; i < Model.PaymentMethods.PaymentMethods.Count; i++)
+                                {
+                                    var paymentMethod = Model.PaymentMethods.PaymentMethods[i];
+                                    var paymentMethodName = paymentMethod.Name;
+                                    if (paymentMethod.PaymentMethodSystemName.ToLower().Contains("wallet"))
+                                    {
+                                        continue;
+                                    }
+                                    if (!string.IsNullOrEmpty(paymentMethod.Fee))
+                                    {
+                                        paymentMethodName = T("Checkout.SelectPaymentMethod.MethodAndFee", paymentMethodName, paymentMethod.Fee).Text;
+                                    }
+                                    <div class="payment-method-block col-md-4 col-xl-4 col-lg-4 col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="method-name">
+                                                    @if (!string.IsNullOrEmpty(paymentMethod.LogoUrl))
+                                                    {
+                                                        <div class="payment-logo">
+                                                            <label for="paymentmethod_@(i)">
+                                                                <img src="@paymentMethod.LogoUrl" alt="@paymentMethodName" />
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                    <div class="payment-details">
+                                                        <input id="paymentmethod_@(i)" type="radio" name="paymentmethod" alt="" style="display:inline !important" value="@(paymentMethod.PaymentMethodSystemName)" />
+                                                        <label for="paymentmethod_@(i)">@paymentMethodName</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="message-error">
+                                    @T("Checkout.NoPaymentMethods")
+                                </div>
+                            }
+                        </div>
+                    }
+                </form>
+            </div>
+
+        </div>
+        <div class="factor-btn-footer mr-top-30">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="btn-footer-res text-center">
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="btn-info-contant">
+                        <a class="btn btn-blue-theme" style="color:white" id="ConfirmAndPay">تایید و پرداخت<i class="fa fa-credit-card"></i></a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ConfirmAndPay').click(function () {
+            $('#isFromApp').val(isAndroid());
+            if ($('.payment-method').find('input[type="radio"]:checked').length == 0 && !$('#_UseRewardPoints').is(':checked')) {
+                alert('انتخاب روش پرداخت الزامی می باشد');
+                return;
+            }
+            $(".container ,nav").css({ "filter": "blur(5px)" });
+            $("body").css({ "overflowY": "hidden", });
+
+            setTimeout(function () {
+                $(".container ,nav").css({ "opacity": "1", "filter": "blur(0px)" });
+                $("body").css({ "overflowY": "auto" });
+            }, 15000);
+            $('#Pay_Confrim').submit();
+            return;
+        });
+    });
+</script>
+

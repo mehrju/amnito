@@ -1,0 +1,309 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.AssignAgentAmountRuleModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+
+@{
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+    
+        
+    //page title
+}
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="CustomerId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="CustomerId" asp-items="Model.AvailableAgentList" />
+                            </div>
+                            <div class="col-md-2">
+                                <nop-label asp-for="AgentAmountRuleId" />
+                            </div>
+                            <div class="col-md-4">
+                                <nop-select asp-for="AgentAmountRuleId" asp-items="Model.AvailableAgentAmountRule" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <nop-label asp-for="IsActive" />
+                            </div>
+                            <div class="col-md-4">
+                                <input class="check-box" data-val="true" id="IsActive" name="IsActive" type="checkbox" checked ="checked" >
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: left;">
+                            <button type="button" id="Save-AssignAgentAmountRule" class="btn btn-primary btn-save">
+                                <i class="fa fa-save"></i>
+                                ذخیره
+                            </button>
+                            <button type="button" id="Search-AssignAgentAmountRule" class="btn btn-primary btn-search">
+                                <i class="fa fa-search"></i>
+                                جستجو
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="DeActiveAssignmentRuleModal" tabindex="-1" role="dialog" aria-labelledby="DeActiveAssignmentRuleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="DeActiveAssignmentRuleModalLabel">تغییر وضعیت قانون</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            آیا از تغییر وضعیت این قانون برای نماینده مورد نظر اطمینان دارید؟
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="AssignAgentAmountRuleId" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                            <button type="button" id="DeActiveAssignmentRule" class="btn btn-primary">بله</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="AssignAgentAmountRule-grid"></div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#AgentAmountRuleId').select2({
+                        width: '100%'
+                    });
+                    $('#CustomerId').select2({
+                        width:'100%',
+                        placeholder: "جستجو نام کاربری",
+                        minimumInputLength: 7,
+                        ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                            url: '@Url.Action("GetAgentList", "AgentAmountRule")',
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                var data = { 'searchtext': term.term };
+                                addAntiForgeryToken(data);
+                                return data;
+                            },
+                            results: function (data, page) { // parse the results into the format expected by Select2.
+                                debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                                return { results: data };
+                            },
+                            cache: true
+                        },
+                        dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+                    });
+                    debugger;
+                            $("#AssignAgentAmountRule-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("getAssignAgentAmountList", "AgentAmountRule"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: additionalData
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    requestEnd: function(e) {
+                                        if (e.type == "read") {
+                                            var response = e.response;
+                                            if (response) {
+                                                //store extra data
+                                                reportAggregates = e.response["ExtraData"];
+                                            }
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: false
+                                },
+                                dataBound: function(e) {
+                                    //$('#AgentAmountRule-grid').css('overflow', 'unset');
+                                    //$('.k-grid-header').css('padding-right', '0px');
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                //height: 700,
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "Id",
+                                        title: "شناسه",
+                                        width: 50
+                                    }, {
+                                        field: "OrderId",
+                                        title: "نماینده",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '<a class="btn btn-success" target="_blank" rel="noopener noreferrer" href="/Admin/Customer/Edit/#=CustomerId#"><i class="fa fa-eye">#=CustmoerName#</i></a>'
+                                    },
+                                    {
+                                        field: "AgentAmountRuleName",
+                                        title: "قانون حق نمایندگی",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" }
+                                    },
+                                    {
+                                        field: "AgentAmountRuleTitle",
+                                        title: "متن قانون",
+                                        width: 300,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" }
+                                    },
+                                    {
+                                        field: "Price",
+                                        title: "مبلغ",
+                                        width: 150
+                                    },
+                                    {
+                                        field: "AssignmentDate",
+                                        title: "تاریخ انتصاب",
+                                        width: 150,
+                                        type: "date",
+                                        format: "{0:G}"
+                                    },
+                                    {
+                                        field: "StrIsActive",
+                                        title: "فعال؟",
+                                        width: 150
+
+                                    }, {
+                                        field: "Id",
+                                        title: "تغییر وضعیت",
+                                        width: 50,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template:'#if(IsActive==true){#'
+                                            + '<a class="btn btn-default" title="غیر فعال کردن" onClick="ConfirmDeActiveAssignmentRule(#=Id#)" ><i class="fa fa-ban" style="color:red"></i></a>'
+                                            + '#} else {#'
+                                            + '<a class="btn btn-default" title="فعال کردن" onClick="ConfirmDeActiveAssignmentRule(#=Id#)" ><i class="fa fa-check-square-o" style="color:green"></i></a>'
+                                            + '#}#'
+                                    }
+                                ]
+                            });
+                        });
+
+                        function additionalData() {
+                            data = {
+                                CustomerId: $('#CustomerId').val(),
+                                AgentAmountRuleId: $('#AgentAmountRuleId').val(),
+                                IsActive: $('#IsActive').is(':checked'),
+                            };
+                            addAntiForgeryToken(data);
+                            return data;
+                        }
+            </script>
+
+
+            <script type="text/javascript">
+                $('#DeActiveAssignmentRule').click(function () {
+                    var assignAgentAmountRuleId = $('#AssignAgentAmountRuleId').val();
+                    if (!assignAgentAmountRuleId) {
+                            $('#AssignAgentAmountRuleId').val('');
+                            $('#DeActiveAssignmentRuleModal').modal('hide');
+                            alert('لطفا مجددا سعی کنید');
+                            return;
+                        }
+                    var postData = { 'Id': assignAgentAmountRuleId};
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeActiveAssignAgentAmountRule", "AgentAmountRule"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.message) {
+                                    alert(result.message);
+                                    $('#AssignAgentAmountRuleId').val('');
+                                    $('#DeActiveAssignmentRuleModal').modal('hide');
+                                    refreshGrid();
+                                }
+                            }
+                        });
+                });
+                function ConfirmDeActiveAssignmentRule(assignAgentAmountRuleId) {
+                    $('#AssignAgentAmountRuleId').val(assignAgentAmountRuleId);
+                    $('#DeActiveAssignmentRuleModal').modal('show', { backdrop: 'static' });
+                    $('#DeActiveAssignmentRuleModal').appendTo("body");
+                }
+                function refreshGrid() {
+                    var grid = $('#AssignAgentAmountRule-grid').data('kendoGrid');
+                    grid.dataSource.read();
+                }
+                $(document).ready(function() {
+                    $('#Save-AssignAgentAmountRule').click(function () {
+                        debugger;
+                        var model = {
+                            CustomerId: $('#CustomerId').val(),
+                            AgentAmountRuleId: $('#AgentAmountRuleId').val(),
+                            IsActive: $('#IsActive').is(':checked'),
+                        };
+                        if (!model.CustomerId) {
+                            alert('نماینده مورد نظر را انتخاب کنید');
+                            return false;
+                        }
+                        if (model.AgentAmountRuleId==0) {
+                            alert('قانون حق نمایندگی را انتخاب کنید');
+                            return false;
+                        }
+
+                        addAntiForgeryToken(model);
+                        $.ajax({
+                            type: "POST",
+                            data: model,
+                            dataType: "json",
+                            url: "@(Url.Action("SaveAssignAgentAmountRule", "AgentAmountRule"))",
+                            success: function (data) {
+                                if (data.success) {
+                                    refreshGrid();
+                                }
+                                alert(data.message);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to Save Agent Amount Rule.');
+                            },
+                            traditional: true
+                        });
+                    });
+                    $('#Search-AssignAgentAmountRule').click(function () {
+                         var grid = $("#AssignAgentAmountRule-grid").data('kendoGrid');
+                         grid.dataSource.read();
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

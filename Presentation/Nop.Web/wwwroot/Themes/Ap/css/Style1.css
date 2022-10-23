@@ -1,0 +1,25 @@
+﻿.tooltipLink {
+    color: white !important;
+    font-size:11pt;
+    text-shadow: none !important;
+    cursor: pointer;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+    transition: transform 0.5s, color 0.5s;
+}
+    .tooltipLink i{
+        font-size:9pt;
+        top:0px;
+        margin-left:3px
+    }
+    .tooltipLink i:hover {
+        text-decoration:none !important;
+    }
+    .tooltipLink:hover {
+        transform: scale(0.9);
+        color: dodgerblue !important;
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        text-decoration:underline !important;
+    }
+   

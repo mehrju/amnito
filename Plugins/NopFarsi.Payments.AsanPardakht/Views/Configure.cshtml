@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "_ConfigurePlugin";
+}
+@model NopFarsi.Payments.AsanPardakht.Models.ConfigurationModel
+@using NopFarsi.Payments.AsanPardakht.Models;
+@using Nop.Web.Framework;
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="IsTomanOverrideForStore" asp-input="IsTomanForStore" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="IsTomanForStore" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsTomanForStore" />
+                        <span asp-validation-for="IsTomanForStore"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="DisablePaymentInfoOverrideForStore" asp-input="DisablePaymentInfoForStore" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="DisablePaymentInfoForStore" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DisablePaymentInfoForStore" />
+                        <span asp-validation-for="DisablePaymentInfoForStore"></span>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="MerchantIdOverride_ForStore" asp-input="MerchantId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="MerchantId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="MerchantId" />
+                        <span asp-validation-for="MerchantId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ConfigMerchentId_ForStore" asp-input="ConfigMerchentId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ConfigMerchentId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ConfigMerchentId" />
+                        <span asp-validation-for="ConfigMerchentId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="UserNameMerchent_ForStore" asp-input="UserNameMerchent" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="UserNameMerchent" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UserNameMerchent" />
+                        <span asp-validation-for="UserNameMerchent"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PassMerchent_ForStore" asp-input="PassMerchent" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PassMerchent" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PassMerchent" />
+                        <span asp-validation-for="PassMerchent"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Key_ForStore" asp-input="Key" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Key" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Key" />
+                        <span asp-validation-for="Key"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="VectorEncriptor_ForStore" asp-input="VectorEncriptor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="VectorEncriptor" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="VectorEncriptor" />
+                        <span asp-validation-for="VectorEncriptor"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <nop-editor asp-for="NopFarsi" />
+                    </div>
+                </div>
+              
+                
+                <div class="form-group">
+                    <div class="col-md-3">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-9">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+        $('#NopFarsi,#webService').attr('readonly', 'readonly')
+</script>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Payment Method Rules",
+  "SystemName": "FoxNetSoft.PaymentRules",
+  "Version": "1.2",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "FoxNetSoft - Edit by Ehsan karimi(NopMaster.ir)",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Payments.PaymentRules.dll",
+  "Description": "You can filters any payment methods using rules."
+}

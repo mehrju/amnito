@@ -1,0 +1,516 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.CustomerOrderMixModel
+@using Nop.Web.Models.Customer;
+@using Nop.Core;
+@inject IWorkContext workContext
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-account-page");
+    Html.AppendPageCssClassParts("html-order-list-page");
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.rtl.css");
+    }
+    else
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.min.css");
+    }
+    var kendoVersion = "2014.1.318";
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendCssFileParts("~/lib/fontAwesome/css/font-awesome-4.6.3.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    Html.AppendScriptParts("~/lib/bootstrap/bootstrap.min.js");
+
+    Html.AppendCssFileParts("~/Plugins/Orders.ExtendedShipment/Scripts/persian-datepicker.min.css");
+    Html.AppendScriptParts("~/Plugins/Orders.ExtendedShipment/Scripts/persian-date.min.js");
+    Html.AppendScriptParts("~/Plugins/Orders.ExtendedShipment/Scripts/persian-datepicker.min.js");
+}
+<style>
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .modal-dialog {
+        margin: 2px auto;
+        z-index: 1100 !important;
+    }
+</style>
+@section left
+{
+    @await Component.InvokeAsync("CustomerNavigation", new { selectedTabId = CustomerNavigationEnum.Orders })
+}
+
+@*@section accountPageTitle
+    {
+    <div class="page-title">
+        <h1>@T("Account.MyAccount") - @T("Account.CustomerOrders")</h1>
+    </div>
+}*@
+<style>
+    .fa-search:hover{
+        font-size:20pt;
+        color:dodgerblue;
+    }
+</style>
+<div class="page account-page order-list-page" >
+    <div class="page-body">
+        @if (Model.ColModel.RecurringOrders.Count > 0)
+        {
+            <div class="section recurring-payments">
+                <div class="title">
+                    <strong>@T("Account.CustomerOrders.RecurringOrders")</strong>
+                </div>
+                <form asp-route="CustomerOrders" method="post">
+                    @{
+                        var canRetryRecurringOrders = Model.ColModel.RecurringOrders.Any(recurring => recurring.CanRetryLastPayment);
+                    }
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <colgroup>
+                                <col />
+                                <col />
+                                <col />
+                                <col />
+                                <col />
+                                <col />
+                                @if (canRetryRecurringOrders)
+                                {
+                                    <col />}
+                                <col />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="start-date" data-hide="w410, w480, w580">
+                                        @T("Account.CustomerOrders.RecurringOrders.StartDate")
+                                    </th>
+                                    <th class="cycle-info" data-hide="w410, w480, w580, w768, w980">
+                                        @T("Account.CustomerOrders.RecurringOrders.CycleInfo")
+                                    </th>
+                                    <th class="next-payment">
+                                        @T("Account.CustomerOrders.RecurringOrders.NextPayment")
+                                    </th>
+                                    <th class="total-cycles" data-hide="w410, w480, w580, w768, w980">
+                                        @T("Account.CustomerOrders.RecurringOrders.TotalCycles")
+                                    </th>
+                                    <th class="cycles-remaining" data-hide="w410, w480, w580, w768, w980">
+                                        @T("Account.CustomerOrders.RecurringOrders.CyclesRemaining")
+                                    </th>
+                                    <th class="initial-order" data-hide="w410, w480, w580, w768">
+                                        @T("Account.CustomerOrders.RecurringOrders.InitialOrder")
+                                    </th>
+                                    @if (canRetryRecurringOrders)
+                                    {
+                                        <th class="retry">
+                                            @T("Account.CustomerOrders.RecurringOrders.RetryLastPayment")
+                                        </th>
+                                    }
+                                    <th class="cancel">
+                                        @T("Account.CustomerOrders.RecurringOrders.Cancel")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{var counter = 0;}
+                                @foreach (var item in Model.ColModel.RecurringOrders)
+                                {
+                                    counter++;
+                                    <tr>
+                                        <td class="start-date">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.StartDate"): </label>
+                                            <span>@item.StartDate</span>
+                                        </td>
+                                        <td class="cycle-info">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.CycleInfo"): </label>
+                                            <span>@item.CycleInfo</span>
+                                        </td>
+                                        <td class="next-payment">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.NextPayment"): </label>
+                                            <span>@item.NextPayment</span>
+                                        </td>
+                                        <td class="total-cycles">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.TotalCycles"): </label>
+                                            <span>@item.TotalCycles</span>
+                                        </td>
+                                        <td class="cycles-remaining">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.CyclesRemaining"): </label>
+                                            <span>@item.CyclesRemaining</span>
+                                        </td>
+                                        <td class="initial-order">
+                                            <label class="td-title">@T("Account.CustomerOrders.RecurringOrders.InitialOrder"): </label><a href="@Url.RouteUrl("OrderDetails", new { orderId = item.InitialOrderId })">@string.Format(T("Account.CustomerOrders.RecurringOrders.ViewInitialOrder").Text, item.InitialOrderNumber)</a>
+                                        </td>
+                                        @if (canRetryRecurringOrders)
+                                        {
+                                            <td class="retry">
+                                                @if (item.CanRetryLastPayment)
+                                                {
+                                                    <input type="submit" name="retryLastPayment_@(item.Id)" value="@T("Account.CustomerOrders.RecurringOrders.RetryLastPayment")" class="button-2 retry-recurring-order-button" />
+                                                }
+                                            </td>
+                                        }
+                                        <td class="cancel">
+                                            @if (item.CanCancel)
+                                            {
+                                                <input type="submit" name="cancelRecurringPayment@(item.Id)" value="@T("Account.CustomerOrders.RecurringOrders.Cancel")" class="button-2 cancel-recurring-order-button" />
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            if (Model.ColModel.RecurringPaymentErrors.Any())
+            {
+                <div class="message-error">
+                    <ul>
+                        @foreach (var error in Model.ColModel.RecurringPaymentErrors)
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+
+        @if (Model.ColModel.Orders.Count > 0)
+        {   <div style="text-align:center;font-size:14pt;color:forestgreen" class="fa-hover">
+                <input type="button" id="searchOrders" class="button-1 search-box-button" value="جستجو">
+            </div>
+            <div class="order-list">
+                @foreach (var order in Model.ColModel.Orders)
+                {
+                    <div class="section order-item">
+                        <div class="title">
+                            <strong>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</strong>
+                        </div>
+                        <ul class="info">
+                            <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()">@order.OrderStatus</span></li>
+                            <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                            <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total">@order.OrderTotal</span></li>
+                        </ul>
+                        <div class="buttons">
+                            <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                            @if (order.IsReturnRequestAllowed)
+                            {
+                                <button type="button" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest", new { orderId = order.Id })')">@T("Account.CustomerOrders.ReturnItems")</button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="no-data">
+                @T("Account.CustomerOrders.NoOrders")
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="divSearchCustomerOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:1000px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel" style="float:right">جستجوی سفارشات</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divSearchCustomerOrder_content" style="z-index:1010 !important">
+                <div id="Frm_searchOrder" class="form-horizontal">
+                    <div class="panel-group">
+                        <div class="panel panel-default panel-search">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.StartDate" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="FromOrderCreatedDate1" name="FromOrderCreatedDate1" class="form-control Datepicker" type="text" />
+                                                <input id="StartDate" name="StartDate" type="hidden" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.EndDate" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="ToOrderCreatedDate1" name="ToOrderCreatedDate1" class="form-control Datepicker" type="text" />
+                                                <input id="EndDate" name="EndDate" type="hidden" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.OrderStatusIds" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="EolModel.OrderStatusIds" asp-items="Model.EolModel.AvailableOrderStatuses" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label class="control-label" for="ReciverName">نام گیرنده</label>
+                                                    <div title="فیلتر بر اساس نام و نام خانوادگی گیرنده." class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input class="form-control text-box single-line" id="ReciverName"
+                                                       name="ReciverName" type="text" value="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.PaymentStatusIds" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="EolModel.PaymentStatusIds" asp-items="Model.EolModel.AvailablePaymentStatuses" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group" @(Model.EolModel.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.ShippingStatusIds" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="EolModel.ShippingStatusIds" asp-items="Model.EolModel.AvailableShippingStatuses" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <div class="form-group" @(Model.EolModel.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.BillingCountryId" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="EolModel.BillingCountryId" asp-items="Model.EolModel.AvailableCountries" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label class="control-label" for="SenderStateProvinceId">شهرستان مبدا</label>
+                                                    <div title="فیلتر توسط شهرستان مبدا" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select class="form-control valid" data-val="true" id="SenderStateProvinceId" name="SenderStateProvinceId" placeholder="انتخاب کنید">
+                                                    <option selected="selected" value="0">*</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" @(Model.EolModel.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label class="control-label" for="ReciverCountryId">استان مقصد</label>
+                                                    <div title="فیلتر توسط استان مقصد" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select class="form-control valid" data-val="true" id="ReciverCountryId" name="ReciverCountryId" placeholder="انتخاب کنید">
+                                                    @foreach (var item in Model.EolModel.AvailableCountries)
+                                                    {
+                                                        <option value="@(item.Value)">@(item.Text)</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label class="control-label" for="ReciverStateProvinceId">شهرستان مقصد</label>
+                                                    <div title="فیلتر توسط شهرستان مقصد" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select class="form-control valid" data-val="true" id="ReciverStateProvinceId" name="ReciverStateProvinceId" placeholder="انتخاب کنید">
+                                                    <option selected="selected" value="0">*</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" @(Model.EolModel.AvailablePaymentMethods.SelectionIsNotPossible() || Model.EolModel.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.PaymentMethodSystemName" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="EolModel.PaymentMethodSystemName" asp-items="Model.EolModel.AvailablePaymentMethods" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="EolModel.OrderNotes" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-editor asp-for="EolModel.OrderNotes" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label class="control-label" for="EolModel.OrderId">شماره سفارش</label>
+                                                    <div title="فیلتر توسط شماره سفارش" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-editor asp-for="EolModel.OrderId" class="single-line" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#SearchOrder').on('click', function () {
+                                debugger;
+                                $.ajax({
+                                    cache: false,
+                                    type: "Post",
+                                    url: "@(Url.Action("NewCustomerOrders", "ExtendedOrder"))",
+                                    data: additionalData(),
+                                    success: function (data) {
+                                        debugger;
+                                        if (data.Orders) {
+                                            if ($(data.Orders).size() == 0) {
+                                                alert('سفارشی با این مشخصات یافت نشد');
+                                                return;
+                                            }
+                                            $('.order-list').html('');
+                                            $('#divSearchCustomerOrder').modal('hide');
+                                            $.each(data.Orders, function (id, option) {
+                                                var html = `<div class="section order-item"><div class="title">
+                                                <strong>@T("Account.CustomerOrders.OrderNumber"): ${option.CustomOrderNumber}</strong>
+                                                </div>
+                                                <ul class="info">
+                                                    <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status ${option.OrderStatusEnum}">${option.OrderStatus}</span></li>
+                                                    <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">${option.CreatedOn}</span></li>
+                                                    <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total">${option.OrderTotal}</span></li>
+                                                </ul>
+                                                <div class="buttons">
+                                                <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('/orderdetails/${option.Id}')" />`
+                                                if (option.IsReturnRequestAllowed) {
+                                                    html += `<button type="button" class="button-2 return-items-button" onclick="setLocation('/returnrequest/${option.Id}')">@T("Account.CustomerOrders.ReturnItems")</button>`;
+                                                }
+                                                html += `</div></div>`;
+                                                $('.order-list').append($(html));
+                                            });
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        alert('Failed to retrieve states.');
+                                    }
+                                });
+                            });
+                            function additionalData() {
+                                var data = {
+                                    StartDate: $('#StartDate').val(),
+                                    EndDate: $('#EndDate').val(),
+                                    OrderStatusIds: [$('#@Html.IdFor(model => model.EolModel.OrderStatusIds)').val()],
+                                    PaymentStatusIds: [$('#@Html.IdFor(model => model.EolModel.PaymentStatusIds)').val()],
+                                    ShippingStatusIds: [$('#@Html.IdFor(model => model.EolModel.ShippingStatusIds)').val()],
+                                    BillingCountryId: $('#@Html.IdFor(model => model.EolModel.BillingCountryId)').val(),
+                                    PaymentMethodSystemName: $('#@Html.IdFor(model => model.EolModel.PaymentMethodSystemName)').val(),
+                                    OrderNotes: $('#@Html.IdFor(model => model.EolModel.OrderNotes)').val(),
+                                    SenderStateProvinceId: $('#SenderStateProvinceId').val(),
+                                    ReciverCountryId: $('#ReciverCountryId').val(),
+                                    ReciverStateProvinceId: $('#ReciverStateProvinceId').val(),
+                                    ReciverName: $('#ReciverName').val(),
+                                    SenderName: $('#SenderName').val(),
+                                    OrderId:$('#@Html.IdFor(model => model.EolModel.OrderId)').val(),
+                                };
+                                addAntiForgeryToken(data);
+                                return data;
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <button name="SearchOrder" id="SearchOrder" value="جستجو" type="button"  class="btn btn-primary btn-search">
+                    <i class="fa fa-search" aria-hidden="true"></i>جستجو
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#searchOrders').click(function () {
+            $('#divSearchCustomerOrder').modal({ backdrop: 'static' });
+            $('#divSearchCustomerOrder').appendTo("body");
+        });
+        $('#FromOrderCreatedDate1').pDatepicker({
+            observer: true,
+            format: 'YYYY/MM/DD',
+            initialValue: false,
+            responsive: true,
+            altField: '#FromOrderCreatedDate',
+            altFieldFormatter: function (date) {
+                return new persianDate(date).toLocale('en').toCalendar('persian').format('YYYY/MM/DD')
+            }
+        });
+        $('#ToOrderCreatedDate1').pDatepicker({
+            observer: true,
+            format: 'YYYY/MM/DD',
+            initialValue: false,
+            responsive: true,
+            altField: '#ToOrderCreatedDate',
+            altFieldFormatter: function (date) {
+                return new persianDate(date).toLocale('en').toCalendar('persian').format('YYYY/MM/DD')
+            }
+        });
+       
+    });
+     
+    
+    $("#@Html.IdFor(model => model.EolModel.BillingCountryId)").change(function() {
+            var selectedItem = $(this).val();
+                var ddlStates = $("#SenderStateProvinceId");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                data: { "countryId": selectedItem, "addAsterisk": "true" },
+                success: function(data) {
+                    ddlStates.html('');
+                    $.each(data, function(id, option) {
+                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                }
+            });
+        });
+        $("#ReciverCountryId").change(function() {
+            var selectedItem = $(this).val();
+            var ddlStates = $("#ReciverStateProvinceId");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                data: { "countryId": selectedItem, "addAsterisk": "true" },
+                success: function(data) {
+                    ddlStates.html('');
+                    $.each(data, function(id, option) {
+                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                }
+            });
+        });
+</script>

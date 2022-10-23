@@ -1,0 +1,176 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.vm_SuccessOrder
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Services.Orders.IRewardPointService _rewardPointService;
+@inject Nop.Core.IStoreContext _storeContext;
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_NewUiLayout.cshtml";
+    Html.AppendScriptParts("~/Plugins/Orders.ExtendedShipment/Scripts/jquery.fileDownload.js");
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-2"></div>
+
+        <div class="col-xs-12 col-sm-6 col-md-8">
+            <div class="box rtl-po">
+                <div class="steps-mod">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row1">
+                                <a href=""><span class="number-sas">1</span></a>
+                                <div class="check_step">
+
+                                    <svg width="30" height="30" viewBox="0 0 30 30">
+                                        <g id="Group_296" data-name="Group 296" transform="translate(-1301 -250)">
+                                            <rect id="Rectangle_624" data-name="Rectangle 624" width="30" height="30" rx="10" transform="translate(1301 250)" fill="#16d9a8" />
+                                            <g id="Group_85" data-name="Group 85" transform="translate(561 -286)">
+                                                <rect id="Rectangle_460" data-name="Rectangle 460" width="16" height="16" transform="translate(747 542)" fill="none" />
+                                                <path id="Checkbox" d="M6.345,11.034,0,4.69,1.287,3.4,6.345,8.368,14.713,0,16,1.287Z" transform="translate(747 545)" fill="#fff" />
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row2">
+                                <a href=""><span class="number-sas">2</span></a>
+                                <div class="check_step">
+                                    <svg width="30" height="30" viewBox="0 0 30 30">
+                                        <g id="Group_296" data-name="Group 296" transform="translate(-1301 -250)">
+                                            <rect id="Rectangle_624" data-name="Rectangle 624" width="30" height="30" rx="10" transform="translate(1301 250)" fill="#16d9a8" />
+                                            <g id="Group_85" data-name="Group 85" transform="translate(561 -286)">
+                                                <rect id="Rectangle_460" data-name="Rectangle 460" width="16" height="16" transform="translate(747 542)" fill="none" />
+                                                <path id="Checkbox" d="M6.345,11.034,0,4.69,1.287,3.4,6.345,8.368,14.713,0,16,1.287Z" transform="translate(747 545)" fill="#fff" />
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row2">
+                                <a href=""><span class="number-sas">3</span></a>
+                                <div class="check_step">
+
+                                    <svg width="30" height="30" viewBox="0 0 30 30">
+                                        <g id="Group_296" data-name="Group 296" transform="translate(-1301 -250)">
+                                            <rect id="Rectangle_624" data-name="Rectangle 624" width="30" height="30" rx="10" transform="translate(1301 250)" fill="#16d9a8" />
+                                            <g id="Group_85" data-name="Group 85" transform="translate(561 -286)">
+                                                <rect id="Rectangle_460" data-name="Rectangle 460" width="16" height="16" transform="translate(747 542)" fill="none" />
+                                                <path id="Checkbox" d="M6.345,11.034,0,4.69,1.287,3.4,6.345,8.368,14.713,0,16,1.287Z" transform="translate(747 545)" fill="#fff" />
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="success-body mr-top-30">
+                    <div class="header-success">
+                        <span> سفارش شما با موفقیت ثبت شد !</span>
+                    </div>
+                    <div class="body-suc">
+                        <p>@Model.NameCustomer عزیز</p>
+                        <p>سفارش شما با موفقیت ثبت شد.</p>
+                        <div class="row mr-top-30">
+                            <div class="col-md-6">
+                                <div class="code-order">
+                                    <span> کد سفارش شما :</span><span>@Model.OrderCode</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="code-order">
+                                    @if (Model.StateTrackingCode == true)
+                                    {
+                                        @if (!string.IsNullOrEmpty(Model.TrackingCode))
+                                        {
+                                            <span>  کد رهگیری شما  :</span><span>@Model.TrackingCode</span>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span>  کد رهگیری شما  :</span><span>برای مشاهده کد رهگیری فاکتور را دانلود کنید</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-suc">
+                        <span>همچنین می توانید از طریق  <a href="tel:+982191300250">021-91300250</a> تماس بگیرید</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="btn-footer-suc">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-back">
+                            <a href="@Url.RouteUrl("Sep.Orders")" class="custom-btn-04"><i class="fa fa-eye"></i>سفارش های من </a>
+                           
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-forward">
+                                <a href="/order/newcheckout" class="custom-btn-01"> <i class="fa fa-plus"></i>اضافه کردن سفارش جدید</a>
+                                <a href="https://postex.ir/ShipitoHome/GetPDF/@(Model.OrderCode)" class="custom-btn-02"> <i class="fa fa-download"></i>دانلود فایل pdf فاکتور</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+       
+        $("#btn_next").click(function () {
+            $(".container ,nav").css({ "filter": "blur(5px)" });
+            $("body").css({ "overflowY": "hidden", });
+            $("#loading-img").css({ "display": "block" });
+
+            setTimeout(function () {
+                $(".container ,nav").css({ "opacity": "1", "filter": "blur(0px)" });
+                $("body").css({ "overflowY": "auto" });
+                $("#loading-img").css({ "display": "none" });
+            }, 8000);
+
+        });
+        window.location="https://postex.ir/ShipitoHome/GetPDF/@(Model.OrderCode)";
+        @*asanPardakht.application.callMeOnBackButtonPress(
+             function () {
+                 if ($('#modal_help').is(':visible')) {
+                    $('#modal_help').modal('hide');
+                 }
+                 else if ($('body').css('overflow') == 'hidden') {
+                     $('.checkbox_check').click();
+                 }
+                 else if ($('#_RuleModal').is(':visible')) {
+                     $('#_RuleModal').modal('hide');
+                 }
+                else {
+                     window.location='@(Url.RouteUrl("_SepStartup"))';
+                }
+            });*@
+        @*$.fileDownload('@Url.Action("GetPdfInvoice", "ExtendedOrderCustomer", new { orderId = Model.OrderCode })')
+            .done(function() { })
+            .fail(function() {
+                alert('خطا در زمان دانلود رسید سفارش.جهت چاپ رسید به قسمت حساب من قسمت سفارشات مراجعه نمایید');
+            });*@
+        $('#loader').hide();
+    });
+</script>

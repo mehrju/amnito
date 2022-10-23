@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GatewayPostnode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GatewayPostnodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GatewayPostnodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcode24">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostNodeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CityCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TypeCode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcode24Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMassBarcode24Result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcode24_v2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostNodeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BarcodeData">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcode24_v2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMassBarcode24_v2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="messagetext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PostNodeCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CityCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TypeCode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMassBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMassBarcodeResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getcity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getcityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getcityResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="error" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setpassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postnode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="admincode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setpasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="setpasswordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GatewayPostnodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GatewayPostnode" />
+  </wsdl:message>
+  <wsdl:message name="GatewayPostnodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GatewayPostnodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcode24SoapIn">
+    <wsdl:part name="parameters" element="tns:getMassBarcode24" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcode24SoapOut">
+    <wsdl:part name="parameters" element="tns:getMassBarcode24Response" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcode24_v2SoapIn">
+    <wsdl:part name="parameters" element="tns:getMassBarcode24_v2" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcode24_v2SoapOut">
+    <wsdl:part name="parameters" element="tns:getMassBarcode24_v2Response" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:getMassBarcode" />
+  </wsdl:message>
+  <wsdl:message name="getMassBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:getMassBarcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getcitySoapIn">
+    <wsdl:part name="parameters" element="tns:getcity" />
+  </wsdl:message>
+  <wsdl:message name="getcitySoapOut">
+    <wsdl:part name="parameters" element="tns:getcityResponse" />
+  </wsdl:message>
+  <wsdl:message name="setpasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:setpassword" />
+  </wsdl:message>
+  <wsdl:message name="setpasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:setpasswordResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="GatewayPostnode">
+      <wsdl:input message="tns:GatewayPostnodeSoapIn" />
+      <wsdl:output message="tns:GatewayPostnodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24">
+      <wsdl:input message="tns:getMassBarcode24SoapIn" />
+      <wsdl:output message="tns:getMassBarcode24SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24_v2">
+      <wsdl:input message="tns:getMassBarcode24_v2SoapIn" />
+      <wsdl:output message="tns:getMassBarcode24_v2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode">
+      <wsdl:input message="tns:getMassBarcodeSoapIn" />
+      <wsdl:output message="tns:getMassBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getcity">
+      <wsdl:input message="tns:getcitySoapIn" />
+      <wsdl:output message="tns:getcitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <wsdl:input message="tns:setpasswordSoapIn" />
+      <wsdl:output message="tns:setpasswordSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GatewayPostnode">
+      <soap:operation soapAction="http://tempuri.org/GatewayPostnode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24">
+      <soap:operation soapAction="http://tempuri.org/getMassBarcode24" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24_v2">
+      <soap:operation soapAction="http://tempuri.org/getMassBarcode24_v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode">
+      <soap:operation soapAction="http://tempuri.org/getMassBarcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getcity">
+      <soap:operation soapAction="http://tempuri.org/getcity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <soap:operation soapAction="http://tempuri.org/setpassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GatewayPostnode">
+      <soap12:operation soapAction="http://tempuri.org/GatewayPostnode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24">
+      <soap12:operation soapAction="http://tempuri.org/getMassBarcode24" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode24_v2">
+      <soap12:operation soapAction="http://tempuri.org/getMassBarcode24_v2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMassBarcode">
+      <soap12:operation soapAction="http://tempuri.org/getMassBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getcity">
+      <soap12:operation soapAction="http://tempuri.org/getcity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <soap12:operation soapAction="http://tempuri.org/setpassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://poffice.post.ir/webbarcode/getbarcode.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://poffice.post.ir/webbarcode/getbarcode.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

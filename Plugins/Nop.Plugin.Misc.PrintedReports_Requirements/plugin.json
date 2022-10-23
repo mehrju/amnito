@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Reports",
+  "FriendlyName": "'گزارشات چاپی و پیش نیازهای ان",
+  "SystemName": "Misc.PrintedReports_Requirements",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "PostBar team,Ghasemian",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.PrintedReports_Requirements.dll",
+  "Description": "This plugin provides management prerequisites and print reports"
+}

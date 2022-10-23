@@ -1,0 +1,611 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Models.Search.Search_Collector_Model
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+}
+
+
+<form asp-controller="ManageCollector" asp-action="List" method="post">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.ShippingSolutions.PageSearchCollector_title")
+        </h1>
+        <div class="pull-right">
+
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                جدید
+            </a>
+            <button type="button" id="Active-selected" class="btn btn-success">
+                <i class="fa fa-check"></i>
+                فعال سازی(انتخاب شده)
+            </button>
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                غیرفعال سازی(انتخاب شده)
+            </button>
+
+        </div>
+    </div>
+
+
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchUserName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchUserName" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxPath" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxPath" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMinWeight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMinWeight" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMaxWeight" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMaxWeight" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchIsActive" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchIsActive" />
+                                    </div>
+                                </div>
+
+
+                                @*<div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="Searchadvancefreight" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="Searchadvancefreight" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="Searchfreightforward" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="Searchfreightforward" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="Searchcod" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="Searchcod" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsPishtaz" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsPishtaz" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsSefareshi" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsSefareshi" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsVIje" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsVIje" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsNromal" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsNromal" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsDroonOstani" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsDroonOstani" />
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchProviderId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchProviderId" asp-items="Model.ListProvider" />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchOfficeId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchOfficeId" asp-items="Model.ListOffice_City" />
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchStoreId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="SearchStoreId" asp-items="Model.ListStores" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchStartTime" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchStartTime" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchEndTime" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchEndTime" />
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsAdjoining" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsAdjoining" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsNotAdjacent" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsNotAdjacent" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsHeavyTransport" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsHeavyTransport" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsForeign" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsForeign" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsInCity" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsInCity" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsAmanat" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsAmanat" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchIsTwoStep" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchIsTwoStep" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchHasHagheMaghar" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchHasHagheMaghar" />
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @**@
+                            <div class="form-group" style="display:none;">
+
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="ActiveSearch" />
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-products" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    جستجو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="products-grid"></div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("CollectorsList", "ManageCollector"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        },
+
+                                        {
+                                            field: "Grid_Collector_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_Name")",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Collector_UserName",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_UserName")",
+                                            width: 150
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_Collector_MaxPath",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_MaxPath")",
+                                            width: 70
+                                        }
+
+                                         ,
+                                        {
+                                            field: "Grid_Collector_MinWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_MinWeight")",
+                                            width: 70
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Collector_MaxWeight",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_MaxWeight")",
+                                            width: 70
+                                        }
+                                        ,
+                                        {
+                                            field: "Grid_Collector_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_IsActive")",
+                                            width: 50,
+                                            template: '# if(Grid_Collector_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Collector_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_DateInsert")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Collector_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_DateUpdate")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Collector_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_UserInsert")",
+                                            width: 50,
+                                        }
+                                         ,
+                                        {
+                                            field: "Grid_Collector_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Collector_UserUpdate")",
+                                            width: 50,
+                                        }
+                                        , {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+                                    ]
+                                });
+                            });
+                        </script>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var selectedIds = [];
+
+        $(document).ready(function () {
+            //search button
+            $('#search-products').click(function () {
+                //search
+
+                $('.ActiveSearch').attr('checked', true).change();
+                $('#@Html.IdFor(model => model.ActiveSearch)').attr('checked', true).change();
+                var grid = $('#products-grid').data('kendoGrid');
+                grid.dataSource.page(1); //new search. Set page size to 1
+                //grid.dataSource.read(); we already loaded the grid above using "page" function
+                //clear selected checkboxes
+                $('.checkboxGroups').attr('checked', false).change();
+                selectedIds = [];
+                return false;
+            });
+
+            $("#@Html.IdFor(model => model.SearchName)").keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $("#search-products").click();
+                    return false;
+                }
+            });
+
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableSelected", "ManageCollector"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+        //Active
+            $('#Active-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ActiveSelected", "ManageCollector"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#products-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+            $('#mastercheckbox').click(function () {
+                $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            });
+
+            //wire up checkboxes.
+            $('#products-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+                var $check = $(this);
+                if ($check.is(":checked") == true) {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked == -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                }
+                else {
+                    var checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds, function (item, index) {
+                            return item != $check.val();
+                        });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+        });
+
+        function additionalData() {
+            var data = {
+                ActiveSearch: $('#@Html.IdFor(model => model.ActiveSearch)').is(':checked'),
+                SearchName: $('#@Html.IdFor(model => model.SearchName)').val(),
+                SearchUserName: $('#@Html.IdFor(model => model.SearchUserName)').val(),
+
+                SearchIsActive: $('#@Html.IdFor(model => model.SearchIsActive)').is(':checked'),
+                SearchMaxPath: $('#SearchMaxPath').val(),
+                SearchMaxWeight: $('#SearchMaxWeight').val(),
+                SearchMinWeight: $('#SearchMinWeight').val(),
+                @*Searchadvancefreight: $('#@Html.IdFor(model => model.Searchadvancefreight)').is(':checked'),
+                Searchfreightforward: $('#@Html.IdFor(model => model.Searchfreightforward)').is(':checked'),
+                Searchcod: $('#@Html.IdFor(model => model.Searchcod)').is(':checked'),*@
+                SearchOfficeId: $('#SearchOfficeId').val(),
+                SearchProviderId: $('#SearchProviderId').val(),
+                SearchStoreId: $('#SearchStoreId').val(),
+
+                @*SearchIsPishtaz: $('#@Html.IdFor(model => model.SearchIsPishtaz)').is(':checked'),
+                SearchIsSefareshi: $('#@Html.IdFor(model => model.SearchIsSefareshi)').is(':checked'),
+                SearchIsVIje: $('#@Html.IdFor(model => model.SearchIsVIje)').is(':checked'),
+                SearchIsNromal: $('#@Html.IdFor(model => model.SearchIsNromal)').is(':checked'),
+                SearchIsDroonOstani: $('#@Html.IdFor(model => model.SearchIsDroonOstani)').is(':checked'),
+                SearchIsAdjoining: $('#@Html.IdFor(model => model.SearchIsAdjoining)').is(':checked'),
+                SearchIsNotAdjacent: $('#@Html.IdFor(model => model.SearchIsNotAdjacent)').is(':checked'),
+                SearchIsHeavyTransport: $('#@Html.IdFor(model => model.SearchIsHeavyTransport)').is(':checked'),
+                SearchIsForeign: $('#@Html.IdFor(model => model.SearchIsForeign)').is(':checked'),
+                SearchIsInCity: $('#@Html.IdFor(model => model.SearchIsInCity)').is(':checked'),
+                SearchIsAmanat: $('#@Html.IdFor(model => model.SearchIsAmanat)').is(':checked'),
+                SearchIsTwoStep: $('#@Html.IdFor(model => model.SearchIsTwoStep)').is(':checked'),
+                SearchHasHagheMaghar: $('#@Html.IdFor(model => model.SearchHasHagheMaghar)').is(':checked'),*@
+
+                SearchStartTime: $('#SearchStartTime').val(),
+                SearchEndTime: $('#SearchEndTime').val()
+                            };
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        function onDataBound(e) {
+            $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function () {
+                var currentId = $(this).val();
+                var checked = jQuery.inArray(currentId, selectedIds);
+                //set checked based on if current checkbox's value is in selectedIds.
+                $(this).attr('checked', checked > -1);
+            });
+
+            updateMasterCheckbox();
+        }
+
+        function updateMasterCheckbox() {
+            var numChkBoxes = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+            var numChkBoxesChecked = $('#products-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+            $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+        }
+    </script>
+
+
+
+
+
+
+
+
+</form>

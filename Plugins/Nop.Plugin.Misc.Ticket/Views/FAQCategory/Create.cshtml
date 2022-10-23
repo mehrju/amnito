@@ -1,0 +1,38 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@model Nop.Plugin.Misc.Ticket.Domain.Tbl_FAQCategory
+
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Misc.Ticket.FAQCategory_pagetitle").Text;
+
+
+}
+
+<form asp-controller="ManageFAQCategory" asp-action="Create" method="post" id="category-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.Ticket.FAQCategory_new")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Nop.Plugin.Misc.Ticket.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("/Plugins/Misc.Ticket/Views/FAQCategory/_CreateOrUpdate.cshtml")
+    
+</form>

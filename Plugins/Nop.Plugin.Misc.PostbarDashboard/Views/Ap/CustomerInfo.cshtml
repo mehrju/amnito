@@ -1,0 +1,184 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.CustomerInfModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject IWorkContext _workContext;
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiDashboardLayout.cshtml";
+}
+
+<div class="row justify-content-md-center mrg-0 postal-info" style="margin:20px">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center" style="margin-top:10px">
+            <h1 style="color:white">ویرایش حساب کاربری</h1>
+        </div>
+        <div class="body-dash send-data-from">
+
+            <!------form-action-->
+            <div class="row justify-content-md-centertext-blue">
+                <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                    <div class="from-upload">
+                        <img src="@Model.CustomerInfoModel.AvatarUrl" >
+                        @*<form id="upload" enctype="multipart/form-data" method="POST">
+                    @*<label class="image_input_button btn btn-blue-theme">
+                        <span>ویرایش لوگو</span>
+                        <i class="fa fa-upload"></i>
+                        @*<input type="file" name="fileUpload" id="fileUpload"   size="1" />
+                    </label>*@
+                        <button id="btnUploadLogo" class="btn btn-orang-theme">آپلود لوگوی تجاری</button>
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+            
+            <form asp-route="Ap/CustomerInfo" method="post" class="form-sign-up" id="frm_customer_info">
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>نام :</label>
+                            <input asp-for="CustomerInfoModel.FirstName" name="FirstName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>نام خانوادگی :</label>
+                            <input asp-for="CustomerInfoModel.LastName" name="LastName" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3 ">
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-group text-right">
+                            <label>ایمیل :</label>
+                            <input asp-for="CustomerInfoModel.Email" name="Email" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4" style="display:none">
+                        <div class="form-group text-right">
+                            <label>شماره همراه :</label>
+                            <input asp-for="CustomerInfoModel.Phone" name="Phone" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 row justify-content-md-center mt-5 text-blue">
+                    <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                        <div class="form-group btn-sub">
+                            <button type="submit" class="btn btn-orang-theme">
+                                ذخیره تغییرات
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    try {
+        $('#frm_customer_info').submit(function (event) {
+            event.preventDefault();
+            isValid = $("#frm_customer_info").validate().form();
+            if (!isValid) {
+                return;
+            }
+
+            $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                cache: false,
+                type: "POST",
+                url: "@Url.Action("CustomerInfo", "ApDashboard")",
+                data: $('#frm_customer_info').serialize(),
+                success: function (data) {
+                    if (data == "") {
+                        asanPardakht.application.showMessageBox("پیام", "با موفقیت اطلاعات به روز شد", 1);
+                    } else {
+                        asanPardakht.application.showMessageBox("پیام", data, 1);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrive Code.');
+                }
+            });
+        });
+
+        $('#btnUploadLogo').off('click');
+        $('#btnUploadLogo').click(function () {
+            asanPardakht.application.fileManager.upload('https://postex.ir/api/customer/UploadAvatar'
+                , {}
+                , { cusotmerId:@(_workContext.CurrentCustomer.Id)}
+                , 'تصویر پروفایل / لوگوی تجاری'
+                , 'در صورتی که در تصویر لوگوی تجاری خود را در این قسمت بارگذاری کنید، می توانید پس از تایید و در زمان ثبت سفارش های بعدی آن را بر روی فاکتور پستی خود چاپ کنید'
+                , asanPardakht.application.fileManager.types.image
+                , '.jpg,.jpeg,.bmp'
+                , (5 * 1024 )
+                , null
+                , 500
+                , 500
+                , 100
+                , 100
+                , function (data) {
+                    try {
+                        if (data.errorCode == 0) {
+                            asanPardakht.application.showMessageBox("تایید", "بارگذاری با موفقیت انجام شد. بعد از تایید تصویر بارگذاری شده توسط تیم پشتیبانی، می توانید از آن برای چاپ بر روی فاکتور سفارش خود استفاده نمایید", 1);
+                            window.location.reload();
+                        }
+                        else if(data.message) {
+                            asanPardakht.application.showMessageBox("خطا", data.message,2);
+                        }
+                        else
+                            asanPardakht.application.showMessageBox("خطا", 'در زمان آپلود فایل خطایی بوجود آمد.لطفا مجددا تلاش کنید', 2);
+                    }
+                    catch (ex) {
+                        asanPardakht.application.showMessageBox("خطا", err.message, 2);
+                    }
+                }, function (data) {
+                   // alert(JSON.stringify(data));
+                    try {
+                        var msg = '';
+                        if (data.errorCode == -1) {
+                            msg = 'لطفاً ارتباط خود را چک کنید';
+                        }
+                        else if (data.errorCode == -2) {
+                            msg = 'خطای داخلی سیستم';
+                        }
+                        else if (data.errorCode == -3) {
+                            msg = 'لطفاً ارتباط خود را چک کنید (timeout)';
+                        }
+                        else if (data.errorCode == -4) {
+                            msg = 'خطای نامشخص';
+                        }
+                        if (msg != '')
+                                asanPardakht.application.showMessageBox("خطا", msg, 2);
+                        }
+                    catch (ex) {
+                        console.log(err.message);
+                    }
+                });
+        });
+
+
+        $("#frm_customer_info").validate({
+            rules: {
+                Email: "required",
+            },
+            messages: {
+                Email: "ایمیل اجباریست",
+            }
+        });
+    }
+    catch (ex) {
+        asanPardakht.application.showMessageBox("خطا", ex.message, 2);alert(err.message)
+    }
+</script>

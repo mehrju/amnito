@@ -1,0 +1,8 @@
+{
+  "DataProvider": "sqlserver",
+  //"DataConnectionString": "Data Source=DESKTOP-R4UUUK5;Initial Catalog=dbNop;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=123",
+  //"DataConnectionString": "Data Source=DESKTOP-R4UUUK5\\NM;Initial Catalog=_dbPostbar;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=123",
+  "DataConnectionString": "Data Source=162.55.241.76,1980;Initial Catalog=db_peykhub;Integrated Security=False;Persist Security Info=False;User ID=Postex_Test;Password=2aTest@A^$#^))",
+  //"DataConnectionString": "Data Source=185.8.175.246,1980;Initial Catalog=_dbNopcommerceTest;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=2a!#((PTX1400",
+  "RawDataSettings": {}
+}

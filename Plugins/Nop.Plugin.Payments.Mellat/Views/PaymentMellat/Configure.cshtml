@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "_ConfigurePlugin";
+}
+@model ConfigurationModel
+@using Nop.Plugin.Payments.Mellat.Models;
+@using Nop.Web.Framework;
+
+<form asp-controller="NopFarsiPaymentMellat" asp-action="Configure" method="post">
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div>
+                        <div>
+                            <p> ماژول پرداخت اینترنتی بانک ملت </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OrderId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="OrderId" />
+                            <span asp-validation-for="OrderId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="TerminalId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="TerminalId" />
+                            <span asp-validation-for="TerminalId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="UserName" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UserName" />
+                            <span asp-validation-for="UserName"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="UserPassword" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UserPassword" />
+                            <span asp-validation-for="UserPassword"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Toman" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="Toman" />
+                            <span asp-validation-for="Toman"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AdditionalFee" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="AdditionalFee" />
+                            <span asp-validation-for="AdditionalFee"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AdditionalFeePercentage" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="AdditionalFeePercentage" />
+                            <span asp-validation-for="AdditionalFeePercentage"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ReturnFromMellatWithoutPaymentRedirectsToOrderDetailsPage" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="ReturnFromMellatWithoutPaymentRedirectsToOrderDetailsPage" />
+                            <span asp-validation-for="ReturnFromMellatWithoutPaymentRedirectsToOrderDetailsPage"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    
+    </form>

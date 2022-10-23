@@ -1,0 +1,383 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Models.Search.Search_ProductPatternPricing
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = T("Nop.Plugin.Misc.ShippingSolutions.Page_Titel_ProductPatternPricing").Text;
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+}
+
+
+<form asp-controller="ManageProductPatternPricing" asp-action="List" method="post">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Misc.ShippingSolutions.List_ProductPatternPricing")
+
+        </h1>
+        <div class="pull-right">
+
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                جدید
+            </a>
+            <button type="button" id="Active-selected" class="btn btn-success">
+                <i class="fa fa-check"></i>
+                فعال سازی(انتخاب شده)
+            </button>
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                غیرفعال سازی(انتخاب شده)
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ProductPatternPricing_ProductName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_ProductPatternPricing_ProductName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ProductPatternPricing_IsActive" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_ProductPatternPricing_IsActive" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ProductPatternPricing_IdPatternPricing" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Search_ProductPatternPricing_IdPatternPricing" asp-items="Model.ListPatternPricing" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="Search_ProductPatternPricing_IdStateApplyPricingPolicy" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Search_ProductPatternPricing_IdStateApplyPricingPolicy" asp-items="Model.ListStateApplyPricingPolicy" />
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none;">
+
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="Search_ProductPatternPricing_ActiveSearch" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-customers" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="customers-grid"></div>
+
+                        <script type="text/javascript">
+    $(document).ready(function() {
+        $("#customers-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("ProductList", "ManageProductPatternPricing"))",
+                        type: "POST",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(defaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(gridPageSizes)],
+                @await Html.PartialAsync("_GridPagerMessages")
+            },
+            scrollable: false,
+            dataBound: onDataBound,
+            columns: [
+                                        {
+                                            field: "Id",
+                                            headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                            width: 50
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProductPatternPricing_ProductName",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_ProductName")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_ProductPatternPricing_StateApplyPricingPolicy",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_StateApplyPricingPolicy")",
+                                            width: 100
+                                         }
+                                         ,
+
+                                        {
+                                            field: "Grid_ProductPatternPricing_PatternNames",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_PatternNames")",
+                                            width: 100
+                                          }
+                                         ,
+                                        {
+                                            field: "Grid_ProductPatternPricing_StateClaculateMonth",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_StateClaculateMonth")",
+                                            width: 100,
+                                            template: '# if(Grid_ProductPatternPricing_StateClaculateMonth) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                          }
+                                          ,
+                                        {
+                                            field: "Grid_ProductPatternPricing_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_ProductPatternPricing_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                          }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProductPatternPricing_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_UserInsert")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_ProductPatternPricing_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProductPatternPricing_DateInsert")",
+                                            width: 100
+                                        }
+
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 50,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="Edit/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+            ]
+        });
+    });
+                        </script>
+
+                        <script type="text/javascript">
+    var selectedIds = [];
+
+    $(document).ready(function() {
+        //search button
+        $('#search-customers').click(function () {
+              $('#@Html.IdFor(model => model.Search_ProductPatternPricing_IsActive)').attr('checked', true).change();
+            var grid = $('#customers-grid').data('kendoGrid');
+            $('.checkboxGroups').attr('checked', false).change();
+            selectedIds = [];
+            return false;
+        });
+
+
+            //delete selected
+            $('#delete-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DisableProduct", "ManageProductPatternPricing"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#customers-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+            //Active
+            $('#Active-selected').click(function(e) {
+                e.preventDefault();
+
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("ActiveProduct", "ManageProductPatternPricing"))",
+                    data: postData,
+                    complete: function(data) {
+                        //reload grid
+                        var grid = $('#customers-grid').data('kendoGrid');
+                        grid.dataSource.read();
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+
+
+        $('#mastercheckbox').click(function() {
+            $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+        });
+
+        //wire up checkboxes.
+        $('#customers-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function(e) {
+            var $check = $(this);
+            if ($check.is(":checked") == true) {
+                var checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked == -1) {
+                    //add id to selectedIds.
+                    selectedIds.push($check.val());
+                }
+            } else {
+                var checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked > -1) {
+                    //remove id from selectedIds.
+                    selectedIds = $.grep(selectedIds, function(item, index) {
+                        return item != $check.val();
+                    });
+                }
+            }
+            updateMasterCheckbox();
+        });
+    });
+
+    function onDataBound(e) {
+        $('#customers-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function() {
+            var currentId = $(this).val();
+            var checked = jQuery.inArray(currentId, selectedIds);
+            //set checked based on if current checkbox's value is in selectedIds.
+            $(this).attr('checked', checked > -1);
+        });
+
+        updateMasterCheckbox();
+    }
+
+    function updateMasterCheckbox() {
+        var numChkBoxes = $('#customers-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+        var numChkBoxesChecked = $('#customers-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+        $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+    }
+
+    function additionalData() {
+        var data = {
+            Search_ProductPatternPricing_ActiveSearch: $('#@Html.IdFor(model => model.Search_ProductPatternPricing_ActiveSearch)').is(':checked'),
+            Search_ProductPatternPricing_IsActive: $('#@Html.IdFor(model => model.Search_ProductPatternPricing_IsActive)').is(':checked'),
+            Search_ProductPatternPricing_ProductName: $('#@Html.IdFor(model => model.Search_ProductPatternPricing_ProductName)').val(),
+            Search_ProductPatternPricing_IdPatternPricing: $('#@Html.IdFor(model => model.Search_ProductPatternPricing_IdPatternPricing)').val(),
+            Search_ProductPatternPricing_IdStateApplyPricingPolicy: $('#@Html.IdFor(model => model.Search_ProductPatternPricing_IdStateApplyPricingPolicy)').val(),
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+            //var selectedIds = [];
+
+            //$(document).ready(function () {
+
+
+            //    $('#mastercheckbox').click(function () {
+            //        $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+            //    });
+
+            //    //wire up checkboxes.
+            //    $('#customers-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function (e) {
+            //        var $check = $(this);
+            //        if ($check.is(":checked") == true) {
+            //            var checked = jQuery.inArray($check.val(), selectedIds);
+            //            if (checked == -1) {
+            //                //add id to selectedIds.
+            //                selectedIds.push($check.val());
+            //            }
+            //        }
+            //        else {
+            //            var checked = jQuery.inArray($check.val(), selectedIds);
+            //            if (checked > -1) {
+            //                //remove id from selectedIds.
+            //                selectedIds = $.grep(selectedIds, function (item, index) {
+            //                    return item != $check.val();
+            //                });
+            //            }
+            //        }
+            //        updateMasterCheckbox();
+            //    });
+            //});
+
+
+    </script>
+
+
+</form>

@@ -1,0 +1,1138 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.NewCheckoutViewModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.plugin.Orders.ExtendedShipment.Services.IExtendedShipmentService _extendedShipmentService
+@inject Nop.Core.IWorkContext _workContext;
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postexNew/_NewUiLayout.cshtml";
+    int ScriptVersion = 45;
+    Html.AppendCssFileParts("https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/searchbox.css");
+    Html.AppendCssFileParts($"~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver={ScriptVersion}");
+
+    #region GeoJsondata
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_6.js");
+    #endregion
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Alborz_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/get_geojson_4.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Mashad_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Shiraz_6.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_9.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_10.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_11.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_12.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_13.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_14.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_15.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_16.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_17.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_18.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_19.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_20.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_21.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_22.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_2.js");
+
+    #endregion
+    #region Post
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/11_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/13_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/14_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/15_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/16_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/17_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/18_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/19_5.js");
+    #endregion
+    #endregion
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/Autolinker.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.customsearchbox.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.pattern.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet-pip.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, $"~/Plugins/Orders.MultiShipping/Content/MapResource/js/MapConfig.js?ver={ScriptVersion}");
+    Html.AppendScriptParts(ResourceLocation.Footer, $"~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js?ver={ScriptVersion}");
+    Html.AppendScriptParts(ResourceLocation.Footer, $"~/Plugins/Orders.MultiShipping/Content/Address.js?ver={ScriptVersion}");
+    Html.AppendScriptParts(ResourceLocation.Footer, $"~/Plugins/Orders.MultiShipping/Content/CheckoutWizard.js?ver={ScriptVersion}");
+
+
+
+    string _postArea = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Foreign ? "پست خارجی" :
+        (Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Heavy ? "حمل و نقل سنگین" : "پست داخلی");
+    bool IsForegin = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Foreign;
+    bool IsHeavy = Model.postArea == Nop.Plugin.Orders.MultiShipping.Models.PostArea.Heavy;
+    string PostItem = IsHeavy ? "بار" : "مرسوله";
+    string WeightType = IsHeavy ? "تن" : "گرم";
+    bool hasValidAvatar = _extendedShipmentService.hasValidAvatar(_workContext.CurrentCustomer.Id).GetValueOrDefault(false);
+
+}
+<style>
+    hr {
+        margin: 10px 0 !important;
+    }
+
+    @@media(max-width:961px) {
+        .stpeImage1 {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .stpeImage2 {
+            width: 65% !important;
+            height: 25% !important;
+        }
+
+        .stpeImage3 {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        #ReceiverStateTown {
+            height: 60px !important;
+        }
+
+        #SenderStateTown {
+            margin-top: 13px !important;
+            height: 30px !important;
+        }
+    }
+
+    @@media(min-width:962px) {
+        .stpeImage {
+            width: 80% !important;
+            height: 60% !important;
+        }
+
+        #SenderStateTown {
+            margin-top: 15px !important;
+        }
+    }
+
+    .chooseBTN {
+        position: relative;
+        overflow: hidden;
+        font-size: 10px;
+    }
+
+    .choose {
+        position: absolute;
+        font-size: 50px;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+</style>
+<div class="multisteps-form mt-3">
+    <input id="checkOutModelItemId" type="hidden" />
+    <input id="isForginRequest" type="hidden" value="@(IsForegin.ToString().ToLower())" />
+    <!--progress bar-->
+    <div class="row">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12 m-auto mb-3">
+            <div class="multisteps-form__progress shadowDesk">
+                <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">فرستنده</button>
+                <button class="multisteps-form__progress-btn" type="button" title="Address">مشخصات مرسوله و گیرنده</button>
+                <button class="multisteps-form__progress-btn" type="button" title="Order Info">لیست مرسولات</button>
+                <button class="multisteps-form__progress-btn" type="button" title="Order Info">ثبت سفارش و پرداخت</button>
+            </div>
+        </div>
+    </div>
+    <!--form panels-->
+    <div class="row">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12 m-auto">
+            <form class="multisteps-form__form stepform" style="">
+
+                <!--single form panel-->
+                <div class="multisteps-form__panel shadow p-3 rounded bg-white js-active steps1" data-animation="scaleIn" style="margin-bottom:0px !important">
+                    <div class="multisteps-address">
+
+                        <h3 class="multisteps-form__title pr-4"> ثبت آدرس فرستنده</h3>
+                        <hr style="margin: 10px !important;" />
+                        <div class="multisteps-form__content">
+                            <div class="form-row">
+                                <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="col-xl-12 col-sm-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend addressSign">
+                                                <span class="input-group-text" id="basic-addon" style="margin-right: 20px;">
+                                                    <img src="~/Themes/postexNew/images/formIconAddress/آدرس فرستنده.png?ver=@(ScriptVersion)" class="iconForm">
+                                                </span>
+                                            </div>
+                                            <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12" style="text-align:center">
+                                                <div class="map-btn-input" style="height:35px">
+                                                    <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                                                       data-toggle="tooltip" data-html="true" id="get-btn-map_i" data-val="Sender" data-type="OldAddress" aria-hidden="true">
+                                                        <i class="fas fa-address-book faa-horizontal" aria-hidden="true" style="margin-left: 10px;font-size:10pt !important"></i>
+                                                        <span class="addAddress">
+                                                            انتخاب آدرس قبلی
+                                                        </span>
+                                                    </a>
+
+                                                    <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی"
+                                                       data-toggle="tooltip" data-html="true" id="get-btn-map" data-val="Sender" data-type="newAddress" aria-hidden="true">
+                                                        <span class="addAddress">
+                                                            ثبت آدرس جدید
+                                                        </span>
+                                                        <i class="fas fa-map-marker faa-vertical" aria-hidden="true" style="margin-right: 10px;font-size:10pt !important"></i>
+                                                    </a>
+                                                </div>
+                                                <label id="SenderStateTown" style="color: black !important;color:#218838;font-size:11pt"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="col-xl-12 col-sm-12" style="text-align:center">
+                                        <div class="checkbox " style="padding:10px;width:100%">
+                                            <input type="checkbox" id="NeedCollector" name="NeedCollector" style="display: none;" checked="checked">
+                                            <label for="NeedCollector" class="check">
+                                                <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                                                    <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                    </path>
+                                                    <polyline points="1 9 7 14 15 4"></polyline>
+                                                </svg>
+                                            </label>
+                                            <span>
+                                                نیاز به جمع آوری مرسوله از درب محل شما؟
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-12">
+                                        <div class="input-group">
+                                            <div style="text-align:justify;text-align: justify;font-size: 9pt
+                                                        ;opacity: 0.5;border: 1px solid;
+                                                        border-radius: 10px;padding: 5px !important;
+                                                        background-color:#009bde;color:white">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="16"
+                                                     height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-info-circle"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                </svg>
+                                                در صورتی عدم انتخاب "نیاز به جمع آوری مرسوله از درب محل شما":
+                                                <p>1- هزینه جمع آوری صفر(0) خواهد شد.</p>
+                                                <p>2- شما(فرستنده) باید برای تحویل بسته به آدرس دفتر نمایندگی که در انتهای سفارش به شما اطلاع رسانی می شود مراجعه کنید.</p>
+                                                <p>3- توجه داشته باشید حداکثر زمان مجاز برای تحویل بسته به دفتر نمایندگی بعد از دریافت بارکد پستی، 24 ساعت می باشد و بعد از آن بارکد شما فاقد اعتبار می باشد.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button class="button btn js-btn-next btn-success basebtn" type="button" title="Next">
+                                            ثبت اطلاعات مرسوله و گیرنده<p></p>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 imgMarsolatDesk">
+                                    <img class="rounded mx-auto d-block img-address stpeImage1" src="~/Themes/postexNew/images/آدرس خارجی.jpg">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--single form panel-->
+                <div class="multisteps-form__panel shadow p-4 rounded bg-white steps2" data-animation="scaleIn" style="display:none">
+                    <div class="multisteps-address">
+                        <h3 class="multisteps-form__title">اطلاعات مرسوله و گیرنده</h3>
+                        <hr style="margin: 10px !important;" />
+                        <div class="multisteps-form__content">
+                            <div class="form-row">
+                                <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="col-xl-12 col-sm-12">
+                                        <label class="labelAddress">محتویات مرسوله<span>*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon">
+                                                    <img src="~/Themes/postexNew/images/formIconAddress/محتویات.png?ver=@(ScriptVersion)" class="iconForm">
+                                                </span>
+                                            </div>
+                                            <input type="text"
+                                                   maxlength="100"
+                                                   placeholder="@(!IsHeavy?"مثلا 2 عدد ساعت":"مثلا محصولات کشاورزی")"
+                                                   class="form-control myTooltip selectInput"
+                                                   id="GoodsType"
+                                                   name="GoodsType"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('postalBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i> مشاهده ممنوعات پستی</a>")">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-12">
+                                        <label class="labelAddress">وزن @(PostItem)(@(WeightType))<span class="org-color">*</span> </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon">
+                                                    <img src="~/Themes/postexNew/images/formIconAddress/وزن.png?ver=@(ScriptVersion)" class="iconForm">
+                                                </span>
+                                            </div>
+                                            <input type="text"
+                                                   class="form-control myTooltip selectInput"
+                                                   maxlength="@(IsHeavy?2:(IsForegin?6:7))"
+                                                   placeholder="مثلا 20"
+                                                   id="Weight_g"
+                                                   name="Weight_g"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('weightBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i> مشاهده محدودیت وزنی</a>")">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-12">
+                                        <label class="labelAddress">ارزش ریالی محتویات @(PostItem)<span class="org-color">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon">
+                                                    <img src="~/Themes/postexNew/images/formIconAddress/ارزش.png?ver=@(ScriptVersion)" class="iconForm">
+                                                </span>
+                                            </div>
+                                            <input type="text"
+                                                   class="form-control myTooltip selectInput"
+                                                   maxlength="12" placeholder="ريال"
+                                                   required id="ApproximateValue"
+                                                   name="ApproximateValue"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   title="ارزش ریالی مرسوله" />
+                                            <input type="hidden" id="CodGoodsPrice" />
+                                        </div>
+                                    </div>
+
+                                    @if (IsForegin)
+                                    {
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress">برند(سازنده) و مدل<span class="org-color"></span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/ارزش.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <input type="text"
+                                                   class="form-control myTooltip selectInput"
+                                                   maxlength="50" placeholder=""
+                                                   required id="goodsBrand"
+                                                   name="goodsBrand"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   title="لطفا برند و سازنده کالای ارسالی خود را وارد نمایید" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress">لینک کالای خارجی<span class="org-color"></span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/ارزش.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <input type="text"
+                                                   class="form-control myTooltip selectInput"
+                                                   maxlength="50" placeholder="در صورتی که قصد خرید کالا از سایت های خارجی را دارید"
+                                                   required id="storeLink"
+                                                   name="storeLink"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   title="در صورتی که قصد خرید کالا از سایت های خارجی را دارید" />
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="col-xl-12 col-sm-12">
+                                        <label class="labelAddress">@(!IsHeavy ? "تعداد بسته پستی" : "تعداد خودرو")<span class="org-color">*</span> </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon">
+                                                    <img src="~/Themes/postexNew/images/formIconAddress/تعداد.png?ver=@(ScriptVersion)" class="iconForm">
+                                                </span>
+                                            </div>
+                                            <input type="number"
+                                                   max="50"
+                                                   min="1"
+                                                   class="form-control myTooltip selectInput"
+                                                   id="Count"
+                                                   name="count"
+                                                   data-toggle="tooltip"
+                                                   data-html="true"
+                                                   value="1"
+                                                   title="@(!IsHeavy?"چه تعداد بسته پستی با وزنی که اظهار کردید می خواهید ارسال کنید":"تعداد خودرو مورد نیاز")">
+                                        </div>
+                                    </div>
+
+
+                                    @if (!IsHeavy)
+                                    {
+                                        <div class="col-xl-12 col-sm-12" style="display:@(IsForegin?"Block":"none")">
+                                            <label class="labelAddress">نوع @(PostItem)<span class="org-color"></span> </label>
+                                            <div class="input-group">
+                                                <select class="selectInput form-control" name="boxType" id="boxType">
+                                                    <option value="-1">انتخاب کنید...</option>
+                                                    <option value="پاکت">پاکت(اوراق و اسناد)</option>
+                                                    <option value="بسته">بسته(کارتن،جعبه)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress">حدود اندازه بسته پستی(طول* عرض*ارتفاع)<span class="org-color">*</span> </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/ابعاد.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <select class="form-control selectInput" name="KartonLafaf" id="KartonLafaf" data-toggle="tooltip" title="اگر @(PostItem) شما نیاز به کارتن دارد"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12" id="dimenationsBox" style="display:none">
+                                            <label class="labelAddress">ابعاد مرسوله(ابعاد را به سانتی متر وارد کنید)<span>*</span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/ابعاد.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control myTooltip selectInput Dimensions" maxlength="6" placeholder="طول" id="length" name="length" data-html="true" data-toggle="tooltip"
+                                                   title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                                                <input type="text" class="form-control myTooltip  selectInput Dimensions" maxlength="6" placeholder="عرض" id="width" name="width" data-html="true" data-toggle="tooltip"
+                                                   style="border-radius: 0 !important;"
+                                                   title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                                                <input type="text" class="form-control myTooltip selectInput Dimensions" maxlength="6" placeholder="ارتفاع" id="height" name="height" data-html="true" data-toggle="tooltip"
+                                                   title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-12 col-sm-12" id="needCatonWrapper" style="display:@(Model.IsCod?"none":"Block")">
+                                            <div class="input-group" style="margin-top:30px">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon" style="height: 54px !important; width: 54px !important;">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/boxsize.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <div class="checkbox" style="padding:10px;">
+                                                    <input type="checkbox" id="needCaton" style="display: none;">
+                                                    <label for="needCaton" class="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                                                            <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                            </path>
+                                                            <polyline points="1 9 7 14 15 4"></polyline>
+                                                        </svg>
+                                                    </label>
+                                                    <label>
+                                                        به پاکت/کارتن پستی نیاز دارم
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        @if (IsForegin)
+                                        {
+                                            <div class="col-xl-12 col-sm-12" id="isSecondhandWrapper">
+                                                <div class="input-group" style="margin-top:30px">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon" style="height: 54px !important; width: 54px !important;">
+                                                            <img src="~/Themes/postexNew/images/formIconAddress/New.png?ver=@(ScriptVersion)" class="iconForm">
+                                                        </span>
+                                                    </div>
+                                                    <div class="checkbox" style="padding:10px;">
+                                                        <input type="checkbox" id="isSecondhand" style="display: none;">
+                                                        <label for="isSecondhand" class="check">
+                                                            <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                                                                <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                        2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                                </path>
+                                                                <polyline points="1 9 7 14 15 4"></polyline>
+                                                            </svg>
+                                                        </label>
+                                                        <label>
+                                                            کالای ارسالی دست دوم است؟
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress">بیمه پوششی<span class="org-color">*</span> </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/Insurance.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <select class="form-control selectInput" name="Insurance" id="Insurance" data-toggle="tooltip" data-html="true" title="@(PostItem) تون رو بیمه کنید"></select>
+                                            </div>
+                                        </div>
+                                        @if (Model.IsAgent)
+                                        {
+                                            <div class="col-xl-12 col-sm-12">
+                                                <label class="labelAddress">مبلغ خدمات نمایندگی</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon">
+                                                            <img src="~/Themes/postexNew/images/formIcon/money.png?ver=@(ScriptVersion)" class="iconForm">
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" maxlength="12" class="form-control selectInput" style="padding: 21px;" id="AgentSaleAmount" name="AgentSaleAmount" placeholder="مبلغ را به صورت عددی وارد کنید"
+                                                   data-toggle="tooltip" data-html="true" title="در صورتی که خدمت اضافی انجام داده اید میتوانید هزینه آنرا در این قسمت اضافه کنید">
+                                                </div>
+
+                                            </div>
+                                        }
+
+                                        @if (IsForegin)
+                                        {
+                                            <div class="col-xl-12 col-sm-12">
+                                                <label class="labelAddress">لطفا 3 تصویر از مرسوله خود بارگزاری کنید</label>
+                                                <button type="button" class="btn btn-warning" style="width:100%" data-toggle="modal" data-target="#myModal">
+                                                    <i class="fa fa-file-image"></i>
+                                                    بارگذاری تصاویر
+                                                </button>
+                                            </div>
+
+                                        }
+
+                                        @*</dvi>*@
+                                    }
+                                    else
+                                    {
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label for="UbbraTruckType" class="labelAddress">نوع خودرو<span class="org-color"></span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/truck.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <select class="form-control selectInput" name="UbbraTruckType" id="UbbraTruckType"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress" for="VechileOptions">ویژگی خودرو<span class="org-color"></span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/truckType.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <select class="form-control selectInput" name="VechileOptions" id="VechileOptions"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12">
+                                            <label class="labelAddress" for="UbbarPackingLoad">نوع بسته بندی بار<span class="org-color"></span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon">
+                                                        <img src="~/Themes/postexNew/images/formIconAddress/packing.png?ver=@(ScriptVersion)" class="iconForm">
+                                                    </span>
+                                                </div>
+                                                <select class="form-control selectInput" name="UbbarPackingLoad" id="UbbarPackingLoad">
+                                                    <option value="0">انتخاب کنید...</option>
+                                                    <option value="karton">کارتن</option>
+                                                    <option value="pallet">پالت</option>
+                                                    <option value="roll">رل</option>
+                                                    <option value="falleh">فله</option>
+                                                    <option value="bandil">بندیل</option>
+                                                    <option value="kiseh_gooni">کیسه-گونی</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-sm-12 form-group">
+                                            <label for="dispatch_date"> تاریخ و ساعت بارگیری </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text cursor-pointer" id="enter_date" data-mdpersiandatetimepicker="" data-mdpersiandatetimepicker-group="enter_date" data-fromdate="" data-original-title="" title="">انتخاب تاریخ</span>
+                                                </div>
+                                                <input type="text" name="dispatch_date" id="dispatch_date" class="form-control form-group selectInput" aria-label="enter_date" aria-describedby="enter_date">
+                                                <input type="hidden" name="enter_date_2" id="enter_date_2" class="form-control form-group" aria-label="enter_date" aria-describedby="enter_date" value="">
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+
+                                <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 imgMarsolatDesk" style="text-align:center">
+                                    <div class="col-xl-12 col-sm-12">
+                                        <label class="labelAddress">آدرس گیرنده<span class="org-color">*</span> </label>
+                                        <div class="input-group">
+
+                                            <div class="map-btn-input" style="height:35px">
+                                                <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                                                   data-toggle="tooltip" data-html="true" id="get-btn-map_i" data-val="Reciver" data-type="OldAddress" aria-hidden="true">
+                                                    <i class="fas fa-address-book faa-horizontal" aria-hidden="true" style="margin-left: 10px;font-size:10pt !important"></i>
+                                                    <span class="addAddress">
+                                                        انتخاب آدرس قبلی
+                                                    </span>
+                                                </a>
+                                                <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی"
+                                                   data-toggle="tooltip" data-html="true" id="get-btn-map" data-val="Reciver" data-type="newAddress" aria-hidden="true">
+                                                    <span class="addAddress">
+                                                        ثبت آدرس جدید
+                                                    </span>
+                                                    <i class="fas fa-map-marker faa-vertical" aria-hidden="true" style="margin-right: 10px;font-size:10pt !important"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label id="ReceiverStateTown" style="color: black !important;margin-top: 13px;margin-right:20px;font-size:9pt"></label>
+                                    <img class="rounded mx-auto d-block img-address stpeImage2" src="~/Themes/postexNew/images/سرویس داخلی.jpg" style="width:40%;height:30%;">
+
+                                    <hr />
+                                    <div class="col-xl-12 col-sm-12" style="text-align:center">
+                                        <div class="checkbox " style="padding:10px;width:100%">
+                                            <input type="checkbox" id="NeedDistributer" name="NeedDistributer" style="display: none;" checked="checked">
+                                            <label for="NeedDistributer" class="check">
+                                                <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                                                    <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                    </path>
+                                                    <polyline points="1 9 7 14 15 4"></polyline>
+                                                </svg>
+                                            </label>
+                                            <span>
+                                                بسته درب محل گیرنده توزیع شود؟
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-12">
+                                        <div>
+                                            <div style="text-align:justify;text-align: justify;font-size: 9pt
+                                                        ;opacity: 0.5;border: 1px solid;
+                                                        border-radius: 10px;padding: 5px !important;
+                                                        background-color:#009bde;color:white">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="16"
+                                                     height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-info-circle"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                </svg>
+
+                                                درصورت عدم انتخاب "بسته درب محل گیرنده توزیع شود" :
+                                                <p>1- هزینه توزیع درمقصد صفر خواهد شد.</p>
+                                                <p>2- آدرس مکان تحویل، برای گیرنده ارسال خواهد شد.</p>
+                                                <p>
+                                                    3- گیرنده بعد از اطلاع از رسیدن بسته به مقصد می بایست به آدرس دفتر نماینده
+                                                    جهت تحویل بسته مراجعه نماید.
+                                                </p>
+                                                <p>4- لازم به ذکر است غیر فعال کردن توزیع در محل گیرنده برای پست پیشتاز امکان پذیر نیست.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="col-xl-12 col-sm-12">
+                                        <div class="input-group" style="text-align:center;">
+
+                                            <div class="checkbox" style="padding:10px;width:100%">
+                                                <input type="checkbox" id="acceptRole" name="acceptRole" style="display: none;">
+                                                <label for="acceptRole" class="check">
+                                                    <svg width="18px" height="18px" viewBox="0 0 18 18" stroke="red" stroke-width="2">
+                                                        <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                        </path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </label>
+                                                <label>
+                                                    قوانین را خواندم و قبول دارم
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3" style="margin-top:0px !important">
+                                        <button class="button btn js-btn-prev btnSteps2" type="button" title="Prev">
+                                            <span></span>بازگشت به مرحله
+                                            قبل
+                                        </button>
+                                        <button class="button btn btn-success basebtn" type="button" title="انتخاب سرویس مورد نظر" id="chooseService">
+                                            مرحله بعد<p></p>
+                                        </button>
+                                        <button class="button btn js-btn-next btn-info basebtn" type="button" style="display:none" id="sendconfirmService">
+                                            تایید ویرایش<p></p>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--single form panel-->
+                <div class="multisteps-form__panel shadow  p-4 rounded bg-white steps3" data-animation="scaleIn" style="margin-bottom:0px !important;display:none">
+                    <h3 class="multisteps-form__title">لیست مرسولات</h3>
+                    <div class="multisteps-form__content">
+
+                        <div class="form-row">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 pad-0">
+                                <hr style="border-color: #707070 !important;margin: 10px !important;" />
+                                <div>
+                                    <div class="form-content form-col pad-0">
+                                        <div class="row" id="OrdersList">
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mt-4 mb-4">
+
+                                    <div class="divBTNSteps">
+                                        <button class="button btn btn-info btnSteps2 basebtn" type="button" title="" id="AddNewParcell">
+                                            <span></span>اضافه کردن مرسوله جدید
+                                            <i class="fa fa-plus" aria-hidden="true" style="top:1px"></i>
+                                        </button>
+                                        <button class="button btn js-btn-prev btnSteps2" type="button" title="Prev">
+                                            <span></span>بازگشت به مرحله
+                                            قبل
+                                        </button>
+                                        <button class="button btn js-btn-next btn-success btnSteps2 basebtn" type="button" title="Next">
+                                            مرحله بعد<p></p>
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                <img class="rounded mx-auto d-block imgSteps2 stpeImage3" src="~/Themes/postexNew/images/خدمات داخلی.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--single form panel-->
+                <div class="multisteps-form__panel shadow p-4 rounded bg-white  steps4" data-animation="scaleIn" style="margin-bottom:0px !important;display:none">
+                    <h3 class="multisteps-form__title">خدمات ما</h3>
+                    <div class="multisteps-form__content">
+                        <div class="form-row">
+
+                            <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-row mt-4">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style="display:@(IsHeavy?"none":"inline")">
+                                        <img src="~/Themes/postexNew/images/formIcon/چاپ.png?ver=@(ScriptVersion)" class="iconForm">
+                                        <label>ایا امکان چاپ این فاکتور را دارید</label>
+                                        <select class="js-example-basic-single form-control myTooltip selectInput" name="HasAccessToPrinter" id="HasAccessToPrinter" data-toggle="tooltip" data-html="true" title="فاکتور پستی باید چاپ و روی بسته چسبانده شود">
+                                            <option value="@(IsHeavy?"true":"")" selected="selected" disabled>انتخاب کنید</option>
+                                            <option value="true">بله خودم میتونم چاپ کنم </option>
+                                            <option value="false">فاکتور سفارش رو برام چاپ و الصاق کنید</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style="display:@(Model.IsCod?"none":"Block")">
+                                        <img src="~/Themes/postexNew/images/formIcon/money.png?ver=@(ScriptVersion)" class="iconForm">
+                                        <label>کد کوپن تخفیف</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control myTooltip selectInput" maxlength="50"
+                                                   placeholder=" کد کوپن تخفیف را وارد نمایید" required="" id="discountCouponCode"
+                                                   name="discountCouponCode" data-toggle="tooltip" data-html="true" title=""
+                                                   data-original-title="در صورتی که کوپن تخفیف دارید کد آنرا وارد کنید">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row mt-3">
+                                    @if (!IsHeavy)
+                                    {
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style="display:none">
+                                            <img src="~/Themes/postexNew/images/formIcon/money.png?ver=@(ScriptVersion)" class="iconForm">
+                                            <label>تاریخ جمع آوری مرسوله(اختیاری)</label>
+                                            <div class="input-group">
+                                                <input type="text" id="PostCoordinationData" class="form-control" placeholder="تاریخ جمع آوری مرسوله(اختیاری)" aria-label="_dispatch_date" aria-describedby="_dispatch_date">
+
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text cursor-pointer" id="_PostCoordinationData" style="top:0px !important;padding: 6px;background-color: transparent;margin-left: 17px;padding-top: 4px !important;" data-mdpersiandatetimepicker="" data-original-title="" title="">
+                                                        <img src="/Themes/Ap/images/ApImages/calendar.png?ver=@(ScriptVersion)">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="form-row mt-4">
+                                    <div class="col-12 col-sm-6" style="display:@(IsHeavy?"none":"inline")">
+                                        <div class="checkbox">
+                                            <label class="labelSteps3">
+                                                <input type="checkbox" id="hasNotifRequest" name="hasNotifRequest" style="display: none;" data-toggle="tooltip" title="اگر میخواید شما و گیرنده بدونید @(PostItem) در هر لحظه کجاست">
+                                                <label for="hasNotifRequest" class="check">
+                                                    <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                        <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                      2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                        </path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </label>
+                                                <img src="~/Themes/postexNew/images/formIcon/اطلاع رسانی.png?ver=@(ScriptVersion)" class="iconForm">
+                                                اطلاع رسانی پیامکی در مراحل ارسال
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 mt-4 mt-sm-0" style="display:@(IsHeavy?"none":"inline")">
+                                        <div class="checkbox" @(hasValidAvatar == false ? "disabled" : "")>
+                                            <label class="labelSteps3">
+                                                <input type="checkbox" id="RequestPrintAvatar" name="RequestPrintAvatar" style="display: none;" @(hasValidAvatar == false ? "disabled" : "") data-toggle="tooltip" title="در صورتی که نشان تجاری خود را درقسمت حساب من سامانه وارد کرده باشید و به تایید کارشناسان ما رسیده باشد، امکان استفاده از این گزینه وجود دارد">
+                                                <label for="RequestPrintAvatar" class="check">
+                                                    <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                        <path class="notMap" d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                                      2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                        </path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </label>
+                                                <img src="~/Themes/postexNew/images/formIcon/الصاق.png?ver=@(ScriptVersion)" class="iconForm">
+                                                الصاق نشان تجاری من روی فاکتور
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <img style="stpeImage4" src="~/Themes/postexNew/images/خدمات داخلی.jpg">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3 ">
+                            <div class="divBTNSteps">
+
+                                <button class="button btn js-btn-prev" type="button" title="Prev">
+                                    <span></span>بازگشت به مرحله
+                                    قبل
+                                </button>
+                                <button class="button btn js-btn-next btn-success basebtn" type="button" title="Next">
+                                    ثبت سفارش<p></p>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="SenderLat" name="SenderLat" />
+<input type="hidden" id="SenderLon" name="SenderLon" />
+<input type="hidden" id="ReciverLat" name="ReciverLat" />
+<input type="hidden" id="ReciverLon" name="ReciverLon" />
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="MapAddressModalLabel" id="mapModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:9px !important">
+                <div class="row" style="width:100% !important">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                        <h5 class="modal-title" id="MapAddressModalLabel" style="float: right;">آدرس</h5>
+                        <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody" style="padding-right:0px !important;padding-left:0px !important">
+                <div class="form-horizontal">
+                    <div class="row" id="mapContent">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                            <div class="row" id="AddressContent" style="right:0px;">
+                                <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                                    <div id="oldAddressbox" class="form-group" style="display:none;padding-top:20px">
+                                        <select class="js-example-basic-single form-control" name="AddressBox" data-toggle="tooltip" id="AddressBox" title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                    </div>
+                                    <hr style="border-color:black !important" />
+                                </div>
+                                <div id="_NewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                    <div class="form-group" id="_CountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="Country" id="Country" disabled></select>
+                                    </div>
+                                    <div class="form-group" id="_StateDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="State" id="State" disabled></select>
+                                        <input id="tempStateName" type="hidden" />
+                                    </div>
+                                    <div class="form-group" id="_foreignCountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="receiver_ForeginCountry" id="receiver_ForeginCountry"></select>
+                                    </div>
+                                    <div class="form-group" id="_ForeginCountryCityDiv" style="display:none">
+                                        <input type="text" class="form-control" required id="receiver_ForeginCountryCity" placeholder="نام شهر *" name="receiver_ForeginCountryCity" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="FirstName" placeholder="نام *" name="FirstName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="LastName" placeholder="نام خانوادگی *" name="LastName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="PhoneNumber" maxlength="@(!IsForegin?11:15)" placeholder="تلفن همراه *" name="PhoneNumber" />
+                                    </div>
+                                    <div style="display:none" class="form-group">
+                                        <input type="text" class="form-control" id="ZipPostalCode" placeholder="کد پستی" name="ZipPostalCode" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="Address1" placeholder="آدرس *" name="Address1" />
+
+                                        <input type="hidden" id="addressType" name="addressType" />
+                                        <input type="hidden" id="newOldAddress" name="newOldAddress" />
+                                        <input type="hidden" id="tehranAreaId" name="tehranAreaId" />
+                                        <input type="hidden" id="trafficArea" name="trafficArea" />
+                                        <input type="hidden" id="CollectorAreaId" name="CollectorAreaId" />
+                                        <input type="hidden" id="isInCityArea" name="isInCityArea" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Company" placeholder="نام شرکت" name="Company" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Email" placeholder="پست الکترونیک" name="Email" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="PreNewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                <div class="form-group" style="margin-bottom:0px !important">
+                                    <select class="js-example-basic-single form-control" name="PreCountry" id="PreCountry"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <select class="js-example-basic-single form-control" name="PreState" id="PreState">
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="mapBox" class="mw-100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:0 !important">
+                <div class="col-md-12" style="margin-top:10px;">
+                    <div class="form-group">
+
+                        <a id="cleanAddressItem" title="پاک کردن" class="btn btn-danger basebtn" style="border: 1px solid #ccc;border-radius: 3px;width:30%">
+                            انصراف
+                        </a>
+                        <a class="btn btn-info confirmAddress basebtn" style="color: white;width:32%;display:none" id="EditAddress" title="ویرایش استان و شهر">
+                            مرحل قبل
+                        </a>
+                        <a class="btn btn-success confirmAddress basebtn" style="color: white;width:34%;display:none" id="confirmAddress" title="تایید و ثبت آدرس">
+                            ثبت آدرس
+                        </a>
+                        <a class="btn btn-success ContinueAddress basebtn" style="color: white;width:68%" id="ContinueAddress" title="تایید و ادامه">
+                            ادامه
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="servicesModalLabel" id="servicesModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:9px !important">
+                <div class="row" style="width:100% !important">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                        <h5 class="modal-title" id="servicesModalLabel" style="float: right;">لیست سرویس ها</h5>
+                        <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="form-horizontal">
+                    <div class="form-content row" id="serviceContent" style="padding: 0px !important;">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                            <table id="tblServiceInfo" class="table table-bordered  table-hover">
+
+                                <tbody></tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:0 !important">
+                <div class="col-md-12" style="margin-top:10px;">
+                    <div class="form-group">
+
+                        <button class="button btn js-btn-prev btn-danger" type="button" style="width:28% !important" id="cancelService">
+                            <span></span>انصراف
+                        </button>
+                        <button class="button btn js-btn-next btn-success basebtn" type="button" title="انتخاب سرویس و ادامه" style="width:63% !important" id="confirmService">
+                            تایید و بازبینی
+                            اطلاعات<p></p>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" style="text-align:center">پیوست تصویر</h4>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+
+                <div class="d-flex justify-content-center mt-3 ">
+                    <div class="divBTNSteps">
+                        <table>
+                            <tr>
+                                <td>
+                                    <button class="file chooseBTN button btn js-btn-prev" type="button">
+                                        تصویر
+                                        پیوست یک
+                                        <p></p>
+                                        <input id="fileImg1" class="choose docpic" type="file" name="file" onchange="imageFileChanged(this,'img1')" />
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="file chooseBTN button btn js-btn-prev" type="button">
+                                        تصویر
+                                        پیوست دو<p>
+                                        </p>
+                                        <input id="fileImg2" class="choose docpic" type="file" name="file" onchange="imageFileChanged(this,'img2')" />
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="file chooseBTN button btn js-btn-prev" type="button">
+                                        تصویر
+                                        پیوست سه<p>
+                                        </p>
+                                        <input id="fileImg3" class="choose docpic" type="file" name="file" onchange="imageFileChanged(this,'img3')" />
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img id="img1" draggable="false" style="width:150px;" />
+                                </td>
+                                <td>
+                                    <img id="img2" draggable="false" style="width:150px;" />
+                                </td>
+                                <td>
+                                    <img id="img3" draggable="false" style="width:150px;" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                @*<label>*حجم هر عکس می بایست کمتر از 150 کیلو باید باشد</label>*@
+                <label>*فرمت تصاویر می بایست jpg  یا PNG باشد</label>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-center mt-3 ">
+                    @*<button type="button" id="request-CustomerWalletHistory" class="btn btn-warning">
+                        <i class="fa fa-file-image"></i>
+                        تایید
+                        </button>*@
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">تایید</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div style="display:none;">
+    <canvas id="canvas1" width="1100" height="768"></canvas>
+    <canvas id="canvas2" width="1100" height="768"></canvas>
+    <canvas id="canvas3" width="1100" height="768"></canvas>
+    <canvas id="canvas4" width="1100" height="768"></canvas>
+    <canvas id="canvas5" width="1100" height="768"></canvas>
+    <canvas id="canvas6" width="1100" height="768"></canvas>
+
+</div>
+<input id="safeBuy" hidden="hidden" value="@(Model.IsSafeBuy.ToString().ToLower())" />
+<script>
+
+    $(document).ready(function () {
+        var options = {
+            document: document,
+            wizard: '#wizard',
+            WeightItem: '#Weight_g',
+            InsuranceItem: '#Insurance',
+            CountryItem: '#Country',
+            StateItem: '#State',
+            kartonSizeItem: '#KartonLafaf',
+            IsAgent:@(Model.IsAgent.ToString().ToLower()),
+            IsInCodRole:@(Model.IsInCodRole.ToString().ToLower()),
+            IsForegin:@(IsForegin.ToString().ToLower()),
+            IsHeavy:@(IsHeavy.ToString().ToLower()),
+            IsCod:@(Model.IsCod.ToString().ToLower())
+        };
+        var _address = new Address(options);
+        var _CheckoutWizard = new CheckoutWizard(options);
+    });
+    function imageFileChanged(file,imageId) {
+        debugger;
+        var ext = file.value.substr((file.value.lastIndexOf('.') + 1));
+        if (ext == undefined) {
+            $($(file).parent()).css('border', '1px solid orange')
+            return false;
+        }
+        if (file == null || (ext.toLowerCase() != 'png' && ext.toLowerCase() != 'jpg' && ext.toLowerCase() != 'jpeg')) {
+            alert("لطفا فایل تصویر با فرمت PNG و یا JPG انتخاب کنید");
+            return false;
+        }
+
+        if (file.files && file.files[0]) {
+            //if ((file.files[0].size / 1024) > 150) {
+            //    alert("حجم هر عکس می بایست کمتر از 150 کیلو بایت باشد");
+            //    return false;
+            //}
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(`#${imageId}`).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(file.files[0]); // convert to base64 string
+        }
+
+        $($(file).parent()).css('border', '3px solid black')
+    }
+</script>
+@*<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/PostexNewCheckout.js?ver=126"></script>*@

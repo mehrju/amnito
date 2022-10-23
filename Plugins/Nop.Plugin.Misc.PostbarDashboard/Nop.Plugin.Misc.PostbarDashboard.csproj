@@ -1,0 +1,462 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework> 
+    <Copyright>Copyright © Nop Solutions, Ltd</Copyright> 
+    <Company>Nop Solutions, Ltd</Company> 
+    <Authors>Nop Solutions, Ltd</Authors> 
+    <Version>1.44</Version> 
+    <Description>This plugin enables Facebook authentication (login using Facebook account)</Description> 
+    <PackageLicenseUrl></PackageLicenseUrl> 
+    <PackageProjectUrl>http://www.nopcommerce.com/</PackageProjectUrl> 
+    <RepositoryUrl>https://github.com/nopSolutions/nopCommerce</RepositoryUrl> 
+    <RepositoryType>Git</RepositoryType> 
+    <UserSecretsId>d00fb021-cfeb-4a07-81b6-a7c9660bd163</UserSecretsId>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="logo.jpg" />
+    <None Remove="plugin.json" />
+    <None Remove="Reports\gatewayRegisterExcel.mrt" />
+    <None Remove="Reports\GetwayRegisterPdf.mrt" />
+    <None Remove="Reports\officialFactor.mrt" />
+    <None Remove="Reports\OrderBillDetail.mrt" />
+    <None Remove="Reports\OrdersBarCodeReport.mrt" />
+    <None Remove="Reports\OrdersBarCodeReport_xls.mrt" />
+    <None Remove="Reports\OrdersReport.mrt" />
+    <None Remove="Reports\WalletRecord.mrt" />
+    <None Remove="Scripts\infinite-ajax-scroll.min.js" />
+    <None Remove="Scripts\jquery-infiniteScroll.js" />
+    <None Remove="Scripts\PostexDashboard.js" />
+    <None Remove="Views\AddDamages.cshtml" />
+    <None Remove="Views\AddRequestCOD.cshtml" />
+    <None Remove="Views\AddSupport.cshtml" />
+    <None Remove="Views\Dashboard2.cshtml" />
+    <None Remove="Views\Dashboard2_OrderPartial.cshtml" />
+    <None Remove="Views\Sep\AddRequestCOD.cshtml" />
+    <None Remove="Views\Sep\AddSupport.cshtml" />
+    <None Remove="Views\Sep\CustomerInfo.cshtml" />
+    <None Remove="Views\Sep\Dashboard.cshtml" />
+    <None Remove="Views\Sep\DetailSupport.cshtml" />
+    <None Remove="Views\Sep\ListFAQ.cshtml" />
+    <None Remove="Views\Sep\Orders.cshtml" />
+    <None Remove="Views\Sep\PostalAddress.cshtml" />
+    <None Remove="Views\Sep\ReadFilePdf.cshtml" />
+    <None Remove="Views\Sep\Services.cshtml" />
+    <None Remove="Views\Sep\support.cshtml" />
+    <None Remove="Views\Sep\_OrdersPaged.cshtml" />
+    <None Remove="Views\Sep\_supportPaged.cshtml" />
+    <None Remove="Views\Sep\_ViewImports.cshtml" />
+    <None Remove="Views\Ap\AddRequestCOD.cshtml" />
+    <None Remove="Views\Ap\AddSupport.cshtml" />
+    <None Remove="Views\Ap\CustomerInfo.cshtml" />
+    <None Remove="Views\Ap\Dashboard.cshtml" />
+    <None Remove="Views\Ap\DetailSupport.cshtml" />
+    <None Remove="Views\Ap\ListFAQ.cshtml" />
+    <None Remove="Views\Ap\Orders.cshtml" />
+    <None Remove="Views\Ap\PostalAddress.cshtml" />
+    <None Remove="Views\Ap\Services.cshtml" />
+    <None Remove="Views\Ap\support.cshtml" />
+    <None Remove="Views\Ap\_OrdersPaged.cshtml" />
+    <None Remove="Views\Ap\_supportPaged.cshtml" />
+    <None Remove="Views\Ap\_ViewImports.cshtml" />
+    <None Remove="Views\ChangePass.cshtml" />
+    <None Remove="Views\Configure.cshtml" />
+    <None Remove="Views\CustomerConfirmOrderUbaar.cshtml" />
+    <None Remove="Views\CustomerSetting.cshtml" />
+    <None Remove="Views\Customersubset.cshtml" />
+    <None Remove="Views\CustomerWalletChargeHistory.cshtml" />
+    <None Remove="Views\Damages.cshtml" />
+    <None Remove="Views\Dashboard.cshtml" />
+    <None Remove="Views\DetailDamages.cshtml" />
+    <None Remove="Views\DetailSupport.cshtml" />
+    <None Remove="Views\ListFAQ.cshtml" />
+    <None Remove="Views\PostalAddress.cshtml" />
+    <None Remove="Views\RequestCOD.cshtml" />
+    <None Remove="Views\Services.cshtml" />
+    <None Remove="Views\support.cshtml" />
+    <None Remove="Views\Wallet.cshtml" />
+    <None Remove="Views\_CustomersubsetPaged.cshtml" />
+    <None Remove="Views\_DamagesPaged.cshtml" />
+    <None Remove="Views\_RequestCODPaged.cshtml" />
+    <None Remove="Views\_supportPaged.cshtml" />
+    <None Remove="Views\_WalletPaged.cshtml" />
+    <None Remove="Views\Orders.cshtml" />
+    <None Remove="Views\_OrdersPaged.cshtml" />
+    <None Remove="Views\_ViewImports.cshtml" />
+    <None Remove="Views\CustomerInfo.cshtml" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Nop.Plugin.Misc.PostbarDashboard</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\gatewayRegisterExcel.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\GetwayRegisterPdf.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\officialFactor.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\OrderBillDetail.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\OrdersBarCodeReport.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\OrdersBarCodeReport_xls.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\OrdersReport.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\WalletRecord.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\infinite-ajax-scroll.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery-infiniteScroll.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\PostexDashboard.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\AddDamages.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\AddRequestCOD.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Dashboard2.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Dashboard2_OrderPartial.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\AddRequestCOD.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\AddSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\CustomerInfo.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\Dashboard.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\DetailSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\ListFAQ.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\Orders.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\PostalAddress.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\ReadFilePdf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\Services.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\support.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\_OrdersPaged.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\_supportPaged.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Sep\_ViewImports.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\AddRequestCOD.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\AddSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\CustomerInfo.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\Dashboard.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\DetailSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\ListFAQ.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\Orders.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\PostalAddress.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\Services.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\support.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\_OrdersPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\_supportPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Ap\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\CustomerSetting.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\CustomerWalletChargeHistory.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\RequestCOD.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\DetailDamages.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\ListFAQ.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\DetailSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\AddSupport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Services.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Customersubset.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Damages.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\CustomerConfirmOrderUbaar.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\support.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\PostalAddress.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CustomersubsetPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_RequestCODPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_DamagesPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_supportPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Dashboard.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Wallet.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_WalletPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Orders.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_OrdersPaged.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\CustomerInfo.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\ChangePass.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>2-Library\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection">
+      <HintPath>2-Library\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>2-Library\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>2-Library\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>2-Library\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>2-Library\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.AspNetCore">
+      <HintPath>2-Library\FluentValidation.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting">
+      <HintPath>..\Nop.Plugin.OrdersBulkOrder\2-Library\Microsoft.AspNetCore.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>..\Nop.Plugin.OrdersBulkOrder\2-Library\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+      <HintPath>..\Nop.Plugin.OrdersBulkOrder\2-Library\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Razor">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.Mvc.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing">
+      <HintPath>2-Library\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>2-Library\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>2-Library\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>2-Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Core">
+      <HintPath>..\..\Libraries\Nop.Core\bin\Debug\net461\Nop.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Data">
+      <HintPath>..\..\Libraries\Nop.Data\bin\Debug\net461\Nop.Data.dll</HintPath>
+    </Reference>
+	  <Reference Include="Nop.plugin.Orders.ExtendedShipment">
+		  <HintPath>..\..\Presentation\Nop.Web\Plugins\Orders.ExtendedShipment\Nop.plugin.Orders.ExtendedShipment.dll</HintPath>
+		  <Private>false</Private>
+	  </Reference>
+    <Reference Include="Nop.Plugin.Misc.ShippingSolutions">
+      <HintPath>..\..\Presentation\Nop.Web\Plugins\Misc.ShippingSolutions\Nop.Plugin.Misc.ShippingSolutions.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Nop.Plugin.Misc.Ticket">
+      <HintPath>..\..\Presentation\Nop.Web\Plugins\Misc.Ticket\Nop.Plugin.Misc.Ticket.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Nop.Plugin.Orders.MultiShipping">
+      <HintPath>..\..\Presentation\Nop.Web\Plugins\Orders.MultiShipping\Nop.Plugin.Orders.MultiShipping.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Nop.Services">
+      <HintPath>2-Library\Nop.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Web">
+      <HintPath>2-Library\Nop.Web.exe</HintPath>
+    </Reference>
+    <Reference Include="Nop.Web.Framework">
+      <HintPath>2-Library\Nop.Web.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Base">
+      <HintPath>2-Library\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Design">
+      <HintPath>2-Library\Stimulsoft.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report">
+      <HintPath>2-Library\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Video\2.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Ap\ReadFilePdf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\ReadFilePdf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Video\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\post_gateway\PostGatewayServiceLibrary\PostGatewayServiceLibrary.csproj" />
+  </ItemGroup>
+
+  <!-- This target execute after "Build" target -->
+  <Target Name="NopTarget" AfterTargets="Build">
+    <!-- Delete unnecessary libraries from plugins path -->
+    <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+  </Target>
+
+</Project>

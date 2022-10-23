@@ -1,0 +1,779 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <!--<UserSecretsId>fba11b6d-7c2f-4392-8c1d-f0b516e9f003</UserSecretsId>--> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Orders.ExtendedShipment\</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Orders.ExtendedShipment\</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  
+    <None Remove="CertFile\asanpardakht_sign_certificate.cer" />
+    <None Remove="CertFile\asanpardakht_sign_test_certificate.cer" />
+    <None Remove="CertFile\PostexPriavekey.pem" />
+    <None Remove="CertFile\PostexPublicKry.cer" />
+    <None Remove="Content\B Mitra.TTF" />
+    <None Remove="Content\BNazanin.ttf" />
+    <None Remove="Content\BYekan.TTF" />
+    <None Remove="Content\FreeSerif.ttf" />
+    <None Remove="Content\iban.docx" />
+    <None Remove="Content\NewRole.pdf" />
+    <None Remove="Content\NewRolePrivate.pdf" />
+    <None Remove="Content\postbarRule.pdf" />
+    <None Remove="Content\vazir\CHANGELOG.md" />
+    <None Remove="Content\vazir\LICENSE" />
+    <None Remove="Content\vazir\README.md" />
+    <None Remove="Content\vazir\Vazir-Bold.eot" />
+    <None Remove="Content\vazir\Vazir-Bold.ttf" />
+    <None Remove="Content\vazir\Vazir-Bold.woff" />
+    <None Remove="Content\vazir\Vazir-Bold.woff2" />
+    <None Remove="Content\vazir\Vazir-Light.eot" />
+    <None Remove="Content\vazir\Vazir-Light.ttf" />
+    <None Remove="Content\vazir\Vazir-Light.woff" />
+    <None Remove="Content\vazir\Vazir-Light.woff2" />
+    <None Remove="Content\vazir\Vazir-Medium.eot" />
+    <None Remove="Content\vazir\Vazir-Medium.ttf" />
+    <None Remove="Content\vazir\Vazir-Medium.woff" />
+    <None Remove="Content\vazir\Vazir-Medium.woff2" />
+    <None Remove="Content\vazir\Vazir-Thin.eot" />
+    <None Remove="Content\vazir\Vazir-Thin.ttf" />
+    <None Remove="Content\vazir\Vazir-Thin.woff" />
+    <None Remove="Content\vazir\Vazir-Thin.woff2" />
+    <None Remove="Content\vazir\Vazir.eot" />
+    <None Remove="Content\vazir\Vazir.ttf" />
+    <None Remove="Content\vazir\Vazir.woff" />
+    <None Remove="Content\vazir\Vazir.woff2" />
+    <None Remove="Controllers\ExtendedOrderController.cs~RF113a9957.TMP" />
+    <None Remove="Images\Kalaresan.png" />
+    <None Remove="Images\Mahex.png" />
+    <None Remove="logo.jpg" />
+    <None Remove="plugin.json" />
+    <None Remove="Report\COD.mrt" />
+    <None Remove="Report\COD85M.mrt" />
+    <None Remove="Report\COD_DTS.mrt" />
+    <None Remove="Report\LablePrint.mrt" />
+    <None Remove="Report\Valet.mrt" />
+    <None Remove="Scripts\bootstrap-treeview.js" />
+    <None Remove="Scripts\ckTexteditor\ckeditor.js" />
+    <None Remove="Scripts\jquery.fileDownload.js" />
+    <None Remove="Scripts\kendo.web.min.js" />
+    <None Remove="Scripts\kendo.web.min.js.map" />
+    <None Remove="Scripts\new-bootstrap-treeview.js" />
+    <None Remove="Scripts\pagination.js" />
+    <None Remove="Scripts\pagination.min.js" />
+    <None Remove="Scripts\persian-date.js" />
+    <None Remove="Scripts\persian-date.min.js" />
+    <None Remove="Scripts\persian-datepicker.css" />
+    <None Remove="Scripts\persian-datepicker.js" />
+    <None Remove="Scripts\persian-datepicker.min.css" />
+    <None Remove="Scripts\persian-datepicker.min.js" />
+    <None Remove="Scripts\phoneOrder.js" />
+    <None Remove="Scripts\select2.full.min.js" />
+    <None Remove="Scripts\select2.min.css" />
+    <None Remove="Scripts\sweetalert\sweetalert.css" />
+    <None Remove="Scripts\sweetalert\sweetalert.js" />
+    <None Remove="Views\AgentAmountRule.cshtml" />
+    <None Remove="Views\AgentConfig.cshtml" />
+    <None Remove="Views\AssignAgentAmountRule.cshtml" />
+    <None Remove="Views\CodShipmentList.cshtml" />
+    <None Remove="Views\Completed.cshtml" />
+    <None Remove="Views\Configure.cshtml" />
+    <None Remove="Views\CustomerOrders.cshtml" />
+    <None Remove="Views\DashboardMessaging.cshtml" />
+    <None Remove="Views\DefineAgentAmountRule.cshtml" />
+    <None Remove="Views\EventCategory\Index.cshtml" />
+    <None Remove="Views\ForeignOrder\List.cshtml" />
+    <None Remove="Views\GetewayShop\Index.cshtml" />
+    <None Remove="Views\List.cshtml" />
+    <None Remove="Views\Login.cshtml" />
+    <None Remove="Views\Menu.cshtml" />
+    <None Remove="Views\NewShipmentList.cshtml" />
+    <None Remove="Views\NotifConfiguration\PopupNotifConfig.cshtml" />
+    <None Remove="Views\PhoneOrder\Index.cshtml" />
+    <None Remove="Views\QualityControl.cshtml" />
+    <None Remove="Views\RequestFactor.cshtml" />
+    <None Remove="Views\RewardPointsHistoryCashout.cshtml" />
+    <None Remove="Views\SettlementInfo\SettlementInfoList.cshtml" />
+    <None Remove="Views\ShipmentDetails.cshtml" />
+    <None Remove="Views\ShipmentList.cshtml" />
+    <None Remove="Views\NotifConfiguration\SmsNotifConfig.cshtml" />
+    <None Remove="Views\Shipments.cshtml" />
+    <None Remove="Views\UserStates.cshtml" />
+    <None Remove="Views\_CreateOrUpdate.cshtml" />
+    <None Remove="Views\_CreateOrUpdate.RewardPoints.cshtml" />
+    <None Remove="Views\_CreateOrUpdateAddress.cshtml" />
+    <None Remove="Views\_CustomerContractPlans.cshtml" />
+    <None Remove="Views\_CustomerFnancialPlans.cshtml" />
+    <None Remove="Views\_CustomerStatistics.cshtml" />
+    <None Remove="Views\_CustomerVehicles.cshtml" />
+    <None Remove="Views\_MenuItem.cshtml" />
+    <None Remove="Views\_OrderDetails.Billing.cshtml" />
+    <None Remove="Views\_OrderDetails.Info.cshtml" />
+    <None Remove="Views\_OrderStatistics.cshtml" />
+    <None Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Content\BNazanin.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\BYekan.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FreeSerif.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\CHANGELOG.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\LICENSE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Bold.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Bold.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Bold.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Light.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Light.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Light.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Medium.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Medium.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Medium.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Medium.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Thin.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Thin.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Thin.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir-Thin.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\vazir\Vazir.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Kalaresan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Mahex.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\LablePrint.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Content\NewRolePrivate.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Images\POSTEX.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Report\Valet.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\new-bootstrap-treeview.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\ckTexteditor\ckeditor.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\phoneOrder.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\sweetalert\sweetalert.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\sweetalert\sweetalert.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\DashboardMessaging.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\EventCategory\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Include="Views\ForeignOrder\List.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Include="Views\GetewayShop\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Menu.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\NotifConfiguration\PopupNotifConfig.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\PhoneOrder\List.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Include="Views\PhoneOrder\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Include="Views\AgentConfig.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\RequestFactor.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\RewardPointsHistoryCashout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\NewShipmentList.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\SettlementInfo\SettlementInfoList.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shipments\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CustomerContractPlans.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CustomerFnancialPlans.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CreateOrUpdate.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="CertFile\asanpardakht_sign_certificate.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CertFile\asanpardakht_sign_test_certificate.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CertFile\PostexPriavekey.pem">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CertFile\PostexPublicKry.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\NewRole.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\postbarRule.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\0020056.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CHAPAR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\DTS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PDE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\POSTBAR.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\POSTONE.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TPG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UBAAR.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\YARBOX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\_0020056.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\COD_DTS.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\bootstrap-treeview.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\pagination.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\pagination.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Login.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\NotifConfiguration\SmsNotifConfig.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\DefineAgentAmountRule.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Content\B Mitra.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\gatewayLogo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\COD.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Report\COD85M.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.fileDownload.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\kendo.web.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\kendo.web.min.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-date.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-date.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-datepicker.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-datepicker.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-datepicker.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\persian-datepicker.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\select2.full.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\select2.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\AssignAgentAmountRule.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Completed.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\NotifConfiguration\NotifConfig.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\UserStates.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\CustomerOrders.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\List.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\QualityControl.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\ShipmentDetails.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\CodShipmentList.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\ShipmentList.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_CreateOrUpdate.RewardPoints.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  
+    <Content Include="Views\_CreateOrUpdateAddress.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_CustomerStatistics.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_CustomerVehicles.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  
+    <Content Include="Views\_MenuItem.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_OrderDetails.Billing.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_OrderDetails.Info.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_OrderStatistics.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\AgentAmountRule.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  
+    <Content Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <!-- This target execute after "Build" target -->
+  <Target Name="NopTarget" AfterTargets="Build">
+    <!-- Delete unnecessary libraries from plugins path -->
+    <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+  </Target>
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.4.2" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.4.2" />
+    <PackageReference Include="HtmlSanitizer" Version="5.0.343" />
+    <PackageReference Include="itextsharp.xmlworker" Version="5.5.12" />
+    <PackageReference Include="JWT" Version="1.3.3" />
+    <PackageReference Include="Microsoft.ApplicationInsights.EventCounterCollector" Version="2.15.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.0.0" />
+	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<PackageReference Include="RestSharp" Version="105.1.0" />
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FrotelServiceLibrary\FrotelServiceLibrary.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>2-Library\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extensions.DependencyInjection">
+      <HintPath>2-Library\Autofac.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>2-Library\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="BarcodeLib">
+      <HintPath>..\..\..\..\public dll\BarcodeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>2-Library\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>2-Library\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>2-Library\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>2-Library\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.AspNetCore">
+      <HintPath>2-Library\FluentValidation.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\Nop.Plugin.Misc.ShippingSolutions\2-Library\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Kavenegar">
+      <HintPath>..\..\..\..\Postbar\WebServices\kavenegarDLL\kavenegarDLL\kavenegarDLL\bin\Debug\Kavenegar.dll</HintPath>
+    </Reference>
+    <Reference Include="kavenegarDLL">
+      <HintPath>..\..\..\..\Postbar\WebServices\kavenegarDLL\kavenegarDLL\kavenegarDLL\bin\Debug\kavenegarDLL.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.Authentication.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features">
+      <HintPath>2-Library\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Razor">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>2-Library\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing">
+      <HintPath>2-Library\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions">
+      <HintPath>2-Library\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.StaticFiles">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.AspNetCore.StaticFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>2-Library\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>2-Library\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel">
+      <HintPath>2-Library\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Composite">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.Extensions.FileProviders.Composite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Embedded">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.Extensions.FileProviders.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical">
+      <HintPath>..\..\Presentation\Nop.Web\bin\Debug\net461\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>2-Library\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>2-Library\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>C:\Users\EMA\.nuget\packages\microsoft.identitymodel.tokens\6.8.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>2-Library\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>2-Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Core">
+      <HintPath>2-Library\Nop.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Data">
+      <HintPath>2-Library\Nop.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Plugin.Misc.ShippingSolutions">
+      <HintPath>..\..\Presentation\Nop.Web\Plugins\Misc.ShippingSolutions\Nop.Plugin.Misc.ShippingSolutions.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Nop.Services">
+      <HintPath>2-Library\Nop.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Nop.Web">
+      <HintPath>2-Library\Nop.Web.exe</HintPath>
+    </Reference>
+    <Reference Include="Nop.Web.Framework">
+      <HintPath>..\..\Presentation\Nop.Web.Framework\bin\Debug\net461\Nop.Web.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUglify">
+      <HintPath>2-Library\NUglify.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Base">
+      <HintPath>C:\Program Files (x86)\Stimulsoft Ultimate 2018.3.1\Libs\Reports.Net\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Design">
+      <HintPath>C:\Program Files (x86)\Stimulsoft Ultimate 2018.3.1\Libs\Reports.Net\Stimulsoft.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report">
+      <HintPath>C:\Program Files (x86)\Stimulsoft Ultimate 2018.3.1\Libs\Reports.Net\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>2-Library\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>C:\Users\EMA\.nuget\packages\system.identitymodel.tokens.jwt\6.8.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic">
+      <HintPath>2-Library\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml.Linq">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Core">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Data">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Drawing">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Numerics">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Runtime.Serialization">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Optime\AddNewPinToCurrentMap\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="2-Library\EPPlus.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,57 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("بسته بندی");
+	Html.AddMetaKeywordParts("بسته بندی");
+	Html.AddMetaDescriptionParts("بسته بندی و لفاف بندی استاندارد پست در کلیه نمایندگی های امنیتو در سراسر ایران قابل انجام است و میتوانید سایز کارتون و پاکت مورد نیاز خود را انتخاب و خریداری کنید");
+
+}
+<div class="container landing">
+	<div class="row ">
+		<div class="col-md-12 content">
+			<h1>بسته بندی و لفاف بندی</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li>بسته بندی</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="#">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/بسته بندی.png?ver=@(imgVer)" alt="بسته بندی"/>
+			</a>
+		</div>
+		<div class="col-md-9">
+
+			<p>
+				امروزه اهمیت بسته بندی با توجه به محدودیت های فضاهای پستی، نیاز به ابعاد استاندارد و جعبه های استاندارد برای انجام فرایند مراسله امریست ضروریست.
+			</p>
+			<p>لذا با توجه به مقررات سازمان تنظیم مقررات مبنی بر استفاده از جعبه و پاکت استاندارد پستی در ذیل به معرفی سایزهای مختلف پستی (تصویر ضمیمه) میپردازیم.</p>
+			<img src="~/Themes/postexNew/images/packages-size.jpg" />
+			<p>
+				اساسا جعبه استاندارد پستی از کارتنی۵ لایه تشکیل شده است که بتواند فشار و ضربات زمان حمل و نقل را تاب بیاورد تا در مسیر جابجایی متلاشی نگردد.
+			</p>
+			<p>
+				سایز جعبه های استاندارد پستی 1 الی 9 میباشد و پاکتهای استاندارد پستی دارای سایزهای A3، A4 و A5 با لایه بند های متفاوتی همانند کاغذی، داخل لمنیتو دال حباب دار میباشد.
+			</p>
+			<p>
+				حالا شما در صورت نیاز به جعبه و پاکت میتوانید با استفاده از گزینه خرید جعبه و پاکت، از این سرویس توسط هر یک از فعالین پستی برخوردار شوید.
+			</p>
+			<p>
+				و چنانچه در زمان ثبت سفارش، مشتری نیاز خود به بسته پستی را اعلام نماید پس از مراجعه و جمع آوری، مرسوله مورد نظر در محل انبار نمایندگی بسته بندی خواهد شد که اگر چنانچه بسته انتخاب شده با ابعاد مرسوله مطابقت نداشته باشد مجددا پس از محاسبه هزینه مبلغ از مشتری اخذ و ثبت سفارش ثبت خواهد شد.
+			</p>
+			<span class="slogan">اگه بسته استاندارد پستی نداری غمت نباشه ما هستیم.</span>
+			<br />
+			<div class="content m-4">
+				<a class="btn center" href="@(Url.RouteUrl("SaleCartonwrapper"))">بسته بندی</a>
+			</div>
+		</div>
+
+	</div>
+
+</div>

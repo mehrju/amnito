@@ -1,0 +1,498 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.ContractItems
+@inject AdminAreaSettings adminAreaSettings
+@using Newtonsoft
+@{
+    ViewBag.Title = "اطلاعات قرارداد مشتری";
+    Html.SetActiveMenuItemSystemName("Customers list");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <input type="hidden" Id="ContractId" name="ContractId" />
+        <input type="hidden" Id="CustomerId" name="CustomerId" />
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="RegistererLbl">پیمانکار ثبت کننده</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="select3-placeholer form-control" id="RegistereContrctor" data-ContractItemsTypeId="1" name="RegistereContrctor">
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="RegisterCostLbl">هزینه</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="RegistereContrctorCost" name="RegistereContrctorCost" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="RegisterPriceLbl">قیمت</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="RegistereContrctorPrice" name="RegistereContrctorPrice" type="number" value="">
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="CollectorLbl">پیمانکار جمع آوری</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="select3-placeholer form-control" id="CollectorContrctor" data-ContractItemsTypeId="2" name="CollectorContrctor">
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="CollectorCostLbl">هزینه</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="CollectorContrctorCost" name="CollectorContrctorCost" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="CollectorPriceLbl">قیمت</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="CollectorContrctorPrice" name="CollectorContrctorPrice" type="number" value="">
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PrinterLbl">پیمانکار چاپ و الصاق فاکتور</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="select3-placeholer form-control" id="PriningContrctor" data-ContractItemsTypeId="4" name="PriningContrctor">
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PrinterCostLbl">هزینه</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="PriningContrctorCost" name="PriningContrctorCost" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PrinterPriceLbl">قیمت</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="PriningContrctorPrice" name="PriningContrctorPrice" type="number" value="">
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PackingTitleLbl">پیمانکار بسته بندی</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <select class="select3-placeholer form-control" id="packingContractor" data-ContractItemsTypeId="3" name="packingContractor">
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PackingTitleLbl">عنوان کارتن و لفاف</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <select class="form-control text-box single-line" id="PackingTitle" name="PackingTitle">
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PackingCostLbl">هزینه</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="PackingCost" name="PackingCost" type="number" value="">
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="PackingPriceLbl">قیمت</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="PackingPrice" name="PackingPrice" type="number" value="">
+            </div>
+            <div class="col-md-3">
+                <button id="AddPackingItems" name="AddPackingItems" class="btn btn-info" type="button" style="float: left;">  اضافه کردن <i class="glyphicon glyphicon-plus"></i> </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="panel panel-default">
+                <div class="panel-body" style="font-size:9pt !important">
+                    <div class="col-md-11" id="grd_packingitem">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="LeasingLbl">درصد خدمات لیزینگ</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="LeasingPercent" name="LeasingPercent" data-ContractItemsTypeId="5" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="ReturnRoofLbl">حداکثر سقف مجاز برگشتی</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="ReturnRoofValue" name="ReturnRoofValue" data-ContractItemsTypeId="6" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="CreditRoofLbl">سقف اعتبار روزانه</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="DailyCrediteRoofValue" name="DailyCrediteRoofValue" data-ContractItemsTypeId="7" type="number" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="ShippingAcceptancePercentageLbl">درصد قبول مرسوله</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="ShippingAcceptancePercentageValue" name="ShippingAcceptancePercentageValue" data-ContractItemsTypeId="8" type="number" value="">
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="AffiliateLbl">کاربر بازاریاب</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="select3-placeholer form-control" data-placeholder="انتخاب کنید" id="AffiliateContrctor" name="AffiliateContrctor">
+                </select>
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="MarketingCommissionEngLbl">کمیسیون بازاریاب(خدمات پستی)</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="MarketingCommissionValue" name="MarketingCommissionValue" data-ContractItemsTypeId="9" type="number" value="">
+            </div>
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="MarketingCommissionLeasingLbl">کمیسیون بازاریاب(خدمات لیزینگ)</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="MarketingCommissionLeasing" name="MarketingCommissionLeasing" data-ContractItemsTypeId="10" type="number" value="">
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-1">
+                <div class="label-wrapper">
+                    <label class="control-label" id="CODPercentLbl">COD درصد تراکنش</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="CODPercent" name="CODPercent" data-ContractItemsTypeId="12" type="number" value="">
+            </div>
+        </div>
+        <button id="SaveContract" name="SaveContract" class="btn btn-success " type="button" style="float: left;"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+    </div>
+</div>
+<script>
+
+
+    $(document).ready(function () {
+        function fillList() {
+                fillContractorList(52, '#RegistereContrctor');
+                fillContractorList(53, '#packingContractor');
+                fillContractorList(54, '#PriningContrctor');
+                fillContractorList(61, '#AffiliateContrctor');
+                var Agentdata = {};
+                addAntiForgeryToken(Agentdata);
+                $.ajax({
+                    async: false,
+                    url: '@Url.Action("GetCollectors", "ExtendedCustomer")',
+                    type:'POST',
+                        data: Agentdata,
+                        success: function (data) {
+                            $('#CollectorContrctor').append(new Option('انتخاب کنید....', '0', true, true));
+                            $.each(data, function (id, item) {
+                                $('#CollectorContrctor').append(new Option(item.text, item.id, false, false));
+                            });
+                            $('#CollectorContrctor').select2();
+                            $('#CollectorContrctor').select2({ width: '100%', dropdownCssClass: "bigdrop" });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log('خطا در دریافت لیست جمع آور ها');
+                        },
+                    cache: true
+                });
+        }
+        fillList();
+        fillContractItems(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)));
+
+        $('#Affiliate').select2({
+            width:'100%',
+            placeholder: "جستجو نام کاربری",
+			minimumInputLength: 4,
+			allowClear: true,
+			multiple: false,
+            ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                url: '@Url.Action("Getcustomers", "ExtendedCustomer")',
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    var data = { 'searchtext': term.term };
+                    addAntiForgeryToken(data);
+                    return data;
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                    return { results: data };
+                },
+                cache: true
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+		});
+        $("#grd_packingitem").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("getCustomerContractPakcingItems", "CustomerFnancialPlan"))",
+                        type: "GET",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(defaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(gridPageSizes)],
+                @await Html.PartialAsync("_GridPagerMessages")
+            },
+            editable: {
+                confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "ContractItemDetailesName",
+                    title: "سایز بسته"
+                },
+                {
+                    field: "ContractItemDetailesCost",
+                    title: "هزینه"
+                },
+                {
+                    field: "ContractItemDetailesPrice",
+                    title: "قیمت"
+                },
+                {
+                        field: "ContractItemDetailesId_Pk",
+                        title: "ویرایش",
+                        width: 100,
+                        headerAttributes: { style: "text-align:center" },
+                        attributes: { style: "text-align:center" },
+                        template:
+                        '<button onclick="OpenTrackingModal(#=ContractItemDetailesId_Pk#,#=ContractItemId_fk#,this)" class="btn bg-blue">ویرایش<i class="fa fa-pencil"></i></button>'
+                }
+            ]
+        });
+        function additionalData() {
+            var data= { ContractItemId_fk:0};
+            addAntiForgeryToken(data);
+            return data;
+        }
+        $('#AddPackingItems').click(function () {
+            if (!$('ContractId').val()) {
+                alert('ابتدا قرارداد را ثبت نمایید');
+                return false;
+            }
+        });
+        function fillContractItems(contractDetailsItem) {
+            if (contractDetailsItem.RegistereContrctor)
+                $('#RegistereContrctor').val(contractDetailsItem.RegistereContrctor).trigger('change');;
+            $('#RegistereContrctorCost').val(contractDetailsItem.RegistereContrctorCost);
+            $('#RegistereContrctorPrice').val(contractDetailsItem.RegistereContrctorPrice);
+            if (contractDetailsItem.CollectorContrctor)
+                $('#CollectorContrctor').val(contractDetailsItem.CollectorContrctor).trigger('change');;
+            $('#CollectorContrctorCost').val(contractDetailsItem.CollectorContrctorCost);
+            $('#CollectorContrctorPrice').val(contractDetailsItem.CollectorContrctorPrice);
+            debugger;
+            if (contractDetailsItem.PriningContrctor)
+                $('#PriningContrctor').val(contractDetailsItem.PriningContrctor).trigger('change');;
+            $('#PriningContrctorCost').val(contractDetailsItem.PriningContrctorCost);
+            $('#PriningContrctorPrice').val(contractDetailsItem.PriningContrctorPrice);
+            if (contractDetailsItem.PackingContractor)
+                $('#packingContractor').val(contractDetailsItem.PackingContractor).trigger('change');;
+            $('#MarketingCommissionLeasing').val(contractDetailsItem.MarketingCommissionLeasing);
+            if (contractDetailsItem.AffiliateContrctor)
+                $('#AffiliateContrctor').val(contractDetailsItem.AffiliateContrctor).trigger('change');;
+            $('#MarketingCommissionValue').val(contractDetailsItem.MarketingCommissionValue);
+            $('#DailyCrediteRoofValue').val(contractDetailsItem.DailyCrediteRoofValue);
+            $('#ReturnRoofValue').val(contractDetailsItem.ReturnRoofValue);
+            $('#LeasingPercent').val(contractDetailsItem.LeasingPercent);
+            $('#ShippingAcceptancePercentageValue').val(contractDetailsItem.ShippingAcceptancePercentageValue);
+            $('#CODPercent').val(contractDetailsItem.CODPercent);
+            $('#CustomerId').val(contractDetailsItem.CustomerId);
+            $('#ContractId').val(contractDetailsItem.ContractId);
+
+        };
+        $('#SaveContract').click(function() {
+            var ContractItem = {};
+            ContractItem.ContractId = $('#ContractId').val();
+            ContractItem.CustomerId = $('#CustomerId').val();
+
+            ContractItem.RegistereContrctor = $('#RegistereContrctor').val();
+            ContractItem.RegistereContrctorCost = $('#RegistereContrctorCost').val();
+            ContractItem.RegistereContrctorPrice = $('#RegistereContrctorPrice').val();
+
+            ContractItem.CollectorContrctor = $('#CollectorContrctor').val();
+            ContractItem.CollectorContrctorCost = $('#CollectorContrctorCost').val();
+            ContractItem.CollectorContrctorPrice = $('#CollectorContrctorPrice').val();
+
+            ContractItem.PriningContrctor = $('#PriningContrctor').val();
+            ContractItem.PriningContrctorCost = $('#PriningContrctorCost').val();
+            ContractItem.PriningContrctorPrice = $('#PriningContrctorPrice').val();
+
+            ContractItem.packingContractor = $('#packingContractor').val();
+
+            ContractItem.MarketingCommissionLeasing = $('#MarketingCommissionLeasing').val();
+
+            ContractItem.AffiliateContrctor = $('#AffiliateContrctor').val();
+
+            ContractItem.MarketingCommissionValue = $('#MarketingCommissionValue').val();
+
+            ContractItem.DailyCrediteRoofValue = $('#DailyCrediteRoofValue').val();
+
+            ContractItem.ReturnRoofValue = $('#ReturnRoofValue').val();
+
+            ContractItem.LeasingPercent = $('#LeasingPercent').val();
+
+            ContractItem.ShippingAcceptancePercentageValue = $('#ShippingAcceptancePercentageValue').val();
+            ContractItem.CODPercent = $('#CODPercent').val();
+
+            addAntiForgeryToken(ContractItem);
+
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "@Url.Action("SaveContract", "CustomerFnancialPlan")",
+                data: ContractItem,
+                success: function (data) {
+                    if (data.success) {
+                        alert('ثبت اطلاعات با موفقیت انجام شد');
+                        $('#ContractId').val(data.contractId)
+                    }
+                    else {
+                        alert(data.message);
+                        return false;
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در زمان ثبت اطلاعات.');
+                }
+            });
+        });
+    });
+
+    function fillContractorList(roleId,control) {
+        var postData = { 'RoleId': roleId};
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: "GET",
+            async:false,
+            url: "@(Url.Action("getCustomerByRoleId", "ExtendedCustomer"))",
+            data: postData,
+            success: function (result) {
+                if (result) {
+                    debugger;
+                    $(control).html('');
+                    $(control).append(new Option('انتخاب کنید', '0', false, false));
+                    $.each(result, function (id, item) {
+                        $(control).append(new Option(item.Text, item.Value, false, false));
+                    });
+                    $(control).select2({ width: '100%', dropdownCssClass: "bigdrop"});
+                }
+            }
+        });
+    }
+
+    $.ajax({
+        cache: true,
+        type: "GET",
+        url: "/ShipitoCheckout/getKartonItems",
+        data: {},
+        success: function (data) {
+            $('#PackingTitle').html('');
+            $.each(data, function (id, item) {
+                item.Text = item.Text.indexOf('نیاز') > 0 ? 'انتخاب کنید' : item.Text;
+                $('#PackingTitle').append(new Option(item.Text, item.Value, false, false));
+            });
+            $('#PackingTitle').select2({ width: '100%', dropdownCssClass: "bigdrop" });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log('خطا در زمان بارگذاری ابعاد بسته ها.');
+        }
+    });
+</script>
+
+
+
+

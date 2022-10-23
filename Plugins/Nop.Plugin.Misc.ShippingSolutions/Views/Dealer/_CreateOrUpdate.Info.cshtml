@@ -1,0 +1,259 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_Dealer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+}
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Name" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Name" asp-required="true" />
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="StateApplyPricingPolicy" />
+                </div>
+                <div class="col-md-8">
+                    <nop-select asp-for="StateApplyPricingPolicy" asp-items="Model.ListStateApplyPricingPolicy" asp-required="true" />
+
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@if (Model!=null)
+{
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ProviderId" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nop-select asp-for="ProviderId" asp-items="Model.ListProvider" asp-multiple="true" />
+                                <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var storesIdsInput = $('#@Html.IdFor(model => model.ProviderId)')
+                                        .data("kendoMultiSelect");
+                                    storesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                });
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div id="Providers-grid"></div>
+                    <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#Providers-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ProvidersList", "ManageDealer"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+
+                                        {
+                                            field: "Grid_Provider_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_Name")",
+                                            width: 100
+                                        }
+
+                                       ,
+                                        {
+                                            field: "Grid_Provider_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_Provider_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Provider_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Provider_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="EnableProvider(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Disable")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn bg-red"  onclick="DisableProvider(#=Id#)" type="button"><i class="fa fa-trash-o"></i></button>'
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Limitation")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="../Editlimitation/#=Id#"><i class="fa fa-pencil"></i>@T("Nop.Plugin.Misc.ShippingSolutions.Limitation")</a>'
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.PricingPolicy")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="../EditPricingPolicy/#=Id#"><i class="fa fa-pencil"></i>@T("Nop.Plugin.Misc.ShippingSolutions.PricingPolicy")</a>'
+                                        }
+                                    ]
+                                });
+                            });
+                    </script>
+                    <script>
+                        function additionalData()
+                        {
+                         var data = {
+                         Id:@Model.Id,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+                        function DisableProvider(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisableProvider", "ManageDealer"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Providers-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableProvider(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActiveProvider", "ManageDealer"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Providers-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,851 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <BeginRenderEvent>
+</BeginRenderEvent>
+  <Culture>en-US</Culture>
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="1">
+      <Valet Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>Valet</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category />
+        <Columns isList="true" count="14">
+          <value>DateInvoce,System.String</value>
+          <value>Fname,System.String</value>
+          <value>InvoiceNumber,System.String</value>
+          <value>Lname,System.String</value>
+          <value>Mablagh,System.String</value>
+          <value>NameDargah,System.String</value>
+          <value>Note,System.String</value>
+          <value>NoteBank,System.String</value>
+          <value>StoreAddress,System.String</value>
+          <value>StoreEmail,System.String</value>
+          <value>StorePhone,System.String</value>
+          <value>StorName,System.String</value>
+          <value>title,System.String</value>
+          <value>Username,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>c101dabbebf44024add881589af153dd</Guid>
+        <Name>Valet</Name>
+      </Valet>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="2">
+      <value>,ImageStore,ImageStore,,System.Drawing.Image,,False,False,False,False</value>
+      <value>,title,title,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>9756819764404fffa7c347bda91ade37</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="3" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="6">
+        <PageHeaderBand1 Ref="4" type="PageHeaderBand" isKey="true">
+          <Border>Top, Left, Right;[43:43:43];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4,189.68,66.04</ClientRectangle>
+          <Components isList="true" count="14">
+            <Image3 Ref="5" type="Image" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>177.8,15.24,10.16,10.16</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <HorAlignment>Center</HorAlignment>
+              <ImageBytes>iVBORw0KGgoAAAANSUhEUgAAACAAAAAWCAYAAAChWZ5EAAAABGdBTUEAALGPC/xhBQAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFtSURBVEhL7dW/K8RxHMfxI0RKSgZ1q9B3
+UCaTKCmD0WpkYJW/QFkMRiWDkSwmu5IyGP0qGVjIIqUczvN1+Xz79Ln3p8t99b3lhsd1vT/vz/vz
+vs/3fXeFJEkuUW6Qkho4CoJ5qjTQgx18/gbzco0ZNeAMYx9W8n96xho6UPAbcMZxAmtzFm/YgG48
+Pc8/ODSHG1jF/qKEbQyg6hy97GLUD3rasYInWMVrOcQQrNp6BMt6o8Rv6PkPIkyUbui5vSI8xHKG
+CVi1WjGPW5QV8Dd+IHpd6McWdK3+PucKKt4Ca/80LpDuUdAv4Ghg1tGLsIiMQNfrGrnDEtpg5U/i
+FOE50QacF6yiC2FR6URfEPON4RhW7QolmQuBBywi9glDGrw9fMGql1KyuRChX68FaJDCQ6UIzVBs
+Rqpok7lQwzlm4RrR0G7iHVZ+VL0NOJqRe9T9P5K1gcyaDTQbUAP6kTEX86AGpvDoB3PCVzc5+AEK
+l5p2ftkIxQAAAABJRU5ErkJggg==</ImageBytes>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image3</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <VertAlignment>Center</VertAlignment>
+            </Image3>
+            <Image2 Ref="6" type="Image" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>177.8,25.4,10.16,10.16</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Guid>486430a67cab4ed58415d1e66d1e7ec4</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ImageBytes>iVBORw0KGgoAAAANSUhEUgAAABQAAAAgCAYAAAASYli2AAAABGdBTUEAALGPC/xhBQAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHNSURBVEhLpdbPLgNRGAXwRpMK0W2X/kQI
+6UbiMSQWFcXKsisegh1lwaIPoEi8AGElaYL4u2wiWCkJIlRSQYxzJvc2t59vRluLXzI5935n9NIx
+kWQyqYnBBGxAEd4MXjNLA/dEPM+roZWNwzV4f7iCsbDCKCyDNhxmCaJaYTNlVlYW8mNqG+kB9o1H
+k2n8j8+yVtDOrAT8xfAo7I15PQX3IPfzTGPcNOmE1i10gi2SuoE3lHNpLm6KkEZAlkijIOfWuXAp
+whuQw0HkURUZlkXIn1gOBtkCd7bMsCLCNZCDQfLgzlYY3onwDORgkAtwZ0sMCyL8hiGQw9IwuHNU
+4EJOhHQMbSBLrHY4BTmX42JKhNYB9IMsG4Aj0GZS3BCHdyd0fcIuLBh7JtP2siNu77pjwv/Ydh8O
+GWehWRm3kIf8ZBaa8QwdbiFlQdtcj0WWycIu+AJtIAxnerRCkl+leuRtmVbI51zQn5DmA3rDCmkV
+tGHNilsWVJiAF9AKXNyTqKeQZkErcc1ATVlYYQscglZEJ+D/86q3kPh40r63zLjm72ukkOZBFs5B
+dU+jhXwhOgdbxmv/JclqtJD64BX49jVosqpmCmna+LVWW+hFfgA2fzCEer5hMwAAAABJRU5ErkJg
+gg==</ImageBytes>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image2</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <VertAlignment>Center</VertAlignment>
+            </Image2>
+            <Image1 Ref="7" type="Image" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>177.8,2.54,10.16,10.16</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Guid>0126219c26bf4a86bfa0e00f565c3418</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ImageBytes>iVBORw0KGgoAAAANSUhEUgAAACAAAAAaCAYAAADWm14/AAAABGdBTUEAALGPC/xhBQAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJaSURBVEhLtdZLq05RGMDxgyKEMhATEUZv
+blEmLh+AyMiAgcRYTDCTgUv5AjglI1GYKMLQgCgyEwYuAyUmR+63//9tr91a6zz7nLfOcepXez/7
+uezOXmvvd6jX641nEXbhBK7iCV7hE743PDbmNXPMtWYhop6tMIjlOIVn+DsBf2CPk1iGUbPqwHrc
+hoVRw4n4DXuvQzszHczEMP7H4Jo3ch7O7N/AXDxGlNzFZ/4aPnd5bCzK7fIIc7yBS1mwyx3sgX/9
+O+/gNf/MvYuoV+6iRZ+rYO0a6kGDuoGoZzJi0rcqWDuOuvGg3I5Rz+SLSR+qYO0IUsPVuI6HeIq0
+Bjw25jVzUv4xRD2T9ybdqoK1jUgNDzexsRxCyt/cxLrcNGkLfmbBZAQHkZrpCuq82mXkNd5QtM5+
+YFNKWoszOAef+XbMRt7IN9l460VfsRR5rb12wN7OOI016HwV1+bBfRsNjLgefL9EvQphMDMF2/AS
+9RDfaM8bHtfXX2Ar7BH17guDWIGzcIXXjeWLKf83L0bXnreHvfzA5TP6RgWwCi7AqJnuYxrquqnw
+YxPVyJ4rUdQVJ40LiBokxdes4rWoJvEjVNQUJ40HiIrlLhjrmXptrJ1i76KmOGl8RFSsX5iOqE4z
+YE5UK3sXNcUJ5iMqzPmOqOuSnYhqcs5oa/JibUBUlHNLLkBda6xr1+Sc0dblDbQbUVHtDfZjCdyO
+B/AWUW7NGe3MfLiOIiqaTM5oZ+bDtQ9R0WTai3ZmPlyz8A5R4WTwMRU/6fLhic/0Hgb58g3KXv5G
+dM1ks3pD/wDoIZmXLEydKgAAAABJRU5ErkJggg==</ImageBytes>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image1</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <VertAlignment>Center</VertAlignment>
+            </Image1>
+            <Text1 Ref="8" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>127,2.54,50.8,10.16</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>5,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>{Valet.StorePhone}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Image4 Ref="9" type="Image" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,45.72,35.56</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <HorAlignment>Center</HorAlignment>
+              <ImageData>{ImageStore}</ImageData>
+              <Margins>0,0,0,0</Margins>
+              <Name>Image4</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Stretch>True</Stretch>
+              <VertAlignment>Center</VertAlignment>
+            </Image4>
+            <Panel2 Ref="10" type="Panel" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>[60:63:70]</Brush>
+              <ClientRectangle>0,35.56,190.5,12.7</ClientRectangle>
+              <Components isList="true" count="1">
+                <Text12 Ref="11" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>32,0.44,126,12</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Arial,15,Bold</Font>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text12</Name>
+                  <Page isRef="3" />
+                  <Parent isRef="10" />
+                  <Text>{title}</Text>
+                  <TextBrush>[255:255:255]</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text12>
+              </Components>
+              <ComponentStyle>Lime Bill To</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Name>Panel2</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+            </Panel2>
+            <Text8 Ref="12" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>[236:240:241]</Brush>
+              <ClientRectangle>154.94,48.26,33.02,7.62</ClientRectangle>
+              <ComponentStyle>Lime Data Even</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+              <Guid>e35470e192e143c4877cd2e333ace73e</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>2,0,5,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>مشخصات کاربر</Text>
+              <TextBrush>[43:43:43]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+            <Text9 Ref="13" type="Text" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>154.94,55.88,33.02,7.62</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>a9c8c115ddc84a25b10359b596726eda</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>2,0,5,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>نام کاربری</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text9>
+            <Text10 Ref="14" type="Text" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>154.94,63.5,33.02,7.62</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>deb32d319d5b41c69d1571aba592d635</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>2,0,5,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>نام و نام خانوادگی</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <Text3 Ref="15" type="Text" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>106.68,55.88,48.26,7.62</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>c1e7cca9fd754de3bf868c811b300d34</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>{Valet.Username}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+            <Text31 Ref="16" type="Text" isKey="true">
+              <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>68.58,63.5,86.36,7.62</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>208f5b3e796f45ef80e6cc3e06ca5d92</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>{Valet.Fname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text31>
+            <Text2 Ref="17" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>111.76,15.24,66.04,10.16</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>{Valet.StoreEmail}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text11 Ref="18" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>111.76,25.4,66.04,10.16</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>{Valet.StoreAddress}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+            <HorizontalLinePrimitive3 Ref="19" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>0,48.26,192.28,0.254</ClientRectangle>
+              <Color>White</Color>
+              <ComponentStyle>Lime Primitive</ComponentStyle>
+              <EndCap Ref="20" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Guid>e5a1e1ab64d84159aa82d57da26e3851</Guid>
+              <Name>HorizontalLinePrimitive3</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Size>5</Size>
+              <StartCap Ref="21" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+        </PageHeaderBand1>
+        <Text13 Ref="22" type="Text" isKey="true">
+          <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.54,228.6,58.42,5.08</ClientRectangle>
+          <ComponentStyle>Lime Company Info</ComponentStyle>
+          <Conditions isList="true" count="0" />
+          <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text13</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{ReportCreated}</Text>
+          <TextBrush>Black</TextBrush>
+          <VertAlignment>Center</VertAlignment>
+        </Text13>
+        <Text14 Ref="23" type="Text" isKey="true">
+          <Border>All;White;1;Solid;False;4;Black</Border>
+          <Brush>[145:200:83]</Brush>
+          <ClientRectangle>5.08,185.42,45.72,7.62</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Microsoft Sans Serif,12,Bold,Point,False,0</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text14</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{ReportCreated}</Text>
+          <TextBrush>White</TextBrush>
+          <VertAlignment>Center</VertAlignment>
+        </Text14>
+        <Panel1 Ref="24" type="Panel" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,78.74,259.08,22.86</ClientRectangle>
+          <Components isList="true" count="8">
+            <Text15 Ref="25" type="Text" isKey="true">
+              <Border>All;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>154.94,10.16,34.8,10.16</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,3,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Text>{Valet.DateInvoce}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="26" type="DateFormat" isKey="true" />
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text15>
+            <Text5 Ref="27" type="Text" isKey="true">
+              <Border>All;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>116.84,10.16,37.34,10.16</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>42423ca53db3490b8a11fad1627b3f47</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,3,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Text>{Valet.NameDargah}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="28" type="DateFormat" isKey="true" />
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text6 Ref="29" type="Text" isKey="true">
+              <Border>All;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>68.58,10.16,47.5,10.16</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>0e7d5484603a4d2788534f187b89fc6e</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,3,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Text>{Valet.Mablagh}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="30" type="DateFormat" isKey="true" />
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text7 Ref="31" type="Text" isKey="true">
+              <Border>All;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,10.16,67.82,10.16</ClientRectangle>
+              <ComponentStyle>Lime Company Info</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+              <Guid>7499172d973d4428952acd11ea8ec39f</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,3,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Text>{Valet.NoteBank}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="32" type="DateFormat" isKey="true" />
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+            <Text4 Ref="33" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>[236:240:241]</Brush>
+              <ClientRectangle>0,0,68.58,10.16</ClientRectangle>
+              <ComponentStyle>Lime Data Even</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Tag>HEADER</Tag>
+              <Text>توضیحات</Text>
+              <TextBrush>[43:43:43]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text41 Ref="34" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>[236:240:241]</Brush>
+              <ClientRectangle>68.58,0,48.26,10.16</ClientRectangle>
+              <ComponentStyle>Lime Data Even</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text41</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Tag>HEADER</Tag>
+              <Text>مبلغ-ریال</Text>
+              <TextBrush>[43:43:43]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text41>
+            <Text42 Ref="35" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>[236:240:241]</Brush>
+              <ClientRectangle>116.84,0,38.1,10.16</ClientRectangle>
+              <ComponentStyle>Lime Data Even</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text42</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Tag>HEADER</Tag>
+              <Text>نام درگاه</Text>
+              <TextBrush>[43:43:43]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text42>
+            <Text43 Ref="36" type="Text" isKey="true">
+              <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+              <Brush>[236:240:241]</Brush>
+              <ClientRectangle>154.94,0,34.8,10.16</ClientRectangle>
+              <ComponentStyle>Lime Data Even</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>3,0,0,0</Margins>
+              <Name>Text43</Name>
+              <Page isRef="3" />
+              <Parent isRef="24" />
+              <Tag>HEADER</Tag>
+              <Text>تاریخ</Text>
+              <TextBrush>[43:43:43]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text43>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>Panel1</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+        </Panel1>
+        <Text04 Ref="37" type="Text" isKey="true">
+          <Border>None;[155:155:155];1;Solid;False;4;Black;True</Border>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,106.68,189.74,12.7</ClientRectangle>
+          <ComponentStyle>Lime Notes</ComponentStyle>
+          <Conditions isList="true" count="0" />
+          <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+          <Guid>340eaeb22b144cd2b853caf15730f421</Guid>
+          <HorAlignment>Right</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text04</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{Valet.Note}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text04>
+        <Text03 Ref="38" type="Text" isKey="true">
+          <Border>Bottom;[155:155:155];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <ClientRectangle>0,101.6,189.74,5.08</ClientRectangle>
+          <ComponentStyle>Lime Thanks</ComponentStyle>
+          <Conditions isList="true" count="0" />
+          <Font>B Mitra,12,Bold,Point,False,178</Font>
+          <Guid>06482f1e36694cb0a1cae81a7866c336</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text03</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>با سپاس از شما</Text>
+          <TextBrush>[130:191:62]</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text03>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>6e1caf2a75ec493386f5a9199bdc6833</Guid>
+      <Margins>10.16,10.16,10.16,10.16</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>148.08</PageHeight>
+      <PageWidth>210</PageWidth>
+      <PaperSize>A5</PaperSize>
+      <Report isRef="0" />
+      <Watermark Ref="39" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="40" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Business Invoice</ReportAlias>
+  <ReportAuthor>Stimulsoft</ReportAuthor>
+  <ReportChanged>9/3/2020 9:34:56 AM</ReportChanged>
+  <ReportCreated>5/19/2016 4:32:36 PM</ReportCreated>
+  <ReportDescription>The sample demonstrates how to create business invoice</ReportDescription>
+  <ReportFile>D:\Projects\Web_APP\Nope Clear file\PostbarNop\Plugins\Nop.plugin.Orders.ExtendedShipment\Report\Valet.mrt</ReportFile>
+  <ReportGuid>6c96a1401d9e4366ab2539e0efea041f</ReportGuid>
+  <ReportName>Business Invoice</ReportName>
+  <ReportUnit>Millimeters</ReportUnit>
+  <ReportVersion>2018.3.1.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Business_Invoice : Stimulsoft.Report.StiReport
+    {
+        public Business_Invoice()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="15">
+    <Lime_x0020_Company_x0020_Name Ref="41" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item33 Ref="42" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text01</ComponentName>
+          <Location>MiddleLeft</Location>
+          <Placement>PageHeader</Placement>
+          <Type>ComponentName</Type>
+        </Item33>
+      </Conditions>
+      <Font>B Mitra,18,Bold,Point,False,178</Font>
+      <HorAlignment>Center</HorAlignment>
+      <Name>Lime Company Name</Name>
+      <TextBrush>Black</TextBrush>
+    </Lime_x0020_Company_x0020_Name>
+    <Lime_x0020_Data_x0020_Even Ref="43" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[43:43:43];1;Solid;False;4;Black</Border>
+      <Brush>[236:240:241]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item35 Ref="44" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Data</ComponentName>
+          <Placement>DataEvenStyle</Placement>
+        </Item35>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+      <Name>Lime Data Even</Name>
+      <TextBrush>[43:43:43]</TextBrush>
+    </Lime_x0020_Data_x0020_Even>
+    <Lime_x0020_Company_x0020_Info Ref="45" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderFormatting>False</AllowUseBorderFormatting>
+      <AllowUseBorderSides>False</AllowUseBorderSides>
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item37 Ref="46" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text1</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item37>
+      </Conditions>
+      <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+      <Name>Lime Company Info</Name>
+      <TextBrush>Black</TextBrush>
+    </Lime_x0020_Company_x0020_Info>
+    <Lime_x0020_Bill_x0020_To Ref="47" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>[60:63:70]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item39 Ref="48" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text2</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item39>
+      </Conditions>
+      <Font>B Mitra,14.25,Bold,Point,False,178</Font>
+      <Name>Lime Bill To</Name>
+      <TextBrush>White</TextBrush>
+    </Lime_x0020_Bill_x0020_To>
+    <Lime_x0020_Bill_x0020_To_x0020_Info Ref="49" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>[60:63:70]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item41 Ref="50" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text3</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item41>
+      </Conditions>
+      <Font>B Mitra,12,Bold,Point,False,178</Font>
+      <Name>Lime Bill To Info</Name>
+      <TextBrush>White</TextBrush>
+    </Lime_x0020_Bill_x0020_To_x0020_Info>
+    <Lime_x0020_Requisites Ref="51" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>[60:63:70]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item43 Ref="52" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>ReportTitleBand1</ComponentName>
+          <Type>ComponentName</Type>
+        </Item43>
+      </Conditions>
+      <Font>B Mitra,12,Bold,Point,False,178</Font>
+      <Name>Lime Requisites</Name>
+      <TextBrush>White</TextBrush>
+    </Lime_x0020_Requisites>
+    <Lime_x0020_Title Ref="53" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>[60:63:70]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item45 Ref="54" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text02</ComponentName>
+          <Type>ComponentName</Type>
+        </Item45>
+      </Conditions>
+      <Font>B Mitra,27.75,Bold,Point,False,178</Font>
+      <Name>Lime Title</Name>
+      <TextBrush>[145:200:83]</TextBrush>
+    </Lime_x0020_Title>
+    <Lime_x0020_Headers Ref="55" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Left;White;1;Solid;False;4;Black</Border>
+      <Brush>[145:200:83]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item47 Ref="56" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text4</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item47>
+      </Conditions>
+      <Font>B Mitra,12,Bold,Point,False,178</Font>
+      <Name>Lime Headers</Name>
+      <TextBrush>White</TextBrush>
+    </Lime_x0020_Headers>
+    <Lime_x0020_Primitive Ref="57" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;White;5;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item49 Ref="58" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>HorizontalLinePrimitive</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item49>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+      <Name>Lime Primitive</Name>
+      <TextBrush>[43:43:43]</TextBrush>
+    </Lime_x0020_Primitive>
+    <Lime_x0020_Data Ref="59" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[145:145:145];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item51 Ref="60" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text5</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item51>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+      <Name>Lime Data</Name>
+      <TextBrush>[120:120:120]</TextBrush>
+    </Lime_x0020_Data>
+    <Lime_x0020_Contact_x0020_Name Ref="61" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black;True</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item53 Ref="62" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text6</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item53>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Bold,Point,False,0</Font>
+      <Name>Lime Contact Name</Name>
+      <TextBrush>Black</TextBrush>
+    </Lime_x0020_Contact_x0020_Name>
+    <Lime_x0020_Discount Ref="63" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[145:145:145];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item55 Ref="64" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text05</ComponentName>
+          <Type>ComponentName</Type>
+        </Item55>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Regular,Point,False,0</Font>
+      <Name>Lime Discount</Name>
+      <TextBrush>[130:191:62]</TextBrush>
+    </Lime_x0020_Discount>
+    <Lime_x0020_Total Ref="65" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black;True</Border>
+      <Brush>[145:200:83]</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item57 Ref="66" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text7</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item57>
+      </Conditions>
+      <Font>Microsoft Sans Serif,9.75,Bold,Point,False,0</Font>
+      <Name>Lime Total</Name>
+      <TextBrush>White</TextBrush>
+    </Lime_x0020_Total>
+    <Lime_x0020_Thanks Ref="67" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Bottom;[155:155:155];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item59 Ref="68" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text03</ComponentName>
+          <Type>ComponentName</Type>
+        </Item59>
+      </Conditions>
+      <Font>B Mitra,12,Bold,Point,False,178</Font>
+      <Name>Lime Thanks</Name>
+      <TextBrush>[130:191:62]</TextBrush>
+    </Lime_x0020_Thanks>
+    <Lime_x0020_Notes Ref="69" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[155:155:155];1;Solid;False;4;Black;True</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Lime</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item61 Ref="70" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentName>Text04</ComponentName>
+          <OperationComponentName>BeginningWith</OperationComponentName>
+          <Type>ComponentName</Type>
+        </Item61>
+      </Conditions>
+      <Font>B Mitra,9.75,Bold,Point,False,178</Font>
+      <Name>Lime Notes</Name>
+      <TextBrush>Black</TextBrush>
+    </Lime_x0020_Notes>
+  </Styles>
+</StiSerializer>

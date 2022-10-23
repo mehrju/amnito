@@ -1,0 +1,504 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.vmDetailTicket
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_NewUiDashboardLayout.cshtml";
+    <link href="~/Scripts/style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    @*<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>*@
+
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js" defer></script>
+
+
+}
+@*<script>tinymce.init({ selector: 'textarea' });</script>*@
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+
+
+<script>
+    function ticketReply() {
+        var elem = document.getElementById("divnewticket");
+        elem.style.display = "block";
+        var elem2 = document.getElementById("btnReply");
+        elem2.style.display = "none";
+    }
+</script>
+
+<script>
+    function updateInput1(ish) {
+        document.getElementById("LabelfileUpload1").innerHTML = ish;
+    }
+    function updateInput2(ish) {
+        document.getElementById("LabelfileUpload2").innerHTML = ish;
+    }
+    function updateInput3(ish) {
+        document.getElementById("LabelfileUpload3").innerHTML = ish;
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 260,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true                  // set focus to editable area after initializing summernote
+        });
+
+
+    });
+</script>
+<script>
+    window.onload = load;
+    function load() {
+        createCaptcha();
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $(BtnInsertTicket).click(function () {
+            if (document.getElementById("cpatchaTextBox").value != code) {
+                alert("کد اشتباه وارد شده است");
+                return;
+            }
+
+            else {
+                //stop submit the form, we will post it manually.
+                event.preventDefault();
+
+                // Get form
+                //var form = $('#fileUploadForm')[0];
+
+                // Create an FormData object
+                var fdInsertTicket = new FormData();
+                // If you want to add an extra field for the FormData
+                 var contents = $('#summernote').summernote('code');
+                var plainText = $("<p>" + contents+ "</p>").text();
+                fdInsertTicket.append('param.Description', plainText);
+                fdInsertTicket.append('param.Id', @Model.Tbl_Ticket.Id);
+
+                if (file1.files[0] != null && file1.files[0] != "") {
+                    fdInsertTicket.append('_files', file1.files[0]);
+                }
+                if (file2.files[0] != null && file2.files[0] != "") {
+                    fdInsertTicket.append('_files', file1.files[0]);
+                }
+                if (file3.files[0] != null && file3.files[0] != "") {
+                    fdInsertTicket.append('_files', file1.files[0]);
+                }
+
+                // disabled the submit button
+                $(BtnInsertTicket).prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/ApDashboard/AddDetailTicket",
+                    data: fdInsertTicket,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+
+                        alert("با موفقیت ثبت شد");
+                        $(BtnInsertTicket).prop("disabled", false);
+                        location.reload();
+                    },
+                    error: function (data) {
+
+
+                        if (data.status == 532) {
+                            alert("حجم فایل ها بیش از 3 مگ میباشد");
+                            return;
+                        }
+                        $(BtnInsertTicket).prop("disabled", false);
+
+                    }
+                });
+
+
+            }
+
+
+
+        });
+    });
+</script>
+
+<script>
+
+    function createCaptcha() {
+        //clear the contents of captcha div first
+        document.getElementById('captcha').innerHTML = "";
+        var charsArray =
+            "0123456789";/*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*/
+        var lengthOtp = 6;
+        var captcha = [];
+        for (var i = 0; i < lengthOtp; i++) {
+            //below code will not allow Repetition of Characters
+            var index = Math.floor(Math.random() * charsArray.length + 1); //get the next character from the array
+            if (captcha.indexOf(charsArray[index]) == -1)
+                captcha.push(charsArray[index]);
+            else i--;
+        }
+        var canv = document.createElement("canvas");
+        canv.id = "captcha";
+        canv.width = 150;
+        canv.height = 50;
+        var ctx = canv.getContext("2d");
+        ctx.font = "25px Georgia";
+        ctx.strokeText(captcha.join(""), 0, 30);
+        //storing captcha so that can validate you can save it somewhere else according to your specific requirements
+        code = captcha.join("");
+        document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+    }
+
+</script>
+@*show file*@
+<script>
+    function ShowFile(data) {
+
+        form_showfile.action = "/ApDashboard/ReadFilePdf";
+        id_urlfil.value = data;
+        form_showfile.submit();
+    }
+
+
+    function ShowImageQCA(data) {
+        window.open("/TicketFiles/" + data, "", "width=500,height=500");
+    }
+</script>
+
+<div class="row justify-content-md-center">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1> جزئیات تیکت # شماره @Model.Tbl_Ticket.Id </h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <div class="col-sm-12 mt-2 alert alert-warning text-center">
+                        آخرین وضعیت : @Model.Status
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="body-dash send-data-from" style="overflow: auto;">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="text-align: right;
+    font-weight: bold;
+    font-size: 1.1em; margin: 10px 0 20px 0;
+    padding: 5px;
+    background-color: #E8E8E8;border-radius: 6px;
+    display: flex;
+    flex-flow: row wrap;">
+                <div class="col-sm-2">
+                    <div style="padding: 5px; ">
+                        تاریخ ثبت تیکت
+                        <div style="background-color:white; border-radius:5px;"> @Model.Tbl_Ticket.DateInsert</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="padding: 5px;">
+                        دپارتمان
+                        <div style="background-color:white; border-radius:5px; text-align:center;">@Model.NameDep</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="padding: 5px;">
+                        اولویت
+                        <div style="background-color:white; border-radius:5px;text-align:center;"> @Model.Proirity</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="padding: 5px;">
+                        دسته بندی
+                        <div style="background-color:white; border-radius:5px;text-align:center;"> @Model.NameCategory</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="padding: 5px;">
+                        کد سفارش
+                        <div style="background-color:white; border-radius:5px; text-align:center;">
+                            @Model.Tbl_Ticket.OrderCode
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="padding: 5px;">
+                        کد پیگیری
+                        <div style="background-color:white; border-radius:5px;text-align:center;">
+                            @Model.Tbl_Ticket.TrackingCode
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"> </div>
+            </div>
+
+
+
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                @foreach (var item in Model.vmTicket_Detail)
+                {
+                    if (item.List_Detail.Type == true)
+                    {
+                        //staffکارمند
+                        <div style="
+    padding: 5px 10px;
+    background-color: #666;
+    color: #fff;
+    font-weight: bold;border-radius: 6px;">
+                            <div style="float:left; text-align:left;">
+                                @item.List_Detail.DateInsert
+                            </div>
+                            <div style="text-align:right;">
+                                نام کارمند... ||
+                                @item.NameStaff
+                            </div>
+
+                        </div>
+                        <div style="border-left:1px;border-right:1px;border-top:0px;border-bottom:0px; border-style:ridge;border-color:darkgray;border-bottom-left-radius:6px;border-bottom-right-radius:6px; text-align:right">
+
+                            <p style="padding:5px 10px;">
+                                <br>
+                                @item.List_Detail.Description
+                                <br>
+                                <hr>
+                            </p>
+
+                            <div class="row col-12">
+                                <div  class="col-sm-10" style="float:right;">
+                                    @*<span class="fa fa-star checked"> </span>
+                                    <span class="fa fa-star checked"> </span>
+                                    <span class="fa fa-star checked"> </span>
+                                    <span class="fa fa-star"> </span>
+                                    <span class="fa fa-star"> </span>*@
+                                </div>
+                                <div  class="col-sm-2 btn-group" style="float:left"  role="group" aria-label="Basic example">
+                                    @if (item.List_Detail.UrlFile1 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile1.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile1')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile1.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowFile('@item.List_Detail.UrlFile1')"> <i class="fa fa-file" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                    @if (item.List_Detail.UrlFile2 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile2.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile2')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile2.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowFile('@item.List_Detail.UrlFile2')"> <i class="fa fa-file" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                    @if (item.List_Detail.UrlFile3 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile3.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile3')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile3.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowFile('@item.List_Detail.UrlFile3')"> <i class="fa fa-file" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        //مشتری
+                        <div style="padding: 5px 10px; background-color: #C0C0C0;color: #fff;font-weight: bold;text-align: right;border-radius: 6px;">
+                            <div style="float:left;text-align:left;">
+                                @item.List_Detail.DateInsert
+                            </div>
+                            <div style="text-align:right;">
+
+                                @Model.NameCustomer
+                            </div>
+                        </div>
+                        <div style="text-align:right; border-left:1px;border-right:1px;border-top:0px;border-bottom:0px;border-style:ridge;border-color:darkgray;border-bottom-left-radius:6px;border-bottom-right-radius:6px;">
+                            <p style="padding:5px 10px;">
+                                <br />
+                                @item.List_Detail.Description
+                            </p>
+                            <hr>
+                            <div class="row col-12">
+                                <div class="col-sm-10" style="float:right;">
+                                    <p></p>@*IP Address: 0.0.0.0*@
+                                </div>
+                                <div  class="col-sm-2 btn-group" style="float:left"  role="group" >
+                                    @if (item.List_Detail.UrlFile1 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile1.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile1')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile1.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowFile('@item.List_Detail.UrlFile1')"> <i class="fa fa-file" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                    @if (item.List_Detail.UrlFile2 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile2.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile2')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile2.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;"  type="button" onclick="ShowFile('@item.List_Detail.UrlFile2')"> <i class="fa fa-file" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                    @if (item.List_Detail.UrlFile3 != null)
+                                    {
+                                        if (item.List_Detail.UrlFile3.Contains(".jpg"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowImageQCA('@item.List_Detail.UrlFile3')"> <i class="fa fa-image" aria-hidden="true"style="color:white;"></i> </button>
+
+                                        }
+                                        if (item.List_Detail.UrlFile3.Contains(".pdf"))
+                                        {
+                                            <button style="background-color:#007bff;" type="button" onclick="ShowFile('@item.List_Detail.UrlFile3')"> <i class="fa fa-file" aria-hidden="true" style="color:white;"></i> </button>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="display:none" id="divnewticket">
+
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <hr />
+                    <div class="form-group text-right">
+                        <label>توضیحات :</label>
+                        <div id="summernote"></div>
+                        @*<textarea id="Des" asp-for="Des" tabindex="7" maxlength="2000" class="form-control" placeholder="توضیحات را وارد نمایید"></textarea>*@
+                    </div>
+                </div>
+
+                <div class="row col-12">
+                    @*1*@
+                    <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2">
+
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>پیوست یک</span>
+                            <i class="fa fa-upload" onclick="return file1.click()"></i>
+                            <input type="file" name="files" id="file1" accept=".jpg,.pdf" style="display:none;" onchange="updateInput1(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload1" style="font-size:10px; text-align:center;direction:ltr;"></label>
+                    </div>
+                    @*2*@
+                    <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2">
+
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>پیوست دو</span>
+                            <i class="fa fa-upload" id="btnUplodeFile2" name="btnUplodeFile2"></i>
+                            @*<input type="file" name="fileUpload2" id="fileUpload2" class="none" size="1" accept=".jpg,.pdf" />*@
+                            <input type="file" name="files" id="file2" accept=".jpg,.pdf" style="display:none;" onchange="updateInput2(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload2" name="LabelfileUpload2" style="font-size:10px; text-align:center;direction:ltr;"></label>
+                    </div>
+                    @*3*@
+                    <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2">
+
+                        <label class="image_input_button btn btn-blue-theme">
+                            <span>پیوست سه</span>
+                            <i class="fa fa-upload"></i>
+                            @*<input type="file" name="fileUpload3" id="fileUpload3" class="none" size="1" accept=".jpg,.pdf" />*@
+                            <input type="file" name="files" id="file3" accept=".jpg,.pdf" style="display:none;" onchange="updateInput3(this.value)" />
+                        </label>
+                        <label class="control-label" id="LabelfileUpload3" style="font-size:10px; text-align:center;direction:ltr;"></label>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-md-center show-result-customers mt-5 text-center">
+                    <div id="captcha">
+                    </div>
+                    <div class="form-group text-right">
+                        <input type="text" placeholder="حروف را وارد نمایید" id="cpatchaTextBox" tabindex="8" maxlength="10" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-9 col-xl-9 text-center">
+                    <div class="form-group btn-sub">
+                        <button id="BtnInsertTicket" tabindex="8" class="btn btn-orang-theme">
+                            ثبت
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+            <div class="row col-sm-2 text-center float-right" style="padding: 5px 10px;">
+                <input class="col-sm-5 btn btn-sm btn-outline-primary" type="submit" onclick="return ticketReply();" name="save" value="پاسخ" id="btnReply">
+                <input class="col-sm-5 btn btn-sm btn-outline-secondary" onclick="window.location= '/ApDashboard/support/'" type="reset" value="« برگشت">
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<form id="form_showfile" target="_blank" method="post" style="display:none">
+    <input name="url" id="id_urlfil">
+</form>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,76 @@
+﻿@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+}
+
+<div class="row justify-content-md-center">
+    <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1>کیف پول</h1>
+        </div>
+        <div class="body-dash wallet-body ">
+            <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+                <table id="myTable" class="table table-responsive-sm ">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>شارژ کیف پول</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-5 ">
+            <form action="" class="form-wallet-postal d-sm-inline">
+                <div class="row justify-content-md-center mr-0 ml-0">
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+
+                        <div class="form-group" style="text-align:center">
+
+                            <a target="_blank" href="@(Url.RouteUrl("_ChargeWallet"))" class="btn btn-orang-theme">
+                                شارژ کیف پول
+                                <i class="fa fa-money-bill-alt"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        pageSize = 10;
+
+        loadData("@Url.Action("WalletPaged", "PostbarDashboard")", 0, pageSize, '#div_table');
+
+        @*function loadData(pageIndedx, pageSize) {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("WalletPaged", "PostbarDashboard")",
+                data: { 'pageSize': pageSize, 'pageIndex': pageIndedx },
+                success: function (data) {
+                    if (data != null) {
+                        $('#div_table').html(data);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrive Code.');
+                }
+            });
+        }*@
+
+
+
+    })
+</script>

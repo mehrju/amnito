@@ -1,0 +1,73 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.AgentAmountRuleModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@inject Nop.plugin.Orders.ExtendedShipment.Services.IAgentAmountRuleService _agentAmountRuleService
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "تعریف قوانین حق نمایندگی و انتصاب آن";
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Product.AgentAmountRule");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+    var assignMOdel = new Nop.plugin.Orders.ExtendedShipment.Models.AssignAgentAmountRuleModel();
+    assignMOdel.AvailableAgentList = new List<SelectListItem>();// _agentAmountRuleService.getAvailableAgentList();
+    assignMOdel.AvailableAgentAmountRule = _agentAmountRuleService.getAvailableAgentAmountRule();
+    bool Enabled = _agentAmountRuleService.getAgentAmountRuleEnable("AgentAmountRuleEnable");
+}
+
+<div class="content">
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row" style="float: left;margin-left: 10px;" > 
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="agentAmountRule-Enable" checked="@Enabled">
+                            <label class="onoffswitch-label" for="agentAmountRule-Enable">
+                                <span class="onoffswitch-inner"
+                                      data-locale-basic="قوانین غیر فعال "
+                                      data-locale-advanced="قوانین فعال"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <nop-tabs id="ShipmentStatus">
+                            <nop-tab asp-name="tab-DefineRule" class="tabItem" asp-title="ثبت قوانین حق نمایندگی" asp-default="true">@await Html.PartialAsync("DefineAgentAmountRule", Model)</nop-tab>
+                            <nop-tab asp-name="tab-AssignRule" class="tabItem" asp-title="انتصاب قوانین حق نمایندگی به کاربران">@await Html.PartialAsync("AssignAgentAmountRule", assignMOdel)</nop-tab>
+                        </nop-tabs>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                function checkAdvancedSettingsMode(advanced) {
+                    if (advanced) {
+                        $("body").addClass("advanced-settings-mode");
+                        $("body").removeClass("basic-settings-mode");
+                    } else {
+                        $("body").removeClass("advanced-settings-mode");
+                        $("body").addClass("basic-settings-mode");
+                    }
+                }
+                checkAdvancedSettingsMode($("#agentAmountRule-Enable").is(':checked'));
+                $(document).ready(function() {
+                    $("#agentAmountRule-Enable").click(function() {
+                        checkAdvancedSettingsMode($(this).is(':checked'));
+                        saveUserPreferences('@(Url.Action("ChangeAgentAmountRuleEnable", "AgentAmountRule"))', 'AgentAmountRuleEnable', $(this).is(':checked'));
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,89 @@
+﻿@model string
+@using Nop.Core;
+@using Nop.Services.Orders;
+@inject IStoreContext _storeContext;
+@inject IOrderService _orderService;
+
+@{
+
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Postbar/_PubllicNewUiLayout.cshtml";
+    bool errorPay = false;
+    bool notResponce = false;
+    string url = "";
+    int storeId = _storeContext.CurrentStore.Id;
+    if (Model.Contains("خطا در پرداخت"))
+    {
+        errorPay = true;
+        int orderId = int.Parse(Model.Split('|')[1]);
+        var order = _orderService.GetOrderById(orderId);
+        if (order.OrderItems.Any(n => n.ProductId == 10430))
+        {
+            url = "https://postex.ir/Dashboard/Orders";
+        }
+        else
+        {
+            if (storeId == 5)
+            {
+                url = "https://postex.ir/order/Sh_billpayment?orderIds[0]=" + orderId;
+            }
+            else
+            {
+                url = "https://postbar.ir/order/Sh_billpayment?orderIds[0]=" + orderId;
+            }
+        }
+    }
+    else if (Model.Contains("از بانک پذیرنده پاسخی دریافت نشد"))
+    {
+        int orderId = int.Parse(Model.Split('|')[1]);
+        var order = _orderService.GetOrderById(orderId);
+        if (order.OrderItems.Any(n => n.ProductId == 10430))
+        {
+            url = "https://postex.ir/Dashboard/Orders";
+        }
+        else
+        {
+            if (storeId == 5)
+            {
+                url = "https://postex.ir/order/Sh_billpayment?orderIds[0]=" + orderId;
+            }
+            else
+            {
+                url = "https://postbar.ir/order/Sh_billpayment?orderIds[0]=" + orderId;
+            }
+        }
+    }
+}
+<html>
+<head>
+</head>
+<body>
+    <div class="content">
+        <div class="row">
+            @if (!errorPay && !notResponce)
+            {
+                <h1 style="width:100%;height:100%;text-align:center;margin:40px;text-align:center">
+                    لطفا تا ارسال به پرداخت الکترونیکی شکیبا باشید.
+                </h1>
+            }
+            else
+            {
+
+                <a style="width:100%;height:100%;text-align:center;margin:40px;text-align:center;text-decoration:underline" href="@(url)">خطای در زمان انتقال به درگاه پرداخت آسان پرداخت رخ داده، برای انتخاب روش پرداخت دیگر کلیک کنید</a>
+            }
+
+        </div>
+    </div>
+</body>
+</html>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+<script>
+    @if(!errorPay && !notResponce)
+    {
+        <text>
+            $(function(){
+               $('form').submit();
+            })
+        </text>
+    }
+</script>

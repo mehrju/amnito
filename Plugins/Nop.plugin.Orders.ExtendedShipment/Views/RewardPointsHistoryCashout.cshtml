@@ -1,0 +1,538 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.RewardPointsCashoutInputModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "تسویه حساب مالی";
+
+    //active menu item (system name)
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+}
+<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+<style>
+    .select2-selection {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: super;
+        border: 1px solid #1d1d1d;
+        border-radius: 3px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection__choice {
+        color: black !important;
+    }
+</style>
+
+<div style="padding:10px;">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#exportrewardpoints">دریافت فایل واریزی بانک</a></li>
+        <li><a data-toggle="tab" href="#importrewardpoints">ثبت پرداخت با فایل بانک</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="exportrewardpoints" class="tab-pane fade in active">
+
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form asp-controller="ExtendedCustomer" asp-action="ExcelRewardPointsHistory" id="finExcelDownload" method="post">
+                            <h3>استخراج اطلاعات</h3>
+                            <input hidden name="Ispreview" id="Ispreview" value="true" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="dateFrom" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="dateFrom" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="dateTo" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="dateTo" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label for="chargeWalletTypeId">
+                                                نوع تراکنش
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select id="chargeWalletTypeId" asp-for="chargeWalletType" name="chargeWalletType" class="select3-placeholer form-control" data-placeholder="انتخاب نوع تراکنش"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label for="customers">
+                                                مشتری
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select id="customers" asp-for="customers" name="customers" class="select3-placeholer form-control" data-placeholder="انتخاب مشتری"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button type="button" id="search-RewardPointsCashout" class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                        <a id="downloadExcel" class="btn btn-success btn-excel">دریافت فایل اکسل</a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="customer-rewardpoints-grid"></div>
+                            <input type="hidden" id="chargeWalletTypeId" />
+                            <input type="hidden" id="customers" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="importrewardpoints" class="tab-pane fade ">
+
+            <div class="panel-group">
+                <div id="divFormUpload" class="panel-body">
+                    <div style="color:red;">
+                        فرمت فایل اکسل باید xlsx باشد
+                    </div>
+                    <div style="color:red;">
+                        نام سر ستون های اکسل باید بصورت زیر باشد و ترتیب ستون ها اهمیت ندارد
+                    </div>
+                    <div style="color:red;">
+                        Transfer_Amount     ,    Sheba   ,    Description   ,      Factor_Number
+                    </div>
+                    <h3>ورود اطلاعات</h3>
+
+                    @using (Html.BeginForm("ImportExcel", "ExtendedCustomer",
+                  FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        <input type="text" name="name" hidden value="myname" />
+                        <input type="file" name="file" id="file" style="display:none" accept=".xlsx , .xls" />
+                    }
+                    <input id="btnUploadExcel" type="button" class="btn btn-success" value="آپلود اکسل" />
+
+
+                    <div id="divServerMessage">
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="divModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align:center">تایید فایل اکسل</h4>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+                <div id="divModalTable" style="overflow-y:scroll; height:300px;padding-right: 20px;padding-left: 20px;">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSubmitFinal" type="button" class="btn btn-default">تایید نهایی</button>
+                <button id="btnCancelExcel" type="button" class="btn btn-default">انصراف</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+	$("#file").change(() => {
+		debugger;
+		if ($("#file").length == 0) {
+			alert("لطفا فایل انتخاب کنید");
+			return;
+		}
+		var ext = file.value.split('.')[1];
+		if (file == null || (ext != 'xls' && ext != 'xlsx')) {
+			alert("لطفا فایل اکسل انتخاب کنید");
+			return;
+		}
+
+		$("#divFormUpload > form").submit();
+		$("#file").val('');
+	});
+
+	$("#btnUploadExcel").click(() => {
+		$("#file").click();
+	});
+
+    $("#btnCancelExcel").click(function () {
+        $('#divModal').modal('hide');
+    });
+
+    $("#btnSubmitFinal").click(function () {
+
+        $('#chargeWalletTypeId').val(($('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : ''));
+		$('#customers').val(($('#customers').val() != null ? $('#customers').val().join(',') : ''));
+
+		debugger;
+  //      if (!$('#dateFrom').val() || !$('#dateTo').val()) {
+		//	swal("لطفا فیلد های تاریخ  را وارد نمایید");
+		//	return;
+		//}
+        swal({
+            title: "",
+            text: "آیا مطمعن هستید؟",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'بله',
+            cancelButtonText: "خیر"
+        },
+			function(isConfirm) {
+			debugger;
+				if (isConfirm == true)
+                    $('#finExcelDownload').submit();
+			}
+		);
+	});
+
+    $("#downloadExcel").click(function () {
+        debugger;
+                    var d1 = persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val());
+                    var d2 = persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val());
+                    var chargeWalletTypeIds=($('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : '')
+                    var customerIds=($('#customers').val() != null ? $('#customers').val().join(',') : '');
+
+        var data = { chargeWalletType: chargeWalletTypeIds, Ispreview: $('#Ispreview').val(), customers: customerIds, dateFrom: d1, dateTo: d2}
+                    addAntiForgeryToken(data);
+					debugger;
+                    // if (!$('#dateFrom').val() || !$('#dateTo').val()) {
+					//	swal("لطفا فیلد های تاریخ  را وارد نمایید");
+					//	return;
+					//}
+					$.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: "@Html.Raw(Url.Action("ExcelRewardPointsHistoryPreview", "ExtendedCustomer"))",
+                        data: data,
+						success: function (data) {
+                            $('#divModal').modal('show');
+                            var jsonObj = JSON.parse(data.jsondataTable);
+                            CreateTableFromJSON(jsonObj);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        }
+					});
+				});
+
+	$(document).ready(function () {
+		var html = $.parseHTML("@ViewData["ServerMessage"]");
+		$("#divServerMessage").html(html);
+		$("#divServerMessage").html($("#divServerMessage").text());
+		$('#search-RewardPointsCashout').click(function () {
+			debugger;
+            var d1 = persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val());
+            var d2 = persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val());
+
+		//if (d1 == "" || d2 == "") {
+		//	swal("لطفا فیلد های تاریخ  را وارد نمایید");
+		//	return;
+		//}
+			var grid = $('#customer-rewardpoints-grid').data('kendoGrid');
+			grid.dataSource.page(1); //new search. Set page size to 1
+		});
+
+        $("#customer-rewardpoints-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Url.Action("GridRewardPointsHistory", "ExtendedCustomer")",
+                        type: "POST",
+                        dataType: "json",
+						data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors",
+                    model: {
+                        fields: {
+                            PointsBalance: { type: 'int' }
+                        }
+                    }
+                },
+                error: function(e) {
+
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(defaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(gridPageSizes)],
+                @await Html.PartialAsync("_GridPagerMessages")
+            },
+            editable: {
+                confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [{
+                field: "FactorNumber",
+                title: "شماره فاکتور"
+            },
+            {
+                field: "CustomerName",
+                title: "نام مشتری"
+            },
+            {
+                field: "Sheba",
+                title: "شبا"
+            },
+            {
+                field: "RewardPointBalance",
+                format: "{0:n0}",
+                title: "موجودی کیف پول"
+			},
+            {
+                field: "TotalValue",
+                format: "{0:n0}",
+                title: "جمع تراکنش ها"
+            },
+			{
+                field: "Message",
+				title: "توضیحات"
+            }
+            ]
+		});
+
+		function additionalData() {
+            var data = {
+                dateFrom: persianToEnglish( $('#@Html.IdFor(model => model.dateFrom)').val()),
+                dateTo: persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val()),
+				chargeWalletType: ($('#chargeWalletTypeId').val() != null ? $('#chargeWalletTypeId').val().join(',') : ''),
+				customers: ($('#customers').val() != null ? $('#customers').val().join(',') : '')
+                };
+            firstRead = false;
+            //console.dir(data);
+            addAntiForgeryToken(data);
+        return data;
+		}
+
+		$.ajax({
+            cache: true,
+            type: "GET",
+            url: "@Html.Raw(Url.Action("GetchargeWalletTypes", "ExtendedCustomer"))",
+            data: {},
+            success: function (data) {
+				$('#chargeWalletTypeId').append(new Option('انتخاب کنید....', '-1', false, false));
+                $.each(data, function (id, item) {
+					$('#chargeWalletTypeId').append(new Option(item.Text, item.Value, false, false));
+                });
+
+				$('#chargeWalletTypeId').select2({
+                    placeholder: "انتخاب فروشگاه",
+                    allowClear: true,
+                    //dropdownParent: $('#myModal'),
+					multiple: true
+                });
+				$('#chargeWalletTypeId').val([]);
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //console.log('Failed to retrieve Countries.');
+            }
+		});
+
+		$('#customers').select2({
+                        width:'100%',
+                        placeholder: "جستجو نام کاربری",
+			minimumInputLength: 4,
+			allowClear: true,
+			multiple: true,
+                        ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                            url: '@Url.Action("Getcustomers", "ExtendedCustomer")',
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                var data = { 'searchtext': term.term };
+                                addAntiForgeryToken(data);
+                                return data;
+                            },
+                            results: function (data, page) { // parse the results into the format expected by Select2.
+                                debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                                return { results: data };
+                            },
+                            cache: true
+                        },
+                        dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+		});
+
+    });
+
+    function persianToEnglish(input) {
+        var inputstring = input;
+        var persian = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+        var english = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        for (var i = 0; i < 10; i++) {
+            var regex = new RegExp(persian[i], 'g');
+            inputstring = inputstring.toString().replace(regex, english[i]);
+        }
+        return inputstring;
+    }
+
+    function CreateTableFromJSON(jsonobject) {
+
+        // EXTRACT VALUE FOR HTML HEADER.
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = [];
+        for (var i = 0; i < jsonobject.length; i++) {
+            for (var key in jsonobject[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+        table.classList.add("styled-table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1);                   // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            if (col[i] != 'Id') {
+                var th = document.createElement("th");      // TABLE HEADER.
+                th.innerHTML = col[i];
+                tr.appendChild(th);
+            }
+        }
+
+        var th = document.createElement("th");      // TABLE HEADER.
+        th.innerHTML = "درصد تسویه";
+        tr.appendChild(th);
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < jsonobject.length; i++) {
+
+            tr = table.insertRow(-1);
+            debugger;
+            var data='';
+            for (var j = 0; j < col.length; j++) {
+                var tabCell='';
+                if (col[j] != 'Id') {
+                    tabCell = tr.insertCell(-1);
+                 }
+                debugger;
+                if (col[j] == 'Id') {
+                    data = '<input style="width: 50px;" disabled id="PercentForCheckout_' + jsonobject[i][col[j]] + '" data-val="' + jsonobject[i][col[j]] + '" value="" />';
+                }
+                else {
+                    tabCell.innerHTML = jsonobject[i][col[j]];
+                }
+                if (j + 1 >= col.length) {
+                    var tabCell1 = tr.insertCell(-1);
+                    tabCell1.innerHTML = data;
+                    data='';
+                }
+            }
+            
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("divModalTable");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+</script>
+
+<style>
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        width:100%;
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+</style>

@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_MasterLayout.cshtml";
+}
+<body class="rtl parent-popover" onload="myFunction()">
+    <div id="loader"></div>
+
+    <div style="display:none;" id="myDiv" class="animate-bottom">
+
+       
+
+        <div>
+            <a href="/">
+                <img class="rounded mx-auto d-block mt-2 imgTitleLogo" src="~/Themes/postexNew/images/loginIcon.png" />
+            </a>
+        </div>
+        <h4 class="mt-3 titlePage">به امنیتو خوش آمدید</h4>
+
+        @RenderBody()
+    </div>
+
+    <p>
+        test
+    </p>
+</body>

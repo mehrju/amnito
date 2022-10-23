@@ -1,0 +1,1322 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Models.ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="Shipping" asp-action="Configure" method="post">
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+
+            <div class="panel-heading clearfix">
+                PDE Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_Authorization_OverrideForStore" asp-input="PDE_Authorization" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_Authorization" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_Authorization" />
+                        <span asp-validation-for="PDE_Authorization"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_Password_OverrideForStore" asp-input="PDE_Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_Password" />
+                        <span asp-validation-for="PDE_Password"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_Ccode_OverrideForStore" asp-input="PDE_Ccode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_Ccode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_Ccode" />
+                        <span asp-validation-for="PDE_Ccode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_ClientId_OverrideForStore" asp-input="PDE_ClientId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_ClientId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_ClientId" />
+                        <span asp-validation-for="PDE_ClientId"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLTrackingParcels_OverrideForStore" asp-input="PDE_URLTrackingParcels" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLTrackingParcels" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLTrackingParcels" />
+                        <span asp-validation-for="PDE_URLTrackingParcels"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLListOfCountries_OverrideForStore" asp-input="PDE_URLListOfCountries" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLListOfCountries" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLListOfCountries" />
+                        <span asp-validation-for="PDE_URLListOfCountries"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLListOfCities_OverrideForStore" asp-input="PDE_URLListOfCities" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLListOfCities" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLListOfCities" />
+                        <span asp-validation-for="PDE_URLListOfCities"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLIntenationalCalculator_OverrideForStore" asp-input="PDE_URLIntenationalCalculator" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLIntenationalCalculator" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLIntenationalCalculator" />
+                        <span asp-validation-for="PDE_URLIntenationalCalculator"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLDomesticCalculator_OverrideForStore" asp-input="PDE_URLDomesticCalculator" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLDomesticCalculator" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLDomesticCalculator" />
+                        <span asp-validation-for="PDE_URLDomesticCalculator"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLRegisterInternationalOrder_OverrideForStore" asp-input="PDE_URLRegisterInternationalOrder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLRegisterInternationalOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLRegisterInternationalOrder" />
+                        <span asp-validation-for="PDE_URLRegisterInternationalOrder"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="PDE_URLRegisterDomesticOrder_OverrideForStore" asp-input="PDE_URLRegisterDomesticOrder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="PDE_URLRegisterDomesticOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PDE_URLRegisterDomesticOrder" />
+                        <span asp-validation-for="PDE_URLRegisterDomesticOrder"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*yarbox*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                YarBox Stteing
+            </div>
+            @*<div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_Token_OverrideForStore" asp-input="YarBox_Token" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_Token" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_Token" />
+                        <span asp-validation-for="YarBox_Token"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_DateToken_OverrideForStore" asp-input="YarBox_DateToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_DateToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_DateToken" />
+                        <span asp-validation-for="YarBox_DateToken"></span>
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_verifyCode_OverrideForStore" asp-input="YarBox_verifyCode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_verifyCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_verifyCode" />
+                        <span asp-validation-for="YarBox_verifyCode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_phoneNumber_OverrideForStore" asp-input="YarBox_phoneNumber" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_phoneNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_phoneNumber" />
+                        <span asp-validation-for="YarBox_phoneNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_playerId_OverrideForStore" asp-input="YarBox_playerId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_playerId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_playerId" />
+                        <span asp-validation-for="YarBox_playerId"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_ExpiresDayToken_OverrideForStore" asp-input="YarBox_ExpiresDayToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_ExpiresDayToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_ExpiresDayToken" />
+                        <span asp-validation-for="YarBox_ExpiresDayToken"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLAp_Verify_OverrideForStore" asp-input="YarBox_URLAp_Verify" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLAp_Verify" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLAp_Verify" />
+                        <span asp-validation-for="YarBox_URLAp_Verify"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLApPackingType_OverrideForStore" asp-input="YarBox_URLApPackingType" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLApPackingType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLApPackingType" />
+                        <span asp-validation-for="YarBox_URLApPackingType"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLAp_Type_OverrideForStore" asp-input="YarBox_URLAp_Type" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLAp_Type" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLAp_Type" />
+                        <span asp-validation-for="YarBox_URLAp_Type"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLApPostPacks_OverrideForStore" asp-input="YarBox_URLApPostPacks" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLApPostPacks" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLApPostPacks" />
+                        <span asp-validation-for="YarBox_URLApPostPacks"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLfactor_OverrideForStore" asp-input="YarBox_URLfactor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLfactor" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLfactor" />
+                        <span asp-validation-for="YarBox_URLfactor"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLAp_PostPacks_accept_OverrideForStore" asp-input="YarBox_URLAp_PostPacks_accept" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLAp_PostPacks_accept" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLAp_PostPacks_accept" />
+                        <span asp-validation-for="YarBox_URLAp_PostPacks_accept"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URLAp_Qute_OverrideForStore" asp-input="YarBox_URLAp_Qute" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URLAp_Qute" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URLAp_Qute" />
+                        <span asp-validation-for="YarBox_URLAp_Qute"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="YarBox_URL_Tracking_OverrideForStore" asp-input="YarBox_URL_Tracking" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="YarBox_URL_Tracking" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="YarBox_URL_Tracking" />
+                        <span asp-validation-for="YarBox_URL_Tracking"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Ubaar*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ubaar Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_APIToken_OverrideForStore" asp-input="Ubaar_APIToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_APIToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_APIToken" />
+                        <span asp-validation-for="Ubaar_APIToken"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_USERToken_OverrideForStore" asp-input="Ubaar_USERToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_USERToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_USERToken" />
+                        <span asp-validation-for="Ubaar_USERToken"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_Urlregionlist_OverrideForStore" asp-input="Ubaar_Urlregionlist" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_Urlregionlist" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_Urlregionlist" />
+                        <span asp-validation-for="Ubaar_Urlregionlist"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_Urlpriceenquiry_OverrideForStore" asp-input="Ubaar_Urlpriceenquiry" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_Urlpriceenquiry" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_Urlpriceenquiry" />
+                        <span asp-validation-for="Ubaar_Urlpriceenquiry"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_Urlmodifyorder_OverrideForStore" asp-input="Ubaar_Urlmodifyorder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_Urlmodifyorder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_Urlmodifyorder" />
+                        <span asp-validation-for="Ubaar_Urlmodifyorder"></span>
+                    </div>
+                </div>
+                @*//5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Ubaar_UrlTracking_OverrideForStore" asp-input="Ubaar_UrlTracking" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Ubaar_UrlTracking" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Ubaar_UrlTracking" />
+                        <span asp-validation-for="Ubaar_UrlTracking"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        @*Tinex*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Tinex Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_grant_type_OverrideForStore" asp-input="Tinex_grant_type" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_grant_type" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_grant_type" />
+                        <span asp-validation-for="Tinex_grant_type"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_client_id_OverrideForStore" asp-input="Tinex_client_id" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_client_id" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_client_id" />
+                        <span asp-validation-for="Tinex_client_id"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_client_secret_OverrideForStore" asp-input="Tinex_client_secret" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_client_secret" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_client_secret" />
+                        <span asp-validation-for="Tinex_client_secret"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_scope_OverrideForStore" asp-input="Tinex_scope" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_scope" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_scope" />
+                        <span asp-validation-for="Tinex_scope"></span>
+                    </div>
+                </div>
+                @*3-2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_ExpireDayToken_OverrideForStore" asp-input="Tinex_ExpireDayToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_ExpireDayToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_ExpireDayToken" />
+                        <span asp-validation-for="Tinex_ExpireDayToken"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_UrlToken_OverrideForStore" asp-input="Tinex_UrlToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_UrlToken" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_UrlToken" />
+                        <span asp-validation-for="Tinex_UrlToken"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_Urlcancel_OverrideForStore" asp-input="Tinex_Urlcancel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_Urlcancel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_Urlcancel" />
+                        <span asp-validation-for="Tinex_Urlcancel"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_UrlGetCost_OverrideForStore" asp-input="Tinex_UrlGetCost" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_UrlGetCost" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_UrlGetCost" />
+                        <span asp-validation-for="Tinex_UrlGetCost"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_Urlinsert_OverrideForStore" asp-input="Tinex_Urlinsert" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_Urlinsert" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_Urlinsert" />
+                        <span asp-validation-for="Tinex_Urlinsert"></span>
+                    </div>
+                </div>
+                @*8*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_Urlinsertcommit_OverrideForStore" asp-input="Tinex_Urlinsertcommit" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_Urlinsertcommit" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_Urlinsertcommit" />
+                        <span asp-validation-for="Tinex_Urlinsertcommit"></span>
+                    </div>
+                </div>
+                @*9*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Tinex_Urlcancelreasons_OverrideForStore" asp-input="Tinex_Urlcancelreasons" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Tinex_Urlcancelreasons" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Tinex_Urlcancelreasons" />
+                        <span asp-validation-for="Tinex_Urlcancelreasons"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        @*Safiran*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Safiran Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_APP_AUTH_OverrideForStore" asp-input="Safiran_APP_AUTH" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_APP_AUTH" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_APP_AUTH" />
+                        <span asp-validation-for="Safiran_APP_AUTH"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_PickupMan_OverrideForStore" asp-input="Safiran_PickupMan" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_PickupMan" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_PickupMan" />
+                        <span asp-validation-for="Safiran_PickupMan"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_SenderCode_OverrideForStore" asp-input="Safiran_SenderCode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_SenderCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_SenderCode" />
+                        <span asp-validation-for="Safiran_SenderCode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_GetState_OverrideForStore" asp-input="Safiran_URL_GetState" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_GetState" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_GetState" />
+                        <span asp-validation-for="Safiran_URL_GetState"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_City_OverrideForStore" asp-input="Safiran_URL_City" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_City" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_City" />
+                        <span asp-validation-for="Safiran_URL_City"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_UserName_OverrideForStore" asp-input="Safiran_UserName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_UserName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_UserName" />
+                        <span asp-validation-for="Safiran_UserName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_Password_OverrideForStore" asp-input="Safiran_Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_Password" />
+                        <span asp-validation-for="Safiran_Password"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_TRACKING_OverrideForStore" asp-input="Safiran_URL_TRACKING" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_TRACKING" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_TRACKING" />
+                        <span asp-validation-for="Safiran_URL_TRACKING"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_GetQuote_OverrideForStore" asp-input="Safiran_URL_GetQuote" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_GetQuote" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_GetQuote" />
+                        <span asp-validation-for="Safiran_URL_GetQuote"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_PickupRequest_OverrideForStore" asp-input="Safiran_URL_PickupRequest" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_PickupRequest" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_PickupRequest" />
+                        <span asp-validation-for="Safiran_URL_PickupRequest"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_BulkImport_OverrideForStore" asp-input="Safiran_URL_BulkImport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_BulkImport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_BulkImport" />
+                        <span asp-validation-for="Safiran_URL_BulkImport"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_BulkHistoryReport_OverrideForStore" asp-input="Safiran_URL_BulkHistoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_BulkHistoryReport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_BulkHistoryReport" />
+                        <span asp-validation-for="Safiran_URL_BulkHistoryReport"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_HistoryReport_OverrideForStore" asp-input="Safiran_URL_HistoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_HistoryReport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_HistoryReport" />
+                        <span asp-validation-for="Safiran_URL_HistoryReport"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Safiran_URL_Cancel_OverrideForStore" asp-input="Safiran_URL_Cancel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Safiran_URL_Cancel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Safiran_URL_Cancel" />
+                        <span asp-validation-for="Safiran_URL_Cancel"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Persian Box*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Persain Stteing
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Persain_UserName_OverrideForStore" asp-input="Persain_UserName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Persain_UserName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Persain_UserName" />
+                        <span asp-validation-for="Persain_UserName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Persain_Password_OverrideForStore" asp-input="Persain_Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Persain_Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Persain_Password" />
+                        <span asp-validation-for="Persain_Password"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Persain_URL_NewCustomer_OverrideForStore" asp-input="Persain_URL_NewCustomer" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Persain_URL_NewCustomer" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Persain_URL_NewCustomer" />
+                        <span asp-validation-for="Persain_URL_NewCustomer"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Persain_URL_ViewCustomer_OverrideForStore" asp-input="Persain_URL_ViewCustomer" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Persain_URL_ViewCustomer" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Persain_URL_ViewCustomer" />
+                        <span asp-validation-for="Persain_URL_ViewCustomer"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        @*TPG Box*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                TPG Stteing
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_UserName_OverrideForStore" asp-input="TPG_UserName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_UserName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_UserName" />
+                        <span asp-validation-for="TPG_UserName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_Password_OverrideForStore" asp-input="TPG_Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_Password" />
+                        <span asp-validation-for="TPG_Password"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_ContractCode_OverrideForStore" asp-input="TPG_ContractCode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_ContractCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_ContractCode" />
+                        <span asp-validation-for="TPG_ContractCode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_ContractId_OverrideForStore" asp-input="TPG_ContractId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_ContractId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_ContractId" />
+                        <span asp-validation-for="TPG_ContractId"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_UserId_OverrideForStore" asp-input="TPG_UserId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_UserId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_UserId" />
+                        <span asp-validation-for="TPG_UserId"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_Url_compute_OverrideForStore" asp-input="TPG_Url_compute" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_Url_compute" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_Url_compute" />
+                        <span asp-validation-for="TPG_Url_compute"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_Url_Pickup_OverrideForStore" asp-input="TPG_Url_Pickup" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_Url_Pickup" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_Url_Pickup" />
+                        <span asp-validation-for="TPG_Url_Pickup"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_Url_Receipt_OverrideForStore" asp-input="TPG_Url_Receipt" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_Url_Receipt" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_Url_Receipt" />
+                        <span asp-validation-for="TPG_Url_Receipt"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TPG_Url_Tracking_OverrideForStore" asp-input="TPG_Url_Tracking" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TPG_Url_Tracking" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TPG_Url_Tracking" />
+                        <span asp-validation-for="TPG_Url_Tracking"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        @*Chapar*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Chapar Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_APP_AUTH_OverrideForStore" asp-input="Chapar_APP_AUTH" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_APP_AUTH" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_APP_AUTH" />
+                        <span asp-validation-for="Chapar_APP_AUTH"></span>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_PickupMan_OverrideForStore" asp-input="Chapar_PickupMan" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_PickupMan" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_PickupMan" />
+                        <span asp-validation-for="Chapar_PickupMan"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_SenderCode_OverrideForStore" asp-input="Chapar_SenderCode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_SenderCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_SenderCode" />
+                        <span asp-validation-for="Chapar_SenderCode"></span>
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_GetState_OverrideForStore" asp-input="Chapar_URL_GetState" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_GetState" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_GetState" />
+                        <span asp-validation-for="Chapar_URL_GetState"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_City_OverrideForStore" asp-input="Chapar_URL_City" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_City" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_City" />
+                        <span asp-validation-for="Chapar_URL_City"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_UserName_OverrideForStore" asp-input="Chapar_UserName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_UserName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_UserName" />
+                        <span asp-validation-for="Chapar_UserName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_Password_OverrideForStore" asp-input="Chapar_Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_Password" />
+                        <span asp-validation-for="Chapar_Password"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_TRACKING_OverrideForStore" asp-input="Chapar_URL_TRACKING" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_TRACKING" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_TRACKING" />
+                        <span asp-validation-for="Chapar_URL_TRACKING"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_GetQuote_OverrideForStore" asp-input="Chapar_URL_GetQuote" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_GetQuote" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_GetQuote" />
+                        <span asp-validation-for="Chapar_URL_GetQuote"></span>
+                    </div>
+                </div>
+                @*3*@
+                @*<div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_PickupRequest_OverrideForStore" asp-input="Chapar_URL_PickupRequest" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_PickupRequest" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_PickupRequest" />
+                        <span asp-validation-for="Chapar_URL_PickupRequest"></span>
+                    </div>
+                </div>*@
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_BulkImport_OverrideForStore" asp-input="Chapar_URL_BulkImport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_BulkImport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_BulkImport" />
+                        <span asp-validation-for="Chapar_URL_BulkImport"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_BulkHistoryReport_OverrideForStore" asp-input="Chapar_URL_BulkHistoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_BulkHistoryReport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_BulkHistoryReport" />
+                        <span asp-validation-for="Chapar_URL_BulkHistoryReport"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_HistoryReport_OverrideForStore" asp-input="Chapar_URL_HistoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_HistoryReport" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_HistoryReport" />
+                        <span asp-validation-for="Chapar_URL_HistoryReport"></span>
+                    </div>
+                </div>
+                @*7*@
+                @*<div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Chapar_URL_Cancel_OverrideForStore" asp-input="Chapar_URL_Cancel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Chapar_URL_Cancel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Chapar_URL_Cancel" />
+                        <span asp-validation-for="Chapar_URL_Cancel"></span>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+
+
+
+
+
+
+
+        @*taroff*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Taroff Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_APP_AUTH_OverrideForStore" asp-input="taroff_APP_AUTH" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_APP_AUTH" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_APP_AUTH" />
+                        <span asp-validation-for="taroff_APP_AUTH"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_GetCity_OverrideForStore" asp-input="taroff_URL_GetCity" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_GetCity" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_GetCity" />
+                        <span asp-validation-for="taroff_URL_GetCity"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_GetProvinces_OverrideForStore" asp-input="taroff_URL_GetProvinces" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_GetProvinces" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_GetProvinces" />
+                        <span asp-validation-for="taroff_URL_GetProvinces"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_GetListPaymentMethods_OverrideForStore" asp-input="taroff_URL_GetListPaymentMethods" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_GetListPaymentMethods" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_GetListPaymentMethods" />
+                        <span asp-validation-for="taroff_URL_GetListPaymentMethods"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_GetListCarriers_OverrideForStore" asp-input="taroff_URL_GetListCarriers" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_GetListCarriers" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_GetListCarriers" />
+                        <span asp-validation-for="taroff_URL_GetListCarriers"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_CreateOrder_OverrideForStore" asp-input="taroff_URL_CreateOrder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_CreateOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_CreateOrder" />
+                        <span asp-validation-for="taroff_URL_CreateOrder"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_GetStateOrder_OverrideForStore" asp-input="taroff_URL_GetStateOrder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_GetStateOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_GetStateOrder" />
+                        <span asp-validation-for="taroff_URL_GetStateOrder"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_SetStateReady_OverrideForStore" asp-input="taroff_URL_SetStateReady" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_SetStateReady" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_SetStateReady" />
+                        <span asp-validation-for="taroff_URL_SetStateReady"></span>
+                    </div>
+                </div>
+                @*8*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_SetStateCancel_OverrideForStore" asp-input="taroff_URL_SetStateCancel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_SetStateCancel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_SetStateCancel" />
+                        <span asp-validation-for="taroff_URL_SetStateCancel"></span>
+                    </div>
+                </div>
+                @*9*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="taroff_URL_Report_OverrideForStore" asp-input="taroff_URL_Report" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="taroff_URL_Report" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="taroff_URL_Report" />
+                        <span asp-validation-for="taroff_URL_Report"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Snapbox*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Snappbox Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_APP_AUTH_OverrideForStore" asp-input="Snappbox_APP_AUTH" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_APP_AUTH" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_APP_AUTH" />
+                        <span asp-validation-for="Snappbox_APP_AUTH"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_CustomerId_OverrideForStore" asp-input="Snappbox_CustomerId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_CustomerId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_CustomerId" />
+                        <span asp-validation-for="Snappbox_CustomerId"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Login_OverrideForStore" asp-input="Snappbox_URL_Login" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Login" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Login" />
+                        <span asp-validation-for="Snappbox_URL_Login"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Get_Account_Balance_OverrideForStore" asp-input="Snappbox_URL_Get_Account_Balance" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Get_Account_Balance" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Get_Account_Balance" />
+                        <span asp-validation-for="Snappbox_URL_Get_Account_Balance"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Create_Order_OverrideForStore" asp-input="Snappbox_URL_Create_Order" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Create_Order" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Create_Order" />
+                        <span asp-validation-for="Snappbox_URL_Create_Order"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Get_Order_Details_OverrideForStore" asp-input="Snappbox_URL_Get_Order_Details" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Get_Order_Details" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Get_Order_Details" />
+                        <span asp-validation-for="Snappbox_URL_Get_Order_Details"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Cancel_Order_OverrideForStore" asp-input="Snappbox_URL_Cancel_Order" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Cancel_Order" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Cancel_Order" />
+                        <span asp-validation-for="Snappbox_URL_Cancel_Order"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Get_Order_List_OverrideForStore" asp-input="Snappbox_URL_Get_Order_List" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Get_Order_List" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Get_Order_List" />
+                        <span asp-validation-for="Snappbox_URL_Get_Order_List"></span>
+                    </div>
+                </div>
+                @*7*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Snappbox_URL_Get_Price_OverrideForStore" asp-input="Snappbox_URL_Get_Price" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Snappbox_URL_Get_Price" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Snappbox_URL_Get_Price" />
+                        <span asp-validation-for="Snappbox_URL_Get_Price"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        @*Sky*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Sky Blue Stteing
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_APP_AUTH_OverrideForStore" asp-input="SkyBlue_APP_AUTH" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_APP_AUTH" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_APP_AUTH" />
+                        <span asp-validation-for="SkyBlue_APP_AUTH"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_Get_Country_OverrideForStore" asp-input="SkyBlue_URL_Get_Country" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_Get_Country" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_Get_Country" />
+                        <span asp-validation-for="SkyBlue_URL_Get_Country"></span>
+                    </div>
+                </div>
+                @*1*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_Get_ParcelType_OverrideForStore" asp-input="SkyBlue_URL_Get_ParcelType" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_Get_ParcelType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_Get_ParcelType" />
+                        <span asp-validation-for="SkyBlue_URL_Get_ParcelType"></span>
+                    </div>
+                </div>
+                @*2*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_ParcelPrice_OverrideForStore" asp-input="SkyBlue_URL_ParcelPrice" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_ParcelPrice" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_ParcelPrice" />
+                        <span asp-validation-for="SkyBlue_URL_ParcelPrice"></span>
+                    </div>
+                </div>
+                @*3*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_RegisterOrder_OverrideForStore" asp-input="SkyBlue_URL_RegisterOrder" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_RegisterOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_RegisterOrder" />
+                        <span asp-validation-for="SkyBlue_URL_RegisterOrder"></span>
+                    </div>
+                </div>
+                @*4*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_Cancel_OverrideForStore" asp-input="SkyBlue_URL_Cancel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_Cancel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_Cancel" />
+                        <span asp-validation-for="SkyBlue_URL_Cancel"></span>
+                    </div>
+                </div>
+                @*5*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_Tracking_OverrideForStore" asp-input="SkyBlue_URL_Tracking" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_Tracking" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_Tracking" />
+                        <span asp-validation-for="SkyBlue_URL_Tracking"></span>
+                    </div>
+                </div>
+                @*6*@
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SkyBlue_URL_CheckService_OverrideForStore" asp-input="SkyBlue_URL_CheckService" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SkyBlue_URL_CheckService" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SkyBlue_URL_CheckService" />
+                        <span asp-validation-for="SkyBlue_URL_CheckService"></span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

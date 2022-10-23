@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="1">
+      <WalletRecord Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>WalletRecord</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>WalletRecord</Category>
+        <Columns isList="true" count="5">
+          <value>Id,System.Int32</value>
+          <value>Points,System.Int32</value>
+          <value>PointsBalance,System.String</value>
+          <value>Message,System.String</value>
+          <value>CreateDate,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>e41a1f74bbc844c5988b1392de573a58</Guid>
+        <Name>WalletRecord</Name>
+      </WalletRecord>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="5">
+      <value>,CompanyName,CompanyName,,System.String,,False,False,False,False</value>
+      <value>,Logo,Logo,,System.Drawing.Image,,False,False,False,False</value>
+      <value>,Now,Now,,System.String,,False,False,False,False</value>
+      <value>,SearchConditions,SearchConditions,,System.String,,False,False,False,False</value>
+      <value>,SiteAddress,SiteAddress,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>506f5d43c17348819be00c12d589fc56</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="3" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <Header Ref="4" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4,287.1,8</ClientRectangle>
+          <Components isList="true" count="5">
+            <HeaderOrdersList_OrderTotal Ref="5" type="Text" isKey="true">
+              <Brush>[216:216:216]</Brush>
+              <ClientRectangle>0,0,170,12</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>HeaderOrdersList_OrderTotal</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>توضیحات</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </HeaderOrdersList_OrderTotal>
+            <HeaderOrdersList_OrderStatus Ref="6" type="Text" isKey="true">
+              <Brush>[216:216:216]</Brush>
+              <ClientRectangle>170,0,28,12</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>HeaderOrdersList_OrderStatus</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>تاریخ</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </HeaderOrdersList_OrderStatus>
+            <HeaderOrdersList_OrderDate Ref="7" type="Text" isKey="true">
+              <Brush>[216:216:216]</Brush>
+              <ClientRectangle>198,0,28,12</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>HeaderOrdersList_OrderDate</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>مانده</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </HeaderOrdersList_OrderDate>
+            <HeaderOrdersList_CategoryName Ref="8" type="Text" isKey="true">
+              <Brush>[216:216:216]</Brush>
+              <ClientRectangle>226,0,28,12</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>HeaderOrdersList_CategoryName</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>مبلغ تراکنش</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </HeaderOrdersList_CategoryName>
+            <HeaderOrdersList_OrderId Ref="9" type="Text" isKey="true">
+              <Brush>[216:216:216]</Brush>
+              <ClientRectangle>254,0,33,12</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>HeaderOrdersList_OrderId</Name>
+              <Page isRef="3" />
+              <Parent isRef="4" />
+              <Text>شماره رکورد</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </HeaderOrdersList_OrderId>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>Header</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <PrintOn>OnlyFirstPage</PrintOn>
+        </Header>
+        <Data Ref="10" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid>e41a1f74bbc844c5988b1392de573a58</BusinessObjectGuid>
+          <ClientRectangle>0,20,287.1,8</ClientRectangle>
+          <Components isList="true" count="5">
+            <DataOrdersList_OrderTotal Ref="11" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,170,8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataOrdersList_OrderTotal</Name>
+              <Page isRef="3" />
+              <Parent isRef="10" />
+              <Text>{WalletRecord.Message}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </DataOrdersList_OrderTotal>
+            <DataOrdersList_OrderStatus Ref="12" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>170,0,28,8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataOrdersList_OrderStatus</Name>
+              <Page isRef="3" />
+              <Parent isRef="10" />
+              <Text>{WalletRecord.CreateDate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </DataOrdersList_OrderStatus>
+            <DataOrdersList_OrderDate Ref="13" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>198,0,28,8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataOrdersList_OrderDate</Name>
+              <Page isRef="3" />
+              <Parent isRef="10" />
+              <Text>{WalletRecord.PointsBalance}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </DataOrdersList_OrderDate>
+            <DataOrdersList_CategoryName Ref="14" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>226,0,28,8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataOrdersList_CategoryName</Name>
+              <Page isRef="3" />
+              <Parent isRef="10" />
+              <Text>{WalletRecord.Points}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </DataOrdersList_CategoryName>
+            <DataOrdersList_OrderId Ref="15" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>254,0,33,8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataOrdersList_OrderId</Name>
+              <Page isRef="3" />
+              <Parent isRef="10" />
+              <Text>{WalletRecord.Id}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </DataOrdersList_OrderId>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>Data</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Sort isList="true" count="0" />
+        </Data>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>39dbc5647c33407b80fef55f883b76aa</Guid>
+      <Margins>4.95,4.95,4.95,4.95</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>210</PageHeight>
+      <PageWidth>297</PageWidth>
+      <PaperSize>A4</PaperSize>
+      <Report isRef="0" />
+      <RightToLeft>True</RightToLeft>
+      <Watermark Ref="16" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="17" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>1/9/2022 4:45:47 PM</ReportChanged>
+  <ReportCreated>11/15/2018 8:24:47 AM</ReportCreated>
+  <ReportFile>C:\D\Projects\Web_APP\Nope_Clear_file\PostbarNop\Plugins\Nop.Plugin.Misc.PostbarDashboard\Reports\WalletRecord.mrt</ReportFile>
+  <ReportGuid>224646cc0cfc4be9b58632ad99d0ea78</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Millimeters</ReportUnit>
+  <ReportVersion>2018.3.5.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

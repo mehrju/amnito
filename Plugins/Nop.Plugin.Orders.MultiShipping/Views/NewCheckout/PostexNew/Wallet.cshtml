@@ -1,0 +1,57 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("کیف پول مجازی");
+	Html.AddMetaKeywordParts("کیف پول مجازی");
+	Html.AddMetaDescriptionParts("کیف پول مجازی امروزه یکی از نیاز های اساسی هر کسب و کار اینترنتی است ، امنیتو به عنوان پیشرو در خدمات پست با استفاده از کیف پول روند ثبت بسته پستی را سریع تر کرده است ");
+}
+<div class="container landing">
+	<div class="row ">
+		<div class="col-md-12 content">
+			<h1>کیف پول مجازی چیست ؟</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li>کیف پول</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="#">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/کیف.png?ver=@(imgVer)" alt="کیف پول مجازی"/>
+			</a>
+		</div>
+		<div class="col-md-9 content">
+
+			<p>
+				اساسا امروزه در بسیاری از کسب و کارهای اینترنتی و راهبری آنها بدون کیف پول مجازی، بسیار سخت و پیچیده است.
+				چرا؟
+				مهمترین و برجسته ترین علل این چرایی در حوزه مشکلات PSP ها در حوزه پرداخت  لحظه پرداخت میباشد و در عین حال سرعت عمل ثبت سفارشات و عدم مراجعه به درگاه پرداخت خود نیز از دیگر مواردی است که در سرویس کیف پول مجازی میتوان به آن اشاره کرد.
+			</p>
+			<p>در حال حاضر کیف پول در سامانه امنیتو از 4 جنبه قابل بررسی است:</p>
+			<ol>
+				<li>کیف پول در تسریع عملیات ثبت سفارش موثر میباشد</li>
+				<li> تمامی نمایندگان کمیسیون عملیات خود را از طریق کیف پول دریافت کرده و از همان محل امکان ثبت سفارش مجدد خواهند داشت</li>
+				<li>تمامی عملیات پسکرایه و پرداخت در محل مشتری مبتنی بر کیف پول میباشد که چنانچه این کیف منفی باشد امکان ثبت سفارش را از مشتری خواهد گرفت</li>
+				<li>کلیه عملیات رفت و برگشتی مالی در سرویس امنیتو مبتنی بر کیف پول مجازی و بلوکه کردن آن میزان مبلغ میباشد.</li>
+			</ol>
+			<p>
+				پس در نتیجه چنانچه مایل به استفاده از تمامی سرویس های پستی در سامانه امنیتو باشید میبایستی استفاده از کیف پول را در اولویتهای قطعی خود قرار دهید.
+
+				لازم به یادآوری است سرویس کیف در افزایش درجه اعتباری و رنگ بندی مشتری موثر میباشد و که این امر خود منجر به تخفیفاتی موثر برای مشتری خواهد گردید
+			</p>
+			<span class="slogan">کیف پولت رو شارژ کن مثل موشک پست کن</span>
+			<br />
+			<div class="content m-4">
+				<a class="btn center" href="@(Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.Dashboard")+"#list-up")">ورود به سرویس کیف پول</a>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

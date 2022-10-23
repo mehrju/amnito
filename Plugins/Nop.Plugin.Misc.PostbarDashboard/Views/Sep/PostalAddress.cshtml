@@ -1,0 +1,143 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.PostalAddress
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Sep/sep_NewUiDashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="form-header" >
+            <h3 style="color: white;padding-right: 16px;padding-top: 20px;">ثبت آدرس پستی</h3>
+        </div>
+    </div>
+</div>
+<form action="" type="" id="frm_postal_address" class="container-fluid">
+
+
+    <div class="form-group field">
+        <select tabindex="1" class="js-example-basic-single form-control" name="CountryId" id="CountryId"></select>
+    </div>
+    <div class="form-group field">
+        <select tabindex="2" class="js-example-basic-single form-control" name="StateProvinceId" id="StateProvinceId" >
+            <option value="0">شهر/منطقه</option>
+        </select>
+    </div>
+    <div class="form-group field">
+        <input asp-for="FirstName" tabindex="3" name="FirstName" maxlength="100" class="form-control" placeholder="نام" />
+    </div>
+    <div class="form-group field">
+        <input name="LastName" tabindex="4" asp-for="LastName" maxlength="100" class="form-control" type="text" placeholder="نام خانودگی">
+    </div>
+    <div class="form-group field">
+        <input name="PhoneNumber" tabindex="5" asp-for="PhoneNumber" maxlength="14" class="form-control" type="text" placeholder="شماره تماس/موبایل">
+    </div>
+    <div class="form-group field">
+        <input name="Company" asp-for="Company" tabindex="6" maxlength="100" class="form-control" type="text" placeholder="نام شرکت">
+    </div>
+    <div class="form-group field">
+        <input name="Address1" asp-for="Address1" tabindex="7" maxlength="500" class="form-control" type="text" placeholder="آدرس">
+    </div>
+    <div class="form-group btn-sub" style="text-align: center;position: absolute;width: 100%;left: 0px;top: 81%;">
+        <button type="submit" tabindex="8"  class="pbtn btn custom-btn-01 btn-search-modal" style="padding:15px;width:100%;margin-top: 20px;box-shadow: unset;
+            border-radius: 3px;background-color: #F2432E;">
+            ثبت
+        </button>
+    </div>
+</form>
+
+
+<script>
+        //====================================Load Country & State==========================================================
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: "/NewCheckout/getCountryList",
+            data: {},
+            success: function (data) {
+                $('#CountryId').append(new Option('استان', '0', true, true));
+                $.each(data, function (id, item) {
+                    $('#CountryId').append(new Option(item.Text, item.Value, false, false));
+                });
+               $('#CountryId').select2();
+               $('#CountryId').change(function () {
+                    var selectedItem = $(this).val();
+                    var ddlStates = $('#StateProvinceId');
+                    ddlStates.html('');
+                    ddlStates.append(new Option('درحال بارگذاری....', '-1', true, true));
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "/NewCheckout/GetStatesByCountryId",
+                        data: { "countryId": selectedItem, "isCod": true },
+                        success: function (reuslt) {
+                            ddlStates.html('');
+                            ddlStates.append(new Option('شهر/منطقه', '0', true, true));
+                            $.each(reuslt, function (id, item) {
+                                ddlStates.append(new Option(item.Text, item.Value, false, false));
+                            });
+                            ddlStates.select2();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log('Failed to retrieve states.');
+                        }
+                    });
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve Countries.');
+            }
+        });
+
+    $('#frm_postal_address').submit(function (event) {
+        event.preventDefault();
+
+        isValid = $("#frm_postal_address").validate().form();
+        if (!isValid) {
+            return;
+        }
+
+        $.ajax({
+            beforeSend: function () {
+                $('#loader').show();();
+            },
+            complete: function () {
+                $('#loader').hide();
+            },
+        cache: false,
+        type: "POST",
+        url: "@Url.Action("PostalAddress", "SepDashboard")",
+        data: $('#frm_postal_address').serialize(),
+        success: function(data) {
+            if (data == "") {
+                alert( 'با موفقیت اطلاعات ثبت شد', 1);
+                Clear();
+                } else {
+                    alert( data, 2);
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+        }
+        });
+    });
+    function Clear() {
+        $('input').each(function () {
+            $(this).val('');
+        });
+        $('.js-example-basic-single').each(function () {
+            $(this).val('0').trigger('change');
+        });
+    }
+    $("#frm_postal_address").validate({
+        rules: {
+            ZipPostalCode: "required",
+            Address1: "required",
+        },
+        messages: {
+            ZipPostalCode: "کد پستی اجباریست",
+            Address1: "آدرس  اجباریست",
+        }
+    });
+</script>

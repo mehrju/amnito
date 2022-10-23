@@ -1,0 +1,103 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework  
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "لیست مرسولات";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Product.Shipments");
+}
+<div id="shipments-grid"></div>
+<script>
+    $(document).ready(function () {
+                                $("#shipments-grid").kendoGrid({
+                                    autoBind: false,
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("getShipmentList", "Shipments"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    //details grid
+                                    detailInit: detailInit,
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [{
+                                        field: "Id",
+                                        headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                        width: 50
+                                    }
+                                        , {
+                                        field: "Id",
+                                        title: "@T("Admin.Orders.Shipments.ID")",
+                                        width: 50,
+                                         template: "#if(NeedPrint) {#"
+                                                + "<i style=\"color:green\" aria-hidden=\"true\" class=\"fa fa-print\" title=\"نیاز به چاپ رسید\"></i>"
+                                                + "#}#"
+                                                + "#if(NeedCarton) {#"
+                                                + "<i style=\"color:red\" aria-hidden=\"true\" class=\"fa fa-gift\" title=\"نیاز به کارتون #=CartonSizeName#\"></i>"
+                                                + "#}#"
+                                                + " #=Id#"
+                                        }
+                                        , {
+                                        field: "OrderId",
+                                        title: "@T("Admin.Orders.Shipments.CustomOrderNumber")",
+                                        width: 100
+                                    }, {
+                                        field: "TrackingNumber",
+                                        title: "@T("Admin.Orders.Shipments.TrackingNumber")",
+                                        width: 100
+                                        }
+                                    , {
+                                            field: "LastShipmentState",
+                                            title: "آخرین وضعیت مرسوله ",
+                                            width: 150
+                                        }
+                                        , {
+                                            field: "LastShipmentStateDate",
+                                            title: "تاریخ آخرین وضعیت مرسوله ",
+                                            width: 150
+                                        }
+                                    
+                                        ,{
+                                            field: "FullAddress",
+                                            title: "آدرس",
+                                            width: 350
+                                        }
+                                    ]
+                                });
+                            });
+</script>

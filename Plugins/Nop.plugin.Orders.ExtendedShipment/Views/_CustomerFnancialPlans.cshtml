@@ -1,0 +1,384 @@
+﻿@model Nop.Web.Areas.Admin.Models.Customers.CustomerModel
+@{
+    //page title
+    ViewBag.Title = "پلن های مالی مشتری";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Customers list");
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#IsActiveIncentivePlan").prop("checked", false);
+        $("#IsAutomaticIncentivePlan").prop("checked", false);
+        $("#IsActiveCustomerAffilate").prop("checked", false);
+
+      var postData = {};
+          addAntiForgeryToken(postData);
+          $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetDiscountPlan", "CustomerFnancialPlan"))",
+                 data: postData,
+                success: function (data) {
+                    $("#SelectedIncentivePlan").append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $("#SelectedIncentivePlan").append(new Option(item.Text, item.Value, false, false));
+                    });
+                     get1();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+            });
+
+
+          $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetAffliateList", "CustomerFnancialPlan"))",
+                 data: postData,
+                success: function (data) {
+                    $("#SelectedCustomerAffilateId").append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $("#SelectedCustomerAffilateId").append(new Option(item.Text, item.Value, false, false));
+                    });
+                    get2();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+          });
+
+
+        var postData2 = {customerId:@Model.Id};
+          addAntiForgeryToken(postData2);
+
+        function get1()
+        {
+             $.ajax({
+                cache: true,
+                type: "Post",
+                url:"@Html.Raw(Url.Action("GetCurrentDiscountPlan", "CustomerFnancialPlan"))",
+                 data: postData2,
+                 success: function (data) {
+                     console.log(data)
+                     if (data.depositCode) {
+                         $('#depositCode').val(data.depositCode)
+                     }
+                 if (data.success == true)
+                 {
+                   if (data.statusplan =="1") {
+                         $("#IsActiveIncentivePlan").prop("checked", true);
+                      if (data.idplan != "0")
+                     {
+                        var name='#SelectedIncentivePlan option[value='+data.idplan+']'
+                         $(name).attr('selected','selected');
+                     }
+                     }
+                     else {
+                         $("#IsActiveIncentivePlan").prop("checked", false);
+                         $('#SelectedIncentivePlan option[value=0]').attr('selected','selected');
+                     }
+                     if (data.statusauto=="1") {
+                         $("#IsAutomaticIncentivePlan").prop("checked", true);
+                     }
+                     else {
+                         $("#IsAutomaticIncentivePlan").prop("checked", false);
+                     }
+
+                 }
+                 else
+                 {
+  console.log(' خطا در دریافت اطلاعات وضعیت جاری طرح تشویقی');
+                 }
+                   //$("#CurrentIncentivePlan").html(data.data);
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+         });
+        }
+
+        function get2()
+        {
+
+              $.ajax({
+                cache: true,
+                type: "Post",
+                url:"@Html.Raw(Url.Action("GetCurrentAffliate", "CustomerFnancialPlan"))",
+                 data: postData2,
+                success: function (data) {
+                    $("#IsActiveCustomerAffilate").prop("checked", data.statusAffiliate);
+                    $('#SelectedCustomerAffilateId').val(data.idAffiliate);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+            });
+        }
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        //$("#SelectedIncentivePlan").hide();
+        //$("#SelectedCustomerAffilateId").hide();
+
+        //$(".checkbox").click(function () {
+        //    if ($("#IsActiveIncentivePlan").is(':checked')) {
+        //        $("#SelectedIncentivePlan").show();
+        //    } else {
+        //        $("#SelectedIncentivePlan").hide();
+        //    }
+
+        //    if ($("#IsActiveCustomerAffilate").is(':checked')) {
+        //        $("#SelectedCustomerAffilateId").show();
+        //    } else {
+        //        $("#SelectedCustomerAffilateId").hide();
+        //    }
+
+        //});
+
+
+
+
+        $(RegisterDisCountPlanToCustomer).click(function () {
+
+            var isactive= IsActiveIncentivePlan.checked;
+            var idDiscount = SelectedIncentivePlan.value;
+            //if (isactive == false) {
+            //    idDiscount = 0;
+            //}
+         var postData =
+         {
+             _isactive:isactive,
+             _isauto:IsAutomaticIncentivePlan.checked,
+             _idDiscount: idDiscount,
+             _CustomerId:@(Model.Id)
+         };
+            addAntiForgeryToken(postData);
+         debugger;
+        $.ajax({
+            url:"@(Url.Action("RegisterDiscountPlan", "CustomerFnancialPlan"))",
+            data: postData,
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+                //$(LoadingGift).show();
+            },
+            success: function (response) {
+                //$(LoadingGift).hide();
+                if (response.success)
+                {
+                    alert("تنظیمات طرح تشویق مشتری با موفقیت ثبت شد ");
+                    $.ajax({
+                            cache: true,
+                            type: "GET",
+                            url:"@Html.Raw(Url.Action("GetCurrentDiscountPlan", "CustomerFnancialPlan"))",
+                             data: postData,
+                            success: function (data) {
+                               $("#CurrentIncentivePlan").html(data.data);
+
+
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log('خطا در دریافت اطلاعات');
+                            }
+                     });
+                } else
+                {
+
+                    alert(response.responseText);
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+            }
+        });
+
+        ///discount
+
+        isactive = IsActiveCustomerAffilate.checked;
+        var idAfflaite = SelectedCustomerAffilateId.value;
+        //if (isactive == false) {
+        //    idAfflaite = 0;
+        //}
+         var postData =
+         {
+             _isactive:isactive,
+             _idAfflaite: idAfflaite,
+             _CustomerId:@(Model.Id)
+
+         };
+            addAntiForgeryToken(postData);
+        debugger;
+        $.ajax({
+            url:"@(Url.Action("RegisterAfflaite", "CustomerFnancialPlan"))",
+            data: postData,
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (response) {
+                if (response.success)
+                {
+                    alert("تنظیمات حساب همکاری مشتری با موفقیت ثبت شد ");
+                    $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetCurrentAffliate", "CustomerFnancialPlan"))",
+                 data: postData,
+                success: function (data) {
+                   $("#CurrentAfflaite").html(data.data);
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+            });
+                } else
+                {
+
+                    alert(response.responseText);
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+            }
+        });
+
+
+
+
+
+
+        });
+
+
+        //$(RegisterAfflaiteToCustomer).click(function () {
+
+
+        //});
+
+
+ });
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+
+
+
+
+        @*<div class="form-group">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="CurrentIncentivePlan">طرح تشویقی فعلی</label>
+                        <div title="طرح تشویقی فعلی کاربر که محاسبات بر اساس آن انجام می شود" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label" id="CurrentIncentivePlan">طرحی فعال نیست</label>
+                </div>
+            </div>*@
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" id="depositCodeLbl">کد نمایندگی </label>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control text-box single-line" id="depositCode" disabled type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="IsActiveIncentivePlan">فعال سازی طرح تشویق</label>
+                    <div title="با انتخاب این گزینه روند محاسبه طرح تشویقی برای کاربر فعال می شود " class="ico-help"><i class="fa fa-question-circle"></i></div>
+                </div>
+            </div>
+            <div class="col-md-8 checkbox">
+                <input type="checkbox" id="IsActiveIncentivePlan" name="IsActiveIncentivePlan" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="IgnorIncentivePlan">عدم تغییر اتوماتیک طرح تشویقی</label>
+                    <div title="با انتخاب این گزینه طرح تشویقی انتخابی شما به صورت اتوماتیک توسط سیستم تغییر نخواهد کرد " class="ico-help"><i class="fa fa-question-circle"></i></div>
+                </div>
+            </div>
+            <div class="col-md-8 checkbox">
+                <input class="check" type="checkbox" id="IsAutomaticIncentivePlan" name="IsAutomaticIncentivePlan" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="SelectedIncentivePlan">طرح تشویقی</label>
+                    <div title="با انتخاب این گزینه شروع طرح تشویقی مشتری از طرح انتخابی شما می باشد " class="ico-help"><i class="fa fa-question-circle"></i></div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control valid" id="SelectedIncentivePlan" name="SelectedIncentivePlan" data-val="true" placeholder="انتخاب کنید"></select>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="IsActiveCustomerAffilate">فعال سازی طرح همکار فروش</label>
+                    <div title="با انتخاب این گزینه طرح محاسبه کمیسیون همکار فروش فعال می شود " class="ico-help"><i class="fa fa-question-circle"></i></div>
+                </div>
+            </div>
+            <div class="col-md-8 checkbox">
+                <input type="checkbox" id="IsActiveCustomerAffilate" name="IsActiveCustomerAffilate" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="SelectedCustomerAffilateId">حساب همکار فروش</label>
+                    <div title="با انتخاب این گزینه می توانید حساب همکار فروش مشتری را به حساب مشتری متصل کنید" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control valid" id="SelectedCustomerAffilateId" name="SelectedCustomerAffilateId" data-val="true" placeholder="انتخاب کنید"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-8">
+
+            </div>
+        </div>
+
+
+
+        <button id="RegisterDisCountPlanToCustomer" name="RegisterDisCountPlanToCustomer" class="btn btn-success " type="button" style="float: left;"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+        @*<button id="RegisterAfflaiteToCustomer" name="RegisterAfflaiteToCustomer" class="btn btn-success" type="button" style="float: left;"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>*@
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+

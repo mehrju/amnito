@@ -1,0 +1,299 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_Offices
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Misc.ShippingSolutions/Scripts/Select2/dist/css/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Misc.ShippingSolutions/Scripts/Select2/dist/js/select2.full.min.js");
+}
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            نام
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="fNameAddress" />
+                            <span asp-validation-for="fNameAddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            نام خانوادگی
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="lNameAddress" />
+                            <span asp-validation-for="lNameAddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            ایمیل
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="EmailAddress" />
+                            <span asp-validation-for="EmailAddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            موبایل
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MobileAddress" />
+                            <span asp-validation-for="MobileAddress"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            جزییات ادرس
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="DetailAddress" />
+                            <span asp-validation-for="DetailAddress"></span>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="HolidaysState" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="HolidaysState" asp-required="true" />
+                            <span asp-validation-for="HolidaysState"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Long" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Long" />
+                            <span asp-validation-for="Long"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Lat" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Lat" />
+                            <span asp-validation-for="Lat"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="WarehouseState" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="WarehouseState" asp-required="true" />
+                            <span asp-validation-for="WarehouseState"></span>
+                        </div>
+                    </div>
+                    <div id="ahmad">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-label asp-for="WarehouseAddress" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="WarehouseAddress" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+           
+        </div>
+    </div>
+    <script type="text/javascript">
+
+            $(document).ready(function()
+                   {
+                $("#@Html.IdFor(model => model.WarehouseState)").click(toggleTax);
+
+
+                toggleTax();
+
+        });
+
+        function toggleTax() {
+        if ($('#@Html.IdFor(model => model.WarehouseState)').is(':checked')) {
+            $('#ahmad').show();
+
+
+        } else {
+            $('#ahmad').hide();
+
+
+        }
+    }
+
+    </script>
+
+</div>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Saturday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Sunday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Monday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Tuesday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Wednesday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Thursday")
+                    </div>
+                    <div class="form-group" style="margin-top:13px;">
+                        @T("Nop.Plugin.Misc.ShippingSolutions.Office_Friday")
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Saturday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Sunday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Monday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Tuesday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Wednesday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Thursday_StartTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_StartTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Friday_StartTime" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Saturday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Sunday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Monday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Tuesday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Wednesday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Thursday_EndTime" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @T("Nop.Plugin.Misc.ShippingSolutions.Office_EndTime")
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Friday_EndTime" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

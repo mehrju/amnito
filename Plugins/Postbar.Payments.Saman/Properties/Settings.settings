@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NopFarsi.Payments.SepShaparak.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Postbar_Payments_Saman_ir_shaparak_sep_PaymentIFBinding" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://sep.shaparak.ir/payments/referencepayment.asmx</Value>
+    </Setting>
+    <Setting Name="Postbar_Payments_Saman_ir_sep_srtm_srvRefund" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://srtm.sep.ir/RefundService/srvRefund.svc</Value>
+    </Setting>
+    <Setting Name="NopFarsi_Payments_SepShaparak_ir_sep_verify_PaymentIFBinding" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://verify.sep.ir/Payments/ReferencePayment.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

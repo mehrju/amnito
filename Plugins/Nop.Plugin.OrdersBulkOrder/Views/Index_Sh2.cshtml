@@ -1,0 +1,676 @@
+
+@model Nop.Plugin.Orders.BulkOrder.Models.BulkOrderModel
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+
+@inject IWorkContext workContext
+@{
+    bool ispeyk= Model._isPeyk;
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/New_PubllicNewUiLayout.cshtml";
+    Html.AppendCssFileParts("https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/BootSideMenu.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/searchbox.css");
+    Html.AppendCssFileParts("~/Plugins/Orders.MultiShipping/Content/MapResource/css/jquery.md.bootstrap.datetimepicker.style.css?ver=5");
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js?ver=42");
+
+    #region GeoJsondata
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/PrivatePost/GeoJsonData/_6.js");
+    #endregion
+    #region Privatepost
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Alborz_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/get_geojson_4.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Mashad_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Shiraz_6.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_5.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_9.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_10.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_11.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_12.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_13.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_14.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_15.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_16.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_17.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_18.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_19.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_20.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_21.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/tca_22.js");
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Ahvaz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tabriz_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Tehran_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/CollectorAndDistributer/GeoJsonData/Esfahan_2.js");
+
+    #endregion
+    #region Post
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/11_1.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/13_2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/14_4.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/15_6.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/16_7.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/17_8.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/18_3.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/Post/GeoJsonData/19_5.js");
+    #endregion
+    #endregion
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/Autolinker.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.customsearchbox.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet.pattern.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/leaflet-pip.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/BootSideMenu.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/js/MapConfig.js?ver=26");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jquery.mousewheel.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jQuery.WSlot.min.js?ver=7");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/ForDatepicker/jalali-moment.browser.js?ver=7");
+
+
+    bool IsHeavy = false;
+    bool IsForegin = false;
+    string PostItem = IsHeavy ? "بار" : "مرسوله";
+    string WeightType = IsHeavy ? "تن" : "گرم";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Themes/Shipito/css/form_steps.css?ver=42">
+<link rel="stylesheet" href="~/Themes/Shipito/css/style.css?ver=42">
+<style>
+    .invalid {
+        border: solid 1px red !important;
+    }
+
+    .table thead th {
+        vertical-align: middle !important;
+    }
+
+    .modal-header, .modal-footer {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+        padding-top: 7px !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        padding-bottom: 2px !important;
+        background-color: white;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    input, select {
+        border: solid 1px gray !important;
+    }
+
+    table td.highlighted {
+        background-color: #f9ff64;
+    }
+
+    .clspin {
+        width: 5px;
+        height: 5px;
+        background: none;
+        cursor: crosshair !important;
+        background-color: gray;
+    }
+
+        .clspin:hover {
+            background-color: #b4d8ff;
+        }
+
+    label {
+        color: black !important;
+    }
+
+    .separator {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        FONT-SIZE: 9pt;
+        margin-bottom: 10px;
+    }
+
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #000;
+        }
+
+        .separator::before {
+            margin-right: .25em;
+        }
+
+        .separator::after {
+            margin-left: .25em;
+        }
+</style>
+
+<form id="frm_BulkOrder" style="margin:20px;background-color:white;border-radius:25px;padding:10px">
+    <div class="form-content form-col" style="height:auto !important;padding-top:2% !important">
+        <div class="shadow m-3 p-4 rounded bg-white " data-animation="scaleIn">
+
+            <fieldset style="border:1px solid orange">
+                <legend style="background-color:orange;color:white;padding: 5px 10px;font-size:15px;border-radius:20px;">
+                    اطلاعات سرویس
+                </legend>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xl-3 col-lg-3">
+                        <input type="hidden" id="isPeyk" value="@(ispeyk.ToString())" />
+                        <input type="hidden" id="_ServiceId" value="@(Model.PhoneOrdermodel == null ? "0" : Model.PhoneOrdermodel.ServiceId.ToString())" />
+                        <input type="hidden" id="phoneOrderId" value="@(Model.PhoneOrdermodel == null ? "0" : Model.PhoneOrdermodel.PhoneOrderId.ToString())" />
+                        <label for="">نوع سرویس <span class="org-color">*</span></label>
+                        <select class="js-example-basic-single form-control boarder" name="ServiceId" id="ServiceId"></select>
+                        <input type="hidden" id="IsCod" name="IsCod"/>
+                    </div>
+
+                    <div class="col-md-2 col-sm-2 col-xl-2 col-lg-2">
+                        <label for="">دسترسی به پرینتر جهت چاپ فاکتور؟</label>
+                        <input type="checkbox" checked="checked" class="form-control myTooltip" id="HasAccessToPrinter" name="HasAccessToPrinter" data-toggle="tooltip" title="دسترسی به پرینتر جهت چاپ فاکتور">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xl-2 col-lg-2">
+                        <label for="">چاپ لوگوی تجاری شما بر روی فاکتور؟</label>
+                        <input type="checkbox" class="form-control myTooltip" id="PrintLogo" name="PrintLogo" data-toggle="tooltip" title="چاپ لوگوی تجاری شما بر روی فاکتور">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xl-2 col-lg-2">
+                        <label for="">اطلاع رسانی پیامکی از وضعیت مرسوله؟</label>
+                        <input type="checkbox" class="form-control myTooltip" id="SendSms" name="SendSms" data-toggle="tooltip" title="شما و گیرنده با انتخاب این گزینه میتوانید از تغییر مکان و وضعیت مرسوله توسط پیامک مطلع شوید">
+                    </div>
+
+
+                    <div id="mapsender" class="col-md-3 col-xl-3 col-lg-3 col-sm-3">
+
+                        <label>اطلاعات فرستنده <span class="org-color"></span></label>
+                        <div class="map-btn-input" style="height:35px">
+                            <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+                               data-toggle="tooltip" data-html="true" id="get-btn-map_i" data-val="Sender" data-type="OldAddress" aria-hidden="true">
+                                <span class="addAddress">
+                                    انتخاب آدرس قبلی
+                                </span>
+                            </a>
+                            <a class="get-btn-map faa-parent animated-hover myTooltip" style="background-color:#ffa318;color:white;" title="ثبت آدرس جدید پستی"
+                               data-toggle="tooltip" data-html="true" id="get-btn-map" data-val="Sender" data-type="newAddress" aria-hidden="true">
+                                <span class="addAddress">
+                                    ثبت آدرس جدید
+                                </span>
+                            </a>
+                        </div>
+                        <label id="SenderStateTown" style="color:black !important;"></label>
+                        <input type="hidden" id="SenderLat" name="SenderLat" />
+                        <input type="hidden" id="SenderLon" name="SenderLon" />
+                    </div>
+                </div>
+            </fieldset>
+
+
+
+
+
+            @*<div class="row" style="margin-top:35px;text-align:center">
+                    <div class="col-md-1 col-sm-1 col-xl-1 col-lg-1">
+
+                    </div>
+
+                </div>*@
+            <br />
+            <fieldset style="border:1px solid orange">
+                <legend style="background-color:orange;color:white;padding: 5px 10px;font-size:15px;border-radius:20px;">
+                    اطلاعات مرسولات
+                </legend>
+
+                <div class="d-flex flex-row mt-2">
+                    <div class="mx-1">
+                        <button class="btn mt-2" id="BtnAddRow" onclick="btnAddRow()" type="button" style="background-color: #f7941d; color: #fff;">ایجاد سطر</button>
+                    </div>
+                    <div class="mx-1">
+                        <input id="txtAddCount" type="number" value="1" min="0" class="btn mt-2 form-control" style="width:100px" />
+                    </div>
+
+                    <div class="mx-1">
+                        <button class="btn mt-2" id="BtnDeleteAll" onclick="fnDeleteAll()" type="button" style="background-color: red; color: #fff;">حذف همه</button>
+                    </div>
+                </div>
+
+
+                <div id="gridBox" class="pt-4" style="overflow-x: auto;overflow-y:auto; max-height:400px !important; ">
+                    <div class="table-responsive" style="width:150%;">
+                        <table id="tblBulkOrder" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:30px;">
+                                        ردیف
+                                    </th>
+                                    <th style="width:70px;">
+                                        <label> عملیات </label>
+                                    </th>
+                                    <th style="width:200px;">
+                                        <label style="cursor:pointer;" title="برای مشاهده ممنوعات پستی کلیک کنید" onclick="showTooltipmessage('postalBans')">?محتویات @(PostItem)<span class="org-color"></span></label>
+                                    </th>
+                                    <th style="width:200px;">
+                                        <label>اندازه بسته پستی *</label>
+                                    </th>
+                                    <th name="thLength">
+                                        طول
+                                    </th>
+                                    <th name="thWidth">
+                                        عرض
+                                    </th>
+                                    <th name="thHeight">
+                                        ارتفاع
+                                    </th>
+
+                                    <th style="width:90px;">
+                                        نیاز به
+                                        <label style="cursor:pointer;" title="برای مشاهده راهنما کلیک کنید" onclick="showBoxTooltipmessage(false)">پاکت</label>
+                                        /
+                                        <label style="cursor:pointer;" title="برای مشاهده راهنما کلیک کنید" onclick="showBoxTooltipmessage(true)">کارتن</label>
+                                    </th>
+                                    <th style="width:140px;">
+                                        <label>
+                                            مبلغ ارزش ریالی مرسوله
+                                        </label>d
+                                    </th>
+                                    <th class="_isCod" style="width: 90px;display:none">
+                                       مبلغ کالا در محل گیرنده دریافت شود؟
+                                    </th>
+                                    <th style="width:140px;">
+                                        <label style="cursor:pointer;" title="برای مشاهده محدودیت وزنی کلیک کنید" onclick="showTooltipmessage('weightBans')">وزن? @(PostItem)(@(WeightType))<span class="org-color"></span> </label>
+                                    </th>
+                                    <th style="width:200px;">
+                                        <label> بیمه </label>
+                                    </th>
+                                    <th style="width:100px;">
+                                        <label> تخصیص آدرس</label>
+                                    </th>
+                                    <th style="width:200px;">
+                                        <label> آدرس</label>
+                                    </th>
+                                    <th name="thValueAdded" style="width:100px;">
+                                        <label> خدمات نمایندگی</label>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody" style="overflow-x:hidden;overflow-y:scroll;max-height:500px;"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="d-flex flex-row mt-2">
+                    <div class="mx-1">
+                        <button onclick='fnAddRow()' type='button' class='fa fa-plus-square' title="افزودن سطر"></button>
+                    </div>
+                </div>
+            </fieldset>
+
+
+
+            <br />
+            <fieldset style="border:1px solid orange">
+                <legend style="background-color:orange;color:white;padding: 5px 10px;font-size:15px;border-radius:20px;">
+                    عملیات
+                </legend>
+
+                <div class="d-flex flex-row mt-2">
+                    <div class="mx-1">
+                        <input id="inpXls" type="file" hidden="hidden" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                        <button class="btn mt-2" id="BtnImportExcel" type="button" onclick="fnImportExcel()" style="background-color: #f7941d; color: #fff;">بارگذاری اکسل</button>
+                    </div>
+                    <div class="mx-1">
+                        <button class="btn mt-2" id="BtnExportExcel" type="button" onclick="fnExportExcel('tblBulkOrder')" style="background-color: #f7941d; color: #fff;">خروجی اکسل</button>
+                    </div>
+                    <div class="mx-1">
+                        <button class="btn mt-2" id="BtnSubmit" onclick="fnSubmit()" type="button" style="background-color: #395bff; color: #fff;">ثبت سفارش امنیتو</button>
+                    </div>
+                    <div id="divSubmitLoading" class="mx-1" style="display:none;">
+                        <img draggable="false" style="height:37px;width:37px;" src="~/Plugins/Orders.BulkOrder/Content/loadingCircle.gif" />
+                    </div>
+                    <div class="mx-1">
+                        <input type="text" class="form-control myTooltip boarder mt-2" id="discountCouponCode" name="discountCouponCode" placeholder="کد کوپن تخفیف" data-toggle="tooltip" title="کوپن تخفیف">
+                    </div>
+                </div>
+                <br />
+            </fieldset>
+        </div>
+    </div>
+</form>
+<select id="Insurance2" name="Insurance2" hidden></select>
+<select id="KartonLafaf2" name="KartonLafaf2" hidden></select>
+
+<div class="modal fade" id="modal_postalBans" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="color:white;background:#f14823;">
+                <h3 class="modal-title" style="text-align:center;">ممنوعات پستی</h3>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;margin:0px;padding:0px">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans1.jpg" />
+                </div>
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans2.jpg" />
+                </div>
+                <div class="col-md-12">
+                    <img src="~/Themes/Ap/images/postalBans3.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="MapAddressModalLabel" id="mapModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="margin-top:5px !important">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:9px !important">
+                <div class="row" style="width:100% !important">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="text-align: left;margin: 0;padding: 0;padding-right: 10px;">
+                        <h5 class="modal-title" id="MapAddressModalLabel" style="float: right;">آدرس</h5>
+                        <button type="button" class="close" data-dismiss="modal" style="color:black;float:left;margin:0px;padding:0px">&times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div id="divloaddingMap" style="display:none; position:absolute;width:100%;height:100%;background-color:black;opacity:0.5;z-index:5;margin-right:-16px;"></div>
+                <div class="form-horizontal">
+                    <div class="row" id="mapContent">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+                            <div class="row" id="AddressContent" style="right:0px;">
+                                <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
+
+                                    <div id="oldAddressbox" class="form-group" style="display:none;">
+                                        <div class="separator">جستجو در آدرس ها قبلی</div>
+                                        <select class="js-example-basic-single form-control" name="AddressBox" data-toggle="tooltip" id="AddressBox" title="قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}"></select>
+                                    </div>
+                                </div>
+
+                                <div id="_NewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                    <div class="separator">ثبت آدرس جدید</div>
+                                    <div class="form-group" id="_CountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="Country" id="Country" disabled></select>
+                                    </div>
+                                    <div class="form-group" id="_StateDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="State" id="State" disabled></select>
+                                        <input id="tempStateName" type="hidden" />
+                                    </div>
+                                    <div class="form-group" id="_foreignCountryDiv" style="display:none">
+                                        <select class="js-example-basic-single form-control" name="receiver_ForeginCountry" id="receiver_ForeginCountry"></select>
+                                    </div>
+                                    <div class="form-group" id="_ForeginCountryCityDiv" style="display:none">
+                                        <input type="text" class="form-control" required id="receiver_ForeginCountryCity" placeholder="نام شهر *" name="receiver_ForeginCountryCity" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="FirstName" placeholder="نام *" name="FirstName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="LastName" placeholder="نام خانوادگی *" name="LastName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="PhoneNumber" maxlength="@(!IsForegin?11:15)" placeholder="تلفن همراه *" name="PhoneNumber" />
+                                    </div>
+                                    <div style="display:none" class="form-group">
+                                        <input type="text" class="form-control" id="ZipPostalCode" placeholder="کد پستی" name="ZipPostalCode" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required id="Address1" placeholder="آدرس *" name="Address1" />
+
+                                        <input type="hidden" id="addressType" name="addressType" />
+                                        <input type="hidden" id="newOldAddress" name="newOldAddress" />
+                                        <input type="hidden" id="tehranAreaId" name="tehranAreaId" />
+                                        <input type="hidden" id="trafficArea" name="trafficArea" />
+                                        <input type="hidden" id="CollectorAreaId" name="CollectorAreaId" />
+                                        <input type="hidden" id="isInCityArea" name="isInCityArea" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Company" placeholder="نام شرکت" name="Company" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Email" placeholder="پست الکترونیک" name="Email" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="PreNewAddress" class="col-md-12 col-lg-12 col-xl-12 col-sm-12" style="display:none">
+                                <div class="form-group" style="margin-bottom:0px !important">
+                                    <select class="js-example-basic-single form-control" name="PreCountry" id="PreCountry"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <select class="js-example-basic-single form-control" name="PreState" id="PreState"></select>
+                                </div>
+                            </div>
+                            <div id="mapBox" class="mw-100" style="height:440px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:0 !important">
+                <div class="col-md-12" style="margin-top:10px;">
+                    <div class="form-group">
+
+
+                        @*<a id="cancelAddressItem" data-dismiss="modal" aria-label="Close" title="بستن" class="btn btn-warning faa-parent animated-hover">
+                                <i class="fa fa-times faa-tada" aria-hidden="true"></i>
+                            </a>
+
+                            <a class="btn btn-danger faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="searchOnMap" title="نقشه">
+                                <i class="fa fa-map-marker" aria-hidden="true" style="color: white;"></i>
+                            </a>
+
+                            <a class="btn btn-info faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="searchOldAddress" title="جستجوی آدرس های قبلی">
+                                <i class="fa fa-search" aria-hidden="true" style="color: white;"></i>
+                            </a>
+
+                            <a class="btn btn-success faa-parent animated-hover confirmAddress" style="margin-left:10px;color: white;" id="confirmAddress" title="تایید و ثبت آدرس">
+                                <i class="fa fa-check faa-tada" aria-hidden="true" style="color: white;"></i>
+                            </a>*@
+                        <a id="cleanAddressItem" title="پاک کردن" class="btn" style="border: 1px solid #ccc;border-radius: 3px;width:30%">
+                            انصراف
+                        </a>
+                        <a class="btn btn-info confirmAddress" style="color: white;width:32%;display:none" id="EditAddress" title="ویرایش استان و شهر">
+                            مرحل قبل
+                        </a>
+                        <a class="btn btn-success confirmAddress" style="color: white;width:34%;display:none" id="confirmAddress" title="تایید و ثبت آدرس">
+                            ثبت آدرس
+                        </a>
+                        <a class="btn btn-success ContinueAddress" style="color: white;width:68%" id="ContinueAddress" title="تایید و ادامه">
+                            ادامه
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mapreciver" class="row" style="display:none;">
+    <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12">
+        <label>آدرس گیرنده <span class="org-color"></span></label>
+        <div class="map-btn-input" style="height:35px">
+            <a class="get-btn-map_i faa-parent animated-hover myTooltip" title="انتخاب آدرس از بین آدرس هایی که قبلا با آن ثبت سفارش پستی انجام داده اید"
+               data-toggle="tooltip" data-html="true" style="cursor:pointer" id="get-btn-map_i" data-val="Reciver" data-type="OldAddress" aria-hidden="true">
+                <span class="addAddress">
+                    انتخاب آدرس قبلی
+                </span>
+            </a>
+            <a class="get-btn-map faa-parent animated-hover myTooltip" title="ثبت آدرس جدید پستی" data-toggle="tooltip"
+               data-html="true" style="cursor:pointer" id="get-btn-map" data-val="Reciver" data-type="newAddress" aria-hidden="true">
+                <span class="addAddress">
+                    ثبت آدرس جدید
+                </span>
+            </a>
+        </div>
+        <label id="ReceiverStateTown" style="color: black !important;" />
+    </div>
+    <input type="hidden" id="ReciverLat" name="ReciverLat" />
+    <input type="hidden" id="ReciverLon" name="ReciverLon" />
+</div>
+
+<div id="divTblImportxls" style="display:none;">
+
+</div>
+
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Content/shipitoNewCheckout.js?ver=120"></script>
+
+<script type="text/javascript" src="~/Plugins/Orders.BulkOrder/Scripts/bulkorder2.js?ver=29"></script>
+<script type="text/javascript" src="~/Plugins/Orders.BulkOrder/Scripts/read-excel-file.min.js?ver=2"></script>
+
+
+<script>
+    var IsAgent1 = @(workContext.CurrentCustomer.CustomerRoles.Any(x => x.Id == 7).ToString().ToLower());
+
+
+    function fnExportExcel(tableId) {
+        var tab_text = "<table border='2px'>";
+        var textRange; var j = 0;
+        tab = document.getElementById(tableId); // id of table
+        debugger;
+        for (j = 0; j < tab.rows.length; j++) {
+            var innerValue = '<tr>';
+            $(tab.rows[j]).children().each(function () {
+                var tgName = $(tab.rows[j]).children()[0].tagName;
+                innerValue += '<' + tgName + '>';
+                if (tgName == 'TH') innerValue += $($(this).children()[0]).html();
+                else
+                    if ($(this).children().length > 0) {
+                        debugger;
+                        if ($(this).children()[0].type == 'checkbox')
+                            innerValue += $($(this).children()[0]).prop('checked')
+                        else
+                            innerValue += $($(this).children()[0]).val();
+                    }
+                innerValue += '</' + tgName + '>';
+            });
+            tab_text += innerValue;
+            tab_text += "</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Book1.xls");
+            return (sa);
+        }
+        else    //other browser not tested on IE 11
+        {
+            var a = document.createElement('a');
+            //getting data from our div that contains the HTML table
+            var data_type = 'data:application/vnd.ms-excel';
+            a.href = data_type + ', ' + encodeURIComponent(tab_text);
+            //setting the file name
+            a.download = 'Book1.xls';
+            //triggering the function
+            a.click();
+            return (a);
+        }
+    }
+
+    function fnImportExcel() {
+        var InsuranceItems = $('#Insurance2').html();
+        var KartonLafafItems = $('#KartonLafaf2').html();
+
+        if (InsuranceItems == '' || KartonLafafItems == '') {
+            alert('لطفا چند ثانیه صبر کنید تا اطلاعات بارگزاری شود');
+            return;
+        }
+
+        $(`#inpXls`).click();
+    }
+
+   $(document).ready(function(){
+       
+      @if(Model.PhoneOrdermodel!= null)
+        {
+            <text>
+           
+            var serviceId =  @(Model.PhoneOrdermodel.ServiceId);
+            $('#ServiceId').on('databound',function(e){
+                if(serviceId > 0)
+                {
+                    $('#ServiceId').val(serviceId).trigger('change');
+                }
+            });
+            debugger;
+            senderAddress = {
+                Address1: '@(Html.Raw(Model.PhoneOrdermodel.SenderAddress.Address1))'
+                ,Company: ''
+                ,CountryId: '@(Model.PhoneOrdermodel.SenderAddress.CountryId)'
+                ,CountryName: '@(Html.Raw(Model.PhoneOrdermodel.CountryName))'
+                ,Email: ''
+                ,FirstName: '@(Html.Raw(Model.PhoneOrdermodel.SenderAddress.FirstName))'
+                ,LastName: '@(Html.Raw(Model.PhoneOrdermodel.SenderAddress.LastName))'
+                ,Lat: '@(Model.PhoneOrdermodel.GeoPoint != null ? Model.PhoneOrdermodel.GeoPoint.Lat:0)' 
+                ,Lon: '@(Model.PhoneOrdermodel.GeoPoint != null ? Model.PhoneOrdermodel.GeoPoint.Long:0)' 
+                ,PhoneNumber: '@(Model.PhoneOrdermodel.SenderAddress.PhoneNumber)'
+                ,StateProvinceId: '@(Model.PhoneOrdermodel.SenderAddress.StateProvinceId)'
+                ,StateProvinceName: '@(Html.Raw(Model.PhoneOrdermodel.StateName))'
+                ,ZipPostalCode:  '@(Model.PhoneOrdermodel.SenderAddress.ZipPostalCode)'
+                ,collectorArea: ""
+                ,isInCityArea: "true"
+                ,tehranCityArea: ""
+                ,text: ''
+                ,trafficArea: ""
+            };
+          SenderAddressJson= `{
+                   "addressType":"Sender",
+                   "newOldAddress":"OldAddress",
+                   "tehranAreaId":"",
+                   "trafficArea":"",
+                   "CollectorAreaId":"1",
+                   "isInCityArea":"true",
+                   "Company":"",
+                   "Email":"",
+                   "Address1":"${senderAddress.Address1}",
+                   "ZipPostalCode":"${senderAddress.ZipPostalCode}",
+                   "PhoneNumber":"${senderAddress.PhoneNumber}",
+                   "LastName":"${senderAddress.LastName}",
+                   "FirstName":"${senderAddress.FirstName}",
+                   "receiver_ForeginCountryCity":"",
+                   "receiver_ForeginCountry":"",
+                   "State":"${senderAddress.StateProvinceId}",
+                   "Country":"${senderAddress.CountryId}",
+                   "ReciverLat":"${senderAddress.Lat}",
+                   "ReciverLon":"${senderAddress.Lon}"
+                }`;
+            senderAddress.text=senderAddress.FirstName+' '+senderAddress.LastName+'-'+
+                senderAddress.CountryName+'-'+senderAddress.StateProvinceName+'-'+senderAddress.Address1+'-'+senderAddress.PhoneNumber;
+            $('#SenderStateTown').html(senderAddress.text);
+            $('#SenderLat').val(senderAddress.Lat);
+            $('#SenderLon').val(senderAddress.Lon);
+        </text>
+        }
+   });
+</script>

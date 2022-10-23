@@ -1,0 +1,47 @@
+﻿@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+}
+
+
+<div class="row justify-content-md-center">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1>پشتیبانی</h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <!-- Only required for left/right tabs -->
+                    <p class="text-right all-tickets">همه تیکت ها</p>
+                    <p class="text-right send-tickets">ارسال تیکت جدید</p>
+                    <ul class="nav nav-tabs ">
+                        <li class="active"><a href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.AddSupport")" class="btn btn-blue-theme ">ارسال تیکت جدید<i class="fa fa-plus-circle"></i></a></li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="body-dash orders-tbl">
+            <div class="row justify-content-md-center p-r-20 p-l-20  text-blue" id="div_table">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        pageSize = 10;
+
+        loadData("@Url.Action("supportPaged", "PostbarDashboard")", 0, pageSize, '#div_table')
+
+
+    })
+</script>

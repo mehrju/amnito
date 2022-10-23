@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_NewUiLayout.cshtml";
+}
+@using Nop.Web.Framework;
+<form method="post" id="frmpay" action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat">
+    <input type="hidden" name="RefId" value="@ViewBag.result" />
+    <input type="submit" name="btnSend" value="انتقال به درگاه پرداخت" id="btnsend" style="margin:20px 20px 0px 0px"/>
+</form>
+<script type="text/javascript">
+    document.getElementById("frmpay").submit();
+</script>

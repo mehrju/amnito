@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor _httpContextAccessor;
+@{
+    int ScriptVersion = 56;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Sep/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js?ver=" + ScriptVersion);
+
+}
+<!doctype html>
+<html lang="fa" dir="rtl" style="height:100% !important">
+<head>
+
+    <title>سامانه آنلاین خدمات پستی</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="" type="image">
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="@(Html.NopMetaDescription())" />
+    <meta name="keywords" content="@(Html.NopMetaKeywords())" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123749803-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-123749803-3');
+    </script>
+    <link rel="stylesheet" href="~/Themes/Sep/css/bootstrap.min.css?ver=@(ScriptVersion)">
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+    @Html.NopScripts(this.Url, ResourceLocation.Head, false)
+    <link rel="stylesheet" href="~/Themes/Sep/css/style.css?ver=@(ScriptVersion)">
+    @await Component.InvokeAsync("Favicon")
+
+</head>
+<body>
+    <div id="loader" style="display:none"></div>
+    <img id="splash" src="~/Themes/sep/images/esplash.gif" style="width:100%;height:100%"/>
+    <script>
+        
+        $(document).ready(function () {
+            var msisdn = '@(_httpContextAccessor.HttpContext.Request.Query["msisdn"])';
+            if (!msisdn) {
+                alert('درحال حاضر  با توجه به اطلاعات ارسالی امکان اعتبار سنجی وجود ندارد. لطفا مجددا سعی کنید');
+                return false;
+            }
+            setTimeout(function () { $('#splash').hide(); $('#loader').show();}, 6000);
+            var startDate = new Date();
+            $.ajax({
+                beforeSend: function () {
+                   // $('#loader').show();
+                },
+                complete: function () {
+                 //   $('#loader').hide();
+                },
+                type: "GET",
+                url: "/Sep_NewHome/login?msisdn=" + msisdn,
+                success: function (result) {
+                    if (result.success == true) {
+                        var endDate = new Date();
+                        debugger;
+                        var sec = (endDate - startDate) / 1000;
+                        if (sec >= 4) {
+                            window.location = '@(Url.RouteUrl("_SepIPGIndex"))';
+                        }
+                        else {
+                            setTimeout(function () { window.location = '@(Url.RouteUrl("_SepIPGIndex"))';}, 4000-(endDate - startDate));
+                        }
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('کاربر گرامی در زمان اعتبار سنجی شما مشکلی رخ داده. لطفا مجدد سعی کنید');
+                }
+            });
+        });
+        //function getParameterByName(name, url = window.location.href) {
+        //    name = name.replace(/[\[\]]/g, '\\$&');
+        //    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        //        results = regex.exec(url);
+        //    if (!results) return null;
+        //    if (!results[2]) return '';
+        //    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        //}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	Html.AddTitleParts("پست راه آسمان آبی");
+	Html.AddMetaKeywordParts("راه آسمان آبی , پست بین المللی ");
+	Html.AddMetaDescriptionParts("اه آسمان آبی ارائه دهنده خدمات پستی بین المللی هوایی و ارائه دهنده خدمات پستی به چندین کشور دنیا و تنها ارسال کننده به آمریکا و کانادا محسوب میشود ");
+}
+<div class="container landing">
+	<div class="row">
+		<div class="col-md-12 content">
+			<h1>پست بین المللی راه آسمان آبی </h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li>همکاران</li>
+				<li>راه آسمان آبی</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="#">
+				<img class="internal-logo" src="~/Themes/postexNew/images/partners/rahe-aseman.png" alt="راه آسمان آبی " />
+			</a>
+		</div>
+		<div class="col-md-8">
+			<p>
+				شرکت خدمات بار هوایی راه آسمان آبی BSW دارای مجوز رسمی از سازمان هواپیمایی کشوری و بیش از 18 سال سابقه در حمل و نقل بار هوایی بوده و نمایندگی دریافت و تحویل بار چندین شرکت هواپیمایی داخلی و خارجی نظیر ایران ایر، ماهان، ایرتور، امارات، ترکیش و غیره را در اختیار دارد. هم اکنون این شرکت در شهرهای تهران، تبریز، مشهد، شیراز، بوشهر و بندرعباس دارای دفاتر نمایندگی فعال بوده و به صورت تخصصی نسبت به  ارائه خدمات  بارهوایی به صورت تحویل در نشانی  اقدام می نماید.
+			</p>
+			<p>
+				این شرکت در حال حاضر تنها فعال پستی است که به آمریکا و کانادا بار ارسال مینماید و در سرویس های BSW، مشتری میتواند بارهایی قیبل سوغات و صنایع دستی( اعم از زعفران، فرش و آجیل ) که برای بسیاری از شرکتهای پستی امکان پذیر نمیباشد در اختیار فرستنده قرار میدهد لازم به ذکر است این شرکت دارای محدودیت های وزنی و حجمی نمیباشد و برای واردات نیز از این شرکت میتوانید استفاده نماید.
+			</p>
+			@*<div class="content m-4">
+					<a class="btn center" href="@(Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.Dashboard")+"#list-up")">ورود به سرویس کیف پول</a>
+				</div>*@
+
+		</div>
+
+	</div>
+
+</div>

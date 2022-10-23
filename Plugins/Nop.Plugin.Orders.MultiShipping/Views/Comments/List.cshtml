@@ -1,0 +1,214 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/pagination.js?ver=" + Guid.NewGuid());
+}
+
+
+<i class="fa fa-spinner fa-spin" id="LoadingGift" style="font-size:48px;color:#ffa318;position:fixed;top:50%;left:50%;z-index:999999999999999;display:none"></i>
+
+<div class="container">
+
+
+    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12 m-auto">
+        <!--single form panel-->
+        <div class="shadow mt-5 mb-5 p-4 bg-white mobileShadow mobileSteps">
+            <h3 class="mb-4" style="text-align: center;">نظرات کاربران</h3>
+
+            <div class="row">
+                <div class="col-xl-2 col-lg-2 col-md-1 col-sm-1"></div>
+                <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                    <form id="commentSearch" class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label>استان فرستنده</label>
+                                <select loadUrl="/ShipitoCheckout/getCountryList" class="js-example-basic-single form-control" name="Sender_Country" id="Sender_Country"></select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+
+                            <div class="form-group">
+                                <label>شهر فرستنده</label>
+                                <select loadUrl="/ShipitoCheckout/GetStatesByCountryId" parentSelectParams="countryId=Sender_Country" class="js-example-basic-single form-control" persianName="شهر فرستنده" name="FromCityId" id="SenderCityId"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                            <div class="form-group" id="_CountryDiv">
+                                <label>استان گیرنده</label>
+                                <select class="js-example-basic-single form-control" loadUrl="/ShipitoCheckout/getCountryList" name="Receiver_Country" id="Receiver_Country"></select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label>شهر گیرنده</label>
+                                <select class="js-example-basic-single form-control" loadUrl="/ShipitoCheckout/GetStatesByCountryId" parentSelectParams="countryId=Receiver_Country" persianName="شهر گیرنده" name="ToCityId" id="ReceiverCityId"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                            <div class="form-group">
+                                <label>رده وزنی</label>
+                                <select class="js-example-basic-single form-control" loadUrl="/ShipitoHome/GetWightCategories" persianName="رده وزنی" name="WeightCategory" id="WightCategory"></select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                            <button id="btnSearchComments" class="button btn js-btn-next btn-block ml-3" type="button" title="Next" onclick="showComments()">
+                                <span></span>جستجوی نظرات
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-1 col-sm-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-border" id="comment-grid">
+                        <thead>
+                            <tr>
+                                <th>ردیف</th>
+                                <th>سرویس</th>
+                                <th>خلاصه متن</th>
+                                <th>امتیاز</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+
+        initForm("commentSearch");
+        showComments();
+    });
+
+    var table = null;
+    var formData = null;
+
+    function showComments() {
+        var data = postexForm("commentSearch");
+        if (!data.isok) {
+            alert(data.AllValidationMessage);
+            return;
+        }
+        formData = data.Values;
+        $('#LoadingGift').show();
+
+        $('#btnSearchComments').prop('disabled', 'disabled');
+        var record = 0;
+        if (!table) {
+            table = $('#comment-grid').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "orderMulti": false,
+                "searching": false,
+                "lengthChange": false,
+                "responsive": false,
+                "info": false,
+                "paging": false,
+                "language": {
+                    "zeroRecords": "داده ای یافت نشد",
+                    "processing": "در حال بارگذاری داده ها ..."
+                },
+                "ajax": {
+                    url: "/Comments/List",
+                    type: "Post",
+                    dataType: "json",
+                    data: function () {
+                        return formData
+                    },
+                    dataSrc: ''
+                },
+                drawCallback: function (settings) {
+                    $('#LoadingGift').hide();
+                    $('#btnSearchComments').prop('disabled', '');
+
+                },
+                "initComplete": function () {
+                    table.on('order.dt search.dt', function () {
+                        table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
+                },
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']],
+                "columns": [
+                    { "data": "Rate", "name": "ردیف", "width": "10%" },
+                    {
+                        "data": "ServiceName", "name": "سرویس", "width": "30%", render: function (data, type, row) {
+                            if ([654, 655, 667, 670, 662, 661, 660, 698, 697, 696, 695, 694, 693, 691, 690].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "POSTBAR";
+                            }
+                            else if ([703, 699, 705, 706].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "DTS";
+                            }
+                            else if ([702].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "YARBOX";
+                            }
+                            else if ([701].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "UBAAR";
+                            }
+                            else if ([707, 708].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "PDE";
+                            }
+                            else if ([709, 710, 711].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "TPG";
+                            }
+                            else if ([712, 713, 714, 715].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "CHAPAR";
+                            }
+                            else if ([717].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "SNAPBOX";
+                            }
+                            else if ([718].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "POSTEXPLUS";
+                            }
+                            else if ([719].indexOf(parseInt(row.ServiceId)) >= 0) {
+                                imgName = "BLUESKY";
+                            }
+                            var imgTag = `<img style="width: 40px;" src="../ImageServiceProviderDashboard/${imgName}.png"/>`
+                            return imgTag + ' '+ data;
+                        }
+                    },
+                    {
+                        "data": "Description", "name": "خلاصه متن", "width": "50%", render: function (data, type, row) {
+                            if (data.length > 50) {
+                                return data.substring(0, 49) + '...';
+                            }
+                            else {
+                                return data;
+                            }
+                        }
+                    },
+                    { "data": "Rate", "name": "امتیاز", "width": "10%" },
+                    {
+                        "data": "Description", "name": " ", "width": "10%", render: function (data, type, row) {
+                            return ` <button class="button btn btn-block ml-3" type="button" title="Next" onclick="alert('${data}')">متن کامل نظر</button>`
+                        }
+                    }
+                ]
+            });
+
+           
+        }
+        else {
+            table.ajax.reload();
+        }
+    }
+</script>
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Scripts/postexUtility.js"></script>
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Scripts/datatable.js"></script>

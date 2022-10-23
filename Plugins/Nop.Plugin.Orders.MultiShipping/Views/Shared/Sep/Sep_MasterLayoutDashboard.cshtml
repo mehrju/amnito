@@ -1,0 +1,130 @@
+﻿@using Nop.Core
+@using Microsoft.AspNetCore.Http
+@inject IWebHelper _webHelper
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    int ScriptVersion = 57;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Shipito/js/jquery.validate.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Shipito/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/bootstrap.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/popper.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/select2.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.mmenu.all.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/owl.carousel.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.countdown.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/custom.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/common.js?ver" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/notify.min.js?ver" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/main-dashboard.js?ver" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/pagination.js?ver" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/asanpardakh.application.bridge-2.0.2.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/directive.js");
+    //Html.AppendScriptParts(ResourceLocation.Footer, "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js");
+    @*@RenderSection("DashboardScripts", required: false)*@
+}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+	<title>@Html.NopTitle()</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="shortcut icon" href="" type="image">
+	<meta name="robots" content="index, follow" />
+	<meta name="description" content="@(Html.NopMetaDescription())" />
+	<meta name="keywords" content="@(Html.NopMetaKeywords())" />
+
+	<link rel="stylesheet" href="~/Themes/Shipito/css/bootstrap.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/select2.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/all.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/jquery.mmenu.all.css?ver=@(ScriptVersion)">
+
+	<link rel="stylesheet" href="~/Themes/Shipito/css/flexslider.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/fontiran.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/iranSans.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/pagination.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/font-awesome-animation.min.css?ver=@(ScriptVersion)">
+
+	<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+	<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+	@RenderSection("DashboardStyles", required: false)
+
+	@Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+	@Html.NopScripts(this.Url, ResourceLocation.Head, false)
+
+</head>
+<div id="loader" style="display:none"></div>
+@RenderBody()
+@Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+@Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+</html>
+<script>
+	function alert(msg) {
+		swal({
+			title: "",
+			text: msg,
+			confirmButtonText: "تایید"
+		});
+	}
+
+    //window.confirm = function (data, title, callback) {
+    //    if (typeof title == 'function') {
+    //        callback = title;
+    //        title = "";
+    //    }
+
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "بلی",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //            setTimeout(function () {
+    //                callback(isConfirm);
+    //            }, 300);
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+    window.addEventListener('beforeunload', function (e) {
+        if (window.location.href.indexOf("GetPDF") > -1) {
+            return;
+        }
+        $('#loader').show();
+        delete e['returnValue'];
+    });
+    window.onunload = function (event) {
+        if (window.location.href.indexOf("GetPDF") > -1) {
+            return;
+        }
+        $('#loader').show();
+    };
+    $(document).ready(function () {
+       
+
+        @*asanPardakht.application.callMeOnBackButtonPress(
+            function () {
+                if ($('#modal_help').is(':visible')) {
+                    $('#modal_help').modal('hide');
+                }
+                else if ($('body').css('overflow') == 'hidden') {
+                    $('.checkbox_check').click();
+                }
+                else if ($('#_RuleModal').is(':visible')) {
+                    $('#_RuleModal').modal('hide');
+                }
+                else {
+                     window.location='@(Url.RouteUrl("_ApStartup"))';
+                }
+            });*@
+
+        $('body').addClass('blocker-modal');
+    });
+  
+</script>

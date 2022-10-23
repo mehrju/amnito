@@ -1,0 +1,9 @@
+Group: Postbar
+FriendlyName: پرداخت سامان کیش
+SystemName: NopFarsi.Payments.SepShaparak
+Version: 1.1
+SupportedVersions: 4.00
+Author: Postbar.ir
+DisplayOrder: 1
+FileName: NopFarsi.Payments.SepShaparak.dll
+Description: این پلاگین امکان پرداخت از طریق سامانه سامان کیش را فراهم می کند.

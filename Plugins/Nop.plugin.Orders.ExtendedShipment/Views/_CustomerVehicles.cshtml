@@ -1,0 +1,412 @@
+﻿@model Nop.Web.Areas.Admin.Models.Customers.CustomerModel
+@{
+    //page title
+    ViewBag.Title = "وسایل نقلیه نماینده";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Customers list");
+
+}
+
+<script>
+    $(document).ready(function () {
+          $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetVehicleTypes", "ExtendedCustomer"))",
+              success: function (data) {
+                  console.log(data);
+                    $("#vehicleTypeSelect").append(new Option('انتخاب کنید....', '-1', true, true));
+                    $.each(data, function (id, item) {
+                        $("#vehicleTypeSelect").append(new Option(item.Text, item.Value, false, false));
+                    });
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+          });
+
+
+        $.ajax({
+                cache: true,
+                type: "GET",
+                url:"@Html.Raw(Url.Action("GetBikers", "ExtendedOrder"))",
+              success: function (data) {
+                  console.log(data);
+                    $("#Biker").append(new Option('انتخاب کنید....', '-1', true, true));
+                    $.each(data, function (id, item) {
+                        $("#Biker").append(new Option(item.Text, item.Value, false, false));
+                    });
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+          });
+
+          $("#customer-vehicle-grid").kendoGrid({
+               dataSource: {
+                   type: "json",
+                   transport: {
+                       read: {
+                           url: "@Html.Raw(Url.Action("GetCustomerVehicles", "ExtendedCustomer"))" + "?customerId=@Model.Id",
+                           type: "GET",
+                           dataType: "json"
+                       }
+                   },
+                   schema: {
+                       data: "Data",
+                       total: "Total",
+                       errors: "Errors"
+                   },
+
+                   error: function (e) {
+                       display_kendoui_grid_error(e);
+                       // Cancel the changes
+                       this.cancelChanges();
+                   },
+                   serverPaging: false,
+                   serverFiltering: false,
+                   serverSorting: false
+               },
+
+               ageable: {
+                   refresh: true,
+                   numeric: false,
+                   previousNext: false,
+                   info: false,
+                   @await Html.PartialAsync("_GridPagerMessages")
+               },
+               //height: 700,
+               scrollable: false,
+               sortable: true,
+               columns: [
+                   {
+                       field: "Id",
+                       title: "شناسه",
+                       width: 50
+                   },
+                   {
+                       field: "Name",
+                       title: "نام و نام خانوادگی",
+                       width: 50
+                   },
+                   {
+                       field: "Phone",
+                       title: "شماره تماس",
+                       width: 50,
+                       headerAttributes: { style: "text-align:center" },
+                       attributes: { style: "text-align:center" }
+                   },
+                   {
+                       field: "VehicleTypeName",
+                       title: "نوع وسیله نقلیه",
+                       width: 50,
+                       headerAttributes: { style: "text-align:center" },
+                       attributes: { style: "text-align:center" }
+                   },
+                   {
+                       field: "Id",
+                       title: "ویرایش",
+                       width: 50,
+                       headerAttributes: { style: "text-align:center" },
+                       attributes: { style: "text-align:center" },
+                       template:
+                           '<a class="btn btn-default" title="ویرایش" onClick="showEdit(#=Id#,this)" ><i class="fa fa-pencil-square-o" style="color:green"></i></a>'
+                   },
+                   {
+                       field: "Id",
+                       title: "حذف",
+                       width: 50,
+                       headerAttributes: { style: "text-align:center" },
+                       attributes: { style: "text-align:center" },
+                       template:
+                           '<a class="btn btn-default" title="ویرایش" onClick="remove(#=Id#,this)" ><i class="fa fa-remove" style="color:red"></i></a>'
+                   }
+               ]
+          });
+
+    });
+
+    function postCustomerVehicleForm() {
+            var name = $('#Name').val();
+            if (!name) {
+                alert("لطفا نام را وارد کنید")
+                return;
+            }
+            var phone = $('#Phone').val();
+            if (!phone) {
+                alert("لطفا شماره تماس را وارد کنید")
+                return;
+            }
+            var isActive = $('#IsActive:checked').length > 0; vehicleTypeSelect
+            var vehicleType = $('#vehicleTypeSelect').val();
+            if (!vehicleType || vehicleType == -1) {
+                alert("لطفا نوع وسیله را انتخاب کنید")
+                return;
+            }
+
+            var capacityVolume = $('#CapacityVolume').val();
+            if (!capacityVolume) {
+                alert("لطفا حجم را وارد کنید")
+                return;
+            }
+            var capacityWeight = $('#CapacityWeight').val();
+            if (!capacityWeight) {
+                alert("لطفا وزن را وارد کنید")
+                return;
+            }
+            var capacityCount = $('#CapacityCount').val();
+            if (!capacityCount) {
+                alert("لطفا تعداد را وارد کنید")
+                return;
+            }
+            var capacityPercent = $('#CapacityPercent').val();
+            if (!capacityPercent) {
+                alert("لطفا درصد را وارد کنید")
+                return;
+            }
+            var obj = {
+                Name : name,
+                Phone : phone,
+                IsActive : isActive,
+                VehicleTypeEnum : vehicleType,
+                CapacityVolume : capacityVolume,
+                CapacityWeight : capacityWeight,
+                CapacityCount : capacityCount,
+                CapacityPercent : capacityPercent,
+                Description : $('#Description').val(),
+                Id: $('#cvId').val() ? $('#cvId').val() : 0,
+                CustomerId: @Model.Id
+            };
+
+            addAntiForgeryToken(obj);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@Url.Action("SaveCustomervehicle", "ExtendedCustomer")",
+                data: obj,
+                dataType:'json',
+                success: function (data) {
+                    if (data && data.message) {
+                        alert(data.message)
+                    }
+                    else {
+                        alert('با موفقیت ثبت شد')
+                    }
+                    $('#cvId').val(undefined);
+                    $('#Name').val('');
+                    $('#Phone').val('');
+                    $('#CapacityVolume').val('0');
+                    $('#CapacityWeight').val('0');
+                    $('#CapacityCount').val('0');
+                    $('#CapacityPercent').val('0');
+                    $('#IsActive').prop('checked', false);
+                    $('#Description').val('');
+                    $("#customer-vehicle-grid").data("kendoGrid").dataSource.read();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed');
+                    $('#popupId').val(undefined)
+                },
+                traditional: true
+            });
+    }
+
+    function showEdit(id, el) {
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@Url.Action("GetCustomervehicle", "ExtendedCustomer")" + "?Id=" + id,
+                        dataType:'json',
+                        success: function (data) {
+                            if (data) {
+                                $('#cvId').val(data.Id);
+                                $('#Name').val(data.Name);
+                                $('#Phone').val(data.Phone);
+                                $('#CapacityVolume').val(data.CapacityVolume);
+                                $('#CapacityWeight').val(data.CapacityWeight);
+                                $('#CapacityCount').val(data.CapacityCount);
+                                $('#CapacityPercent').val(data.CapacityPercent);
+                                $('#IsActive').prop('checked', data.IsActive);
+                                $('#Description').val(data.Description);
+                                $('#vehicleTypeSelect').val(data.VehicleTypeEnum);
+                            }
+                            else {
+                                alert('Failed');
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed');
+                        },
+                        traditional: true
+                    });
+    }
+
+
+    function remove(id, el) {
+        if (confirm("آیا این مورد حذف شود ؟")) {
+             $.ajax({
+                 cache: false,
+                 type: "GET",
+                 url: "@Url.Action("RemoveCustomervehicleById", "ExtendedCustomer")" + "?Id=" + id,
+                 dataType:'json',
+                 success: function (data) {
+                     $("#customer-vehicle-grid").data("kendoGrid").dataSource.read();
+                 },
+                 error: function (xhr, ajaxOptions, thrownError) {
+                     alert('Failed');
+                 },
+                 traditional: true
+             });
+        }
+    }
+</script>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <input class="form-control text-box single-line" id="cvId" type="hidden" value="">
+        <div class="row">
+            <div class="form-group col-md-6">
+                @*<div class="col-md-4">
+                        <div class="label-wrapper">
+                            <label class="control-label">نام و نام خانوادگی</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="">
+                            <input class="form-control text-box single-line" id="Name" type="text" value="">
+                        </div>
+                    </div>*@
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label" for="vehicleTypeSelect">کاربر جمع آوری</label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <select class="form-control valid" id="Biker" name="Biker" data-val="true" placeholder="انتخاب کنید"></select>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">شماره موبایل</label>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <input class="form-control text-box single-line" id="Phone" type="text" value="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group col-md-6">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="IsActive">فعال</label>
+                </div>
+            </div>
+            <div class="col-md-8 checkbox">
+                <input class="check" type="checkbox" id="IsActive" name="IsActive" />
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <div class="col-md-4">
+                <div class="label-wrapper">
+                    <label class="control-label" for="vehicleTypeSelect">نوع وسیله</label>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control valid" id="vehicleTypeSelect" name="VehicleType" data-val="true" placeholder="انتخاب کنید"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">حداکثر حجم(لیتر)</label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="">
+                        <input class="form-control text-box single-line" id="CapacityVolume" type="number" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">حداکثر وزن(کیلوگرم)</label>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <input class="form-control text-box single-line" id="CapacityWeight" type="number" value="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">حداکثر تعداد</label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="">
+                        <input class="form-control text-box single-line" id="CapacityCount" type="number" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="col-md-4">
+                    <div class="label-wrapper">
+                        <label class="control-label">حداکثر ظرفیت قابل استفاده(درصد)</label>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <input class="form-control text-box single-line" id="CapacityPercent" type="number" value="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-md-1">
+                <label class="control-label" for="Description">توضیحات</label>
+            </div>
+            <div class="col-md-11">
+                <textarea id="Description" name="Description" style="width: 90%;height: 80px;margin-right: 35px;"></textarea>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <button style="margin-bottom: 20px;width: 100%;" id="addCustomerVehicle" name="RegisterDisCountPlanToCustomer" class="btn btn-success " type="button" onclick="postCustomerVehicleForm()"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+
+    <div id="customer-vehicle-grid"></div>
+</div>
+
+
+
+
+

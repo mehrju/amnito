@@ -1,0 +1,183 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.UserStetesModel
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "مشخص کردن بخش های تحت پوشش کاربر";
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Customer.UserStates");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+}
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+<div class="content">
+
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <nop-label asp-for="RoleId" />
+                        </div>
+                        <div class="col-md-4">
+                            <nop-select asp-for="RoleId" asp-items="Model.AvailableRoles" />
+                        </div>
+                        <div class="col-md-2">
+                            <nop-label asp-for="CustomerId" />
+                        </div>
+                        <div class="col-md-4">
+                            <nop-select asp-for="CustomerId" asp-items="Model.AvailableCustomer" />
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-md-2">
+                            <nop-label asp-for="CountryId" />
+                        </div>
+                        <div class="col-md-4">
+                            <nop-select asp-for="CountryId" asp-items="Model.AvailableCountries" />
+                        </div>
+                        <div class="col-md-6" style="text-align: left">
+                            <input id="SaveUserState" name="SaveUserState" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-group">
+                            <div class="panel panel-default panel-search">
+                                <div class="panel-heading">
+                                    لیست شهرستان ها
+                                    <input type="checkbox" id="selectAllState" />
+                                </div>
+                                <div class="panel-body" id="checkboxContainer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#SaveUserState').click(function() {
+            var customerId = $('#CustomerId').val();
+            if (!customerId || customerId == '0') {
+                alert('انتخاب کاربر الزامی می باشد');
+                return;
+            }
+            var countryId = $('#CountryId').val();
+            if (!countryId || countryId == '0') {
+                alert('انتخاب استان الزامی می باشد');
+                return;
+            }
+            //if ($('#checkboxContainer input:checked').size() == 0) {
+            //    alert('انتخاب حداقل یک شهر الزامی می باشد');
+            //    return;
+            //}
+           var states= $('#checkboxContainer input:checked').map(function() {
+               return parseInt($(this).attr('data-value'));
+           }).get();
+            var statesData = { "customerId": customerId, states: states, CountryId: countryId };
+            addAntiForgeryToken(statesData );
+            $.ajax({
+                traditional: true,
+                type: "POST",
+                url: "@(Url.Action("saveUserState", "UserStates"))",
+                data: statesData,
+                success: function(data) {
+                    alert(data.message);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('خطا در زمان ثبت شهرستان های کاربر');
+                }
+            });
+
+        });
+        $('#CustomerId').change(function () {
+            if ($('#CountryId').val() != '0')
+                $('#CountryId').change();
+        });
+        $('#selectAllState').click(function() {
+            var isChecked = $(this).is(':checked');
+                $('#checkboxContainer').find('input[type="checkbox"]').each(function() {
+                    $(this).attr('checked', isChecked);
+                });
+        });
+        $('#RoleId').change(function() {
+            var $ddlCustomer = $('#CustomerId');
+            if (!$(this).val() || $(this).val() == '0') {
+                $ddlCustomer.html('');
+                return;
+            }
+
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("getCustomerInRole", "UserStates"))",
+                data: { "roleId": $(this).val() },
+                success: function(data) {
+                    $ddlCustomer.html('');
+                    if (!data)
+                        return;
+                    $.each(data,
+                        function(id, option) {
+                            $ddlCustomer.append($('<option></option>').val(option.Value).html(option.Text));
+                        });
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve customers.');
+                }
+            });
+        });
+        $('#CountryId').change(function() {
+            var countryId = $(this).val();
+            var customerId = $('#CustomerId').val();
+            if (countryId != "0") {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@(Url.Action("getStateByCountry", "UserStates"))",
+                    data: { "countryId": countryId, "customerId": customerId },
+                    success: function(data) {
+                        $('#checkboxContainer').empty();
+                        if (!data)
+                            return;
+                        var $content = $('<div class="row" id="ckhLst0"></div>');
+                        var id = '#ckhLst0';
+                        $('#checkboxContainer').append($content);
+                        debugger;
+                        for (var i = 0; i < $(data).size(); i++) {
+                            if ((i+1) % 6 == 0) {
+                                debugger;
+                               var $content1 = $('<div class="row" id="ckhLst'+(i+1)+'"></div>');
+                                $('#checkboxContainer').append($content1);
+                                id = '#ckhLst' + (i + 1);
+                            }
+                            $(id).append(
+                                $('<div class="col-md-2"><label><input type="checkbox" data-value="' + data[i].Id + '" ' + (data[i].selected ?'checked="checked"':'') + '" name="State_' +
+                                data[i].Id +
+                                '" id="State_' +
+                                data[i].Id +
+                                '"/>&nbsp' +
+                                data[i].Name +
+                                '</label></div>'));
+                        }
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states.');
+                    }
+                });
+            }
+
+        });
+        $('select').select2();
+    });
+</script>

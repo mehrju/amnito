@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@using Nop.Web.Framework.UI;
+@inject Nop.plugin.Orders.ExtendedShipment.Services.INotificationService _notificationService
+@{
+    ViewBag.Title = "تنظیمات اطلاع رسانی";
+    Html.SetActiveMenuItemSystemName("Product.NotifConfigruration");
+    var SmsNotifModel = _notificationService.IntiNotifModel(1);
+}
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-heading">تنظیمات اطلاع رسانی</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <nop-tabs id="NotificationConfig">
+                            <nop-tab asp-name="tab-config" asp-title="تنظیمات" asp-default="true">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default panel-search">
+                                                <div class="panel-heading">
+                                                    عنواین اطلاع رسانی
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="row" id="checkboxContainer" style="margin-right:10px">
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-11" style="text-align: left">
+                                                            <input id="SaveNotifTitle" name="SaveUserState" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nop-tab>
+                            <nop-tab asp-name="tab-Sms" asp-title="Sms">
+                                @await Html.PartialAsync("SmsNotifConfig", SmsNotifModel)
+                            </nop-tab>
+                            <nop-tab asp-name="tab-Email" asp-title="Email">
+
+                            </nop-tab>
+                            <nop-tab asp-name="tab-AppNotif" asp-title="Mobile App Notification">
+
+                            </nop-tab>
+                            <nop-tab asp-name="tab-popupNotif" asp-title="پاپ آپ">
+                                @await Html.PartialAsync("PopupNotifConfig")
+                            </nop-tab>
+                        </nop-tabs>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#SaveNotifTitle').click(function () {
+            var NotifTitleIds = $('#checkboxContainer input:checked').map(function () {
+                return  parseInt($(this).attr('data-value'));
+            }).get();
+            debugger;
+            var model = { 'NotifTitleIds': NotifTitleIds } ;
+            addAntiForgeryToken(model);
+            $.ajax({
+                traditional: true,
+                type: "POST",
+                url: "@(Url.Action("UpdateNotifTitleActiveStatus", "NotifConfig"))",
+                data: model ,
+                success: function(data) {
+                    alert(data.message);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('خطا در زمان ثبت وضعیت عنواین اطلاع رسانی');
+                }
+            });
+
+        });
+         $.ajax({
+            cache: false,
+            type: "GET",
+            url: "@(Url.Action("getNotifTitleList", "NotifConfig"))",
+            data: {},
+            success: function(data) {
+                $('#checkboxContainer').empty();
+                if (!data)
+                    return;
+                var $content = $('<div class="row" id="ckhLst0"></div>');
+                var id = '#ckhLst0';
+                $('#checkboxContainer').append($content);
+                for (var i = 0; i < $(data).size(); i++) {
+                    if ((i+1) % 4 == 0) {
+                        var $content1 = $('<div class="row" id="ckhLst'+(i+1)+'"></div>');
+                        $('#checkboxContainer').append($content1);
+                        id = '#ckhLst' + (i + 1);
+                    }
+                    $(id).append(
+                        $('<div class="col-md-3"><label><input type="checkbox" data-value="' + data[i].Id + '" ' + (data[i].IsActive ?'checked="checked"':'') + '" name="State_' +
+                        data[i].Id +
+                        '" id="NotifTitle_' +
+                        data[i].Id +
+                        '"/>&nbsp' +
+                            data[i].NotifTitleName +
+                        '</label></div>'));
+                }
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Notif Title Items.');
+            }
+        });
+    });
+</script>

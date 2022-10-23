@@ -1,0 +1,76 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_DiscountPlan_AgentCustomer
+
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="Name" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="Name" asp-required="true" />
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="OfAmount" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="OfAmount" asp-required="true" />
+                            <span asp-validation-for="OfAmount"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="UpAmount" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UpAmount" asp-required="true" />
+                            <span asp-validation-for="UpAmount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="_Percent" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="_Percent" asp-required="true" />
+                            <span asp-validation-for="_Percent"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="IsAgent" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="IsAgent" asp-required="true" />
+                            <span asp-validation-for="IsAgent"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ExpireDay" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="ExpireDay" asp-required="true" />
+                            <span asp-validation-for="ExpireDay"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                
+            
+
+        </div>
+    </div>
+
+</div>

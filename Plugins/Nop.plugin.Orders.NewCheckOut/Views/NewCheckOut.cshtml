@@ -1,0 +1,106 @@
+﻿@model Nop.Web.Models.Checkout.OnePageCheckoutModel
+@using Nop.Core
+@inject IWebHelper webHelper
+@{
+    Layout = "_ColumnsOne";
+
+    //scripts
+    var storeLocation = webHelper.GetStoreLocation();
+    Html.AddScriptParts(ResourceLocation.Footer, "~/js/public.accordion.js");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.NewCheckOut/Scripts/public.onepagecheckout.js");
+
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Checkout").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-checkout-page");
+}
+@{
+    //step numbers
+    var divisionStepNumber = 1;
+}
+<div class="page checkout-page">
+    <div class="page-title">
+        <h1>@T("Checkout")</h1>
+    </div>
+    <div class="page-body checkout-data">
+        @await Component.InvokeAsync("Widget", new { widgetZone = "opc_content_before" })
+        <ol class="opc" id="checkout-steps">
+            <li id="opc-confirm_Division" class="tab-section">
+                <div class="step-title">
+                    <span class="number">@divisionStepNumber</span>
+                    <h2 class="title">مشخص کردن نحوه پرداخت</h2>
+                </div>
+                <div id="checkout-step-confirm-Division" class="step a-item" style="">
+                    <form action="" id="co-confirm-Division-form">
+                        <div id="checkout-confirm-Division-load">
+
+                        </div>
+                        <span class="please-wait" id="confirm-order-please-wait" style="display: none;">@T("Checkout.SubmittingOrder")</span>
+                        <button type="button" id="SaveDivision" class="button-1 cart-button"
+                                style="color:yellow;border-radius: 5px !important">
+                            تایید و ذخیره
+                        </button>
+                    </form>
+
+                    <script>
+                        $.get('@Url.Action("OrderValueDividision", "NewCheckout")', function(content){
+                            $("#checkout-confirm-Division-load").html(content);
+                             $('#co-confirm-Division-form').find('input[type=number]').change(function () {
+                                    $.ajax({
+                                        cache: false,
+                                        url: '@(Url.Action("CheckDivisionIsOk", "NewCheckout"))',
+                                        data: $('#co-confirm-Division-form').serialize(),
+                                        type: 'post',
+                                        success: function (responce) {
+                                            $('#TotalPrice').val(responce.reminingPrice);
+                                            if (responce.isOk == true) {
+                                            }
+                                        },
+                                        complete: function () {
+
+                                        },
+                                        error: function () {
+
+                                        }
+                                    });
+                            });
+                        });
+                        $('#SaveDivision').click(function () {
+                            var loding = $("#confirm-order-please-wait");
+                            loding.show();
+                            $.ajax({
+                                cache: false,
+                                url: '@(Url.Action("SaveDivision", "NewCheckout"))',
+                                data: $('#co-confirm-Division-form').serialize(),
+                                type: 'post',
+                                success: function (responce) {
+                                    if (responce.isOk == false) {
+                                        alert(responce.message);
+                                        return;
+                                    }
+                                    $.get('@(storeLocation)checkout/completed/', function (content) {
+                                        $("#checkout-confirm-Division-load").html(content);
+                                    });
+                                },
+                                complete: function () {
+                                    loding.hide();
+                                },
+                                error: function () {
+
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+            </li>
+        </ol>
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = "opc_content_after" })
+    </div>
+    <script type="text/javascript" asp-location="Footer">
+        Accordion.init('checkout-steps', '.step-title', true);
+        Accordion.openSection('#opc-billing');
+        @*Checkout.init('@(storeLocation)cart/');*@
+    </script>
+</div>

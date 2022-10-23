@@ -1,0 +1,105 @@
+﻿@using Nop.Core
+@using Microsoft.AspNetCore.Http
+@inject IWebHelper _webHelper
+@inject IHttpContextAccessor httpContextAccessor
+
+@{
+    string Address = _webHelper.GetRawUrl(httpContextAccessor.HttpContext.Request);
+    string PageUrl = _webHelper.GetThisPageUrl(includeQueryString:false,lowercaseUrl: true);
+    int ScriptVersion = 23;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Postbar/js/jquery.validate.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Postbar/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js?ver=" + ScriptVersion);
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/JS/jquery.md.bootstrap.datetimepicker.js?ver=" + ScriptVersion); ;
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/popper.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/select2.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/jquery.mmenu.all.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/owl.carousel.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/jquery.countdown.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Postbar/js/custom.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/common.js?ver" + ScriptVersion);
+
+    @*@RenderSection("DashboardScripts", required: false)*@
+}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+	<title>@Html.NopTitle()</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="shortcut icon" href="" type="image">
+	<meta name="robots" content="index, follow" />
+	<meta name="description" content="@(Html.NopMetaDescription())" />
+	<meta name="keywords" content="@(Html.NopMetaKeywords())" />
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123749803-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'UA-123749803-1');
+	</script>
+	<link rel="stylesheet" href="~/Themes/Postbar/css/bootstrap.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/select2.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/all.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/jquery.mmenu.all.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/owl.carousel.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/owl.theme.default.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/flexslider.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/fontiran.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/iranSans.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/fontawesome5_10_2/css/fontawesome.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/font-awesome-animation.min.css?ver=@(ScriptVersion)">
+
+	<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+	<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+
+	@RenderSection("DashboardStyles", required: false)
+
+	@Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+	@Html.NopScripts(this.Url, ResourceLocation.Head, false)
+	<link rel="stylesheet" href="~/Themes/Postbar/css/form_steps.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Postbar/css/style.css?ver=@(ScriptVersion)">
+	@await Component.InvokeAsync("Favicon")
+</head>
+@RenderBody()
+@Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+@Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+</html>
+
+<script>
+	function alert(msg) {
+		swal({
+			title: "",
+			text: msg,
+			confirmButtonText: "تایید"
+		});
+	}
+
+    //window.confirm = function (data, title, callback) {
+    //    if (typeof title == 'function') {
+    //        callback = title;
+    //        title = "";
+    //    }
+
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "بلی",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //            setTimeout(function () {
+    //                callback(isConfirm);
+    //            }, 300);
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+</script>

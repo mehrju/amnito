@@ -1,0 +1,11 @@
+﻿{
+  "Group": "1_NopMaster",
+  "FriendlyName": "کیف پول",
+  "SystemName": "Payments.Wallet",
+  "Version": "4",
+  "SupportedVersions": ["4.00"],
+  "Author": "NopMaster.ir  (Ehsan karimi)",
+  "DisplayOrder": 10,
+  "FileName": "NopMaster.Plugin.Payments.Wallet.dll",
+  "Description": "پرداخت مبلغ سفارش با کیف پول"
+}

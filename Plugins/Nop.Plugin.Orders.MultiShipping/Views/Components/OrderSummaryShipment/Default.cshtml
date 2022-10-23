@@ -1,0 +1,512 @@
+﻿@model Mus_ShoppingCartModel
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using Nop.Web.Controllers;
+@using Nop.Core.Http.Extensions
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IWebHelper webHelper
+@inject IWorkContext workContext
+
+@{
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    List<ShipmentValues> listOfShipmentInfo = HttpContextAccessor.HttpContext.Session.Get<List<ShipmentValues>>("ShipmentValues");
+    var maxNumberOfShipments = Int32.Parse(listOfShipmentInfo.Max(x => x.ShipmentNumber));
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.rtl.css");
+    }
+    else
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.min.css");
+    }
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    Html.AppendScriptParts("~/lib/bootstrap/bootstrap.min.js");
+}
+<style>
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .modal-dialog {
+        margin: 2px auto;
+        z-index: 1100 !important;
+    }
+    .aItem {
+        text-decoration: underline;
+        text-decoration-line: underline;
+        text-decoration-style: double;
+    }
+    .aItem:hover {
+        color: blue;
+        font-size: 17px;
+        text-decoration: underline;
+        text-decoration-line: underline;
+        text-decoration-style: double;
+    }
+</style>
+<script>
+    maxNumberOfShipments = @maxNumberOfShipments
+</script>
+<div class="order-summary-content cart-table-container">
+    @await Component.InvokeAsync("Widget", new { widgetZone = "order_summary_content_before" })
+    @await Html.PartialAsync("_Mus_OrderReviewData", Model.OrderReviewData)
+    @if (Model.Items.Count > 0)
+    {
+
+
+        if (Model.Warnings.Count > 0)
+        {
+            <div class="message-error">
+                <ul>
+                    @foreach (var warning in Model.Warnings)
+                    {
+                        <li>@warning</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        @*we add enctype = "multipart/form-data" because "File upload" attribute control type requires it*@
+        <form asp-route="ShoppingCart" method="post" enctype="multipart/form-data" id="shopping-cart-form">
+            <div class="table-wrapper shopping-cart-table-structure" style="margin: auto;float:unset !important;text-align:center">
+                <table class="cart mz-table mz-table-cart">
+                    <colgroup>
+                        @if (Model.ShowSku)
+                        {
+                            <col width="1" />
+                        }
+                        @if (Model.ShowProductImages)
+                        {
+                            <col width="1" />
+                        }
+                        <col />
+                        <col width="1" />
+                        <col width="1" />
+                        <col width="1" />
+                        @if (Model.IsEditable)
+                        {
+                            <col width="1" />
+                        }
+                    </colgroup>
+                    <thead class="hide-mobile">
+                        <tr>
+                            @*@if (Model.ShowSku)
+                            {
+                                <th class="sku">
+                                    @T("ShoppingCart.SKU")
+                                </th>
+                            }*@
+                            @if (Model.ShowProductImages)
+                            {
+                                <th class="product-picture mz-carttable-header-product">
+                                    @T("ShoppingCart.Image")
+                                </th>
+                            }
+                            <th class="product mz-carttable-header-desc">
+                                @T("ShoppingCart.Product(s)")
+                            </th>
+                            <th class="subtotal mz-carttable-header-total">
+
+                            </th>
+                            <th class="subtotal mz-carttable-header-total">
+                                مقصد
+                            </th>
+                            @if (Model.IsEditable)
+                            {
+                                <th class="remove-from-cart">
+                                    @*@T("ShoppingCart.Remove")*@
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="mz-table-cart-items">
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="mz-carttable-item">
+                                @*@if (Model.ShowSku)
+                                {
+                                    <td class="sku">
+                                        <label class="td-title">@T("ShoppingCart.SKU"):</label>
+                                        <span class="sku-number">@item.Sku</span>
+                                    </td>
+                                }*@
+                                @if (Model.ShowProductImages)
+                                {
+                                    <td class="product-picture mz-carttable-item-product">
+                                        <a href="@Url.RouteUrl("Product", new { SeName = item.PackProductSeName ?? item.ProductSeName })"><img class="mz-carttable-item-image" alt="@item.Picture.AlternateText" src="@item.Picture.ImageUrl" title="@item.Picture.Title" /></a>
+                                    </td>
+                                }
+                                <td class="product mz-carttable-item-desc">
+                                    <div class="mz-carttable-item-info-wrap">
+                                        <a href="@Url.RouteUrl("Product", new { SeName = item.PackProductSeName ?? item.ProductSeName })" class="product-name mz-carttable-item-title">@item.ProductName</a>
+                                    </div>
+                                    @*@if (!string.IsNullOrEmpty(item.AttributeInfo))
+                                    {
+                                        <div class="attributes">
+                                            @Html.Raw(item.AttributeInfo)
+                                        </div>
+                                    }*@
+                                    @if (!string.IsNullOrWhiteSpace(item.WeightOz))
+                                    {
+                                        <div class="weight">
+                                            <span class="gray">وزن &nbsp;</span>
+                                            <b>@item.WeightOz</b>
+                                        </div>
+                                    }
+
+                                    <div class="weight">
+                                        <span class="gray">تعداد &nbsp;</span>
+                                        <b>@item.Quantity</b>
+                                    </div>
+
+                                    @*@if (!string.IsNullOrEmpty(item.RecurringInfo))
+                                    {
+                                        <div class="recurring-info">
+                                            @Html.Raw(item.RecurringInfo)
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.RentalInfo))
+                                    {
+                                        <div class="rental-info">
+                                            @Html.Raw(item.RentalInfo)
+                                        </div>
+                                    }
+                                    @if (Model.IsEditable && item.AllowItemEditing)
+                                    {
+                                        var editCartItemUrl = Url.RouteUrl("Product", new { SeName = item.ProductSeName });
+                                        editCartItemUrl = webHelper.ModifyQueryString(editCartItemUrl, "updatecartitemid=" + item.Id, null);
+                                        <div class="edit-item">
+                                            <a href="@editCartItemUrl">@T("Common.Edit")</a>
+                                        </div>
+                                    }*@
+                                    @if (item.Warnings.Count > 0)
+                                    {
+                                        <div class="message-error">
+                                            <ul>
+                                                @foreach (var warning in item.Warnings)
+                                                {
+                                                    <li>@warning</li>
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    }
+                                    @*<ul>
+                                        @if (item.AvailableStartDateTimeUtc != null || item.AvailableEndDateTimeUtc != null)
+                                        {
+                                            <li style="color: #d56b0d;">
+                                                Ordering available from
+                                                <strong style="color:#ad0031">@item.AvailableStartDateTimeUtc - @item.AvailableEndDateTimeUtc</strong>
+                                            </li>
+                                        }
+                                        @if (item.PreOrderAvailabilityStartDateTimeUtc != null)
+                                        {
+                                            <li style="color: #d56b0d;">
+                                                Delivery available after
+                                                <strong style="color:#ad0031">@item.PreOrderAvailabilityStartDateTimeUtc</strong>
+                                            </li>
+                                        }
+                                    </ul>*@
+                                </td>
+                                <td style="margin: auto;padding-right: unset;padding-left: unset;text-align: center;">
+                                    <a id="QuantityShippment_@item.Id" class="aItem QuantityShippment" data-qty="@item.Quantity" href="#"> مقصد متفاوت برای هر واحد</a>
+                                </td>
+                                <td>
+                                    @{
+                                        var currentItemShipmentNumber = Int32.Parse(listOfShipmentInfo.Where(x => x.ItemNumber.Equals(item.Id.ToString())).First().ShipmentNumber);
+
+                                    }
+                                    <select class="shipmentSelect" style="width:auto;margin:auto" id="shipmentSelect_@item.Id"
+                                            data-shoppingCartItemId="@item.Id" data-qty="@item.Quantity"
+                                            onchange="changeShipment(@item.Id, @currentItemShipmentNumber)">
+                                        @for (int i = 1; i <= maxNumberOfShipments; i++)
+                                        {
+                                            if (currentItemShipmentNumber != i)
+                                            {
+                                                <option value="">مقصد #@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected="selected" value="">مقصد #@i</option>
+                                            }
+                                        }
+                                        <option value="new">مقصد جدید</option>
+                                    </select>
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (Model.IsEditable && Model.Items.Count > 0 && Model.DisplayTaxShippingInfo)
+            {
+                var inclTax = workContext.TaxDisplayType == TaxDisplayType.IncludingTax;
+                //tax info is already included in the price (incl/excl tax). that's why we display only shipping info here
+                //of course, you can modify appropriate locales to include VAT info there
+                <div class="tax-shipping-info">
+                    @T(inclTax ? "ShoppingCart.TaxShipping.InclTax" : "ShoppingCart.TaxShipping.ExclTax", Url.RouteUrl("Topic", new { SeName = Html.GetTopicSeName("shippinginfo") }))
+                </div>
+            }
+            <div class="cart-options">
+                @if (Model.IsEditable)
+                {
+                    <div class="common-buttons">
+                        <input type="submit" name="updatecart" value="@T("ShoppingCart.UpdateCart")" class="button-2 update-cart-button" style="display:none;" />
+                        <input type="submit" name="continueshopping" value="@T("ShoppingCart.ContinueShopping")" class="button-2 continue-shopping-button" />
+                        <em class="mz-auxiliary-text">Tax &amp; Shipping Calculated at Checkout</em>
+                    </div>
+                }
+                @if (Model.IsEditable)
+                {
+                    @await Html.PartialAsync("_Mus_CheckoutAttributes", Model)
+                }
+                @await Component.InvokeAsync("SelectedCheckoutAttributes")
+            </div>
+
+            @if (Model.IsEditable)
+            {
+                @await Component.InvokeAsync("CrossSellProducts")
+            }
+        </form>
+    }
+    else
+    {
+        <div class="no-data">
+            @T("ShoppingCart.CartIsEmpty")
+        </div>
+    }
+    @await Component.InvokeAsync("Widget", new { widgetZone = "order_summary_content_after" })
+    <script>
+        $(document).ready(function () {
+            $(".cart td, .cart th").css("border-width", "0px");
+
+            $(".lb-input-dec").click(function () {
+                var $button = $(this);
+                var oldValue = $button.parent().find(".lb-input").val();
+                if (oldValue > 1) {
+                    var newval = parseInt(oldValue) - 1;
+                    $button.parent().find(".mz-carttable-qty-field").val(newval);
+                    var price = $button.closest(".mz-carttable-item").find(".unit-price > .product-unit-price").text().replace('$', '');
+                    var totalPrice = (parseFloat(price) * newval).toFixed(2);
+                    $button.closest(".mz-carttable-item").find(".subtotal > .product-subtotal").text('$' + totalPrice);
+
+                    updateCart_Post(1000);
+                }
+            });
+            $(".lb-input-inc").on("click", function () {
+                var $button = $(this);
+                var oldValue = $button.parent().find(".lb-input").val();
+                var newval = parseInt(oldValue) + 1;
+                $button.parent().find(".mz-carttable-qty-field").val(newval);
+                var price = $button.closest(".mz-carttable-item").find(".unit-price > .product-unit-price").text().replace('$', '');
+                var totalPrice = (parseFloat(price) * newval).toFixed(2);
+                $button.closest(".mz-carttable-item").find(".subtotal > .product-subtotal").text('$' + totalPrice);
+
+                updateCart_Post(1000);
+            });
+            $(".lb-input").on('change', function () {
+                updateCart_Post(1000);
+            });
+
+        });
+
+    function removeFromCart_Post(ele, id) {
+        $('[name="removefromcart"]', $(ele)).val(id).click();
+
+        updateCart_Post();
+    }
+
+    var _updateCart_Post;
+
+    function updateCart_Post(timeOut) {
+
+        if (_updateCart_Post)
+            clearTimeout(_updateCart_Post);
+
+        _updateCart_Post = setTimeout(function () {
+            $('#shopping-cart-form [name="updatecart"]').click();
+        }, timeOut || 100);
+
+    }
+    </script>
+</div>
+<div class="modal fade" id="divShipmentPerQuantity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel" style="float:right">انتخاب مقصد به ازای هر واحد</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divShipmentPerQuantity_content" style="z-index:1010 !important">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <input name="saveQtyShipment" id="saveQtyShipment" value="ثبت" type="button" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function changeShipment(cartItemId, cartItemShipmentNum, qtyNum) {
+        var shipmentSelect = document.getElementById('shipmentSelect_' + cartItemId + (qtyNum ? '-' + qtyNum : ''));
+        var selectedValue = shipmentSelect.options[shipmentSelect.selectedIndex].text;
+
+        if (selectedValue === 'مقصد جدید') {
+            var allSelects = $('.shipmentSelect');
+
+            maxNumberOfShipments++;
+            for (i = 0; i < allSelects.length; i++) {
+                var selectedValue = allSelects[i].options[allSelects[i].selectedIndex].text;
+                allSelects[i].remove(maxNumberOfShipments - 1);
+                var option = document.createElement("option");
+                option.text = "مقصد #" + maxNumberOfShipments;
+                allSelects[i].add(option);
+
+                var optionNew = document.createElement("option");
+                optionNew.text = "مقصد جدید";
+                allSelects[i].add(optionNew);
+                if (selectedValue === 'مقصد جدید') {
+
+                    allSelects[i].value = "مقصد #" + maxNumberOfShipments;
+
+                }
+                else {
+                    allSelects[i].selectedIndex = Number(selectedValue.replace("مقصد #", "")) - 1;
+                }
+            }
+        }
+
+    }
+</script>
+<script type="text/javascript" asp-location="Footer">
+    $(document).ready(function () {
+        var qtyItems = [];
+        getShipmentNumbers = function () {
+            var output = [];
+            $('#shopping-cart-form').find('.shipmentSelect').each(function () {
+                var existIndex = -1;
+                $.each(qtyItems, (i, item) => {
+                    if (item.selectorId.indexOf($(this).attr('id')) >= 0) {
+                        existIndex = i;
+                        return false;
+                    }
+                });
+                if (existIndex == -1) {
+                    var qty = parseInt($(this).attr('data-qty'), 10);
+                    for (var i = 1; i <= qty; i++) {
+                        var cls = {};
+                        cls.shoppingCartItemId = $(this).attr('data-shoppingCartItemId');
+                        cls.selectorId = $(this).attr('id')+'-'+i;
+                        cls.val = $(this).val() ? $(this).val() : $(this).find('option:eq(0)').text();
+                        qtyItems.push(cls);
+                    }
+                }
+            });
+            $.each(qtyItems, (i, item) => {
+                var eachItem = {};
+                eachItem.QtyNumber = item.selectorId.split('-')[1];
+                eachItem.ItemNumber = item.shoppingCartItemId;
+                eachItem.ShipmentNumber = item.val.replace("مقصد #", "");
+                output.push(eachItem);
+            });
+            return output;
+        }
+        $('#saveQtyShipment').click(function () {
+            $('#divShipmentPerQuantity').find('.modal-body').find('select').each(function () {
+                if ($(qtyItems).size() > 0) {
+                    var index = -1;
+                    $.each(qtyItems, (i, item) => {
+                        if (item.selectorId == $(this).attr('id')) {
+                            index = i;
+                            return;
+                        }
+                    });
+                    if (index != -1) {
+                        qtyItems.splice(index,1);
+                    }
+                }
+                var cls = {};
+                cls.shoppingCartItemId = $(this).attr('data-shoppingCartItemId');
+                cls.selectorId = $(this).attr('id');
+                cls.val = $(this).val() ? $(this).val() : $(this).find('option:eq(0)').text();
+                qtyItems.push(cls);
+            });
+            $('#divShipmentPerQuantity').modal('hide');
+        });
+        $('#divShipmentPerQuantity').on('show.bs.modal', function (e) {
+           
+                $(this).find('.modal-body').find('select').each(function () {
+                    var $masterSelect = $('#' + $(this).attr('id').split('-')[0]);
+                    var existedItem = null;
+                    if ($(qtyItems).size() > 0) {
+                         existedItem = qtyItems.filter((item) => {
+                            return item.selectorId == $(this).attr('id');
+                        });
+                    }
+                    if ($(existedItem).size() > 0) {
+                        $(this).val(existedItem[0].val);
+                    }
+                    else {
+                        $(this).val($masterSelect.val());
+                    }
+                });
+            
+        });
+        $('#divShipmentPerQuantity').on('hidden.bs.modal', function () {
+            $('.modal-body').html('');
+        });
+        $('.QuantityShippment').click(function () {
+            var $p = $('table.mz-table-cart').clone(true);
+
+            var $tr = $(this).parent().parent().clone(true);
+
+            var qty = parseInt($(this).attr('data-qty'), 10);
+
+            $p.find('tbody.mz-table-cart-items').remove();
+
+            $($tr).find('a.QuantityShippment').remove();
+            $($tr).find('div.weight').remove();
+
+            var $tbody = $('<tbody class="mz-table-cart-items ItemQty"></tbody>')
+
+            for (var i = 1; i <= qty; i++) {
+                var row = $tr.clone(true);
+                var select = $(row).find('select');
+                select.attr('id', select.attr('id') + '-' + i);
+                select.attr('onchange', select.attr('onchange').replace(')', '') + ',' + i + ')');
+                $tbody.append(row);
+            }
+
+            $($p).append($tbody);
+            $('#divShipmentPerQuantity_content').html('');
+            $('#divShipmentPerQuantity_content').append($p);
+            $('#divShipmentPerQuantity').modal({ backdrop: 'static' });
+            $('#divShipmentPerQuantity').appendTo("body");
+        });
+
+        $('#checkout').click(function () {
+            $.ajax({
+                url: "/Customer/LoginSignupPopup",
+                success: function (data) {
+                    $('#loginModal').css("display", "block");
+                    $('#loginModal').html(data);
+                    $('#loginModal .login-modal').css("display", "block");
+                    $('.sectionforcheckout').css("display", "block");
+                    $('.sectionforlogin').css("display", "none");
+
+                },
+                error: function () {
+                    $("#loginModal").html('Page not Found');
+                }
+            });
+        });
+    });
+</script>

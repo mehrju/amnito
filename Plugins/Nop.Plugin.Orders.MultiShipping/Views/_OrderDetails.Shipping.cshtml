@@ -1,0 +1,1958 @@
+﻿@model Nop.Web.Areas.Admin.Models.Orders.OrderModel
+@inject Nop.Plugin.Orders.MultiShipping.Services.IExtnOrderProcessingService _OrderProcessingService
+@inject Nop.Services.Customers.ICustomerService _customerService
+@{
+    var defaultGridPageSize = 10;
+    var gridPageSizes = "10,50,100,500";
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+}
+
+<script>
+        $(document).ready(function () {
+            var postData = {};
+            addAntiForgeryToken(postData);
+           $.ajax({
+                cache: true,
+                type: "GET",
+                url: "@(Url.Action("GetListCancellDescriptionAnswer", "MultiShippingCheckout"))",
+                data: postData,
+               success: function (data) {
+                    $('#IdDesCancalSelect1').empty();
+                    $('#IdDesCancalSelect1').append(new Option('انتخاب کنید....', '0', true, true));
+                    $.each(data, function (id, item) {
+                        $('#IdDesCancalSelect1').append(new Option(item.Text, item.Value, false, false));
+                    });
+                    //$('#IdDesCancalSelect').select2();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log('خطا در دریافت اطلاعات');
+                }
+          });
+        });
+
+
+</script>
+
+<script>
+    function mExtraField(shipmentId, CollectDate, ShippedDate,
+        DeliveryDate, Value_mafgho,
+        Des_mafgho, Value_khesarat, Des_khesarat, Value_gheramatmafghod, Des_gheramatmafghod, Value_takhir, Des_takhir, Value_shekayat, Des_shekayat) {
+
+
+
+        this.shipmentId = shipmentId;
+        this.CollectDate = CollectDate;
+        this.ShippedDate = ShippedDate;
+        this.DeliveryDate = DeliveryDate;
+        this.Value_mafgho = Value_mafgho;
+        this.Des_mafgho = Des_mafgho;
+        this.Value_khesarat = Value_khesarat;
+        this.Des_khesarat = Des_khesarat;
+        this.Value_gheramatmafghod = Value_gheramatmafghod;
+        this.Des_gheramatmafghod = Des_gheramatmafghod;
+        this.Value_takhir = Value_takhir;
+        this.Des_takhir = Des_takhir;
+        this.Value_shekayat = Value_shekayat;
+        this.Des_shekayat = Des_shekayat;
+    }
+    var _mExtraField = new mExtraField(0, "", "", "", 0, "", 0, "", 0, "", 0, "", 0, "");
+
+
+    function TypeHistory(shipmentId, type, Name) {
+        this.shipmentId = shipmentId;
+        this.type = type;
+        this.Name = Name;
+    }
+    var _TypeHistory = new TypeHistory(0, 0, "");
+</script>
+<div class="panel-group">
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_details_shipping_top", additionalData = Model.Id })
+    @if (Model.IsShippable)
+    {
+        <div class="box box-info" id="PnlAddresses">
+            <div class="box-header with-border clearfix">
+                <div class="box-title">
+                    <i class="fa ion-stats-bars"></i>
+                    آدرس ها
+                </div>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                @{
+                    //var data = _OrderProcessingService.getOrderAddress(Model.Id);
+                    //Nop.Web.Areas.Admin.Models.Common.AddressModel item = null;
+                    //if (data.Any())
+                    //{
+                    //    item = data[0];
+                    //}
+                }
+
+                <div class="panel panel-default" id="MasterAddressContainer">
+
+                    @foreach (var item in _OrderProcessingService.getOrderAddress(Model.Id))
+                    {
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="ShippingAddress" />
+                                </div>
+                                <div class="col-md-9" id="addressContainer">
+                                    @*<img alt="google maps" src="@Url.Content("~/css/admin/images/google-maps.gif")" />
+                                        <a href="@Html.Raw(itemGoogleMapsUrl)" style="margin-bottom: 10px;" target="_blank">@T("Admin.Orders.Fields.ShippingAddress.ViewOnGoogleMaps")</a>*@
+                                    @if (item != null)
+                                    {
+                                        <table class="table table-hover table-bordered" style="max-width: 400px;">
+                                            @if (item.FirstNameEnabled || item.LastNameEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.FullName")
+                                                    </td>
+                                                    <td>
+                                                        @item.FirstName @item.LastName
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.EmailEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Email")
+                                                    </td>
+                                                    <td>
+                                                        @item.Email
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.PhoneEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Phone")
+                                                    </td>
+                                                    <td>
+                                                        @item.PhoneNumber
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.FaxEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Fax")
+                                                    </td>
+                                                    <td>
+                                                        @item.FaxNumber
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.CompanyEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Company")
+                                                    </td>
+                                                    <td>
+                                                        @item.Company
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.StreetAddressEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Address1")
+                                                    </td>
+                                                    <td>
+                                                        @item.Address1
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.StreetAddress2Enabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Address2")
+                                                    </td>
+                                                    <td>
+                                                        @item.Address2
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.CityEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.City")
+                                                    </td>
+                                                    <td>
+                                                        @item.City
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.StateProvinceEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.StateProvince")
+                                                    </td>
+                                                    <td>
+                                                        @item.StateProvinceName
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.ZipPostalCodeEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.ZipPostalCode")
+                                                    </td>
+                                                    <td>
+                                                        @item.ZipPostalCode
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (item.CountryEnabled)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @T("Admin.Orders.Address.Country")
+                                                    </td>
+                                                    <td>
+                                                        @item.CountryName
+                                                    </td>
+                                                </tr>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.FormattedCustomAddressAttributes))
+                                            {
+                                                <tr class="custom-attributes-view">
+                                                    <td colspan="2">
+                                                        @Html.Raw(item.FormattedCustomAddressAttributes)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+                                </div>
+                            </div>
+                            @if (!Model.IsLoggedInAsVendor)
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-9 col-md-offset-3">
+                                        <a id="bnt_EditAddress" asp-action="AddressEdit" asp-route-addressId="@item.Id" asp-route-orderId="@Model.Id" class="btn btn-primary">@T("Admin.Common.Edit")</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#PnlAddresses').on('click',
+                            'button[data-widget="collapse"]',
+                            function () {
+                                var collapsed = !$('#PnlAddresses').hasClass('collapsed-box');
+                                if (collapsed) {
+                                    $(this).find('i').removeClass('fa-minus');
+                                    $(this).find('i').addClass('fa-plus');
+                                } else {
+                                    $(this).find('i').removeClass('fa-plus');
+                                    $(this).find('i').addClass('fa-minus');
+                                }
+                            });
+                    });
+                </script>
+            </div>
+        </div>
+        if (Model.PickupAddress != null)
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="PickupAddress" />
+                        </div>
+                        <div class="col-md-9">
+                            <img alt="google maps" src="@Url.Content("~/css/admin/images/google-maps.gif")" />
+                            <a href="@Html.Raw(Model.PickupAddressGoogleMapsUrl)" style="margin-bottom: 10px;" target="_blank">@T("Admin.Orders.Fields.PickupAddress.ViewOnGoogleMaps")</a>
+
+                            <table class="table table-hover table-bordered" style="max-width: 400px;">
+                                @if (!string.IsNullOrEmpty(Model.PickupAddress.Address1))
+                                {
+                                    <tr>
+                                        <td>
+                                            @T("Admin.Orders.Address.Address1")
+                                        </td>
+                                        <td>
+                                            @Model.PickupAddress.Address1
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.PickupAddress.City))
+                                {
+                                    <tr>
+                                        <td>
+                                            @T("Admin.Orders.Address.City")
+                                        </td>
+                                        <td>
+                                            @Model.PickupAddress.City
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.PickupAddress.CountryName))
+                                {
+                                    <tr>
+                                        <td>
+                                            @T("Admin.Orders.Address.Country")
+                                        </td>
+                                        <td>
+                                            @Model.PickupAddress.CountryName
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
+                                {
+                                    <tr>
+                                        <td>
+                                            @T("Admin.Orders.Address.ZipPostalCode")
+                                        </td>
+                                        <td>
+                                            @Model.PickupAddress.ZipPostalCode
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ShippingMethod" />
+                    </div>
+                    <div class="col-md-9">
+                        @if (!Model.IsLoggedInAsVendor)
+                        {
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    toggleEditShippingMethod(false);
+                                });
+
+                                function toggleEditShippingMethod(editmode) {
+                                    if (editmode) {
+                                        $('#lblShippingMethod').hide();
+                                        $('#divShippingMethod').show();
+                                        $('#btnEditShippingMethod').hide();
+                                        $('#btnSaveShippingMethod').show();
+                                        $('#btnCancelShippingMethod').show();
+                                    } else {
+                                        $('#lblShippingMethod').show();
+                                        $('#divShippingMethod').hide();
+                                        $('#btnEditShippingMethod').show();
+                                        $('#btnSaveShippingMethod').hide();
+                                        $('#btnCancelShippingMethod').hide();
+                                    }
+                                }
+                            </script>
+                            <div class="input-group input-group-short">
+                                <div id="lblShippingMethod" class="input-group-text">
+                                    <div class="form-text-row">@Model.ShippingMethod</div>
+                                </div>
+                                <div id="divShippingMethod">
+                                    <nop-editor asp-for="ShippingMethod" />
+                                </div>
+                                <span class="input-group-btn">
+                                    <button type="submit" onclick="toggleEditShippingMethod(true);return false;" id="btnEditShippingMethod" class="btn btn-primary">
+                                        @T("Admin.Common.Edit")
+                                    </button>
+
+                                    <button type="submit" id="btnSaveShippingMethod" name="save-shipping-method" class="btn btn-primary">
+                                        @T("Admin.Common.Save")
+                                    </button>
+                                    <nop-action-confirmation asp-button-id="btnSaveShippingMethod" />
+
+                                    <button type="submit" onclick="toggleEditShippingMethod(false);return false;" id="btnCancelShippingMethod" class="btn bg-teal">
+                                        @T("Admin.Common.Cancel")
+                                    </button>
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="lblShippingMethod">
+                                <div class="form-text-row">@Model.ShippingMethod</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if (!Model.IsLoggedInAsVendor)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ShippingStatus" />
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-text-row">@Model.ShippingStatus</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="modal fade" id="newTrackingNumberModal" tabindex="-1" role="dialog" aria-labelledby="newTrackingNumberModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newTrackingNumberModalLabel">دریافت کد رهگیری جدید</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        آیا از کنسل کردن بارکد موجود و دریافت بارکد جدید اطمینان دارید؟
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="newTrackingNoShipmentId" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="getNewBrcode" class="btn btn-primary">بله،دریافت بارکد جدید</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deleteShipmentModal" tabindex="-1" role="dialog" aria-labelledby="deleteShipmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteShipmentModalLabel">دریافت کد رهگیری جدید</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        آیا از حذف محموله اطمینان دارید؟
+                        <div class="form-group">
+                            <label>دلیل انصراف :</label>
+                            <select tabindex="1" style="width:80%;" data-placeholder="انتخاب کنید" class="form-control required" id="IdDesCancalSelect1" name="IdDesCancalSelect1"></select>
+                            <div id="order-item-cancel" style="margin-top:25px"></div>
+                            @*<textarea id="Des" name="Des" tabindex="1" rows="5" maxlength="2000" class="form-control" placeholder="توضیحات را وارد نمایید"></textarea>*@
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="deleteShipmentId" />
+                        <input type="hidden" id="deleteOrderItemId" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="deleShipment" class="btn btn-primary">بله،حذف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="EditShipmentModal" tabindex="-1" role="dialog" aria-labelledby="EditShipmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="EditShipmentModalLabel">ویرایش محموله</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label" for="CollectDate">تاریخ جمع آوری</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" id="CollectDate"
+                                                   name="CollectDate" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label" for="ShippedDate">تاریخ ارسال</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" id="ShippedDate"
+                                                   name="ShippedDate" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label" for="DeliveryDate">تاریخ تحویل</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" id="DeliveryDate"
+                                                   name="DeliveryDate" type="text" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label" for="DeliveryDate">وزن (گرم)</label>
+                                        </div>
+                                        <div class="col-md-5" style="padding-left: 35px;">
+                                            <input class="form-control text-box single-line" id="Weight" name="Weight" type="text" value="">
+                                        </div>
+                                    </div>
+
+                                    <hr />
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="Radio_mafghod">مفقود شده</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @*<input type="radio" name="Radio_mafghod" id="Radio_0_mafghod" value="0" style="display:none;" checked>*@
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_mafghod" id="Radio_yse_mafghod" value="1">
+                                                <label for="Radio_yse_mafghod">دارد </label>
+                                            </div>
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_mafghod" id="Radio_no_mafghod" value="2">
+                                                <label for="Radio_no_mafghod">برطرف شده </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" rows="1" id="TxtDescription_mafghod" placeholder="توضیحات را وارد نمایید"></textarea>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button id="ShowHistoryNoteOrder_mafghod" class="btn btn-primary" type="button"><i class="fa fa-eye"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="Radio_khesarat">غرامت خسارت</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @*<input type="radio" name="Radio_khesarat" id="Radio_0_khesarat" value="0" style="display:none;" checked>*@
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_khesarat" id="Radio_yse_khesarat" value="1">
+                                                <label for="Radio_yse_khesarat">دارد </label>
+                                            </div>
+
+                                            <div class="radio radio-inline radio-replace ">
+                                                <input type="radio" name="Radio_khesarat" id="Radio_no_khesarat" value="2">
+                                                <label for="Radio_no_khesarat">برطرف شده </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" rows="1" id="TxtDescription_khesarat" placeholder="توضیحات را وارد نمایید"></textarea>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button id="ShowHistoryNoteOrder_khesarat" class="btn btn-primary" type="button"> <i class="fa fa-eye"></i> </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="Radio_khesaratmafgodi">غرامت مفقودی</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @*<input type="radio" name="Radio_khesaratmafgodi" id="Radio_0_khesaratmafgodi" value="0" style="display:none;" checked>*@
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_khesaratmafgodi" id="Radio_yse_khesaratmafgodi" value="1">
+                                                <label for="Radio_yse_khesaratmafgodi">دارد </label>
+                                            </div>
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_khesaratmafgodi" id="Radio_no_khesaratmafgodi" value="2">
+                                                <label for="Radio_no_khesaratmafgodi">برطرف شده </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" rows="1" id="TxtDescription_khesaratmafgodi" placeholder="توضیحات را وارد نمایید"></textarea>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button id="ShowHistoryNoteOrder_khesaratmafgodi" class="btn btn-primary" type="button"> <i class="fa fa-eye"></i> </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="Radio_takhir">غرامت تاخیر</label>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            @*<input type="radio" name="Radio_takhir" id="Radio_0_takhir" value="0" style="display:none;" checked>*@
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_takhir" id="Radio_yse_takhir" value="1">
+                                                <label for="Radio_yse_takhir">دارد </label>
+                                            </div>
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_takhir" id="Radio_no_takhir" value="2">
+                                                <label for="Radio_no_takhir">برطرف شده </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" rows="1" id="TxtDescription_takhir" placeholder="توضیحات را وارد نمایید"></textarea>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button id="ShowHistoryNoteOrder_takhir" class="btn btn-primary" type="button"> <i class="fa fa-eye"></i> </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="control-label" for="Radio_shekayat">شکایت</label>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            @*<input type="radio" name="Radio_shekayat" id="Radio_yse_shekayat" value="0" style="display:none;" checked>*@
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_shekayat" id="Radio_yse_shekayat" value="1">
+                                                <label for="Radio_yse_takhir">دارد </label>
+                                            </div>
+
+                                            <div class="radio radio-inline radio-replace">
+                                                <input type="radio" name="Radio_shekayat" id="Radio_no_shekayat" value="2">
+                                                <label for="Radio_no_shekayat">برطرف شده </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" rows="1" id="TxtDescription_shekayat" placeholder="توضیحات را وارد نمایید"></textarea>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button id="ShowHistoryNoteOrder_shekayat" class="btn btn-primary" type="button"> <i class="fa fa-eye"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="History-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="EditShipmentId" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="EditShipment" class="btn btn-primary">تایید،ویرایش</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="packingRequestModal" tabindex="-1" role="dialog" aria-labelledby="packingRequestModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="packingRequestModalLabel">درخواست بسته بندی</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <input type="hidden" id="packingrequestShipingId" />
+                                <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                    <label> شماره مشتری</label>
+                                    <input type="text" class="form-control myTooltip" placeholder="شماره مشتری" id="customerPhone" name="customerPhone" data-html="true" value="@_customerService.GetCustomerById(Model.CustomerId).Username">
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6">
+                                    <label>حدود اندازه مرسوله(طول* عرض*ارتفاع)</label>
+                                    <select class="js-example-basic-single form-control " name="KartonLafaf" id="KartonLafaf" data-toggle="tooltip" title=""></select>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xl-6 col-lg-6 " id="dimenationsBox" style="display:none">
+                                    <label> لطفا ابعاد مرسوله را به سانتی متر وارد نمایید</label>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                            <input type="text" class="form-control myTooltip" maxlength="6" placeholder="طول" id="length" name="length" data-html="true">
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                            <input type="text" class="form-control myTooltip" maxlength="6" placeholder="عرض" id="width" name="width" data-html="true">
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                            <input type="text" class="form-control myTooltip" maxlength="6" placeholder="ارتفاع" id="height" name="height" data-html="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="History-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                        <button type="button" id="AddPackingRequest" class="btn btn-primary">ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Admin.Orders.Shipments")
+            </div>
+            <div class="panel-body">
+                <div id="shipments-grid"></div>
+
+                <script type="text/javascript">
+                    var orderItemCanceltable = null;
+                    $(document).ready(function () {
+
+                        $("#shipments-grid").kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@Html.Raw(Url.Action("ShipmentsByOrder", "MultiShippingCheckout", new {orderId = Model.Id}))",
+                                        type: "POST",
+                                        dataType: "json",
+                                        data: addAntiForgeryToken
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+                                error: function (e) {
+                                    display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                pageSize: @(defaultGridPageSize),
+                                serverPaging: true,
+                                serverFiltering: true,
+                                serverSorting: true
+                            },
+                            pageable: {
+                                refresh: true,
+                                pageSizes: [@(gridPageSizes)],
+                                @await Html.PartialAsync("_GridPagerMessages")
+                            },
+                            //details grid
+                            //detailInit: detailInit,
+                            scrollable: false,
+                            columns: [
+                                {
+                                    field: "Id",
+                                    title: "@T("Admin.Orders.Shipments.ID")",
+                                    width: 50
+                                }, {
+                                    field: "OrderId",
+                                    title: "@T("Admin.Orders.Shipments.CustomOrderNumber")",
+                                    width: 100
+                                }, {
+                                    field: "TrackingNumber",
+                                    title: "@T("Admin.Orders.Shipments.TrackingNumber")",
+                                    width: 100
+                                }, {
+                                    field: "ExactWeight",
+                                    title: "@T("Admin.Orders.Shipments.TotalWeight")",
+                                    width: 100
+                                }, {
+                                    field: "DataCollect",
+                                    title: "تاریخ جمع آوری",
+                                    width: 100,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "ShippedDate",
+                                    title: "@T("Admin.Orders.Shipments.ShippedDate")",
+                                    width: 100,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "DeliveryDate",
+                                    title: "@T("Admin.Orders.Shipments.DeliveryDate")",
+                                    width: 100,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    field: "CollectorCustomerName",
+                                    title: "جمع آور",
+                                    width: 100
+                                }, {
+                                    field: "DistributerCustomerName",
+                                    title: "توزیع کننده",
+                                    width: 100
+                                }
+                                ,
+                                {
+                                    field: "Address",
+                                    title: "آدرس",
+                                    width: 250
+                                }, {
+                                    field: "Id",
+                                    title: "@T("Admin.Common.View")",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '<a class="btn btn-default" href="@Url.Content("~/Admin/Order/ShipmentDetails/")#=Id#"><i class="fa fa-eye"></i></a>'
+                                }, {
+                                    field: "Id",
+                                    title: "نمایش آدرس",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        '<a class="btn btn-default" onClick="showAddress(#=Id#)" ><i class="fa fa-map-marker"></i></a>'
+                                }, {
+                                    field: "Id",
+                                    title: "بارکد جدید",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        '<a class="btn btn-default" onClick="changeBarcode(#=Id#)" ><i class="fa fa-barcode"></i></a>'
+                                }, {
+                                    field: "Id",
+                                    title: "ویرایش",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        `<a class="btn btn-default" onClick="OpenEditModal(#=Id#,'#=DataCollect#','#=ShippedDate#','#=DeliveryDate#')" ><i class="fa fa-pencil-square-o" style="color:green"></i></a>`
+                                },
+                                {
+                                    field: "Id",
+                                    title: "درخواست بسته بندی",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        `<a class="btn btn-default" onClick="OpenPackingRequestModal(#=Id#)" ><i class="fa fa-dropbox" style="color:blue"></i>#if(PackingPurchased){#<i class="fa fa-check" style="color:green"></i>#}#</a>`
+                                },
+                                {
+                                    field: "Id",
+                                    title: "حذف",
+                                    width: 50,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template:
+                                        '<a class="btn btn-default" onClick="ConfirmDeleteShipment(#=Id#,#=OrderItemId#)" ><i class="fa fa-times" style="color:red"></i></a>'
+                                }
+                            ]
+                        });
+                    });
+
+                    $(function () {
+                        $.ajax({
+                            cache: true,
+                            type: "GET",
+                            url: "/ShipitoCheckout/getKartonItems",
+                            data: {},
+                            success: function (data) {
+
+                                $.each(data, function (id, item) {
+                                    //item.Text = (item.Text.startsWith('سایز') ? ' کارتن پستی ' : '') + item.Text;
+                                    item.Text = item.Text.indexOf('نیاز') > 0 ? 'انتخاب کنید' : item.Text;
+                                    $('#KartonLafaf').append(new Option(item.Text, item.Value, false, false));
+                                });
+                                //$('#KartonLafaf').select2();
+                                $('#KartonLafaf').change(function () {
+                                    detrminBoxDimantion(this);
+                                });
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log('خطا در زمان بارگذاری ابعاد بسته ها.');
+                            }
+                        });
+                    });
+
+                    function detrminBoxDimantion(item) {
+                        if ($(item).val().indexOf('سایر') >= 0) {
+                            $('#dimenationsBox').show();
+                            $('#length').val('');
+                            $('#width').val('')
+                            $('#height').val('');
+                        }
+                        else {
+                            $('#dimenationsBox').hide();
+                        }
+                    }
+
+                    function OpenPackingRequestModal(id) {
+                        $('#packingrequestShipingId').val(id);
+                        $('#packingRequestModal').modal('show');
+                    }
+
+                    function OpenEditModal(id, CollectDate, ShippedDate, DeliveryDate) {
+                        _TypeHistory.shipmentId = id;
+                         _TypeHistory.id = id;
+                        $('#EditShipmentId').val(id);
+                        $('#CollectDate').val((CollectDate == 'null' ? '' : CollectDate));
+                        $('#ShippedDate').val((ShippedDate == 'null' ? '' : ShippedDate));
+                        $('#DeliveryDate').val((DeliveryDate == 'null' ? '' : DeliveryDate));
+
+                        $('#CollectDate').kendoDateTimePicker({
+                            dateInput: true,
+                            format:'yyyy/MM/dd HH:mm:ss',
+                            value: ($('#CollectDate').val() ? new Date($('#CollectDate').val()):'')
+                        });
+
+                        $('#ShippedDate').kendoDateTimePicker({
+                            dateInput: true,
+                            format: 'yyyy/MM/dd HH:mm:ss',
+                            value: ($('#ShippedDate').val() ? new Date($('#ShippedDate').val()):'')
+                        });
+
+                        $('#DeliveryDate').kendoDateTimePicker({
+                            dateInput: true,
+                            format: 'yyyy/MM/dd HH:mm:ss',
+                            value: ($('#DeliveryDate').val() ? new Date($('#DeliveryDate').val()):'')
+                        });
+
+                        $('#EditShipmentModal').modal('show', { backdrop: 'static' });
+                        $('#EditShipmentModal').appendTo("body");
+                    }
+
+
+                    $('#AddPackingRequest').click(function () {
+
+                        if ($('#KartonLafaf').val().indexOf('نیاز') < 0) {
+                            var model = {
+                            length: $('#length').val() ? $('#length').val() : 0,
+                            width: $('#width').val() ? $('#width').val() : 0,
+                            height: $('#height').val() ? $('#height').val() : 0,
+                            kartonSizeItemName: $('#KartonLafaf').val(),
+                            shipmentId: $('#packingrequestShipingId').val(),
+                            orderId: @Model.Id,
+                            customerPhoneNumber: $('#customerPhone').val()
+                        };
+
+
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("RegisterPackingRequest", "MultiShippingCheckout"))",
+                            data: model,
+                            success: function (result) {
+                                alert('با موفقیت ثبت شد');
+                                $('#packingRequestModal').modal('hide');
+                            },
+                            error: function (data) {
+                                alert(data.responseJSON.message);
+                            }
+                         });
+                        }
+
+                    });
+
+
+                    $('#EditShipment').click(function () {
+                        var shipmentID = $('#EditShipmentId').val();
+                        if (!shipmentID) {
+                            $('#EditShipmentId').val('');
+                            $('#EditShipmentModal').modal('hide');
+                            alert('لطفا مجددا سعی کنید');
+                            return;
+                        }
+                        _mExtraField.shipmentId = shipmentID;
+                        _mExtraField.CollectDate = $('#CollectDate').val();
+                        _mExtraField.ShippedDate = $('#ShippedDate').val();
+                        _mExtraField.DeliveryDate = $('#DeliveryDate').val();
+                        //1
+                        if (Radio_yse_mafghod.checked)
+                        {
+                            _mExtraField.Value_mafgho = 1;
+                            if (TxtDescription_mafghod.value == "")
+                            {
+                                alert('توضیحات قسمت مفقود شده را وارد نمایید');
+                                return;
+                            }
+                        }
+                        if (Radio_no_mafghod.checked)
+                        {
+                            _mExtraField.Value_mafgho = 2;
+                              if (TxtDescription_mafghod.value == "")
+                            {
+                                  alert('توضیحات قسمت مفقود شده را وارد نمایید');
+                                  return;
+                            }
+                        }
+                        //_mExtraField.Value_mafgho = $('#input[name=Radio_mafghod]').val();
+                        _mExtraField.Des_mafgho = TxtDescription_mafghod.value;
+                        //2
+                        if (Radio_yse_khesarat.checked)
+                        {
+                            _mExtraField.Value_khesarat = 1;
+                              if (TxtDescription_khesarat.value == "")
+                            {
+                                  alert('توضیحات قسمت غرامت خسارت را وارد نمایید');
+                                  return;
+                            }
+                        }
+                        if (Radio_no_khesarat.checked)
+                        {
+                            _mExtraField.Value_khesarat = 2;
+                             if (TxtDescription_khesarat.value == "")
+                            {
+                                 alert('توضیحات قسمت غرامت خسارت را وارد نمایید');
+                                 return;
+                            }
+                        }
+                        //_mExtraField.Value_khesarat = $('input[name=Radio_khesarat]').val();
+                        _mExtraField.Des_khesarat = TxtDescription_khesarat.value;
+                        //3
+                        if (Radio_yse_khesaratmafgodi.checked)
+                        {
+                            _mExtraField.Value_khesaratmafgodi = 1;
+                             if (TxtDescription_khesaratmafgodi.value == "")
+                            {
+                                 alert('توضیحات قسمت غرامت مفقودی را وارد نمایید');
+                                 return;
+                            }
+                        }
+                        if (Radio_no_khesaratmafgodi.checked)
+                        {
+                            _mExtraField.Value_khesaratmafgodi = 2;
+                             if (TxtDescription_khesaratmafgodi.value == "")
+                            {
+                                 alert('توضیحات قسمت غرامت مفقودی را وارد نمایید');
+                                 return;
+                            }
+                        }
+                        //_mExtraField.Value_khesaratmafgodi = $('input[name=Radio_khesaratmafgodi]').val();
+                        _mExtraField.Des_khesaratmafgodi = TxtDescription_khesaratmafgodi.value;
+                        //4
+                         if (Radio_yse_takhir.checked)
+                        {
+                             _mExtraField.Value_takhir = 1;
+                              if (TxtDescription_takhir.value == "")
+                            {
+                                  alert('توضیحات قسمت غرامت تاخیر را وارد نمایید');
+                                  return;
+                            }
+                        }
+                        if (Radio_no_takhir.checked)
+                        {
+                            _mExtraField.Value_takhir = 2;
+                             if (TxtDescription_takhir.value == "")
+                            {
+                                 alert('توضیحات قسمت غرامت تاخیر را وارد نمایید');
+                                 return;
+                            }
+                        }
+                       // _mExtraField.Value_takhir = $('input[name=Radio_takhir]').val();
+                        _mExtraField.Des_takhir = TxtDescription_takhir.value;
+                        //5
+                         if (Radio_yse_shekayat.checked)
+                        {
+                             _mExtraField.Value_shekayat = 1;
+                              if (TxtDescription_shekayat.value == "")
+                            {
+                                  alert('توضیحات قسمت شکایت را وارد نمایید');
+                                  return;
+                            }
+                        }
+                        if (Radio_no_shekayat.checked)
+                        {
+                            _mExtraField.Value_shekayat = 2;
+                             if (TxtDescription_shekayat.value == "")
+                            {
+                                 alert('توضیحات قسمت شکایت را وارد نمایید');
+                                 return;
+                            }
+                        }
+                        //_mExtraField.Value_shekayat = $('input[name=Radio_shekayat]').val();
+                        _mExtraField.Des_shekayat = TxtDescription_shekayat.value;
+                        _mExtraField.Weight = $('#Weight').val();
+                        var postData = { _data:_mExtraField};
+                        addAntiForgeryToken(postData);
+                        //'shipmentId': shipmentID, 'CollectDate': $('#CollectDate').val(), 'ShippedDate': $('#ShippedDate').val(), 'DeliveryDate':$('#DeliveryDate').val()
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("EditShipment", "MultiShippingCheckout"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.message) {
+                                    if (result.confirm) {
+                                        if (confirm(result.message)) {
+                                            console.log(shipmentID);
+                                            $.ajax({
+                                                cache: false,
+                                                type: "GET",
+                                                url: "@(Url.Action("SendCancelOrderSms", "MultiShippingCheckout"))",
+                                                data: { shipmentId: shipmentID },
+                                                success: function (result) {
+                                                    alert(result.message);
+                                                },
+                                                error: function () {
+                                                    alert('خطا در اجرای عملیات');
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else {
+                                       alert(result.message);
+                                    }
+                                }
+                                if (result.success) {
+                                    $('#EditShipmentModal').modal('hide');
+                                    $('#EditShipmentId').val('');
+                                    var grid = $('#shipments-grid').data('kendoGrid');
+                                    grid.dataSource.read();
+
+                                    TxtDescription_mafghod.value="";
+                                    TxtDescription_khesarat.value="";
+                                    TxtDescription_khesaratmafgodi.value="";
+                                    TxtDescription_takhir.value="";
+                                    TxtDescription_shekayat.value = "";
+                                    $("#Radio_no_shekayat").prop('checked', false);
+                                     $("#Radio_yes_shekayat").prop('checked', false);
+                                     $("#Radio_no_takhir").prop('checked', false);
+                                    $("#Radio_yse_takhir").prop('checked', false);
+                                    $("#Radio_yse_khesaratmafgodi").prop('checked', false);
+                                    $("#Radio_no_khesaratmafgodi").prop('checked', false);
+                                    $("#Radio_yse_khesarat").prop('checked', false);
+                                    $("#Radio_no_khesarat").prop('checked', false);
+                                    $("#Radio_yse_mafghod").prop('checked', false);
+                                     $("#Radio_no_mafghod").prop('checked', false);
+                                }
+                            }
+                        });
+                    });
+                    $('#getNewBrcode').click(function () {
+                        var shipmentID = $('#newTrackingNoShipmentId').val();
+                        if (!shipmentID) {
+                            $('#newTrackingNoShipmentId').val('');
+                            $('#newTrackingNumberModal').modal('hide');
+                            alert('لطفا مجددا سعی کنید');
+                            return;
+                        }
+                        var postData = { 'shipmentId': shipmentID};
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("getNewTrackingNumber", "MultiShippingCheckout"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.message)
+                                    alert(result.message);
+                                if (result.success) {
+                                    $('#newTrackingNumberModal').modal('hide');
+                                    $('#newTrackingNoShipmentId').val('');
+                                    var grid = $('#shipments-grid').data('kendoGrid');
+                                    grid.dataSource.read();
+                                }
+                            }
+                        });
+                    });
+                    $('#deleShipment').click(function () {
+                        var shipmentID = $('#deleteShipmentId').val();
+                        var orderItemId = $('#deleteOrderItemId').val();
+                        var iddis1 = $('#IdDesCancalSelect1').val();
+
+                        if (iddis1==0) {
+                            alert('دلیل کنسلی را انتخاب نمایید');
+                            return;
+                        }
+                        if (!shipmentID || !orderItemId) {
+                            $('#deleteShipmentId').val('');
+                            $('#deleteOrderItemId').val('');
+                            $('#deleteShipmentModal').modal('hide');
+                            alert('لطفا مجددا سعی کنید');
+                            return;
+                        }
+                        var postData = { 'shipmentId': shipmentID, 'orderItemId': orderItemId,'idDescription':iddis1};
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeleteShipment", "MultiShippingCheckout"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.message)
+                                    alert(result.message);
+                                if (result.success) {
+                                    $('#deleteShipmentModal').modal('hide');
+                                    $('#deleteShipmentId').val('');
+                                    $('#deleteOrderItemId').val('');
+                                    var grid = $('#shipments-grid').data('kendoGrid');
+                                    grid.dataSource.read();
+                                }
+                            }
+                        });
+                    });
+                    function ConfirmDeleteShipment(shipmentId, orderItemId) {
+
+                        $('#deleteShipmentId').val(shipmentId);
+                        $('#deleteOrderItemId').val(orderItemId);
+                        $('#deleteShipmentModal').appendTo("body");
+                        $('#deleteShipmentModal').modal('show');
+
+                        //if (orderItemCanceltable != null) {
+                        //    $("#order-item-cancel").data("kendoGrid").destroy();
+                        //}
+                        @*orderItemCanceltable = $('#order-item-cancel').kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@(Url.Action("GetOrderItemsCost", "MultiShippingCheckout"))?shipmentId=" + shipmentId,
+                                        type: "GET",
+                                        dataType: "json",
+                                        data: addAntiForgeryToken
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+                                error: function (e) {
+                                    display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                serverPaging: false,
+                                serverFiltering: false,
+                                serverSorting: false
+                            },
+                            dataBound: function () {
+                                $('#deleteShipmentModal').appendTo("body");
+                                $('#deleteShipmentModal').modal('show');
+                            },
+                            scrollable: false,
+                            sortable: true,
+                            pageable: {
+                                refresh: true,
+                                numeric: false,
+                                previousNext: false,
+                                info: false,
+                                @await Html.PartialAsync("_GridPagerMessages")
+                            },
+                            columns: [
+                                {
+                                    field: "Id",
+                                    title: "#ارسال",
+                                    width: 50
+                                },
+                                {
+                                    field: "WeightCategoryValue",
+                                    title: "WeightCategoryValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "WeightCategoryCost",
+                                    title: "WeightCategoryCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "WeightCategoryPrice",
+                                    title: "WeightCategoryPrice",
+                                    width: 50
+                                },
+                                {
+                                    field: "CartonValue",
+                                    title: "CartonValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "CartonCost",
+                                    title: "CartonCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "SmsValue",
+                                    title: "SmsValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "SmsCost",
+                                    title: "SmsCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "SmsPrice",
+                                    title: "SmsPrice",
+                                    width: 50
+                                },
+                                {
+                                    field: "PrintLogoValue",
+                                    title: "PrintLogoValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "PrintLogoCost",
+                                    title: "PrintLogoCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "PrintLogoPrice",
+                                    title: "PrintLogoPrice",
+                                    width: 50
+                                },
+                                {
+                                    field: "CompulsoryInsuranceCost",
+                                    title: "CompulsoryInsuranceCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "CompulsoryInsurancePrice",
+                                    title: "CompulsoryInsurancePrice",
+                                    width: 50
+                                },
+                                {
+                                    field: "InsuranceValue",
+                                    title: "InsuranceValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "InsuranceCost",
+                                    title: "InsuranceCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "InsurancePrice",
+                                    title: "InsurancePrice",
+                                    width: 50
+                                },
+                                {
+                                    field: "AccessPrinterValue",
+                                    title: "AccessPrinterValue",
+                                    width: 50
+                                },
+                                {
+                                    field: "AccessPrinterCost",
+                                    title: "AccessPrinterCost",
+                                    width: 50
+                                },
+                                {
+                                    field: "AccessPrinterPrice",
+                                    title: "AccessPrinterPrice",
+                                    width: 50
+                                }],
+
+                        });*@
+
+
+                    }
+                    function changeBarcode(shipmentId) {
+                        $('#newTrackingNoShipmentId').val(shipmentId);
+                        $('#newTrackingNumberModal').modal('show',{ backdrop: 'static' });
+                        $('#newTrackingNumberModal').appendTo("body");
+                    }
+
+                    var customerPhoneNumber = '';
+
+                    function showAddress(shipmentId) {
+                        var postData = { 'shipmentId': shipmentId };
+                        addAntiForgeryToken(postData);
+
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("getShipmentAddressForEdit", "MultiShippingCheckout"))",
+                            data: postData,
+                            success: function (result) {
+                                if (result.address) {
+                                    var item = result.address;
+                                    $('#bnt_EditAddress').attr('href', `/Admin/Order/AddressEdit?addressId=${item.Id}&orderId=@Model.Id`);
+
+                                    $('#addressContainer').html('');
+
+                                    var addressItem = $(
+                                        `<table class="table table-hover table-bordered" style="max-width: 400px;">
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.FullName")
+		                                    </td>
+		                                    <td>
+			                                    ${item.FirstName} ${item.LastName}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Email")
+		                                    </td>
+		                                    <td>
+			                                    ${item.Email}
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Phone")
+		                                    </td>
+		                                    <td>
+			                                    ${item.PhoneNumber}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Fax")
+		                                    </td>
+		                                    <td>
+			                                    ${item.FaxNumber ? item.FaxNumber:''}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Company")
+		                                    </td>
+		                                    <td>
+			                                    ${item.Company ? item.Company:''}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Address1")
+		                                    </td>
+		                                    <td>
+			                                    ${item.Address1}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.City")
+		                                    </td>
+		                                    <td>
+			                                    ${item.City?item.City:''}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.StateProvince")
+		                                    </td>
+		                                    <td>
+			                                    ${item.StateProvinceName}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.ZipPostalCode")
+		                                    </td>
+		                                    <td>
+			                                    ${item.ZipPostalCode}
+		                                    </td>
+	                                    </tr>
+	                                    <tr>
+		                                    <td>
+			                                    @T("Admin.Orders.Address.Country")
+		                                    </td>
+		                                    <td>
+			                                    ${item.CountryName}
+		                                    </td>
+	                                    </tr>
+                                    </table>`);
+                                    $('#addressContainer').append(addressItem);
+                                    $('#MasterAddressContainer').show();
+                                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                                    return;
+                                }
+                                alert(data.message);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('خطا در زمان دریافت آدرس. لطفا شبکه خود را بررسی کنید');
+                            }
+                        });
+                    }
+                    //details grid
+                    function detailInit(e) {
+                        $("<div/>").appendTo(e.detailCell).kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "@Html.Raw(Url.Action("ShipmentsItemsByShipmentId", "Order"))?shipmentId=" + e.data.Id,
+                                        type: "POST",
+                                        dataType: "json",
+                                        data: addAntiForgeryToken
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+                                error: function (e) {
+                                    display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                serverPaging: true,
+                                serverFiltering: true,
+                                serverSorting: true
+                            },
+                            scrollable: false,
+                            sortable: true,
+                            pageable: {
+                                refresh: true,
+                                numeric: false,
+                                previousNext: false,
+                                info: false,
+                                @await Html.PartialAsync("_GridPagerMessages")
+                            },
+                            columns: [
+                                {
+                                    field: "ProductName",
+                                    title: "@T("Admin.Orders.Shipments.Products.ProductName")",
+                                    width: 400
+                                }, {
+                                    field: "ShippedFromWarehouse",
+                                    title: "@T("Admin.Orders.Shipments.Products.Warehouse")",
+                                    width: 150
+                                }, {
+                                    field: "QuantityInThisShipment",
+                                    title: "@T("Admin.Orders.Shipments.Products.QtyShipped")",
+                                    width: 150
+                                }, {
+                                    field: "ItemWeight",
+                                    title: "@T("Admin.Orders.Shipments.Products.ItemWeight")",
+                                    width: 150
+                                }, {
+                                    field: "ItemDimensions",
+                                    title: "@T("Admin.Orders.Shipments.Products.ItemDimensions")",
+                                    width: 150
+                                }
+                            ]
+                        });
+                    }
+
+
+
+
+                </script>
+
+                <script>
+
+
+                    $('#ShowHistoryNoteOrder_mafghod').click(function () {
+                          _TypeHistory.type =1;
+                        _TypeHistory.id = $('#EditShipmentId').val();
+
+                        $("#History-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("HistoryList", "HistoryNoteOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalDataHistory
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+                                        {
+                                            field: "Status",
+                                            title: "وضعیت",
+                                            width: 50
+                                        }
+                                          ,
+
+                                        {
+                                            field: "Text",
+                                            title: "توضیحات",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "User",
+                                            title: "کاربر ثبت کننده",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Date",
+                                            title: "تاریخ ثبت",
+                                            width: 70
+
+                                        }
+
+                                    ]
+                                });
+                    });
+
+
+
+                       $('#ShowHistoryNoteOrder_khesarat').click(function () {
+                          _TypeHistory.type =2;
+                         _TypeHistory.id = $('#EditShipmentId').val();
+
+                        $("#History-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("HistoryList", "HistoryNoteOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalDataHistory
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+                                        {
+                                            field: "Status",
+                                            title: "وضعیت",
+                                            width: 50
+                                        }
+                                          ,
+
+                                        {
+                                            field: "Text",
+                                            title: "توضیحات",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "User",
+                                            title: "کاربر ثبت کننده",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Date",
+                                            title: "تاریخ ثبت",
+                                            width: 70
+
+                                        }
+
+                                    ]
+                                });
+                    });
+
+
+                       $('#ShowHistoryNoteOrder_khesaratmafgodi').click(function () {
+                          _TypeHistory.type =3;
+                         _TypeHistory.id = $('#EditShipmentId').val();
+
+                        $("#History-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("HistoryList", "HistoryNoteOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalDataHistory
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+                                        {
+                                            field: "Status",
+                                            title: "وضعیت",
+                                            width: 50
+                                        }
+                                          ,
+
+                                        {
+                                            field: "Text",
+                                            title: "توضیحات",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "User",
+                                            title: "کاربر ثبت کننده",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Date",
+                                            title: "تاریخ ثبت",
+                                            width: 70
+
+                                        }
+
+                                    ]
+                                });
+                    });
+
+                       $('#ShowHistoryNoteOrder_takhir').click(function () {
+                          _TypeHistory.type =4;
+                         _TypeHistory.id = $('#EditShipmentId').val();
+
+                        $("#History-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("HistoryList", "HistoryNoteOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalDataHistory
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+                                        {
+                                            field: "Status",
+                                            title: "وضعیت",
+                                            width: 50
+                                        }
+                                          ,
+
+                                        {
+                                            field: "Text",
+                                            title: "توضیحات",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "User",
+                                            title: "کاربر ثبت کننده",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Date",
+                                            title: "تاریخ ثبت",
+                                            width: 70
+
+                                        }
+
+                                    ]
+                                });
+                    });
+
+
+                       $('#ShowHistoryNoteOrder_shekayat').click(function () {
+                          _TypeHistory.type =5;
+                         _TypeHistory.id = $('#EditShipmentId').val();
+
+                        $("#History-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("HistoryList", "HistoryNoteOrder"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalDataHistory
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+                                        {
+                                            field: "Status",
+                                            title: "وضعیت",
+                                            width: 50
+                                        }
+                                          ,
+
+                                        {
+                                            field: "Text",
+                                            title: "توضیحات",
+                                            width: 150
+                                        }
+                                        ,
+
+                                        {
+                                            field: "User",
+                                            title: "کاربر ثبت کننده",
+                                            width: 70
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Date",
+                                            title: "تاریخ ثبت",
+                                            width: 70
+
+                                        }
+
+                                    ]
+                                });
+                       });
+
+
+
+
+
+
+
+
+
+                    function additionalDataHistory()
+                        {
+                                  var data = {
+                                      ShippingId:_TypeHistory.id,
+                                      type: _TypeHistory.type
+                                             };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+                </script>
+
+
+            </div>
+
+            @if (Model.CanAddNewShipments)
+            {
+                <div class="panel-footer">
+                    <button type="submit" id="btnAddNewShipment" name="btnAddNewShipment" onclick="javascript:setLocation('@(Url.Action("AddShipment", "Order", new {orderId = Model.Id}))'); return false;" class="btn btn-primary">
+                        @T("Admin.Orders.Shipments.AddNew")
+                    </button>
+                </div>
+            }
+        </div>
+
+
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.Orders.ShippingInfo.NotRequired")
+            </div>
+        </div>
+    }
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_details_shipping_bottom", additionalData = Model.Id })
+</div>

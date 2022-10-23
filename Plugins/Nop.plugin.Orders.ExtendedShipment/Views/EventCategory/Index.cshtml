@@ -1,0 +1,176 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    //page title
+    ViewBag.Title = "وضعیت نوع سفارشات";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Products.EventCategories");
+}
+<style>
+    .categoryBox {
+        margin-top: 15px;
+    }
+
+    .categoryCheckBox {
+        border: 1px solid;
+    }
+</style>
+<link href="~/Plugins/Orders.MultiShipping/Scripts/select2.min.css" rel="stylesheet" />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        وضعیت نوع سفارشات
+    </h1>
+</div>
+
+<div class="content">
+
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-8">
+                            <label class="control-label">وضعیت سفارش</label>
+                            <select class="form-control valid" id="category" name="category" data-val="true" placeholder="انتخاب کنید" onchange="categoryChanged()"></select>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div id="statusDiv" class="col-md-10 categoryBox">
+
+                    </div>
+                    <div class="col-md-1"></div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        <button style="margin-bottom: 20px; margin-top:20px; width: 100%;" id="addCustomerVehicle" name="RegisterDisCountPlanToCustomer" class="btn btn-success " type="button" onclick="postCategoryEvent()"> ثبت <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script src="~/Themes/Shipito/js/select2.min.js?ver=39"></script>
+<script>
+    $(function () {
+        //initForm("phoneOrderForm");
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: '/ExtendedOrder/GetOrderStatus',
+            data: {},
+            success: function (data) {
+                $(`#category`).html('');
+                $(`#category`).append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(data, function (id, item) {
+                    $(`#category`).append(new Option(item.Text, item.Value, false, false));
+                });
+                $(`#category`).select2();
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                $(`#ServiceId`).css('border', '1px solid red');
+            }
+        });
+
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: 'GetAllCategories',
+            data: {},
+            success: function (data) {
+                for (var row in data) {
+                    $('#statusDiv').append(`<div class="categoryCheckBox col-md-4">
+                            <label class="control-label">`+ data[row].Name + `</label>
+                            <input class="categoryCheckboxInput" data-id="`+ data[row].Id + `" type="checkbox" />
+                        </div>`);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+            }
+        });
+    });
+
+    function categoryChanged() {
+        var statusId = $(`#category`).val();
+        disableSubmit();
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: 'GetCategoriesByStatus?statusId=' + statusId,
+            data: {},
+            success: function (data) {
+                $('.categoryCheckboxInput').prop('checked', false);
+                for (var i in data) {
+                    $('.categoryCheckboxInput[data-id="' + data[i].CategoryId + '"]').prop('checked', true);
+                }
+                enableSubmit();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                enableSubmit();
+            }
+        });
+    }
+
+
+    function postCategoryEvent() {
+        var statusId = $(`#category`).val();
+        if (!statusId || statusId == 0) {
+            alert('لطفا وضعیت را انتخاب کنید');
+            return
+        } 
+        var idArray = $('.categoryCheckboxInput:checked').map((index, el) => {
+            return $(el).data('id');
+        }).get();
+        disableSubmit();
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: 'UpdateCategoryStatus',
+            data: { StatusId: statusId, CategoryIds: idArray },
+            success: function (data) {
+                alert('ثبت انجام شد');
+                enableSubmit();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve ');
+                enableSubmit();
+            }
+        });
+    }
+
+    function disableSubmit() {
+        $('#addCustomerVehicle').prop('disabled', 'disabled');
+    }
+
+    function enableSubmit() {
+        $('#addCustomerVehicle').prop('disabled', '');
+    }
+
+
+</script>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Orders",
+  "FriendlyName": "Bulk order by excel",
+  "SystemName": "Orders.BulkOrder",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "karimy.ehsan@gmail.com(E.Karimi)",
+  "DisplayOrder": 4,
+  "FileName": "Nop.Plugin.Orders.BulkOrder.dll",
+  "Description": ""
+}

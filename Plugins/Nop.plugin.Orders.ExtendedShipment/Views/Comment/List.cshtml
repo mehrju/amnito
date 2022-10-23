@@ -1,0 +1,131 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.Polls").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Polls");
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Admin.ContentManagement.Polls")
+    </h1>
+    @*<div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_poll_list_buttons" })
+    </div>*@
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="polls-grid"></div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#polls-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("GetComments", "ManageComment"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors"
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)],
+                                    @await Html.PartialAsync("_GridPagerMessages")
+                                },
+                                editable: {
+                                    confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [
+                                    {
+                                        field: "TrackingCode",
+                                        title: "کد رهگیری"
+                                    },
+                                {
+                                    field: "Description",
+                                    title: "توضیحات"
+                                }, {
+                                    field: "Rate",
+                                    title: "امتیاز"
+                                }, {
+                                    field: "Id",
+                                    title: "تایید",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                    template: '#if(!IsPublished) {#' +
+                                        '<button class="btn btn-default" onclick="ChangeIsPublished(this,#=Id#,true)">تایید</button>' +
+                                    '#}#'
+                            },
+                            {
+                                    field: "Id",
+                                    title: "عدم تایید",
+                                    width: 100,
+                                    headerAttributes: { style: "text-align:center" },
+                                    attributes: { style: "text-align:center" },
+                                template: '#if(IsPublished) {#' +
+                                        '<button class="btn btn-default" onclick="ChangeIsPublished(this,#=Id#,false)">عدم تایید</button>' +
+                                    '#}#'
+                            }
+                                ]
+                            });
+                        });
+
+
+                        function ChangeIsPublished(btn,id, isPublish) {
+                            var url = '@Url.Action("SetPublish", "ManageComment")'
+                            $(btn).prop('disabled', 'disabled');
+
+                            $.ajax({
+                                url: url,
+                                type: 'Post',
+                                dataType: "json",
+                                data: { id, isPublish },
+                                success: function (data) {
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    alert('خطا در زمان انجام عملیات')
+                                    $(btn).prop('disabled', '');
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

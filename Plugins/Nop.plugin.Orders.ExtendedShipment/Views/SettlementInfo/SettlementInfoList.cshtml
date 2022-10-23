@@ -1,0 +1,273 @@
+@model Nop.plugin.Orders.ExtendedShipment.Models.SettlementInfoLis.SettlementInfoLisModel
+
+{
+    @inject IStoreService storeService
+    @inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Nop.Web.Framework
+    @using Nop.Web.Framework.UI;
+    @using Nop.Services.Stores;
+    @using Nop.Services.Localization;
+    @using Nop.Core.Domain.Payments;
+    @using Nop.Core;
+    @using Nop.Core.Domain.Orders;
+    @using Nop.Services
+    @inject ILocalizationService _localizationService
+@inject IWorkContext _workContext;
+}
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = 50;
+    var gridPageSizes = "10,50,100,500";
+    var stores = storeService.GetAllStores();
+
+    //page title
+    ViewBag.Title = T("Admin.Orders").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Customer.SettlementInfo");
+}
+<style>
+    .CODclass {
+        background-color: cadetblue !important
+    }
+
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .modal-dialog {
+        margin: 2px auto;
+        z-index: 1100 !important;
+    }
+</style>
+<form asp-controller="Order" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            لیست تسویه حساب ها
+        </h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="FileId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="FileId" name="FileId" type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="UserName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="UserName" name="UserName" type="text" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="OrderId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="OrderId" name="OrderId" type="text" value="">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="DepositDateFrom" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="DepositDateFrom" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="DepositDateTo" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="DepositDateTo" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SettlementDateFrom" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SettlementDateFrom" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SettlementDateTo" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SettlementDateTo" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="text-align:left;padding-left:100px">
+                                <button type="button" id="search-orders" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="orders-grid"></div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#orders-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("getBulkOrdersList", "SettlementInfo"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        requestEnd: function (e) {
+                                            if (e.type == "read") {
+                                                var response = e.response;
+                                            }
+                                        },
+                                        error: function(e) {
+                                            this.cancelChanges();
+                                        },
+
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [
+                                         {
+                                            field: "OrderId",
+                                            title: "شماره سفارش",
+                                            width: 80
+                                        }, {
+                                            field: "Message",
+                                            title: "نام مشتری",
+                                            width: 200
+                                        },
+                                        {
+                                            field: "Value",
+                                            title: "مبلغ",
+                                            width: 80
+                                        }, {
+                                            field: "PaymentFileNo",
+                                            title: "شماره فایل",
+                                            width: 50
+                                        },
+                                        {
+                                           field: "SettlementDate",
+                                            title: "تاریخ تسویه",
+                                            width: 150,
+                                            type: "date",
+                                            format: "{0:G}"
+                                        },
+                                        {
+                                           field: "WalletOprationDate",
+                                            title: "واریز به کیف پول",
+                                            width: 150,
+                                            type: "date",
+                                            format: "{0:G}"
+                                        },
+                                        {
+                                           field: "Username",
+                                            title: "نام کاربری",
+                                            width: 100
+                                        },
+                                        {
+                                            field: "FullName",
+                                            title: "مشتری",
+                                            width: 100
+                                        },{
+                                            field: "RefrenceCode",
+                                            title: "کد یمتا سمت مشتری",
+                                            width: 100
+                                        }
+                                    ]
+                                } );
+                            });
+                        </script>
+
+                        <script type="text/javascript">
+                            var reportAggregates = "";
+
+                                $(document).ready(function () {
+                                //search button
+                                $('#search-orders').click(function () {
+                                    //search
+                                    var grid = $('#orders-grid').data('kendoGrid');
+                                    grid.dataSource.page(1); //new search. Set page size to 1
+                                    //grid.dataSource.read(); we already loaded the grid above using "page" function
+                                    //clear selected checkboxes
+                                    return false;
+                                });
+
+
+
+                            });
+
+                            function additionalData() {
+                                var data = {
+                                    FileId: $('#@Html.IdFor(model => model.FileId)').val(),
+                                    UserName: $('#@Html.IdFor(model => model.UserName)').val(),
+                                    OrderId: $('#@Html.IdFor(model => model.OrderId)').val(),
+                                    DepositDateFrom: $('#@Html.IdFor(model => model.DepositDateFrom)').val(),
+                                    DepositDateTo: $('#@Html.IdFor(model => model.DepositDateTo)').val(),
+                                    DepositDateTo: $('#@Html.IdFor(model => model.DepositDateTo)').val(),
+                                    SettlementDateFrom: $('#@Html.IdFor(model => model.SettlementDateFrom)').val(),
+                                    SettlementDateTo: $('#@Html.IdFor(model => model.SettlementDateTo)').val(),
+                                };
+                                addAntiForgeryToken(data);
+                                return data;
+                            }
+                            function onDataBound(e) {
+                            }
+
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

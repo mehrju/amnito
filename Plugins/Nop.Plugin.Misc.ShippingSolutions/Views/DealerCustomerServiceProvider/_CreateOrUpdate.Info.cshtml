@@ -1,0 +1,50 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_Dealer_Customer_ServiceProvider
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+}
+
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="StateMonth_Day" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="StateMonth_Day" asp-required="true" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="MaxCountpackage" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="MaxCountpackage" asp-required="true" />
+                    <span asp-validation-for="MaxCountpackage"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="MaxWeight" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="MaxWeight" asp-required="true" />
+                    <span asp-validation-for="MaxWeight"></span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

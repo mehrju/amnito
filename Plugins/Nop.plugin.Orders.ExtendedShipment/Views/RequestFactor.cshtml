@@ -1,0 +1,381 @@
+﻿@model Nop.plugin.Orders.ExtendedShipment.Models.FactorRequestModel
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = " ---------------------- ";
+
+    //active menu item (system name)
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+
+}
+<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+<style>
+    .select2-selection {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: super;
+        border: 1px solid #1d1d1d;
+        border-radius: 3px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-selection__choice {
+        color: black !important;
+    }
+</style>
+
+<div style="padding:10px;">
+    <div class="row" style="margin-top:20px;">
+        <input name="requestFactorId" hidden asp-for="requestFactorId"/>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="dateFrom" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="dateFrom" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-label asp-for="dateTo" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="dateTo" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label for="customers">
+                        مشتری
+                    </label>
+                </div>
+                <div class="col-md-8">
+                    <select id="customers" name="customers" class="select3-placeholer form-control" data-placeholder="انتخاب مشتری"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <button type="button" id="search-requestfactors" class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                    @T("Admin.Common.Search")
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="customer-requestfactors-grid"></div>
+</div>
+
+
+
+
+<div class="modal fade" id="RequestFactorModal" tabindex="-1" role="dialog" aria-labelledby="RequestFactorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RequestFactorModalLabel">درخواست فاکتور</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input id="Id" hidden type="text" value="">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="FirstName">نام</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="FirstName" disabled
+                                           name="FirstName" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="LastName">نام خانوادگی</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="LastName" disabled
+                                           name="LastName" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="NationalCode">شماره ملی</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="NationalCode" disabled
+                                           name="NationalCode" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="EconomicCode">کد اقتصادی</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="EconomicCode" disabled
+                                           name="EconomicCode" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="ForiegnCode">کد خارجی</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="ForiegnCode" disabled
+                                           name="ForiegnCode" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="ZipPostalCode">کد پستی</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input class="form-control text-box single-line" id="ZipPostalCode" disabled
+                                           name="ZipPostalCode" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label" for="Address">آدرس</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea class="form-control text-box single-line" id="Address" disabled
+                                           name="Address" type="text" value=""></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="EditOrderId" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                <button type="button" id="RequestFactor" onclick="btnSubmitRequestFactor()" class="btn btn-primary">تایید</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $('#customers').select2({
+                        width:'100%',
+                        placeholder: "جستجو نام کاربری",
+			            minimumInputLength: 4,
+			            allowClear: true,
+			            multiple: true,
+                        ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+                            url: '@Url.Action("Getcustomers", "ExtendedCustomer")',
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                var data = { 'searchtext': term.term };
+                                addAntiForgeryToken(data);
+                                return data;
+                            },
+                            results: function (data, page) { // parse the results into the format expected by Select2.
+                                debugger;                    // since we are using custom formatting functions we do not need to alter the remote JSON data
+                                return { results: data };
+                            },
+                            cache: true
+                        },
+                        dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+        });
+
+
+        $('#search-requestfactors').click(function () {
+            debugger;
+                        var d1 = persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val());
+                        var d2 = persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val());
+
+                        var grid = $('#customer-requestfactors-grid').data('kendoGrid');
+						grid.dataSource.page(1); //new search. Set page size to 1
+		});
+
+        $("#customer-requestfactors-grid").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    url: "@Url.Action("GridRequestFactor", "ExtendedCustomer")",
+                                    type: "POST",
+                                    dataType: "json",
+									data: additionalData
+                                }
+                            },
+                            schema: {
+                                data: "Data",
+                                total: "Total",
+                                errors: "Errors"
+                            },
+                            error: function(e) {
+                                display_kendoui_grid_error(e);
+                                // Cancel the changes
+                                this.cancelChanges();
+                            },
+                            pageSize: @(defaultGridPageSize),
+                            serverPaging: true,
+                            serverFiltering: true,
+                            serverSorting: true
+                        },
+                        pageable: {
+                            refresh: true,
+                            pageSizes: [@(gridPageSizes)],
+                            @await Html.PartialAsync("_GridPagerMessages")
+                        },
+                        editable: {
+                            confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                            mode: "inline"
+                        },
+                        scrollable: false,
+                        columns: [
+                            {
+                                field: "Id",
+                            title: "شناسه"
+                        },
+                            {
+                                field: "CustomerName",
+                                title: "نام مشتری"
+                            },
+                            {
+                                field: "ShamsiCreatedDate",
+                                title: "تاریخ درخواست"
+                            },
+                            {
+                                field: "ConfirmState",
+                                title: "وضعیت درخواست"
+                            },
+                            {
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template: `<a data-value="#=Id#" class="btn btn-success" onclick="funRequestDetails(this)"  title="تعیین وضعیت"><i class="fa fa-eye"></i></a>`,
+                                title: "مشاهده جزئیات",
+                                width: 80
+                            }
+                        ]
+					});
+
+    });
+    function funRequestDetails(btn) {
+       var Id = $(btn).attr('data-value');
+        $('#Id').val(Id);
+        $('#FirstName').val("");
+        $('#LastName').val("");
+        $('#NationalCode').val("");
+        $('#EconomicCode').val("");
+        $('#ForiegnCode').val("");
+        $('#ZipPostalCode').val("");
+        $('#Address').val("");
+
+        $('#RequestFactorModalLabel').html("در حال بارگذاری");
+
+        $('#RequestFactorModal').modal('show', { backdrop: 'static' });
+        var postData = { requestFactorId: Id };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "@(Url.Action("RequestFactorDetails", "ExtendedCustomer"))",
+            data: postData,
+            success: function (response) {
+                $(`#RequestFactorModalLabel`).html("درخواست فاکتور");
+                $('#FirstName').val(response.FirstName);
+                $('#LastName').val(response.LastName);
+                $('#NationalCode').val(response.NationalCode);
+                $('#EconomicCode').val(response.EconomicCode);
+                $('#ForiegnCode').val(response.ForiegnCode);
+                $('#ZipPostalCode').val(response.ZipPostalCode);
+                $('#Address').val(response.Address);
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.error);
+            }
+        });
+
+
+    }
+    function btnSubmitRequestFactor()
+    {
+        var postData = { requestFactorId: $('#Id').val(), description: $('#description').val() };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.Action("SubmitRequestFactor", "ExtendedCustomer"))",
+            data: postData,
+            success: function (result) {
+                if (result.message)
+                    alert(result.message);
+                $('#RequestFactorModal').modal('hide');
+            }
+        });
+    }
+    function additionalData() {
+        var data = {
+            dateFrom: persianToEnglish($('#@Html.IdFor(model => model.dateFrom)').val()),
+            dateTo: persianToEnglish($('#@Html.IdFor(model => model.dateTo)').val()),
+            customers: ($('#customers').val() != null ? $('#customers').val().join(',') : ''),
+            requestFactorId: $(`#requestFactorId`).val()
+            };
+        firstRead = false;
+        //console.dir(data);
+        addAntiForgeryToken(data);
+        return data;
+    }
+    function persianToEnglish(input) {
+        var inputstring = input;
+        var persian = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+        var english = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        for (var i = 0; i < 10; i++) {
+            var regex = new RegExp(persian[i], 'g');
+            inputstring = inputstring.toString().replace(regex, english[i]);
+        }
+        return inputstring;
+    }
+</script>

@@ -1,0 +1,99 @@
+﻿@{
+    int ScriptVersion = 42;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Shipito/js/jquery.validate.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Shipito/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/bootstrap.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/popper.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/select2.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.mmenu.all.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/owl.carousel.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/jquery.countdown.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/custom.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/common.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/notify.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/main-dashboard.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Shipito/js/pagination.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/bridge.js?ver=" + ScriptVersion);
+    @*@RenderSection("DashboardScripts", required: false)*@
+}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+	<title>@Html.NopTitle()</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="shortcut icon" href="" type="image">
+	<meta name="robots" content="index, follow" />
+	<meta name="description" content="@(Html.NopMetaDescription())" />
+	<meta name="keywords" content="@(Html.NopMetaKeywords())" />
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123749803-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', 'UA-123749803-3');
+	</script>
+	<link rel="stylesheet" href="~/Themes/Shipito/css/bootstrap.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/select2.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/all.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/jquery.mmenu.all.css?ver=@(ScriptVersion)">
+
+	<link rel="stylesheet" href="~/Themes/Shipito/css/flexslider.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/fontiran.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/iranSans.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/pagination.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/fontawesome5_10_2/css/fontawesome.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/font-awesome-animation.min.css?ver=@(ScriptVersion)">
+
+	<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+	<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+	@RenderSection("DashboardStyles", required: false)
+
+	@Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+	@Html.NopScripts(this.Url, ResourceLocation.Head, false)
+
+</head>
+@RenderBody()
+@Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+@Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+
+</html>
+
+
+<script>
+	function alert(msg) {
+		swal({
+			title: "",
+			text: msg,
+			confirmButtonText: "تایید"
+		});
+	}
+
+    //window.confirm = function (data, title, callback) {
+    //    if (typeof title == 'function') {
+    //        callback = title;
+    //        title = "";
+    //    }
+
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "بلی",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //            setTimeout(function () {
+    //                callback(isConfirm);
+    //            }, 300);
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+</script>

@@ -1,0 +1,400 @@
+﻿@model FooterModel
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Nop.Core.Domain.Customers;
+@inject IWorkContext workContext;
+@{
+	bool isAgent = workContext.CurrentCustomer.IsInCustomerRole("mini-Administrators");
+}
+<footer id="footer" class="footer1">
+	<div class="main-footer widgets-dark typo-light" style="background:#4a2581;">
+		<div class="container" style="max-width: 85%;">
+			<div class="row">
+				<div class="col-2">
+					<div class="widget no-box">
+					<h5 class="widget-title">ارتباط با ما<span></span></h5>
+					<div class="item">
+						<label>آدرس:</label>
+						<span>خیابان خواجه عبداله انصاری - کوچه چگینی بیستم کوچه جوانه نبش کوچه فرهاد</span>
+					</div>
+					<div class="item">
+						<label>شماره تماس:</label>
+						<span>02191090926</span>
+
+					</div>
+				</div>
+				</div>
+
+				<!-- Modal -->
+				<div id="id10" class="w3-modal ">
+					<div class="w3-modal-content w3-animate-top w-50">
+						<header class="w3-container">
+
+							<span onclick="document.getElementById('id10').style.display='none'"
+								  class="w3-button w3-display-topleft" style="color: black;">&times;</span>
+							<h4 class="modal-title" style="color: black;">خدمات پستی</h4>
+						</header>
+						<hr style="border-top: 1px solid #f79f19 ; margin: 10px;" />
+
+						<div class="w3-container row">
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="dtc">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/پست بار.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس پست بار2.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="postex">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/امنیتو.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس امنیتو2.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="pde">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/pde.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/pde1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="tpg">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/tpg.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/tpg1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="snapp">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/آسمان آبی.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/آسمان آبی 1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="oBar">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/اسنپ.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/اسنپ1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="persia">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/اوبار.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/اوبار1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="postBar">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/پرشیا.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/پرشیا1.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="chaPar">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/چاپار.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس چاپار2.png" />
+								</a>
+							</div>
+							<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4">
+								<a class="pRelative" href="#dropdownMenu" id="parBox">
+									<img class="menuHome img1" src="~/Themes/postexNew/images/postServices/1/یارباکس.png" />
+									<img class="menuHome img2" src="~/Themes/postexNew/images/postServices/2/موس یارباکس2.png" />
+								</a>
+							</div>
+						</div>
+
+						<hr style="border-top: 1px solid #f79f19; margin: 10px;" />
+						<footer class="w3-container">
+							<button class="button btn js-btn-prev" type="button" title="Prev"
+									onclick="document.getElementById('id10').style.display='none'">
+								خروج<p></p>
+							</button>
+						</footer>
+					</div>
+				</div>
+
+				<div class="col-2">
+					<div class="widget no-box">
+						<h5 class="widget-title"> @T("Footer.CustomerService")<span></span></h5>
+						<ul class="thumbnail-widget">
+							@if (isAgent)
+							{
+								<li>
+									<div class="thumb-content">
+										<a target="_blank" href="https://peykhub.com/index.php/charge-wallet/">نحوه شارژ کیف پول نماینده</a>
+									</div>
+								</li>
+							}
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://postex.ir/api/postexApi.zip">API مستندات</a>
+								</div>
+							</li>
+						@*	@foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn2).ToList())
+							{
+								<li>
+									<div class="thumb-content">
+										<a target="_blank" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName },"https")">@topic.Name</a>
+									</div>
+								</li>
+							}*@
+
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://mag.peykhub.ir">آکادمی آموزش</a>
+								</div>
+							</li>
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard/FAQ">سوالات متداول</a>
+								</div>
+							</li>
+							@*<li>
+									<div class="thumb-content"><a href="register.html">ثبت نام</a></div>
+								</li>
+								<li>
+									<div class="thumb-content"><a href="#rahgiri">رهگیری</a></div>
+								</li>
+								<li>
+									<div class="thumb-content"><a href="anbooh.html">سفارش انبوه</a></div>
+								</li>
+								<li>
+									<div class="thumb-content"><a href="ticket.html">درخواست پشتیبانی</a></div>
+								</li>*@
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-2">
+					<div class="widget no-box">
+						<h5 class="widget-title">@T("Footer.MyAccount")<span></span></h5>
+						<ul class="thumbnail-widget">
+							@foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn3).ToList())
+							{
+								<li>
+									<div class="thumb-content">
+										<a href="@Url.RouteUrl("Topic", new { SeName = topic.SeName },"https")">@topic.Name</a>
+									</div>
+								</li>
+							}
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard">پیشخوان</a>
+								</div>
+							</li>
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard/Orders">لیست سفارشات</a>
+								</div>
+							</li>
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard/CustomerInfo">ویرایش حساب کاربری</a>
+								</div>
+							</li>
+							@*<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard/Services">خدمات</a>
+								</div>
+							</li>*@
+							<!--<li>
+							<div class="thumb-content">-->
+							@*<a target="_blank" href="#">حسابداری</a>*@
+							<!--<a target="_blank" href="https://forms.gle/JoZGUmHPfbeYD8zm7">نظرسنجی</a>
+							</div>
+							</li>-->
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="#">حسابداری</a>
+								</div>
+							</li>
+							<li>
+								<div class="thumb-content">
+									<a target="_blank" href="https://peykhub.com/Dashboard/support">تیکت</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-2">
+					<div class="widget no-box">
+						<h5 class="widget-title">شبکه اجتماعی<span></span></h5>
+						<ul class="thumbnail-widget">
+							
+							<li>
+								<div class="thumb-content">
+									<a href="https://www.instagram.com/peykhub/">
+										<i class="fab fa-instagram"></i>
+										اینستاگرام
+									</a>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-1">
+
+					<div class="widget no-box">
+
+						<div class="item">
+							<a target="_blank" href="https://trustseal.enamad.ir/?id=142304&amp;Code=6huWn4FCkfHhj47fOW3L">
+								<div class="enamad-card">
+									<img src="https://Trustseal.eNamad.ir/logo.aspx?id=142304&amp;Code=6huWn4FCkfHhj47fOW3L" alt="" style="cursor:pointer" id="6huWn4FCkfHhj47fOW3L">
+								</div>
+							</a>
+
+						</div>
+						@*<div class="item">
+								<a>
+									<div class="enamad-card">
+										<img id="jxlzesgtnbqejxlzesgtrgvjsizp" style="cursor:pointer;height:auto;"  alt="logo-samandehi" src="https://logo.samandehi.ir/logo.aspx?id=1021039&p=nbpdlymaodrfnbpdlymaqftibsiy">
+									</div>
+								</a>
+							</div>*@
+
+					</div>
+				</div>
+
+			<div class="col-1">
+				<div class="widget no-box">
+
+					<div class="item">
+						<img referrerpolicy='origin' id='nbqejzpergvjnbqejzpewlao' style='cursor:pointer' onclick='window.open("https://logo.samandehi.ir/Verify.aspx?id=273274&p=uiwkjyoexlaouiwkjyoeaods", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt='logo-samandehi' src='https://logo.samandehi.ir/logo.aspx?id=273274&p=odrfyndtqftiodrfyndtshwl' />
+
+					</div>
+
+				</div>
+			</div>
+			
+			
+			</div>
+
+		</div>
+		
+			
+	</div>
+	<div class="backToTop">
+		<a href="#" id="back-to-top" class="show">
+			<i class="fa fa-arrow-up"></i>
+		</a>
+	</div>
+	<script>
+		$('#aboutBTN').click(function () {
+			$('#about').removeClass('d-none')
+			$('#postServices').addClass('d-none')
+			$('#rules').addClass('d-none')
+			$('#agency').addClass('d-none')
+			$('#comments').addClass('d-none')
+		})
+
+		$('#postServicesBTN').click(function () {
+			$('#postServices').removeClass('d-none')
+			$('#about').addClass('d-none')
+			$('#rules').addClass('d-none')
+			$('#agency').addClass('d-none')
+			$('#comments').addClass('d-none')
+		})
+		$('#rulesBTN').click(function () {
+			$('#rules').removeClass('d-none')
+			$('#about').addClass('d-none')
+			$('#postServices').addClass('d-none')
+			$('#agency').addClass('d-none')
+			$('#comments').addClass('d-none')
+		})
+		$('#agencyBTN').click(function () {
+			$('#agency').removeClass('d-none')
+			$('#about').addClass('d-none')
+			$('#postServices').addClass('d-none')
+			$('#rules').addClass('d-none')
+			$('#comments').addClass('d-none')
+		})
+		$('#commentsBTN').click(function () {
+			$('#comments').removeClass('d-none')
+			$('#about').addClass('d-none')
+			$('#postServices').addClass('d-none')
+			$('#rules').addClass('d-none')
+			$('#agency').addClass('d-none')
+		})
+	</script>
+	<script>
+		// Select all links with hashes
+		$('a[href*="#"]')
+			// Remove links that don't actually link to anything
+			.not('[href="#"]')
+			.not('[href="#0"]')
+			.click(function (event) {
+				// On-page links
+				if (
+					location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+					&&
+					location.hostname == this.hostname
+				) {
+					// Figure out element to scroll to
+					var target = $(this.hash);
+					target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+					// Does a scroll target exist?
+					if (target.length) {
+						// Only prevent default if animation is actually gonna happen
+						event.preventDefault();
+						$('html, body').animate({
+							scrollTop: target.offset().top
+						}, 1000, function () {
+							// Callback after animation
+							// Must change focus!
+							var $target = $(target);
+							$target.focus();
+							if ($target.is(":focus")) { // Checking if the target was focused
+								return false;
+							} else {
+								$target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+								$target.focus(); // Set focus again
+							};
+						});
+					}
+				}
+			});
+	</script>
+	<script>
+		$(document).ready(function () {
+			//$('#jxlzesgtnbqejxlzesgtrgvjsizp').click(function () {
+			//    window.open("https://trustseal.enamad.ir/?id=142304&amp;Code=6huWn4FCkfHhj47fOW3L", "Popup", "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30");
+			//});
+		});
+
+		var intervalID = window.setInterval(myCallback, 1000);
+
+		function myCallback() {
+			if ($('.menuHomeDakheli.img1').css("opacity") == 0) {
+				$('.menuHomeDakheli.img1').css("opacity", "")
+			} else {
+				$('.menuHomeDakheli.img1').css("opacity", "0")
+			}
+
+		}
+	</script>
+	<script>
+		$('body').on('click', function () {
+			if ($('#numSefareshMobile').css("visibility") == "hidden" ||
+				$('#codeRahgiriMobile').css("visibility") == "hidden" ||
+				$('#numPhoneMobile').css("visibility") == "hidden") {
+				$('#divInputMobile input').css({ "visibility": "visible", "width": "", "position": "" })
+			}
+		}).on('click', '#divInputMobile input', function (e) {
+			e.stopPropagation();
+			$('#divInputMobile input').css({ "visibility": "hidden", "position": "absolute" })
+			$(this).css({ "position": "", "visibility": "visible", "width": "100%", "border-radius": "5px" })
+		})
+	</script>
+	<script>
+		$('body').on('click', function () {
+			if ($('#numSefareshDesk').css("visibility") == "hidden" ||
+				$('#codeRahgiriDesk').css("visibility") == "hidden" ||
+				$('#numPhoneDesk').css("visibility") == "hidden") {
+				$('#divInputDesk input').css({ "visibility": "visible", "width": "", "position": "" })
+			}
+		}).on('click', '#divInputDesk input', function (e) {
+			e.stopPropagation();
+			$('#divInputDesk input').css({ "visibility": "hidden", "position": "absolute" })
+			$(this).css({ "position": "", "visibility": "visible", "width": "100%", "border-radius": "5px" })
+		})
+	</script>
+</footer>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Orders",
+  "FriendlyName": "New Custom CheckOut Page",
+  "SystemName": "Orders.NewCheckOut",
+  "Version": "1",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "Nop Farsi",
+  "DisplayOrder": 1,
+  "FileName": "Nop.plugin.Orders.NewCheckOut.dll",
+  "Description": "New costum CheckOut Page"
+}

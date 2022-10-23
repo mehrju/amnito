@@ -1,0 +1,963 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_ServicesProviders
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+}
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="CategoryId" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-select asp-for="CategoryId" asp-items="Model.ListCategory" />
+                            @*<select class="js-example-basic-single" name="state" asp-for="SearchCategoryId" id="ahmad"></select>*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="ServiceTypeId" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-select asp-for="ServiceTypeId" asp-items="Model.ListServiceTypes" />
+                            @*<select class="js-example-basic-single" name="state" asp-for="SearchCategoryId" id="ahmad"></select>*@
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="ServicesProviderName" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="ServicesProviderName" asp-required="true" />
+                            <span asp-validation-for="ServicesProviderName"></span>
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="AgentName" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="AgentName" asp-required="true" />
+                            <span asp-validation-for="AgentName"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="MaxOrder" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MaxOrder" asp-required="true" />
+                            <span asp-validation-for="MaxOrder"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="MinWeight" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MinWeight" asp-required="true" />
+                            <span asp-validation-for="MinWeight"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="MaxWeight" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MaxWeight" asp-required="true" />
+                            <span asp-validation-for="MaxWeight"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="MaxTimeDeliver" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MaxTimeDeliver" asp-required="true" />
+                            <span asp-validation-for="MaxTimeDeliver"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Maxlength" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Maxlength" asp-required="true" />
+                            <span asp-validation-for="Maxlength"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Maxwidth" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Maxwidth" asp-required="true" />
+                            <span asp-validation-for="Maxwidth"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="Maxheight" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="Maxheight" asp-required="true" />
+                            <span asp-validation-for="Maxheight"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="MaxbillingamountCOD" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="MaxbillingamountCOD" asp-required="true" />
+                            <span asp-validation-for="MaxbillingamountCOD"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsPishtaz" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsPishtaz" asp-required="true" />
+                            <span asp-validation-for="IsPishtaz"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsSefareshi" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsSefareshi" asp-required="true" />
+                            <span asp-validation-for="IsSefareshi"></span>
+                        </div>
+                    </div>
+                    
+
+
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="advancefreight" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="advancefreight" asp-required="true" />
+                            <span asp-validation-for="advancefreight"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="freightforward" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="freightforward" asp-required="true" />
+                            <span asp-validation-for="freightforward"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="cod" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="cod" asp-required="true" />
+                            <span asp-validation-for="cod"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsAdjoining" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsAdjoining" asp-required="true" />
+                            <span asp-validation-for="IsAdjoining"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsNotAdjacent" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsNotAdjacent" asp-required="true" />
+                            <span asp-validation-for="IsNotAdjacent"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsHeavyTransport" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsHeavyTransport" asp-required="true" />
+                            <span asp-validation-for="IsHeavyTransport"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsForeign" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsForeign" asp-required="true" />
+                            <span asp-validation-for="IsForeign"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsInCity" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsInCity" asp-required="true" />
+                            <span asp-validation-for="IsInCity"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsTwoStep" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsTwoStep" asp-required="true" />
+                            <span asp-validation-for="IsTwoStep"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="HasHagheMaghar" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="HasHagheMaghar" asp-required="true" />
+                            <span asp-validation-for="HasHagheMaghar"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsDroonOstani" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsDroonOstani" asp-required="true" />
+                            <span asp-validation-for="IsDroonOstani"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsVIje" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsVIje" asp-required="true" />
+                            <span asp-validation-for="IsVIje"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <nop-label asp-for="IsNromal" />
+                        </div>
+                        <div class="col-md-8">
+                            <nop-editor asp-for="IsNromal" asp-required="true" />
+                            <span asp-validation-for="IsNromal"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+@if (Model.Id > 0)
+{
+    @*<div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TransportationTypeId" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nop-select asp-for="TransportationTypeId" asp-items="Model.ListTransportationTypes" asp-multiple="true" />
+                                <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var storesIdsInput = $('#@Html.IdFor(model => model.TransportationTypeId)')
+                                        .data("kendoMultiSelect");
+                                    storesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                });
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div id="products-grid"></div>
+                    <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("TransportationTypesList", "ManageServiceProvider"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+
+                                        {
+                                            field: "Grid_Transportation_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_Name")",
+                                            width: 100
+                                        }
+
+                                       ,
+                                        {
+                                            field: "Grid_Transportation_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_Transportation_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Transportation_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Transportation_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Transportation_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_Transportation_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_Transportation_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="EnableTrans(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Disable")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn bg-red"  onclick="DisableTrans(#=Id#)" type="button"><i class="fa fa-trash-o"></i></button>'
+                                        }
+                                    ]
+                                });
+                            });
+                    </script>
+                    <script>
+                        function additionalData()
+                        {
+                         var data = {
+                         Id:@Model.Id,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+                        function DisableTrans(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisableTrasportaionProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#products-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableTrans(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActiveTrasportaionProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#products-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreId" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nop-select asp-for="StoreId" asp-items="Model.ListStores" asp-multiple="true" />
+                                <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var storesIdsInput = $('#@Html.IdFor(model => model.StoreId)')
+                                        .data("kendoMultiSelect");
+                                    storesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                });
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div id="Stores-grid"></div>
+                    <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#Stores-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("StoresList", "ManageServiceProvider"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+
+                                        {
+                                            field: "Grid_ProviderStore_Name",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_Name")",
+                                            width: 100
+                                        }
+
+                                       ,
+                                        {
+                                            field: "Grid_ProviderStore_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_ProviderStore_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProviderStore_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_UserInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProviderStore_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_UserUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProviderStore_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_DateInsert")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_ProviderStore_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_ProviderStore_DateUpdate")",
+                                            width: 100
+                                        }
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="EnableStore(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Disable")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn bg-red"  onclick="DisableStore(#=Id#)" type="button"><i class="fa fa-trash-o"></i></button>'
+                                        }
+                                    ]
+                                });
+                            });
+                    </script>
+                    <script>
+                        function additionalData()
+                        {
+                         var data = {
+                         Id:@Model.Id,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+                        function DisableTrans(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisableTrasportaionProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#products-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableTrans(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActiveTrasportaionProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#products-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+                        //***************************
+
+                        function DisableStore(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisableStoreProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Stores-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableStore(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActiveStoreProvider", "ManageServiceProvider"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#Stores-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StateProvinceId" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nop-select asp-for="StateProvinceId" asp-items="Model.ListStateProvince" asp-multiple="true" />
+                                <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var storesIdsInput = $('#@Html.IdFor(model => model.StateProvinceId)')
+                                        .data("kendoMultiSelect");
+                                    storesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                });
+                                </script>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div id="ListStateProvinces-grid"></div>
+                    <script type="text/javascript">
+                            $(document).ready(function () {
+
+                                $("#ListStateProvinces-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("StateProvincesList", "ManageServiceProvider"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+
+                                    columns: [
+
+
+                                        {
+                                            field: "Grid_StateProvinces_NameCountry",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_NameCountry")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_NameProvinces",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_NameProvinces")",
+                                            width: 100
+                                        }
+                                       ,
+                                        {
+                                            field: "Grid_StateProvinces_IsActive",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_IsActive")",
+                                            width: 100,
+                                            template: '# if(Grid_StateProvinces_IsActive) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                        }
+
+                                        ,
+
+                                        {
+                                            field: "Grid_StateProvinces_IdStateMaping",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_IdStateMaping")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_StateProvinces_IdCityMaping",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_IdCityMaping")",
+                                            width: 100
+                                        }
+                                        ,
+
+                                        {
+                                            field: "Grid_StateProvinces_NameStateMaping",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_NameStateMaping")",
+                                            width: 100
+                                        }
+
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_NameCityMaping",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_NameCityMaping")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_DateInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_DateInsert")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_DateUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_DateUpdate")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_UserInsert",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_UserInsert")",
+                                            width: 100
+                                        }
+                                         ,
+
+                                        {
+                                            field: "Grid_StateProvinces_UserUpdate",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Grid_StateProvinces_UserUpdate")",
+                                            width: 100
+                                        }
+
+                                        ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Active")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn btn-success"  onclick="EnableOffice(#=Id#)" type="button"><i class="fa fa-check"></i></button>'
+
+                                        }
+                                         ,
+                                        {
+                                            field: "Id",
+                                            title: "@T("Nop.Plugin.Misc.ShippingSolutions.Disable")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<button class="btn bg-red"  onclick="DisableOffice(#=Id#)" type="button"><i class="fa fa-trash-o"></i></button>'
+                                        }
+                                        , {
+                                            field: "Id",
+                                            title: "@T("Admin.Common.Edit")",
+                                            width: 100,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a class="btn btn-default" href="../EditOffice/#=Id#"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>'
+                                        }
+                                    ]
+                                });
+                            });
+                    </script>
+                    <script>
+                        function additionalData()
+                        {
+                         var data = {
+                         Id:@Model.Id,
+                            };
+                         addAntiForgeryToken(data);
+                         return data;
+                        }
+
+
+
+                        function DisableOffice(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DisableOffice", "ManageCollector"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#ListStateProvinces-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                        function EnableOffice(Id)
+                        {
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("ActiveOffice", "ManageCollector"))",
+                                data: {Id:Id},
+                             complete: function(data) {
+                                 //reload grid
+                                 var grid = $('#ListStateProvinces-grid').data('kendoGrid');
+                                 grid.dataSource.read();
+                             },
+                             error: function(xhr, ajaxOptions, thrownError) {
+                                 alert(thrownError);
+                             },
+                             traditional: true
+                             });
+                             return false;
+                        }
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

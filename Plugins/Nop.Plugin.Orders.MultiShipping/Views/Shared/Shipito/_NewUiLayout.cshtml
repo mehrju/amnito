@@ -1,0 +1,423 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_MasterLayout.cshtml";
+}
+@using Nop.Core;
+@using Nop.Core.Domain.Customers;
+@inject IWorkContext _workContext;
+@using Nop.Services.Customers;
+@inject IWorkContext _workContext;
+@{
+    string fullName = (_workContext.CurrentCustomer.IsRegistered() ? _workContext.CurrentCustomer.GetFullName() : "");
+    fullName = string.IsNullOrEmpty(fullName) ? "حساب من" : fullName;
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+}
+<script>
+    $(document).ready(function () {
+        $('.dropdown-submenu a.test').on("click", function (e) {
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+    });
+</script>
+<style>
+    span.pointer {
+        cursor: pointer;
+    }
+</style>
+<body class="pa-top-95" style="background: /*#1C1C1C*/#83898d;">
+    @Html.AntiForgeryToken()
+    <div class="ajax-loading-block-window" style="display: none">
+    </div>
+    <div class="custom-wrapper">
+        <header class="u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md u-header--untransitioned">
+            <div class="u-header__section fixed-top">
+
+                <div id="logoAndNav">
+                    <!--Topbar-->
+                    <div class="top-bar">
+                        <div class="container u-header__hide-content">
+                            <div class="d-flex Topbar align-items-center">
+                                <ul class="social list-inline ml-2 mb-0">
+                                    <!--aparat icon-->
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <img src="~/Themes/Shipito/images/aparat.png" alt="">
+                                        </a>
+                                    </li>
+                                    <!--instagram icon-->
+                                    <li class="list-inline-item">
+                                        <a href="https://instagram.com/postex.ir?igshid=1jvlg6on3v53e">
+                                            <img src="~/Themes/Shipito/images/instagram.png" alt="">
+                                        </a>
+                                    </li>
+                                    <!--telegram icon-->
+                                    <li class="list-inline-item">
+                                        <a href="https://t.me/iranpostex">
+                                            <img src="~/Themes/Shipito/images/telegram.png" alt="">
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="mail">
+                                    <span class="mail" style="color:white; cursor: pointer;" onclick="location.href='@Url.Action("support", "PostbarDashboard")'">
+                                        <span class="pointer">
+                                            <img src="~/Themes/Shipito/images/ticket.png" alt="@Url.Action("support", "PostbarDashboard")">
+                                        </span>
+                                        تماس با پشتیبانی
+                                    </span>
+                                    <span class="mail" style="color:white;">
+                                        <span class="mail-img">
+                                            <img src="~/Themes/Shipito/images/phone-call.png" alt="">
+                                        </span>
+                                        <a href="mailto:info@postex.ir">info@postex.ir</a> 
+                                    </span>
+                                    <span class="phone" style="color:white;">
+                                        <span class="phone-img">
+                                            <img src="~/Themes/Shipito/images/message-1.png" alt="">
+                                        </span>
+										<a href="tel:+982191300250">021-91300250</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Topbar-->
+                    <div class="container" style="height: 70px;">
+                        <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+                            <!--navbar navbar-expand-lg navbar-light bg-light-->
+                            <a class="navbar-brand   logo" href="/">
+                                <img src="~/Themes/PostexNew/images/logoNav.png" alt="" style=" width: 50px; margin-top: 21px;">
+                            </a>
+
+                            <!--small-phone-->
+                            <div class="" id="menuToggle">
+
+                                <input class="checkbox_check" type="checkbox" />
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <ul id="menu">
+                                    <div class="header-menu-humm">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <ul>
+                                                    <li>
+                                                        <a href="@Url.RouteUrl("_Sh_Checkout")" class="btn btn-menu-1 faa-parent animated-hover">
+                                                            <i class="fas fa fa-bell faa-ring"></i>
+                                                            ثبت سفارش
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/rahgiry" target="_blank" class="btn btn-menu-2 faa-parent animated-hover">
+                                                            <i class="fas fa fa-search faa-burst"></i>
+                                                            رهگیری مرسوله
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="body-menu-humm">
+                                        <ul class="">
+                                            <li class="active"><a href="/">خانه</a></li>
+                                            <li>
+                                                <a target="_blank" href="@(Url.RouteUrl("_Sh_ChargeWallet"))">شارژ کیف پول </a>
+                                            </li>
+                                            <li>
+                                                <a target="_blank" href="/Dashboard/Orders">سفارشات من</a>
+                                            </li>
+                                            <li>
+                                                <a target="_blank" href="/Bulkorder2">سفارش انبوه</a>
+                                            </li>
+                                           
+                                            <li>
+                                                <a target="_blank" href="/Bulkorder">سفارش سازمانی</a>
+                                            </li>
+
+                                            <li>
+                                                <div class="dropdown">
+                                                    <a tabindex="-1" href="#" class="dropdown-toggle" data-toggle="dropdown">خدمات</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li class="dropdown-submenu">
+                                                            <a class="test" tabindex="-1" href="#">پست داخلی <i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                    <a class="test" href="#">پست بار <i class="fa fa-angle-down"></i></a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست سفارشی</a></li>
+                                                                        <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست پیشتاز</a></li>
+                                                                        <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست ویژه</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DB%8C%D8%A7%D8%B1%D8%A8%D8%A7%DA%A9%D8%B3">یارباکس</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/dts">DTS سرویس </a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/tpg">سرویس TPG</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/pde">سرویس PDE</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DA%A9%D8%A7%D9%84%D8%A7-%D8%B1%D8%B3%D8%A7%D9%86%D8%A7%D9%86-%DA%86%D8%A7%D9%BE%D8%A7%D8%B1">چاپار</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D8%A7%D8%B3%D9%86%D9%BE">اسنپ باکس</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3">امنیتو پلاس</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/dts">سرویس DTS</a></li>
+
+                                                            </ul>
+                                                        </li>
+
+
+
+                                                        <li class="dropdown-submenu">
+                                                            <a class="test" tabindex="-1" href="#">پست خارجی <i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/tpg">سرویس TPG</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/pde">سرویس PDE</a></li>
+                                                                <li><a tabindex="-1" target="_blank" href="https://www.postex.ir/%D8%B1%D8%A7%D9%87-%D8%A2%D8%A8%DB%8C-%D8%A2%D8%B3%D9%85%D8%A7%D9%86">سرویس BSW</a></li>
+
+                                                            </ul>
+                                                        </li>
+
+                                                        <li class="dropdown-submenu">
+                                                            <a class="test" tabindex="-1" href="#">حمل و نقل سنگین <i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D8%A7%D9%88%D8%A8%D8%A7%D8%B1">اووبار</a></li>
+                                                            </ul>
+                                                        </li>
+
+
+                                                        <li class="dropdown-submenu">
+                                                            <a class="test" tabindex="-1" href="#">کارتن و لفافه <i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DA%A9%D8%A7%D8%B1%D8%AA%D9%86-%D9%88-%D9%84%D9%81%D8%A7%D9%81%D9%87">کارتن و لفافه</a></li>
+                                                            </ul>
+                                                        </li>
+
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+
+
+                                            <li><a target="_blank" href="https://mag.postbar.ir/">تازه های فناوری و تکنولوژی</a></li>
+                                            <li><a target="_blank" href="https://postex.ir/%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87-%D9%85%D8%A7-%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3">درباره ما</a></li>
+                                            <li><a target="_blank" href="https://postex.ir/%D8%AA%D9%85%D8%A7%D8%B3-%D8%A8%D8%A7-%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3">تماس با ما</a></li>
+                                            <li>
+                                                <a class="nav-link" target="_blank" href="@(Url.RouteUrl("TopicCollection"))">آکادمی آموزش </a>@*"*@
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="@Url.Action("support", "PostbarDashboard")"> تماس با پشتیبانی</a>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="#"></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="footer-menu-humm">
+                                        @*<a href="/login" class="btn btn-footer-menu">ورود | ثبت نام</a>*@
+                                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/login" class="btn btn-menu-1 faa-parent animated-hover" style="background-color:#2d91fb">
+                                                                <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                                                                ورود
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="https://postex.ir/register" target="_blank" class="btn btn-menu-2 faa-parent animated-hover" style="right:0px">
+                                                                <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                                                                ثبت نام
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="@Url.RouteUrl("Logout")" class="btn btn-menu-1 faa-parent animated-hover">
+                                                                <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                                                                خروج
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/Dashboard" target="_blank" class="btn btn-menu-2 faa-parent animated-hover" style="background-color:#2d91fb;right:0px">
+                                                                <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                                حساب من
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                </ul>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav" id="menuUL">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/">خانه <span class="sr-only">(current)</span></a>
+                                    </li>
+
+                                    @*<li class="dropdown nav-item ">
+                                            <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">خدمات پستی</a>
+                                            <div class=" arrow-ups dropdown-menu under_menu_drop ">
+                                                <a href="#" class="dropdown-item">پست داخلی</a>
+                                                <a href="#" class="dropdown-item">پست خارجی</a>
+                                                <a href="#" class="dropdown-item">حمل و نقل سنگین</a>
+                                            </div>
+                                        </li>*@
+                                    <li>
+                                        <div class="dropdown nav-item">
+                                            <a tabindex="-1" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">خدمات</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-submenu">
+                                                    <a class="test" tabindex="-1" href="#">پست داخلی <i class="fa fa-angle-down"></i></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li class="dropdown-submenu">
+                                                            <a class="test" href="#">پست بار <i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست سفارشی</a></li>
+                                                                <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست پیشتاز</a></li>
+                                                                <li><a target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA-%D8%A8%D8%A7%D8%B1-2">پست ویژه</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DB%8C%D8%A7%D8%B1%D8%A8%D8%A7%DA%A9%D8%B3">یارباکس</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/dts">DTS سرویس </a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/tpg">سرویس TPG</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/pde">سرویس PDE</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DA%A9%D8%A7%D9%84%D8%A7-%D8%B1%D8%B3%D8%A7%D9%86%D8%A7%D9%86-%DA%86%D8%A7%D9%BE%D8%A7%D8%B1">چاپار</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D8%A7%D8%B3%D9%86%D9%BE">اسنپ باکس</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3">امنیتو پلاس</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/dts">سرویس DTS</a></li>
+
+                                                    </ul>
+                                                </li>
+
+
+
+                                                <li class="dropdown-submenu">
+                                                    <a class="test" tabindex="-1" href="#">پست خارجی <i class="fa fa-angle-down"></i></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/tpg">سرویس TPG</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/pde">سرویس PDE</a></li>
+                                                        <li><a tabindex="-1" target="_blank" href="https://www.postex.ir/%D8%B1%D8%A7%D9%87-%D8%A2%D8%A8%DB%8C-%D8%A2%D8%B3%D9%85%D8%A7%D9%86">سرویس BSW</a></li>
+
+                                                    </ul>
+                                                </li>
+
+                                                <li class="dropdown-submenu">
+                                                    <a class="test" tabindex="-1" href="#">حمل و نقل سنگین <i class="fa fa-angle-down"></i></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%D8%A7%D9%88%D8%A8%D8%A7%D8%B1">اووبار</a></li>
+                                                    </ul>
+                                                </li>
+
+
+                                                <li class="dropdown-submenu">
+                                                    <a class="test" tabindex="-1" href="#">کارتن و لفافه <i class="fa fa-angle-down"></i></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a tabindex="-1" target="_blank" href="https://postex.ir/%DA%A9%D8%A7%D8%B1%D8%AA%D9%86-%D9%88-%D9%84%D9%81%D8%A7%D9%81%D9%87">کارتن و لفافه</a></li>
+                                                    </ul>
+                                                </li>
+
+
+                                            </ul>
+                                        </div>
+                                    </li>
+
+
+
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/rahgiry" target="_blank"> رهگیری مرسوله</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="@(Url.RouteUrl("_Sh_Checkout"))">ثبت سفارش</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="/Dashboard/Orders">سفارشات من</a>
+                                    </li>
+                                    @*@if (_workContext.CurrentCustomer.IsInCustomerRole("Administrators")
+                                                        || _workContext.CurrentCustomer.IsInCustomerRole("mini-Administrators"))
+                                        {*@
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="/Bulkorder" target="_blank">سفارش سازمانی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="/Bulkorder2" target="_blank">سفارش انبوه</a>
+                                    </li>
+                                    @*}*@
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://postex.ir/%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87-%D9%85%D8%A7-%D9%BE%D8%B3%D8%AA%DA%A9%D8%B3">درباره ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="@(Url.RouteUrl("_Sh_ChargeWallet"))">شارژ کیف پول </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="@(Url.RouteUrl("TopicCollection"))">آکادمی آموزش </a>@*"*@
+                                    </li>
+                                </ul>
+                                <form class="form-inline my-2 my-lg-0 ">
+                                    <div class="dropdown">
+                                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                                        {
+                                            <a href="#" data-toggle="dropdown" class=" btn btn-login dropdown-toggle custom-btn-01">
+                                                ثبت نام | ورود
+                                            </a>
+                                            <div class="dropdown-menu arrow-ups under_menu_drop snip1189">
+                                                <a href="/login" class=" custom-btn-01 dropdown-item faa-parent animated-hover" style="padding:6px 6px 12px !important">
+                                                    <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                                                    ورود
+                                                </a>
+                                                <a href="https://postex.ir/register" class="dropdown-item  faa-parent animated-hover">
+                                                    <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                                                    ثبت نام
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle custom-btn-01">
+                                                @(fullName)
+                                            </a>
+                                            <div class="dropdown-menu arrow-ups under_menu_drop snip1189">
+                                                <a href="/dashboard" target="_blank" class="dropdown-item">
+                                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                    حساب من
+                                                </a>
+                                                <a href="@Url.RouteUrl("PrivateMessages")" target="_blank" class="dropdown-item">
+                                                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                                                    صندوق دریافت
+                                                </a>
+                                                <a href="@Url.RouteUrl("Logout")" class="custom-btn-01  dropdown-item faa-parent animated-hover" style="padding:6px 6px 12px !important">
+                                                    <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                                                    خروج از سیستم
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </form>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+        @RenderBody()
+        @Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+        @Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+    </div>
+</body>

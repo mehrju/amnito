@@ -1,0 +1,109 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.vm_FAQ
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/{_orderService.getSubMarketFromUrl()}/_NewUiDashboardLayout.cshtml";
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+
+
+}
+
+<style>
+    .faqHeader {
+        font-size: 27px;
+        margin: 20px;
+    }
+
+    .panel-heading [data-toggle="collapse"]:after {
+        font-family: 'Glyphicons Halflings';
+        content: ""; /* "play" icon */
+        float: right;
+        color: #F58723;
+        font-size: 18px;
+        line-height: 22px;
+        /* rotate "play" icon from > (right arrow) to down arrow */
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .panel-heading [data-toggle="collapse"].collapsed:after {
+        /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+        color: #454444;
+    }
+</style>
+
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="header-dash text-center">
+            <h1> سوالات متداول </h1>
+        </div>
+        <div class=" row justify-content-md-center mt-1 text-blue">
+            <div class="col-md-12 col-lg-12 col-xl-12 text-center">
+                <div class="tabbable ltr">
+                    <div class="col-sm-12 mt-2 alert alert-warning text-center">
+                        کاربر گرامی لیست سوالات متداول را مطالعه بفرمایید
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="body-dash send-data-from" style="overflow: auto;">
+
+            <div class="container col-md-12">
+               
+                    @foreach (var item in Model.ListFAQ)
+                    {
+                <div class="panel-group" id="accordion" >
+                    <div class="label label-primary">دسته بندی:@item.NameCategory</div>
+                    @foreach (var item2 in item.Listfaq)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#@item2.Id">@item2.Question</a>
+                                </h4>
+                            </div>
+                            <div id="@item2.Id" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <h5><span class="label label-primary">پاسخ</span></h5>
+                                    @item2.Answer
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                    }
+                
+                <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

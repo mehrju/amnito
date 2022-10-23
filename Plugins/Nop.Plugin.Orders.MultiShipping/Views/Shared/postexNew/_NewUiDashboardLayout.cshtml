@@ -1,0 +1,1020 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_MasterLayoutDashboard.cshtml";
+}
+@using Nop.Core;
+@using Nop.Core.Domain.Customers;
+@inject IWorkContext _workContext;
+@using Nop.Services.Customers;
+@inject IWorkContext _workContext;
+@using Microsoft.AspNetCore.Http;
+@using Nop.Core.Http.Extensions;
+@inject IHttpContextAccessor _httpContextAccessor
+@inject Nop.plugin.Orders.ExtendedShipment.Services.IRewardPointCashoutService _rewardPointCashoutService;
+@{
+    var messageCount = _rewardPointCashoutService.execSp<string>("MyDashboard_Sp_Operations", new { Operation = "CheckUserMessages", CustomerId = _workContext.CurrentCustomer.Id }).FirstOrDefault();
+
+    string fullName = (_workContext.CurrentCustomer.IsRegistered() ? _workContext.CurrentCustomer.GetFullName() : "");
+    fullName = string.IsNullOrEmpty(fullName) ? "حساب من" : fullName;
+    string ComeFrom = _httpContextAccessor.HttpContext.Session.GetString("ComeFrom");
+    bool showLoginBtn = true;
+    if (!string.IsNullOrEmpty(ComeFrom))
+    {
+        if (ComeFrom == "App")
+        {
+            showLoginBtn = false;
+        }
+    }
+    <style>
+        .modal-body {
+            height: 100%;
+            overflow-y: auto !important;
+        }
+
+        .modal {
+            overflow-y: auto !important;
+        }
+        /*adding some styles for my custom html5 video player*/
+        ._videoPlayer {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            font-size: 100%;
+            font-family: tahoma;
+        }
+
+        ._videoPlayer_video {
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        ._videoPlayer_cover {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+            background-size: cover;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+            ._videoPlayer_cover p {
+                text-align: center;
+                color: #FFF;
+            }
+
+                ._videoPlayer_cover p span {
+                    margin-top: 8%;
+                }
+
+                ._videoPlayer_cover p:nth-child(2) {
+                    font-size: 200%;
+                }
+
+        ._videoPlayer_buttons {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            text-align: center;
+            display: block;
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+            background: rgba(31,30,33,0.3);
+            border-top: solid 1px rgba(31,30,33,0.5);
+        }
+
+            ._videoPlayer_buttons ul {
+                text-align: center;
+                color: #FFF;
+                display: block;
+                padding: 0px;
+                text-indent: 0px;
+            }
+
+                ._videoPlayer_buttons ul li {
+                    display: inline-block;
+                    list-style: none;
+                    padding: 5px 5px;
+                    cursor: pointer;
+                }
+
+        .timeline {
+            width: 45%;
+            overflow: hidden;
+            margin: 13px 5px;
+            box-shadow: 0px 0px 5px 0px #000,inset 0px 0px 3px 0px #FFF;
+            vertical-align: top;
+            border-radius: 3px;
+            background-color: #8f9598;
+            padding: 0px !important;
+        }
+
+        .timeline-loaded {
+            background-color: #c1c6c9;
+            padding: 0px;
+            margin: 0px;
+            width: 0%;
+        }
+
+        .timeline-current {
+            background-color: #dc3932 !important;
+            padding: 4px 0px;
+            margin: 0px;
+            width: 0%;
+        }
+    </style>
+}
+<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.dropdown-submenu a.test').on("click", function (e) {
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+    });
+</script>
+<style>
+
+    span.pointer {
+        cursor: pointer;
+    }
+
+    .userbtn {
+        height: 38px !important;
+    }
+
+        .userbtn:hover {
+            color: #01a0e1 !important;
+        }
+
+    #register:hover {
+        color: #01a0e1 !important;
+    }
+
+    #login:hover {
+        color: #01a0e1 !important;
+    }
+
+    #logout:hover {
+        color: #01a0e1 !important;
+    }
+</style>
+<body>
+    <div id="loader"></div>
+    @Html.AntiForgeryToken()
+
+    <div class="custom-wrapper">
+        <div style="display:none;" id="myDiv" class="animate-bottom">
+
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light p-0 nav-Desk" style="direction: ltr;">
+                <div class="container">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav" style="text-align: center;">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navHome.png" />
+                                    <p class="Pnav">خانه</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboard#list-arch">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navMarsolat.png" />
+                                    <p class="Pnav">مرسولات من</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboard">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navhesab.png" />
+                                    <p class="Pnav">
+                                        حساب من
+                                        @if (messageCount != "0")
+                                        {
+                                            <span style="color:red">
+                                                @(messageCount)
+                                            </span>
+                                        }
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.Dashboard")+"#list-up")">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navMoney.png">
+                                    <p class="Pnav">کیف پول</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Bulkorder2">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navSefaresh.png" />
+                                    <p class="Pnav">سفارش انبوه</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Bulkorder">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navSefaresh.png" />
+                                    <p class="Pnav">سفارش سازمانی</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("support", "PostbarDashboard")">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navPOshtiban.png" />
+                                    <p class="Pnav">پشتیبانی</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navHelp.png" />
+                                    <p class="Pnav">راهنما</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/درباره ما" target="_blank">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navAbout.png" />
+                                    <p class="Pnav">درباره ما</p>
+                                </a>
+                            </li>
+                            @*<li class="nav-item">
+                                    <a class="nav-link" onclick="document.getElementById('id1').style.display='block'">
+                                        <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navAsan.png" />
+                                        <p class="Pnav">سفارش آسان</p>
+                                    </a>
+                                </li>*@
+                        </ul>
+
+                    </div>
+                    <!-- Modal -->
+                    <div id="id1" class="w3-modal ">
+                        <div class="w3-modal-content w3-animate-top w-25">
+                            <header class="w3-container">
+
+                                <span onclick="document.getElementById('id1').style.display='none'"
+                                      class="w3-button w3-display-topleft">&times;</span>
+                                <h5 class="modal-title">سفارش آسان</h5>
+                            </header>
+                            <hr style="border-top: 1px solid #f79f19 ; margin: 10px;" />
+                            <div class="w3-container row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <a class="" href="preOrders.html">
+                                        <button class="button btn js-btn-prev" type="button" title="Prev">
+                                            تکرار سفارشات قبلی
+                                            <p></p>
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <a class="" href="customPosting.html">
+                                        <button class="button btn js-btn-prev" type="button" title="Prev">
+                                            ارسال سفارشی<p>
+                                            </p>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr style="border-top: 1px solid #f79f19; margin: 10px;" />
+                            <footer class="w3-container">
+                                <button class="button btn js-btn-prev" type="button" title="Prev"
+                                        onclick="document.getElementById('id1').style.display='none'">
+                                    خروج<p></p>
+                                </button>
+                            </footer>
+                        </div>
+                    </div>
+
+                    <div class="row" style="direction:rtl">
+                        <a class="ml-4" href="/"></a>
+                        <a href="/">
+                            <img class="ml-3" src="~/Themes/postexNew/images/logoNav.png" style="width: auto; height: 50px;" />
+                        </a>
+
+
+                        @if (!_workContext.CurrentCustomer.IsRegistered())
+                        {
+                            <a id="login" href="/login" class="btn btn-menu-1 faa-parent animated-hover userbtn" style="background-color:#2d91fb;margin-right: 10px;margin-left: 10px;">
+                                <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                                ورود
+                            </a>
+                            <a id="register" href="/register" target="_blank" class="btn btn-menu-2 faa-parent animated-hover userbtn" style="right:0px">
+                                <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                                ثبت نام
+                            </a>
+                        }
+                        else
+                        {
+                            <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconNav/navhesab.png" />
+                            <p class="Pnav">
+                                @(fullName)
+                            </p>
+                            <a id="logout" class="btn btn-menu-1 faa-parent animated-hover userbtn" href="/logout" style="margin-right:10px">
+                                <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                                خروج
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </nav>
+
+            <div class="row headerMobile p-2">
+                @if (!_workContext.CurrentCustomer.IsRegistered() && showLoginBtn)
+                {
+                    <a id="login" href="/login" class="btn btn-menu-1 faa-parent animated-hover userbtn" style="background-color:#2d91fb;margin-right: 10px;margin-left: 10px;">
+                        <i class="fa fa-sign-in faa-passing" aria-hidden="true"></i>
+                        ورود
+                    </a>
+                    <a id="register" href="/register" target="_blank" class="btn btn-menu-2 faa-parent animated-hover userbtn" style="right:0px">
+                        <i class="fa fa-user-plus faa-horizontal" aria-hidden="true"></i>
+                        ثبت نام
+                    </a>
+                }
+                else
+                {
+                    <p class="Pnav">
+                        @(fullName)
+                    </p>
+                    @if (showLoginBtn)
+                    {
+                        <a id="logout" class="btn btn-menu-1 faa-parent animated-hover userbtn" href="/logout" style="margin-right:10px">
+                            <i class="fa fa-sign-out faa-passing" aria-hidden="true"></i>
+                            خروج
+                        </a>
+                    }
+                }
+            </div>
+
+            <div class="col-12 headerMobile headerMobile2">
+                <h6 class="m-0" style="color: #fff; text-align: center;">با امنیتو باجه پستی در جیب شماست</h6>
+            </div>
+
+            <div class="sticky">
+                <a href="@Url.Action("Index", "Comments")">
+                    <button class="button btn js-btn-next stickyBTN" type="button" title="Next">
+                        <span></span>
+                        ثبت نظرات
+                    </button>
+                </a>
+            </div>
+
+
+
+            @RenderBody()
+            <nav class="navbar fixed-bottom navbar-expand-sm navbar-light bg-light navBottom" style="direction: ltr;">
+                <table class="table mb-0" style="text-align: center;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="/">
+                                    <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/homeMobile.png" />
+                                    <p class="Pnav">خانه</p>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/dashboard#list-arch" onclick="btnClick('#list-arch')">
+                                    <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/marsolatMobile.png" />
+                                    <p class="Pnav">مرسولات من</p>
+                                </a>
+                            </td>
+                            @*<td>
+                                    <a onclick="document.getElementById('id2').style.display='block'">
+                                        <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/asanMobile.png" />
+                                        <p class="Pnav">سفارش آسان</p>
+                                    </a>
+                                </td>*@
+                            <td>
+                                <a href="/dashboard#list-profile" onclick="btnClick('#list-profile')">
+                                    <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/hesabMobile.png" />
+                                    <p class="Pnav">
+                                        حساب من
+                                        @if (messageCount != "0")
+                                        {
+                                            <span style="color:red">
+                                                @(messageCount)
+                                            </span>
+                                        }
+                                    </p>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="tel:+982191300250">
+                                    <img class="iconNav" src="~/Themes/postexNew/images/iconBottom/poshtMobile.png" />
+                                    <p class="Pnav">پشتیبانی</p>
+                                </a>
+                            </td>
+                            <td>
+                                <a id="showHelp">
+                                    <img class="avatar rounded mx-auto d-block iconNav" src="~/Themes/postexNew/images/iconBottom/helpMobile.png" />
+                                    <p class="Pnav">راهنما</p>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal 1 -->
+                <div id="id2" class="w3-modal ">
+                    <div class="w3-modal-content w3-animate-top w-25">
+                        <header class="w3-container">
+
+                            <span onclick="document.getElementById('id2').style.display='none'"
+                                  class="w3-button w3-display-topleft">&times;</span>
+                            <h5 class="modal-title">سفارش آسان</h5>
+                        </header>
+                        <hr style="border-top: 1px solid #f79f19 ; margin: 10px;" />
+                        <div class="w3-container row">
+                            <div class="col-6">
+                                <a class="" href="preOrders.html">
+                                    <button class="button btn js-btn-prev" type="button" title="Prev">
+                                        تکرار سفارشات قبلی
+                                        <p></p>
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <a class="" href="customPosting.html">
+                                    <button class="button btn js-btn-prev" type="button" title="Prev">
+                                        ارسال سفارشی<p>
+                                        </p>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                        <hr style="border-top: 1px solid #f79f19; margin: 10px;" />
+                        <footer class="w3-container">
+                            <button class="button btn js-btn-prev" type="button" title="Prev"
+                                    onclick="document.getElementById('id2').style.display='none'">
+                                خروج<p></p>
+                            </button>
+                        </footer>
+                    </div>
+                </div>
+            </nav>
+
+            @Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+            @Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+
+        </div>
+    </div>
+    <div class="modal fade" id="_RuleModal" role="dialog" style="opacity: 0.9 !important;">
+        <div class="modal-dialog modal-lg" style="margin:0px">
+            <div class="modal-content">
+                <div class="modal-header" style="color:white;background:#4D4D4F;padding-bottom:0px;border-bottom:none">
+                    <h5 class="modal-title" style="text-align:center;font-size: 9pt;">قوانین استفاده از سامانه</h5>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="closeRuleModal" style="color:white;font-size: 9pt;">
+                        فهمیدم و قبول دارم
+                        <i class="fa fa-check" aria-hidden="true" style="color:white;font-size: 9pt;"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color: #4D4D4F;color: white;padding-top:0px">
+                    <div class="row align-items-center" style="padding-right: 10px;padding-left: 10px;text-align: justify !important;">
+                        <p>زمان بندی جمع آوری سفارش هایی که درخواست آنها تا قبل از ساعت 11صبح باشد همان روز و زمان جمع آوری سفارشاتی که پس از ساعت11 صبح ثبت شوند، در اولین روز کاری بعد از ثبت سفارش خواهد بود .</p>
+
+                        <p>
+                            <br />
+
+                            &nbsp;قوانین اجرایی<br />
+                            1.&nbsp;&nbsp; &nbsp;تعهد می نمایم که &nbsp;وزن و محتوای بسته را بدرستی &nbsp;به دقت و صداقت اعلام نمایم.اگر &nbsp;چنانچه وزن اعلام شده&nbsp;<br />
+                            &nbsp;مغایر با وزن واقعی باشد (که این مورد در واحد تجزیه و مبادلات مشخص می گردد)، سفارش کنسل خواهد شد و مسئولیت تاخیر در ارسال، هزینه سفارش مجدد و یا هرگونه خسارت ناشی از این امر به عهده اینجانب خواهد بود.<br />
+                            2.&nbsp;&nbsp; &nbsp;تعهد می نمایم که آدرس گیرنده را &nbsp;در سیستم به درستی اعلام نمایم تا موجب برگشتی سفارش و یا هزینه های نگهداری در باجه معطله نگردد.&nbsp;<br />
+                            3.&nbsp;&nbsp; &nbsp;تعهد می نمایم هماهنگی لازم را با گیرنده برای اخذ مرسوله ای که در باجه معطله می باشد &nbsp;بنمایم.<br />
+                            4.&nbsp;&nbsp; &nbsp;تعهد می نمایم آدرس فرستنده اعم از استان، شهر و منطقه را صحیح انتخاب نمایم و چنانچه این امر به درستی صورت نگیرد مسئولیت ناشی از تاخیر در جمع آوری و یا کنسلی سفارش به عهده اینجانب خواهد بود.<br />
+                            5.&nbsp;&nbsp; &nbsp;تعهد می نمایم از شنبه تا پنجشنبه، جهت تحویل مرسوله به جمع آور تا ساعت 19 در محل اظهار شده ثبت سفارش (آدرس فرستنده) حضور داشته باشم و در صورت عدم حضور، این امر به منزله لغو سفارش است و هیچ مبلغی از بابت سفارش لغو شده &nbsp;مسترد نخواهد شد و همچنین تعهد می نمایم هیچ گونه ادعایی در این خصوص نخواهم داشت. همچنین در شرایط آب و هوایی بارانی یا برفی و یا مناطق گرمسیر (درجه حرارت بالای ۴۵ درجه) و مناطق سرد سیر (درجه حرارت زیر صفر درجه) این امکان وجود دارد که فرایند جمع آوری با تاخیر انجام پذیرد.<br />
+                            6.&nbsp;&nbsp; &nbsp;مجددا اعلام میدارم که قبول دارم کلیه سفارشات ثبت شده در روزجمعه و ایام تعطیل در اولین روز کاری بعد از ثبت سفارش &nbsp;جمع آوری خواهد شد و در این خصوص هیچ اعتراضی نخواهم داشت،&nbsp;<br />
+                            7.&nbsp;&nbsp; &nbsp;تعهد می نمایم هر گونه شکایت در خصوص خسارت وارده به هر مرسوله ای &nbsp;را صرفا ظرف 24ساعت پس از سفارش از و عدم پذیرش آن مرسوله اعلام دارم و در غیر این صورت هیچ گونه اعتراضی نخواهم داشت &nbsp;ضمنا تعهد بیمه مرسوله تا لحظه تحویل آن به گیرنده اعتبار خواهد داشت.<br />
+                            8.&nbsp;&nbsp; &nbsp;تعهد می نمایم که کالای فاسد شدنی ، ممنوعات پستی و قاچاق، وزن بیش از 30کیلو، مایعات و ابعاد بیش &nbsp;از 1 متر &nbsp;در مرسوله پستی قرار ندهم و مندرجات بند ممنوعات پستی رارعایت نمایم .<br />
+                            9.&nbsp;&nbsp; &nbsp;تعهد می نمایم که کالای شکستنی &nbsp;ارسال ننمایم مگر آنکه کلیه ضوابط بسته بندی را رعایت نموده باشم، که در صورت عدم رعایت ضابطه فوق و بروز خسارت، هیچ اعتراضی نخواهم داشت و مسئولیت محتوای کلیه کالاهای مندرج در بسته به عهده اینجانب می باشد، همچنین شرکت هیچ گونه مسئولیتی در قبال اطلاع رسانی بسته بندی مرسوله ندارد و در صورت ارسال مرسوله با هرنوع بسته بندی تبعات آن به عهده فرستنده می باشد.<br />
+                            10.&nbsp;&nbsp; &nbsp;تعهد می نمایم فایلPDF &nbsp;سفارش خود را که حاوی کد رهگیری می باشد &nbsp;را پرینت و بر روی &nbsp;بسته الصاق نمایم وحتما آنرا امضا کنم و سپس &nbsp;نسخه دیگر را به امضای جمع آور برسانم و به عنوان رسید نزد خود نگهدارم.. ضمنا کلیه قوانین پستی را در خصوص محتوای بسته پستی رعایت نمایم و اگر خلاف این امر را انجام دهم کلیه مسئولیت های ناشی از خسارت و غیره به عهده اینجانب می باشد و اگر چنانچه به پرینتر دسترسی نداشته باشم، آدرس فرستنده، گیرنده و شماره سفارش را بر روی بسته بندی مرسوله با ماژیک درج بنمایم.<br />
+                            11.&nbsp;&nbsp; &nbsp;تعهد می نمایم کلمه کاربری و رمز عبورم فرد دیگری استفاده نخواهد کرد که در غیر این صورت کلیه مسئولیت ها و تعهدات مندرج در بند های این تعهدنامه &nbsp;به عهده اینجانب خواهد بود.<br />
+                            12.&nbsp;&nbsp; &nbsp;تعهد می نمایم کلیه موارد لازم در مورد بسته بندی صحیح و عدل بندی را با هزینه خودم انجام دهم تا بسته در زمان حمل پاره نشود و چنانچه مرسوله ام به بسته بندی مجدد نیاز داشت هزینه آن را طبق نظرکارشناس بپردازم یا مبلغ بسته بندی از&nbsp;<br />
+                            حساب کیف پول اینجانب &nbsp;اتوماتیک کسر گردد.<br />
+                            13.&nbsp;&nbsp; &nbsp;روند کاری سامانه &nbsp;بدین گونه است که سفارش هایی که تا قبل از ساعت 12 &nbsp;در پیش کرایه و ساعت7 در پس کرایه و COD &nbsp;ثبت می گردند همان روز به فعال پستی یا کالارسان، جهت جمع آوری ارجاع &nbsp;و تا ساعت 18 جمع آوری از محل ثبت شده برای فرستنده جمع آوری گردد که اینجانب تعهد می نمایم در صورت 24 ساعت تاخیر در جمع آوری حق هرگونه اعتراض نسبت به جمع آوری کالا را از خود سلب نموده ام.<br />
+                            14.&nbsp;&nbsp; &nbsp;متعهد و مطلع هستم که جمع آوری بارها، از درب منزل یا محل کار انجام می شود و روند دریافت آن به گونه ای است که بار باید &nbsp;به جمع آور &nbsp;محترم، در محل درب ورودی ساختمان تحویل داده شود و در صورت نیاز به رویت محتویات مرسوله امکان&nbsp;<br />
+                            بازدید آن فراهم گردد.<br />
+                            15.&nbsp;&nbsp; &nbsp;تعهد مینمایم چنانچه از درج &nbsp;امضا در بخش امضای مشتری &nbsp;در فاکتور خودداری نمایم (که بصورت اتوماتیک پس از ثبت سفارش دانلود و در اختیارم قرار گرفت) حق هرگونه اعتراضی را نسبت به دریافت غرامت ناشی از خسارت یا فقدان مرسوله را از خود سلب می نمایم. این موارد یکبار دیگر در زمان پرداخت مبلغ هزینه ارسال بصورت الکترونیک به تایید اینجانب رسیده است (در زمان پرداخت، تایید نمودم که قوانین را خواندم و قبول دارم).<br />
+                            16.&nbsp;&nbsp; &nbsp;تعهد می نمایم اگر شرکت پستی به هر علتی از حمل بسته اینجانب خودداری کرد حق هر گونه اعتراضی را از خود سلب می نمایم و اجازه شکایت در این خصوص را نخواهم داشت.<br />
+                            17.&nbsp;&nbsp; &nbsp;جهت اطلاع از روند پرداخت حق مقر نیز به بخش دستورالعمل مندرج در سایت مراجعه نمایید .
+                            18.&nbsp;&nbsp; &nbsp;در صورتی که از یک بارکد نامعتبر(کنسل شده) یا بارکدی که قبلا مرسوله آن رهسپاری شده استفاده کنید. شامل جریمه نقدی تا 5 برار هزینه بارکد استفاده شده خواهید شد.
+
+                        </p>
+
+                        <p>
+
+                            &nbsp;<br />
+                            قوانین مالی&nbsp;<br />
+                            1.&nbsp; کنسلی سفارش<br />
+                            1-1) می پذیرم در صورت ثبت سفارش از طریق پست بار، چنانچه درخواست کنسلی سفارش را داشته باشم هیچ<br />
+                            &nbsp;مبلغی عودت داده نخواهد شد&nbsp;<br />
+                            1-2) می پذیرم چنانچه در زمان تحویل مرسولات، بسته ای تحویل داده نشود، به منزله کنسل شدن مرسوله می باشد.<br />
+                            1-3) تعهد می نمایم و می پذیرم چنانچه مرسوله از سامانه غیرپستی باشد، تا قبل از جمع آوری قابل کنسل کردن بوده و چنانچه برای جمع آوری مراجعه شود یا اینکه جمع آوری انجام شود برای کنسلی هیچ وجهی مسترد نخواهد شد.<br />
+                            2.&nbsp;&nbsp; &nbsp;مدت زمان ارسال بسته طبق SLA &nbsp;مندرج در توضیحات هر فعال پستی قید گردیده. بارهایی که مدت زمان ارسال &nbsp;بیش از زمان مندرج در جدول SLA ارسال و تحویل شوند مشمول غرامت &nbsp;تاخیر در ارسال خواهند شد که می بایستی از طریق eop.post.ir &nbsp;ثبت گردد.<br />
+                            3.&nbsp;&nbsp; &nbsp;برای استفاده از سرویس پس کرایه یا COD مبلغ 1،500،000 ريال داخل کیف پول بلوکه خواهد شد. درصورت &nbsp;درخواست کنسل کردن حساب پس کرایه، چنانچه تعداد سفارش های پس کرایه ثبت شده زیر10 سفارش باشد مبلغ عودت و در صورت ثبت سفارش بالای 10 تا، مبلغ عودت نخواهد شد و از مبلغ بلوکه شده می توان به جای هزینه سفارش پیش کرایه استفاده کرد.<br />
+                            4.&nbsp;&nbsp; &nbsp;مشتری گرامی چنانچه درخواست بازگشت کیف پول را داشته باشید این امر با ارسال تیکت و درخواست بازگشت کیف پول امکان پذیر میباشد ۷۲ ساعت پس از ارسال تیکت و اعلام شماره شبا مبلغ باقیمانده کیف پول شما عودت داده خواهد شد
+                            5.&nbsp;&nbsp; &nbsp;
+
+                        </p>
+
+                        <p>
+
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
+                            تعهدات بیمه ای
+
+                        </p>
+
+                        <p>
+
+                            1.&nbsp;&nbsp; &nbsp;کلیه مرسولات تا درب محل گیرنده دارای بیمه می باشد و پس از تحویل به گیرنده و دریافت امضای گیرنده، هیچ گونه غرامتی پرداخت نخواهد شد &nbsp;لذا گیرنده بایستی از دریافت مرسوله آسیب دیده خودداری نماید.<br />
+                            2.&nbsp;&nbsp; &nbsp;شرکت تنها در صورتی غرامت خسارت مرسوله را پرداخت می نماید که خود، کالا را بسته بندی نموده باشد. همچنین بیمه انتخاب شده متضامن کالاهایی که دارای بسته بندی استاندارد نمی باشند، نخواهد بود.<br />
+                            3.&nbsp;&nbsp; &nbsp;مشتریانی که بیش از ۲ بار در ۱۰۰ مرسوله درخواست خسارت نمایند هیچگونه خسارتی حتی با رعایت شروط فوق پرداخت نخواهد شد.<br />
+                            4.&nbsp;&nbsp; &nbsp;در صورت دست دوم بودن کالا، قیمت کالای نو مشابه پس از برآورد &nbsp;معادل 50% قیمت کالای نو تا سقف بیمه درخواست شده پرداخت میشود.&nbsp;<br />
+                            5.&nbsp;&nbsp; &nbsp;در زمان درخواست غرامت برای مرسولات ثبت شده با سرویس پست بار ، می بایستی &nbsp;مشخصات کارت ملی متقاضی غرامت (تصویر کارت ملی)، آدرس و شماره حساب در بخش مشخصات متقاضی غرامت &nbsp; در لینک eop.post.ir درج گردد.
+
+                        </p>
+
+                        <p>
+                            <br />
+                            &nbsp;ممنوعات پستی
+                        </p>
+
+                        <p>
+
+                            &nbsp; &nbsp; ممنوعات پستی به شرح ذیل میباشند: مایعات ، مرسولات شکستنی، تجهیزات ماهواره، فیلترشکن ها، دارو ، مشروبات الکی و مواد مخدر، تجهیزات نظامی، لوازم جنسی، مواد محترقه، اسکریپت های غیرمجاز، لوازم قمار، تجهیزات مخابراتی غیرمجاز، تجهیزات جاسوسی، اقلام مستهجن ، فالگیری و رمالی، پول نقد، چک، سفته ، اوراق بهادار &nbsp;و جواهرات، فرش، مدارک شناسایی، اسناد<br />
+                            &nbsp; &nbsp; و همچنین در ارسال به سایر کشورها هم پس از دریافت مرسوله توسط فعال پستی به شما اعلام خواهد شد که مرسوله جزء &nbsp;ممنوعات پستی به کشور مقصد مورد نظرشما هست یا خیر.
+
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_help" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="color:white;background:#d4006f;">
+                    <h4 class="modal-title" style="text-align:center;margin-top:3px">راهنمای نحوه ثبت سفارش</h4>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white;font-size: 9pt;">
+                        فهمیدم
+                        <i class="fa fa-check" aria-hidden="true" style="color:white;font-size: 9pt;"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#checkoutHelp">نحوه ثبت سفارش</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#videoHelp">ویدیوی آموزشی</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="checkoutHelp" class="tab-pane container active" style="text-align: justify;padding-top: 25px;">
+                            <p class="question"> • قبل از ثبت سفارش در سامانه، لازم است چه کارهایی صورت پذیرد ؟</p>
+                            <p class="answer"> قبل از ثبت سفارش،  باید مرسوله بسته بندی شده و آماده باشد و <a id="showRule" style="text-decoration:underline !important;color:blue">قوانین</a> استفاده از خدمات پستی را کامل مطالعه نمایید.</p>
+                            <p class="question"> • چطور می توان در سامانه پستی ثبت سفارش کرد؟ </p>
+                            <p class="answer"> برای ثبت سفارش در سامانه پستی، کافیست وزن، محتویات و ارزش ریالیِ دقیق و ابعاد مرسوله را  به درستی انتخاب و ثبت نمایید. همچنین مرسوله بنابر ارزش ریالی بیمه شده و دارای بسته بندی استاندارد و مناسب ارسال باشد یا با توجه به ابعاد مرسوله، کارتن مورد نظر خریداری شود و پس از پرداخت آنلاین هزینه، سفارش ثبت نهایی، جمع آوری و ارسال می شود.</p>
+                            <p class="question"> • فاکتور سفارش ثبت شده را از کجا باید دانلود کرد؟</p>
+                            <p class="answer"> پس از ثبت سفارش، فاکتور به صورت اتوماتیک دانلود خواهد شد یا اینکه می توان با مراجعه به اکانت خود و مراجعه به قسمت "سفارشات من"، فاکتور مرسوله مورد نظر را دانلود کرد.</p>
+                            <p class="question"> • نحوه چسباندن فاکتور روی جعبه چگونه است؟ </p>
+                            <p class="answer"> فاکتور تولید شده جهت مرسوله را پس دانلود و پرینت، به نحوی روی بسته بچسبانید که تا پایان روند ارسال پاره و یا کنده نشود.</p>
+                            <p class="question"> • آیا لازم است بعد از چسباندن فاکتور باز هم آدرس فرستنده و گیرنده یا شماره سفارش روی بسته درج شود؟</p>
+                            <p class="answer"> بله، بهتر است علاوه بر الصاق صحیح فاکتور روی مرسوله، اطلاعات فرستنده و گیرنده و همچنین شماره سفارش مرسوله  روی بسته بندی درج شود.</p>
+                            <p class="question"> • چنانچه به بسته بندی و پرینتر دسترسی نداشتم، چطور می توانم از سامانه استفاده کنم؟</p>
+                            <p class="answer"> چنانچه امکان بسته بندی و پرینتر برای مشتری وجود نداشته باشد، می توان از گزینه "کارتن و لفاف بندی" برای انتخاب بسته بندی و گزینه "دسترسی به پرینتر ندارم" برای ثبت درخواست پرینت  فاکتور توسط فعال پستی استفاده کرد.</p>
+                            <p class="question"> • آیا لازم است لوگوی شما روی فاکتور قرار داده شود؟</p>
+                            <p class="answer"> استفاده از این سرویس به اختیار ثبت کننده سفارش و از طریق سرویس مخصوص درج لوگو در فاکتور امکان پذیر است.</p>
+                            <p class="question"> • چگونه می توان از سرویس پس کرایه و COD استفاده کرد؟</p>
+                            <p class="answer"> استفاده از این سرویس نیازمند ثبت نام در گیت وی می باشد پس چنانچه متقاضی استفاده از سرویس پس کرایه یا COD هستید کافیست یک بار قبل از ثبت سفارش، درخواست خود را جهت استفاده از این سرویس، به همکاران پشتیبانی ارجاع داده پس از ارسال مدارک مورد نیاز  و فعال سازی این سرویس می توانید از خدمات مورد نظر به راحتی استفاده نمایید.</p>
+                            <p class="question"> • زمان جمع آوری مرسولات به صورت می باشد؟ </p>
+                            <p class="answer"> کلیه سفارشاتی که از ساعت ۱۲ ظهر دیروز تا ساعت ۱۲ ظهر امروز ثبت شوند، حداکثر تا ساعت ۱۷ امروز یا در شرایط بحرانی ظرف ۲۴ جمع آوری خواهند شد. همچنین سفارشاتی که در روزهای تعطیل ثبت می شوند در اولین روز کاری بعد از تعطیلات جمع اوری خواهند شد. در سفارش های ثبت شده از قسمت سنگین بار نیز امکان انتخاب ساعت و روز و خودروی مورد نیاز جهت جمع آوری نیز فراهم می باشد.</p>
+                            <p class="question"> • بسته های پستی را به چه شخصی و کجا تحویل بدهم؟</p>
+                            <p class="answer"> هر شرکت پستی جمع آور اختصاصی خود را دارد و برای جمع آوری مرسوله،جمع آور خود را به آدرس فرستنده اعزام می کنند.</p>
+                            <p class="question"> • آیا ممکن است در زمانی که برای جمع آوری مرسوله به شما مراجعه می شود بسته ای که در روزهای قبل تحویل نداده اید را نیز تحویل بدهید؟</p>
+                            <p class="answer"> خیر، زیرا سفارش بسته ای که در روزهای قبل تحویل داده نشده  به صورت  اتوماتیک کنسل شده و چنانچه به فعال پستی تحویل داده بشود نیز بسته شما حمل نخواهد شد.</p>
+                            <p class="question"> • آیا می توان سفارشی ثبت شده و پرداخت شده را کنسل کرد ؟</p>
+                            <p class="answer"> اگر در زمان جمع آوری بسته را تحویل جمع آور ندهید سفارش شما کنسل خواهد شد و هیچ مبلغی به شما عودت داده نمی شود،  اگر سفارش شما از طریق سرویس های پست بار - پست بار باشد چنانچه درخواست کنسلی داشته باشید هیچ مبلغی عودت داده نخواهد شد اگر با شرکتهایی بجز پست بار ثبت سفارش کرده باشید تا قبل از مراجعه برای جمع آوری بار، میتوانید بار را کنسل کنید. مبلغ قابل بازگشت نیز ظرف 72ساعت آینده به صورت شارژ کیف پول قابل عودت خواهد بود.</p>
+                        </div>
+                        <div class="tab-pane container fade _videoPlayer" id="videoHelp">
+                            <video class="_videoPlayer_video">
+                                <source src="~/Plugins/Nop.Plugin.Misc.PostbarDashboard/Video/2.mp4" type="video/mp4" />
+                            </video>
+                            <div class="_videoPlayer_cover" style="background-image:url('../Plugins/Nop.Plugin.Misc.PostbarDashboard/Scripts/images/taylor_swit_ours.png')">
+                                <p>
+                                    <span class="fa fa-play fa-3x"></span>
+                                </p>
+                                <p>
+                                    کلیک کنید
+                                </p>
+                            </div>
+                            <div class="_videoPlayer_buttons">
+                                <ul>
+                                    <li data-button="play" class="fa fa-play fa-lg"></li>
+                                    <li data-button="current">0:0</li>
+                                    <li data-button="timeline" class="timeline">
+                                        <div class="timeline-loaded">
+                                            <div class="timeline-current"></div>
+                                        </div>
+                                    </li>
+                                    <li data-button="duration">01:40</li>
+                                    <li data-button="mute" class="fa fa-volume-up fa-lg"></li>
+                                    <li data-button="fullscreen" class="fa fa-expand fa-lg"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#myDiv').show();
+            $('#loader').hide();
+            $('#logout').click(function () {
+                try {
+                    logoutAndroid();
+                } catch (e) {
+
+                }
+                window.location ='@Url.RouteUrl("Logout")'
+            });
+            $('#showHelp').click(function () {
+                $('#modal_help').appendTo("body");
+                $('#modal_help').modal('show', { backdrop: 'static' });
+            });
+            $('#showRule').click(function () {
+                $('#modal_help').modal('hide');
+                $('#_RuleModal').appendTo("body");
+                $('#_RuleModal').modal('show', { backdrop: 'static' });
+            });
+            $('#_RuleModal').on('hide.bs.modal', function () {
+                //$('#modal_help').appendTo("body");
+                //$('#modal_help').modal('show', { backdrop: 'static' });
+            });
+		});
+	function alert(msg) {
+		swal({
+			title: "",
+			text: msg,
+			confirmButtonText: "تایید"
+		});
+	}
+
+        //window.confirm = function (data, title, callback) {
+        //    debugger;
+        //    if (typeof title == 'function') {
+        //        callback = title;
+        //        title = "";
+        //    }
+
+        //    swal({
+        //        title: "",
+        //        text: data,
+        //        type: "warning",
+        //        showCancelButton: true,
+        //        confirmButtonColor: "#DD6B55",
+        //        confirmButtonText: "بلی",
+        //        cancelButtonText: "خیر",
+        //        closeOnConfirm: true,
+        //        closeOnCancel: true
+        //    }, function (isConfirm) {
+        //            setTimeout(function () {
+        //                callback(isConfirm);
+        //            }, 300);
+        //    });
+        //    // return proxied.apply(this, arguments);
+        //};
+    </script>
+    <script>
+
+        //get mouse parent position
+        function getPositionData(el) {
+            var xPosition = 0;
+            var yPosition = 0;
+            while (el) {
+                if (el.tagName == "BODY") {
+                    // deal with browser quirks with body/window/document and page scroll
+                    var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
+                    var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
+
+                    xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
+                    yPosition += (el.offsetTop - yScrollPos + el.clientTop);
+                } else {
+                    xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                    yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
+                }
+
+                el = el.offsetParent;
+            }
+            return {
+                x: xPosition,
+                y: yPosition
+            };
+        }
+        //video player class
+        function _videoPlayer() {
+            //the parent element
+            _videoPlayer.prototype.elem = null;
+            //the video tag element
+            _videoPlayer.prototype.video = null;
+            //the src of video
+            _videoPlayer.prototype.file = null;
+            //video player cover
+            _videoPlayer.prototype.cover = null;
+            //video player buttons
+            _videoPlayer.prototype.play_btn = null;
+            _videoPlayer.prototype.tex_current = null;
+            _videoPlayer.prototype.timeline_btn = null;
+            _videoPlayer.prototype.text_duration = null;
+            _videoPlayer.prototype.mute_btn = null;
+            _videoPlayer.prototype.expand_btn = null;
+
+            //starts the video player
+            this.init = function (elem) {
+                //add new function to window for element event listener
+                window.listenElem = function (event, obj, func) {
+                    obj.addEventListener(event, func, false);
+                }
+                //add new function to window for elements event listener
+                window.listenElems = function (event, objs, func) {
+                    var len = objs.length;
+                    for (var i = 0; i < len; i++) {
+                        objs[i].addEventListener(event, func, false);
+                    }
+                }
+
+                //set parent elem for video player
+                _videoPlayer.elem = elem;
+                //set video cover
+                _videoPlayer.cover = elem.getElementsByClassName("_videoPlayer_cover")[0];
+                //set video elem
+                _videoPlayer.video = elem.getElementsByClassName("_videoPlayer_video")[0];
+                _videoPlayer.file = _videoPlayer.video.src;
+                var _videoPlayer_buttons = elem.querySelectorAll("._videoPlayer_buttons ul li");
+                //find buttons and put them into vars
+                for (var i = 0; i < _videoPlayer_buttons.length; i++) {
+                    switch (_videoPlayer_buttons[i].getAttribute("data-button")) {
+                        case "play":
+                            _videoPlayer.play_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "current":
+                            _videoPlayer.text_current = _videoPlayer_buttons[i];
+                            break;
+                        case "timeline":
+                            _videoPlayer.timeline_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "duration":
+                            _videoPlayer.text_duration = _videoPlayer_buttons[i];
+                            break;
+                        case "mute":
+                            _videoPlayer.mute_btn = _videoPlayer_buttons[i];
+                            break;
+                        case "fullscreen":
+                            _videoPlayer.expand_btn = _videoPlayer_buttons[i];
+                            break;
+                        default:
+                            console.warn("a btn is not valid");
+                            break;
+                    }
+                }
+
+                /***
+                add some event listeners for controling every thing:
+                ***/
+
+                //add event listener for video cover
+                window.listenElem("click", _videoPlayer.cover, this.videoCoverClicked);
+
+                //add event listener for play button on first page
+                window.listenElems("click", _videoPlayer_buttons, this.buttonsClicked);
+
+                //add event for updating time label when music is playing
+                window.listenElem("timeupdate", _videoPlayer.video, this.updatePlayerTime);
+
+                //add event listener for player when music had been ended
+                window.listenElem("ended", _videoPlayer.video, this.endPlayerTime);
+
+                //add event listener for player when music had been paused
+                window.listenElem("play", _videoPlayer.video, this.playedPlayer);
+
+                //add event listener for player when music had been played
+                window.listenElem("pause", _videoPlayer.video, this.pausedPlayer);
+
+                //add event listener for progressing
+                window.listenElem("progress", _videoPlayer.video, this.progressPlayer);
+
+                //add event listener for loading meta data
+                window.listenElem("loadedmetadata", _videoPlayer.video, this.progressPlayer);
+
+                //add event listener for volume change
+
+                window.listenElem("volumechange", _videoPlayer.video, this.volumechange);
+
+                //add event listener for error on music player
+                window.listenElem("error", _videoPlayer.video, this.errorPlayer);
+            }
+
+            /*functions for control actions*/
+
+            this.videoCoverClicked = function (event) {
+                //alert('1');
+                event.currentTarget.style.display = "none";
+                if (_videoPlayer.video === undefined || typeof _videoPlayer.video === null) {
+                    console.warn("cant find video tag with class='_videoPlayer_video'");
+                } else {
+                    _videoPlayer.video.play();
+                }
+                event.preventDefault();
+                return false;
+            };
+
+            this.buttonsClicked = function (event) {
+
+                switch (event.currentTarget.getAttribute("data-button")) {
+                    case "play":
+                        //console.log("play");
+                        if (_videoPlayer.video.paused) {
+                            if (_videoPlayer.video.duration > 0) {
+                                _videoPlayer.video.play();
+                            } else {
+                                _videoPlayer.play(_videoPlayer.file);
+                            }
+                        } else {
+                            if (_videoPlayer.video.duration > 0) {
+                                _videoPlayer.video.pause();
+                            } else {
+                                _videoPlayer.play(_videoPlayer.file);
+                            }
+                        }
+                        break;
+                    case "timeline":
+                        //alert('کاربر گرامی شما نمیتوانید ویدئو را به جلو ببرید');
+                        if (_videoPlayer.video.duration > 0) {
+                            var parentPosition = getPositionData(event.currentTarget);
+                            var mousex = event.clientX - parentPosition.x;
+                            var timelineWidth = parseFloat(_videoPlayer.timeline_btn.offsetWidth);
+                            var newCurrentTime = (parseFloat(mousex) * parseFloat(_videoPlayer.video.duration)) / parseFloat(timelineWidth);
+                            console.log(mousex + "/" + timelineWidth);
+                            _videoPlayer.video.currentTime = newCurrentTime;
+                        }
+                        ;
+                        break;
+                    case "mute":
+                        //console.log('volume');
+                        if (_videoPlayer.video.muted === false) {
+                            _videoPlayer.video.muted = true;
+                            event.currentTarget.className = "fa fa-volume-off fa-lg";
+                        } else {
+                            _videoPlayer.video.muted = false;
+                            event.currentTarget.className = "fa fa-volume-up fa-lg";
+                        }
+                        break;
+                    case "fullscreen":
+                        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                            event.currentTarget.className = "fa fa-compress fa-lg";
+                            if (_videoPlayer.elem.requestFullscreen) {
+                                _videoPlayer.elem.requestFullscreen();
+                            } else if (_videoPlayer.elem.msRequestFullscreen) {
+                                _videoPlayer.elem.msRequestFullscreen();
+                            } else if (_videoPlayer.elem.mozRequestFullScreen) {
+                                _videoPlayer.elem.mozRequestFullScreen();
+                            } else if (_videoPlayer.elem.webkitRequestFullscreen) {
+                                _videoPlayer.elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                            } else {
+                                event.currentTarget.className = "fa fa-expand fa-lg";
+                                alert('توجه', 'مرورگر شما قابلیت تمام صفحه شدن ویدئو را پشتیبانی نمیکند', 1);
+                            }
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.msExitFullscreen) {
+                                document.msExitFullscreen();
+                            } else if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen();
+                            } else if (document.webkitExitFullscreen) {
+                                document.webkitExitFullscreen();
+                            }
+                            event.currentTarget.className = "fa fa-expand fa-lg";
+                        }
+                        break;
+                    default:
+                        console.warn("the button you have clicked is not valid");
+                        break;
+                }
+            }
+
+            this.updatePlayerTime = function (event) {
+
+                var minutes = Math.floor(parseInt(this.currentTime) / 60);
+                var seconds = parseInt(this.currentTime) - (minutes * 60);
+                var show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+                if (isNaN(this.currentTime)) { show = "00:00"; }
+                _videoPlayer.text_current.innerHTML = show;
+                minutes = Math.floor(parseInt(this.duration) / 60);
+                seconds = parseInt(this.duration) - (minutes * 60);
+                show = (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+                if (!isNaN(this.duration)) {
+                    _videoPlayer.text_duration.innerHTML = show;
+                }
+                //timeline move:
+                var timeline = _videoPlayer.timeline_btn;
+                var timelineWidth = parseFloat(timeline.offsetWidth);
+                // var playedPercent=parseInt(parseFloat(this.currentTime*100)/parseFloat(this.duration));
+                var playedWidth = parseFloat(parseFloat(this.currentTime) * parseFloat(timelineWidth) / parseFloat(this.duration));
+                timeline.firstElementChild.firstElementChild.style.width = playedWidth + "px";
+            };
+
+            this.endPlayerTime = function (event) {
+
+                _videoPlayer.play_btn.className = "fa fa-play fa-lg";
+                _videoPlayer.video.currentTime = 0;
+            };
+
+            this.playedPlayer = function (event) {
+                //alert('5');
+                _videoPlayer.play_btn.className = "fa fa-pause fa-lg";
+                _videoPlayer.cover.style.display = "none";
+
+
+            };
+
+            this.pausedPlayer = function (event) {
+                //alert('6');
+                _videoPlayer.play_btn.className = "fa fa-play fa-lg";
+            };
+
+            this.progressPlayer = function (event) {
+                //alert('7');
+                //timeline move:
+                var timeline = _videoPlayer.timeline_btn;
+                var timelineWidth = parseFloat(timeline.offsetWidth);
+                if (this.buffered.length > 0) {
+                    var bufferedPercent = parseFloat(parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * 100) / parseFloat(this.duration));
+                    var bufferedWidth = parseFloat(parseFloat(this.buffered.end(this.buffered.length - 1)) * parseFloat(timelineWidth) / parseFloat(this.duration));
+                    timeline.firstElementChild.style.width = bufferedPercent + "%";
+                } else {
+                    timeline.firstElementChild.style.width = "100%";
+                }
+            };
+
+            this.volumechange = function (event) {
+                //alert('8');
+                if (_videoPlayer.video.muted === true) {
+                    _videoPlayer.mute_btn.className = "fa fa-volume-off fa-lg";
+                } else {
+                    _videoPlayer.mute_btn.className = "fa fa-volume-up fa-lg";
+                }
+            }
+
+            this.errorPlayer = function (event) {
+                //alert(event);
+                _videoPlayer.play_btn.className = "fa fa-warning fa-lg";
+            };
+        }
+        $(document).ready(function () {
+
+            (new _videoPlayer).init(
+                document.querySelector("._videoPlayer")
+            );
+            if (/Android [4-6]/.test(navigator.appVersion)) {
+                window.addEventListener("resize", function () {
+                    if (document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
+                        window.setTimeout(function () {
+                            document.activeElement.scrollIntoViewIfNeeded();
+                        }, 0);
+                    }
+                })
+            }
+        });
+    </script>
+    <script>
+        function btnClick(activeTabId) {
+            $(`button[href="` + activeTabId + `"]`).click();
+        }
+        $(document).ready(function () {
+            $('#closeRuleModal').click(function () {
+                if ($('#acceptRole').is(':visible')) {
+                    $('#acceptRole').prop('checked', 'checked');
+                }
+            });
+            $('#acceptRole').click(function () {
+                if ($(this).prop('checked') == true) {
+                    $('#_RuleModal').appendTo("body");
+                    $('#_RuleModal').modal('show', { backdrop: 'static' });
+                }
+            });
+
+        });
+    </script>
+</body>

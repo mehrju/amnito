@@ -1,0 +1,8 @@
+﻿Group: 1_NopFarsi
+FriendlyName: بانک ملت
+SystemName: Payments.Mellat
+Version: 2.01
+SupportedVersions: 3.90
+Author: NopFarsi.ir  (MJ Vakili)
+DisplayOrder: 1
+FileName: Nop.Plugin.Payments.Mellat.dll

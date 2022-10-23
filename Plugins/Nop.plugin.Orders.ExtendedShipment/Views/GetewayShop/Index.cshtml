@@ -1,0 +1,100 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework  
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = "لیست فروشگاه های گیت وی";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Setting.gatewayShop");
+}
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        لیست فروشگاه های گیت وی
+    </h1>
+   @* <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_store_list_buttons" })
+    </div>*@
+</div>
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="store-grid"></div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                           $("#store-grid").kendoGrid({
+                                    autoBind: false,
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("getgetwayShopList", "gatewayShop"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken   
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    //details grid
+                                    scrollable: false,
+                                    columns: [
+                                         {
+                                            field: "ShopID",
+                                            title: "کد فروشگاه",
+                                            width: 50
+                                        }
+                                        , {
+                                            field: "ShopName",
+                                            title: "نام فروشگاه",
+                                            width: 100
+                                        }
+                                    , {
+                                        field: "ShopUsername",
+                                        title: "نام کاربری فروشگاه",
+                                        width: 100
+                                        }
+                                    , {
+                                            field: "ShopStatus",
+                                            title: "آخرین وضعیت فروشگاه ",
+                                            width: 150
+                                        }
+                                    ]
+                                });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+/* Mailchimp widget */
+.luke-wp-sidebar .luke-mailchimp-input-form {
+    height: 42px;
+    width: 100%;
+    padding: 5px 15px;
+    margin-bottom: 15px;
+}
+.luke-wp-sidebar .luke-mailchimp-submit-btn {
+    height: 42px;
+    width: 100%;
+    background: #fe625e;
+    color: #fff;
+}
+.luke-wp-sidebar .luke-mailchimp-submit-btn:hover {
+    color: #fe625e;
+}
+.mailchimp-widget-wrapper {
+    background: #283a5e;
+    padding: 45px;
+    color: #fff;
+    text-align: center;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+.mailchimp-widget-title {
+    color: #fff;
+    margin-bottom: 20px;
+}
+.mailchimp-section .luke-mailchimp-input-form {
+    height: 60px;
+    width: 300px !important;
+    font-size: 18px;
+    padding-left: 20px !important;
+    padding-right: 20px;
+    z-index: 1;
+}
+.mailchimp-section .luke-mailchimp-submit-btn {
+    height: 60px;
+    background: #fe625e;
+    color: #fff;
+    padding: 10px 35px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    -webkit-transition: all .35s linear;
+    -o-transition: all .35s linear;
+    -moz-transition: all .35s linear;
+    transition: all .35s linear;
+    border: none;
+    z-index: 2;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.mailchimp-section .luke-mailchimp-submit-btn:hover {
+    color: #fff;
+    background: #f12711;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.me-subs-box{
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    -webkit-border-radius: 35px;
+-moz-border-radius: 35px;
+border-radius: 35px; 
+}
+
+/* latest post widget */
+.latest-post-thumb {
+    max-width: 60px;
+    margin-right: 15px;
+}
+.luke-latest-post-title {
+    font-size: 16px;
+    color: #283a5e;
+    line-height: 1.2;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.luke-latest-post-title a,
+.luke-latest-post-title a:visited {
+    font-size: 16px;
+    color: #283a5e;
+    line-height: 1.2;
+    font-weight: 500;
+}
+.latest-post-date {
+    font-size: 14px;
+    color: #283a5e;
+    line-height: 1.2;
+    font-weight: 400;
+}
+.latest-per-post {
+    margin-bottom: 15px;
+}
+.luke-calender-icon,
+.luke-icon {
+    color: #fe625e;
+}
+.luke-site-footer::before {
+    height: 150px !important;
+}
+
+@media (max-width: 575.98px) {
+.me-subs-box {
+    background: transparent;
+}
+}

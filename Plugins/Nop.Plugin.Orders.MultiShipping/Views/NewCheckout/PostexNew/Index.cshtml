@@ -1,0 +1,626 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@model Nop.Plugin.Orders.MultiShipping.Models.vm_Index
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	Html.AddTitleParts("خدمات آنلاین پست");
+	Html.AddMetaKeywordParts("پست , رهگیری");
+	Html.AddMetaDescriptionParts("امنیتو ارائه دهنده انواع خدمات پست آنلاین و جمع آوری به صورت درب تا درب با ارائه کد رهگیری جهت پیگیری مرسولات پستی صورت درون شهری ، بین شهری و بین المللی ");
+}
+@using Nop.Core
+@inject IWorkContext _workContext;
+@{
+	int imgVer = 11;
+}
+<style>
+	@@media (max-width:767px) {
+		.dropdownMenu {
+			margin-top: 0px !important;
+			margin-bottom: 80px;
+		}
+
+		.menuRowMobile {
+			margin-bottom: 25px !important;
+		}
+	}
+</style>
+
+<div class="modal fade bd-example-modal-lg" id="notification-modal" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="border-radius: 10px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h5 class="modal-title" id="notification-modal-title"></h5>
+			</div>
+			<div class="modal-body" id="notification-modal-body">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="khadamat-modal" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="border-radius: 10px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h5 class="modal-title" id="khadamat-modal-title"></h5>
+			</div>
+			<div class="modal-body" id="khadamat-modal-body" style="text-align:justify">
+				<p><strong>خدمات ما</strong></p>
+
+				<p><strong>۱ - جمع آوری و توزیع از درب تا درب:</strong></p>
+
+				<p>تمامی سرویس های امنیتو در تمامی نقاط تحت پوشش این شرکت از درب محل فرستنده جمع آوری تا درب محل گیرنده توزیع میگردد.</p>
+
+				<p><strong>۲ - سرویس بسته بندی</strong>:</p>
+
+				<p>کلیه سرویس های امنیتو امکان بسته بندی &nbsp;استاندارد پستی، در نقاطی که این شرکت دارای نمایندگی ست و فرستنده، دسترسی لازم به بسته استاندارد پستی را ندارد را دارا میباشد.</p>
+
+				<p><strong>۳ -</strong> کلیه سرویس های عرضه شده در امنیتو، چه در بخش پست داخلی و چه پست خارجی، تمامی مراحل ارسال از طریق سرویس های آنلاین و پیامک قابل رهگیری( ترکینگ ) میباشد.</p>
+
+				<p><strong>۴ - سرویس درج نشان تجاری:</strong></p>
+
+				<p>شما میتوانید با بارگذاری نشان تجاری خود و پس از تایید امکان استفاده آن از سمت امنیتو، نشان تجاری خود را بروی فاکتور های تولید شده در امنیتو، و با انتخاب هر یک از فاکتورهای خودتان قرار دهید.</p>
+
+				<p><strong>۵ - پست داخلی:</strong></p>
+
+				<p>امنیتو عرضه کننده دهها سرویس پست داخلی با امکان فیلتر کردن آنها بر اساس قیمت، سرعت و کیفیت نظر داده شده از سمت مشتری میباشد.</p>
+
+				<p><strong>۶-</strong> امنیتو هم اکنون با استفاده از زیر ساخت چندین شرکت عرضه کننده پست خارجی در راستای ارائه خدمت به هم وطنان عزیز از درب محل اقامتشان تا ۲۰۵ کشور جهان، قابلیت عرضه سرویسهای متنوع پستی را دارا میباشد.</p>
+
+				<p><strong>۷-</strong> امنیتو جهت رفاه حال شرکتها، فروشگاههای اینترنتی و یا فروشگاهها سازها امکان استفاده از سرویس های خود را در قالب API و افزونه ارائه مینماید.</p>
+
+				<p><strong>۸ -</strong> امنیتو امکان استفاده از سرویس های پسکرایه و یا پرداخت در محل را با احراز شرایط لازم در اختیار تمامی کسب و کارهای اینترنتی قرار می&zwnj;دهد.</p>
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="postType-modal" role="dialog">
+	<div class="modal-dialog modal-lg" style="width:350px !important">
+		<div class="modal-content" style="border-radius: 10px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h5 class="modal-title" id="postType-modal-title">لطفا نحوه پرداخت را انتخاب کنید</h5>
+			</div>
+			<div class="modal-body" id="postType-modal-body">
+				<div class="">
+					<div class="row">
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="apk-modal" role="dialog">
+	<div class="modal-dialog modal-lg" style="width:350px !important">
+		<div class="modal-content" style="border-radius: 10px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+			</div>
+			<div class="modal-body" id="apk-modal-body">
+				<div class="">
+					<div class="row" style="margin-top:10px !important">
+						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+							<a class=" " href="https://cafebazaar.ir/app/com.postex.app">
+								<img class="" src="~/Themes/postexNew/images/apk/badge-cafebazaar-fa.png?ver=@(imgVer)" style="width:200%" />
+							</a>
+						</div>
+					</div>
+
+					<div class="row" style="margin-top:10px !important">
+						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+							<a class=" " href="https://play.google.com/store/apps/details?id=com.postex.app">
+								<img class="" src="~/Themes/postexNew/images/apk/play-google-logo-android.png?ver=@(imgVer)" style="width:200%" />
+							</a>
+						</div>
+					</div>
+
+					<div class="row" style="margin-top:10px !important">
+						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+							<a class=" " href="/postex.apk">
+								<img class="" src="~/Themes/postexNew/images/apk/directDownload.png?ver=@(imgVer)" style="width:200%" />
+							</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="menuRowDesk" id="main-row-desk">
+		<div class="row">
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="peykBTN">
+				<a class="pRelative " href="/Home/Peykhub">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/peykhub-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/peykhub2-01.png" />
+				</a>
+			</div>
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="exterBTN">
+				<a class="pRelative " href="Home/ForeignPost">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/pme-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/pme2-01.png" />
+				</a>
+			</div>*@
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="interBTN">
+				<a class="pRelative " href="Home/DomesticPost">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/postbar-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/postbar2-01.png" />
+				</a>
+			</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="hardBTN">
+				<a class="pRelative" href="/Home/HeavyPost">
+					<img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/1_base.png" />
+					<img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/1_hover.png" />
+				</a>
+			</div>*@
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="walletBTN">
+				<a class="pRelative " href="Home/Wallet">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/کیف.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/کیف1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="packingBTN">
+				<a class="pRelative " href="Home/Packing">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/بسته بندی.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/بسته بندی1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="supportBTN">
+				<a class="pRelative " href="@Url.Action("support", "PostbarDashboard")">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/پشتیبانی.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/پشتیبانی1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="agencyBTN">
+				<a class="pRelative " href="Home/Agencies">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/نمایندگی.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/نمایندگی1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="commentsBTN">
+				<a class="pRelative hasDrop" href="@Url.Action("List", "Comments")">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/نظرات.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/نظرات1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="api-requestBTN">
+				<a class="pRelative " href="Home/Api-request">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/درخواست.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/درخواست 1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="wordpress-pluginBTN">
+				<a class="pRelative " href="https://wordpress.org/plugins/postbar-shipping/">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/wordpresLogo2.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/wordpresLogo.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="rulesBTN">
+					<a class="pRelative " href="javascript:$('#showRule').click()">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/قوانین.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/قوانین1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="appBTN">
+				<a class="pRelative " href="#apk-modal" data-target="#apk-modal" data-toggle="modal">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/downApp.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/downApp1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+			<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="magBTN">
+				<a class="pRelative " href="https://mag.postex.ir/">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/postex-mag.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/postex-mag.png" />
+				</a>
+			</div>
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN">
+					<a class="pRelative " href="#khadamat-modal" data-target="#khadamat-modal" data-toggle="modal">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/khadamat.png?ver=@(imgVer)?ver=10" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/khadamat1.png?ver=@(imgVer)?ver=10" />
+					</a>
+				</div>
+
+				<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4 postServicesBTN" id="postServicesBTN">
+					<a class="pRelative hasDrop" href="#dropdownMenu">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/همکاران.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/همکاران 1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+		</div>
+	</div>
+
+	<div class="menuRowMobile" id="menuRowMobile">
+		<div class="row">
+
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="exterBTN">
+				<a class="pRelative " href="Home/ForeignPost">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/pme-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/pme2-01.png" />
+				</a>
+			</div>*@
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="interBTN">
+				<a class="pRelative " href="Home/DomesticPost">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/postbar-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/postbar2-01.png" />
+				</a>
+			</div>*@
+
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="peykBTN">
+				<a class="pRelative " href="Home/Peykhub">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/peykhub-01.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/peykhub2-01.png" />
+				</a>
+			</div>
+
+		@*	<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="hardBTN">
+				<a class="pRelative" href="/Home/HeavyPost">
+					<img class="menuHome img1" src="~/Themes/postexNew/images/Home/1/1_base.png" />
+					<img class="menuHome img2" src="~/Themes/postexNew/images/Home/2/1_hover.png" />
+				</a>
+			</div>
+*@
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="walletBTN" style="display:@(Model.HideForItSaz?"none":"Block")">
+				<a class="pRelative " href="Home/Wallet">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/کیف.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/کیف1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="packingBTN">
+				<a class="pRelative " href="Home/Packing">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/بسته بندی.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/بسته بندی1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="supportBTN">
+					<a class="pRelative " href="@Url.Action("support", "PostbarDashboard")">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/پشتیبانی.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/پشتیبانی1.png?ver=@(imgVer)" />
+					</a>
+				</div>
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="agencyBTN">
+				<a class="pRelative " href="Home/Agencies">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/نمایندگی.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/نمایندگی1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="api-requestBTN">
+				<a class="pRelative " href="Home/Api-request" style="display:@(Model.HideForItSaz?"none":"Block") ">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/درخواست.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/درخواست 1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="wordpress-pluginBTN">
+				<a class="pRelative " href="https://wordpress.org/plugins/postbar-shipping/" style="display:@(Model.HideForItSaz?"none":"Block")>
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/wordpresLogo2.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/wordpresLogo.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+@*
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN" style="display:@(Model.HideForItSaz?"none":"Block") ">
+				<a class="pRelative " href="#apk-modal" data-target="#apk-modal" data-toggle="modal">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/downApp.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/downApp1.png?ver=@(imgVer)" />
+				</a>
+			</div>*@
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="rulesBTN" style="display:@(Model.HideForItSaz?"none":"Block") ">
+					<a class="pRelative " href="javascript:$('#showRule').click()">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/قوانین.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/قوانین1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN" style="display:@(Model.HideForItSaz?"none":"Block") ">
+					<a class="pRelative " href="#khadamat-modal" data-target="#khadamat-modal" data-toggle="modal">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/khadamat.png?ver=@(imgVer)?ver=10" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/khadamat1.png?ver=@(imgVer)?ver=10" />
+					</a>
+				</div>*@
+
+			@*<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4 postServicesBTN" id="postServicesBTN" style="display:@(Model.HideForItSaz?"none":"Block") ">
+					<a class="pRelative partner hasDrop">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/همکاران.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/همکاران 1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN" style="display:@(Model.HideForItSaz?"none":"Block") ">
+				<a class="pRelative " href="/Home/درباره ما">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/درباره ما.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/درباره ما1.png?ver=@(imgVer)" />
+				</a>
+			</div>
+
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" style="display:@(Model.HideForItSaz?"none":"Block") ">
+				<a class="pRelative hasDrop" href="@Url.Action("List", "Comments")" id="comment">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/comments/ثبت نظرات1.png?ver=@(imgVer)" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/comments/موس2.png?ver=@(imgVer)" />
+				</a>
+			</div>
+
+
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="magBTN">
+				<a class="pRelative " href="https://mag.postex.ir/">
+					<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/postex-mag.png" />
+					<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/postex-mag.png" />
+				</a>
+			</div>
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="postServicesBTN">
+					<a class="pRelative " href="#dropdownMenu">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/خدمات.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/خدمات1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="postServicesBTN">
+					<a class="pRelative " href="#dropdownMenu">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/خدمات.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/خدمات1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+
+
+
+
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="commentsBTN">
+					<a class="pRelative " href="/">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/نظرات.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/نظرات1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="supportBTN">
+					<a class="pRelative " href="/">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/news/اخبار1.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/news/موس.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="commentsBTN">
+					<a class="pRelative " href="/">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/نظرات.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/نظرات1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="supportBTN">
+					<a class="pRelative " href="/">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/news/اخبار1.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/news/موس.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+
+
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN">
+					<a class="pRelative " href="#" id="showPartner">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/همکاران.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/همکاران 1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+			@*<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-4" id="aboutBTN">
+					<a class="pRelative " href="#" id="showPartner">
+						<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/همکاران.png?ver=@(imgVer)" />
+						<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/همکاران 1.png?ver=@(imgVer)" />
+					</a>
+				</div>*@
+
+
+
+		</div>
+		@*<hr style="margin-bottom:0px !important" />
+			<div style="width:100%;height:auto;margin-left:7px; margin-right:7px;padding-bottom: 62px !important;" id="partnerCard">
+				<div class="row align-items-center" style="margin-bottom: 10px;margin-right: 0px;margin-left:0px">
+					<div class="col">
+						<span class="serviceLable" style="margin-top:15px;font-size:16px !important;color:black !important">معرفی سرویس ها موجود در پستِکس</span>
+					</div>
+				</div>
+				<div class="gallery js-flickity main-carousel" data-flickity-options='{"freeScroll": true,"rightToLeft": "true","cellAlign":"right" }'>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس پست بار</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/POSTBAR.png?ver=@(imgVer)" />
+						<div data-val="0" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<img class="d-block" data-val="1" src="~/Themes/Ap/images/ApImages/ServicesItem.png?ver=@(imgVer)" />
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/.png?ver=@(imgVer)" />
+						<div class="ServiceLink">
+							جزئیات بیشتر
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس چاپار</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/CHAPAR.png?ver=@(imgVer)" />
+						<div data-val="2" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس PDE</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/PDE.png?ver=@(imgVer)" />
+						<div data-val="3" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس Blue Sky</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/BLUESKY.png?ver=@(imgVer)" />
+						<div data-val="4" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس TPG</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/TPG.png?ver=@(imgVer)" />
+						<div data-val="6" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس یارباکس</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/YARBOX.png?ver=@(imgVer)" />
+						<div data-val="7" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<img class="d-block" data-val="8" src="~/Themes/Ap/images/ApImages/ServicesItem.png?ver=@(imgVer)" />
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/.png?ver=@(imgVer)" />
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس اسنپ باکس</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/SNAPBOX.png?ver=@(imgVer)" />
+						<div data-val="9" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+					<div class="gallery-cell servicesImage">
+						<span class="servicesTitle">خدمات سرویس اوبار</span>
+						<img class="d-block ServiceLogo" src="~/ImageServiceProviderDashboard/UBAAR.png?ver=@(imgVer)" />
+						<div data-val="10" class="ServiceLink">
+							<a> جزئیات بیشتر <i class="fa fa-angle-left" aria-hidden="true"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>*@
+	</div>
+
+	@Html.Partial("~/Plugins/Orders.MultiShipping/Views/NewCheckout/PostexNew/Services.cshtml")
+
+	@Html.Partial("~/Plugins/Orders.MultiShipping/Views/NewCheckout/PostexNew/Partners.cshtml")
+
+
+
+
+	<form id="frm_SendToPanel" action="https://panel.postex.ir/account/sso" method="post" style="display:none">
+		<input type="hidden" id="token" name="token" />
+	</form>
+</div>
+
+<script>
+	function showPartner() {
+		$('#dropdownMenu').show();
+		$('#postServices').attr('style', 'display:block !important');
+		window.scrollTo(0, document.body.scrollHeight);
+	}
+	$(document).ready(function ()
+	{
+
+		$('#sendToPanel').click(function () {
+			 $.ajax({
+				cache: false,
+				type: "POST",
+				url: "@Url.Action("encryptuser", "ShipitoHome")",
+				dataType: 'json',
+				success: function (data) {
+					debugger;
+					if (data && data.success) {
+						$('#token').val(JSON.stringify(data.data));
+						$('#frm_SendToPanel').submit();
+					}
+					else if (data.message) {
+						alert(data.message);
+					}
+					else
+						alert('امکان اتصال به پنل فروشگاهی در حال حاضر وجود ندارد لطفا ابتدا وارد سامانه شوید');
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+
+				},
+				traditional: true
+			});
+		});
+		$('.postServicesBTN').click(function () {
+			$('#postServices').removeClass('d-none')
+			$('#about').addClass('d-none')
+			$('#rules').addClass('d-none')
+			$('#agency').addClass('d-none')
+			$('#comments').addClass('d-none');
+			$([document.documentElement, document.body]).animate({
+				scrollTop: $("#postServices").offset().top
+			}, 2000);
+
+		});
+
+		$('.pRelative:not(.hasDrop)').click(function () {
+			$('#dropdownMenu').hide();
+		});
+
+		setTimeout(function () {
+			$('.partners-carousel').flickity("resize");
+		}, 1000);
+	});
+
+</script>
+<script>
+		$(function () {
+			var cookieIds = getCookie("notifyIds");
+			$.ajax({
+				cache: false,
+				type: "GET",
+				url: "@Url.Action("GetLatestNotification", "ShipitoHome")" + "?cookieIds=" + cookieIds,
+				dataType: 'json',
+				success: function (data) {
+					if (data && data.Content) {
+						$('#notification-modal-body').html(data.Content);
+						$('#notification-modal-title').html(data.Title);
+						$('#notification-modal').modal('show');
+						var cookieName = "notifyIds";
+						var cookieValues = data.Id + "," + cookieIds;
+						setCookie(cookieName, cookieValues, 60);
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+
+				},
+				traditional: true
+			});
+		});
+
+
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+</script>
+

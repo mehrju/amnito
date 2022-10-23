@@ -1,0 +1,521 @@
+@font-face
+{
+	font-family: 'Vazir';
+	src:
+	url('fonts/Vazir.eot') format('eot'),
+	url('fonts/Vazir.ttf') format('truetype'),
+	url('fonts/Vazir.woff') format('woff');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: bold;
+    src: url('fonts/eot/iranyekanwebboldfanum.eot');
+    src: url('fonts/eot/iranyekanwebboldfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebboldfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebboldfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 100;
+    src: url('fonts/eot/iranyekanwebthinfanum.eot');
+    src: url('fonts/eot/iranyekanwebthinfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebthinfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebthinfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 300;
+    src: url('fonts/eot/iranyekanweblightfanum.eot');
+    src: url('fonts/eot/iranyekanweblightfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanweblightfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanweblightfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/eot/iranyekanwebregularfanum.eot');
+    src: url('fonts/eot/iranyekanwebregularfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebregularfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebregularfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/eot/iranyekanwebmediumfanum.eot');
+    src: url('fonts/eot/iranyekanwebmediumfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebmediumfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebmediumfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 800;
+    src: url('fonts/eot/iranyekanwebextraboldfanum.eot');
+    src: url('fonts/eot/iranyekanwebextraboldfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebextraboldfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebextraboldfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 900;
+    src: url('fonts/eot/iranyekanwebblackfanum.eot');
+    src: url('fonts/eot/iranyekanwebblackfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebblackfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebblackfanum.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 950;
+    src: url('fonts/eot/iranyekanwebextrablackfanum.eot');
+    src: url('fonts/eot/iranyekanwebextrablackfanumd41d.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+         url('fonts/woff/iranyekanwebextrablackfanum.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+         url('fonts/ttf/iranyekanwebextrablackfanum.ttf') format('truetype');
+}
+
+@font-face
+{
+	font-family: 'Aviny';
+	src:
+	url('fonts/Aviny.html') format('eot'),
+	url('fonts/Aviny-2.html') format('truetype'),
+	url('fonts/Aviny-3.html') format('woff');
+}
+
+/*@font-face{
+	font-family: 'FontAwesome';
+	src:
+	url('fonts/FontAwesome.eot') format('eot'),
+	url('fonts/FontAwesome.ttf') format('truetype'),
+	url('fonts/FontAwesome.woff') format('woff'),
+	url('fonts/FontAwesome.otf') format('otf'),
+	url('fonts/FontAwesome.svg') format('svg');
+}*/
+
+body 
+{
+	direction: rtl;
+	font-family: 'iranyekan';
+	line-height: 30px;
+	font-size: 15px;
+	text-align: right !important;
+}
+
+
+
+
+
+a,p,h1,h2,h3,h4,h5,h6,li,ul,div,label,button,text,div,
+input,
+textarea,
+.number,
+.r-name,
+.elementor-counter-title,
+.elementor-counter,
+.elementor-widget-luke-pricing-plan .price-amount,
+.elementor-title
+{
+	font-family: 'iranyekan' !important;
+}
+
+a,h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,.h-sup,
+.order-lg-0,
+.plan-slogan,
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-submit,
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-submit
+{
+	letter-spacing: 0!important;
+}
+
+.order-lg-0,
+.media-body,
+.footer-main-contents,
+.nice-select .option,
+.project-details,
+.entry-content,
+.entry-title,
+.breadcumbs,
+.col-lg-7,
+.wp-calendar-nav,
+.luke-latest-post-title,
+.comments-area,
+.entry-meta,
+.col-lg-2,
+.related.products,
+.col-md-12.col-lg-8,
+.col-lg-3,
+.col-md-6,
+.elementor-10 .elementor-element.elementor-element-9eb2a25 .section-header,
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="text"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="email"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="tel"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap textarea,
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="text"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="email"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="tel"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap textarea
+{
+	text-align: right !important;
+}
+
+.owl-carousel,
+.overlay-icon,
+.reply
+{
+	direction: ltr !important;
+}
+
+.owl-theme .owl-nav{
+	direction: rtl !important;
+}
+
+#billing_country_field,
+.woocommerce-terms-and-conditions-wrapper
+{
+	display: none;
+}
+
+.main-nav ul.menu>li{
+	float: right !important;
+}
+
+.main-nav ul ul{
+	right: 0;
+	left: auto !important;
+	text-align: right;
+}
+
+.main-nav .menu>li>ul>li ul{
+	right: 100% !important;
+	left: auto !important;
+}
+
+.main-nav li:not(.megamenu-item) li.has-dropdown::after{
+	left: 0 !important;
+	right: auto !important;
+	transform: rotateY(180deg);
+}
+
+.luke-dropdown-menu li>a::before{
+	right: 0 !important;
+	left: auto !important;
+}
+
+.momthis-animation-four{
+	left: -200px !important;
+	right: auto !important;
+}
+
+.momthis-animation-three{
+	right: -250px !important;
+	left: auto !important;
+}
+
+.momthis-animation-two{
+	left: 0px !important;
+	right: auto !important;
+	top: 300px !important;
+}
+
+.momthis-animation-one{
+	right: -350px !important;
+	left: auto !important;
+}
+
+.plan-duration::after{
+	right: -8px !important;
+	left: auto !important;
+}
+
+/*.btn-tp, .btn-tp:visited{
+	margin-right: 50px;
+	margin-left: 0px !important;
+}*/
+
+.btn-tp::before{
+	right: -50px !important;
+	left: auto !important;
+}
+
+.latest-post-thumb{
+	margin-right: 0px !important;
+	margin-left: 15px !important;
+}
+
+.nice-select:after{
+	left: 12px !important;
+	right: auto !important;
+}
+
+.nice-select{
+	padding-right: 18px !important;
+	padding-left: 30px !important;
+}
+
+.nice-select .list{
+	left: 0 !important;
+	right: auto !important;
+}
+
+.nice-select .option{
+	padding-right: 18px !important;
+	padding-left: 29px !important;
+}
+
+.list-inline{
+	padding-right: 0 !important;
+}
+
+div.wpcf7 .ajax-loader{
+	float: left;
+}
+
+.lnr.lnr-calendar-full{
+	float: right;
+}
+
+.entry-date.published{
+	margin-right: 5px !important;
+	float: right;
+}
+
+.next.page-numbers,
+.prev.page-numbers{
+	transform: rotateY(180deg);
+}
+
+.col-sm-6.col-md-auto.mr-auto{
+	margin-right: 0 !important;
+	margin-left: auto !important;
+}
+
+.slide-subheading-text{
+	margin-top: 50px;
+}
+
+.hero-image{
+	margin-left: 0 !important;
+	margin-right: 60px !important;
+}
+
+.col-auto.ml-md-auto.d-none.d-md-block{
+	margin-left: 0 !important;
+	margin-right: auto !important;
+	text-align: right !important;
+}
+
+.luke-post-layout-1 .post-details{
+	margin-right: 7% !important;
+	margin-left: 0 !important;
+	border-top-right-radius:15px !important;
+	border-top-left-radius: 0 !important;
+}
+
+.info.icon{
+	content: "\e72b";
+}
+
+.ti-angle-right.subscribe-arrow-icon{
+	float: left;
+    transform: rotateY(180deg);
+    margin-right: 15px;
+}
+
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="text"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="email"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap input[type*="tel"],
+.elementor-383 .elementor-element.elementor-element-93de027 .wpcf7-form .wpcf7-form-control-wrap textarea,
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="text"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="email"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap input[type*="tel"],
+.elementor-217 .elementor-element.elementor-element-1358df1 .wpcf7-form .wpcf7-form-control-wrap textarea
+{
+	padding: 7px 20px 7px 0px !important;
+}
+
+.owl-prev,
+.owl-next{
+	transform: rotateY(180deg);
+}
+
+.lnr.lnr-calendar-full{
+	line-height: 2 !important;
+}
+
+.lnr.lnr-calendar-full.luke-calender-icon{
+	line-height: 1 !important;
+}
+
+.align-self-start{
+	margin-right: 0 !important;
+	margin-left: 1em !important;
+}
+
+.site-info{
+	font-size: 12px;
+}
+
+#cookie-notice .cn-button{
+	margin-right: 10px;
+	margin-left: 0!important;
+}
+
+.main-nav {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+.luke-quote::before {
+    content: "\e67e" !important;
+    right: 30px;
+    left: auto !important;
+}
+
+.tinvwl-input-group .form-control{
+	text-align: right !important;
+}
+
+#coupon_code {
+    padding-right: 10px !important;
+    padding-left: 150px !important;
+}
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button{
+	left: 0 !important;
+}
+
+.ti-arrow-right:before {
+    content: "\e629" !important;
+}
+.ti-arrow-left:before{
+	content: "\e628" !important;
+}
+
+caption{
+	text-align: right !important;
+}
+
+.sidebar .widget.widget_tag_cloud .tagcloud a {
+    float: right;
+    margin: 0 0px 10px 10px !important;
+}
+
+.sidebar .widget ul{
+	padding-right: 0px;
+}
+
+.scroll-top{
+	right: auto !important;
+	left: 15px;
+}
+
+#wp-comment-cookies-consent{
+	margin-left: 8px;
+	margin-right: 0px !important;
+}
+
+.luke-single-post-footer .comments-link{
+	margin-right: 45px;
+	margin-left: 0px !important;
+}
+
+.single-post-header::before{
+	right: -600px !important;
+	left: auto !important;
+}
+
+.wp-block-quote, blockquote {
+    border-right: 3px solid #F37E21;
+    border-left: 0px !important;
+}
+
+.ti-quote-left:before{
+	content: "\e67e" !important;
+}
+
+.ti-comment:before{
+	display: table-cell;
+}
+
+.portfolio-material-content {
+    margin: -50px 23px 23px 0px !important;
+    -webkit-border-radius: 15px !important;
+    -webkit-border-top-left-radius: 0 !important;
+    -moz-border-radius: 15px !important;
+    -moz-border-radius-topleft: 0 !important;
+    border-radius: 15px !important;
+    border-top-left-radius: 0 !important;
+    -webkit-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+    -khtml-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+    -o-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+    box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, .1);
+}
+
+.portfolio-material-content::before{
+	right: -23px;
+	left: auto !important;
+}
+
+.luke-post-layout-2 .post-thumb .post-date{
+	right: 15px !important;
+	left: auto !important;
+}
+
+.rtl .woocommerce .col2-set .col-1, .rtl .woocommerce-page .col2-set .col-1 {
+    float: right !important;
+}
+.rtl .woocommerce .col2-set .col-2, .rtl .woocommerce-page .col2-set .col-2 {
+    float: left !important;
+}
+
+.elementor-widget-image-box .elementor-image-box-content{
+	text-align: right !important;
+}
+
+.mean-container .mean-nav ul li a.mean-expand{
+	right: auto !important;
+	left: 0;
+}
+
+.mean-container .mean-nav ul li a{
+	text-align: right !important;
+}
+
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button{
+	line-height: 1.55 !important;
+}
+
+.entry-summary .tinvwl-after-add-to-cart .tinvwl_add_to_wishlist_button{
+	margin-left: 0 !important;
+	margin-right: 3px !important;
+}
+@media (min-width: 1200px){
+.menu-item a>span {
+    right: auto !important;
+    left: 4px !important;
+	}
+	.menu-item a>span {
+		background-position: right !important;
+	}
+}
+
+@media (max-width: 575.98px){
+	.elementor-widget-image-box .elementor-image-box-content {
+    text-align: center !important;
+}
+}

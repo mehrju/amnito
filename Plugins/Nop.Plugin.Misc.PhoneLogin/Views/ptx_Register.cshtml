@@ -1,0 +1,799 @@
+﻿@model Nop.Plugin.Misc.PhoneLogin.Models.RegisterModel
+@using System.Text.Encodings.Web
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/postexNew/_NewUiLayoutAccount.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Register").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-registration-page");
+
+    var loginUrl = Url.RouteUrl("Login");
+}
+<style>
+    @@media (min-width: 230px) {
+        .recaptcha {
+            margin-right: -34px !important;
+        }
+    }
+
+    @@media (min-width: 375px) {
+        .recaptcha {
+            margin-right: -9px !important;
+        }
+    }
+
+    @@media (min-width: 425px) {
+        .recaptcha {
+            margin-right: 16px !important;
+        }
+    }
+
+    @@media (min-width: 786px) {
+        .recaptcha {
+            margin-right: 128px !important;
+        }
+    }
+
+    @@media (min-width: 1024px) {
+        .recaptcha {
+            margin-right: 37px !important;
+        }
+    }
+
+    @@media (min-width: 1440px) {
+        .recaptcha {
+            margin-right: 124px !important;
+        }
+    }
+
+    @@media(max-width:961px) {
+        #myDiv {
+            margin-top: 25px !important;
+        }
+
+        #registerContainer {
+            margin-top: 0px !important;
+        }
+
+        .tinLoginControl {
+            height: 40px !important;
+        }
+
+        input.tinLoginControl {
+            padding: 1rem !important;
+        }
+
+        h4 {
+            display: none;
+        }
+    }
+</style>
+<form class="form-sign-up" asp-route="Register" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post" id=frmRegister>
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12 m-auto">
+                <div class="shadow mb-5 p-4 rounded bg-white js-active" data-animation="scaleIn">
+                    <div class="multisteps-form__content">
+                        <div class="form-row mt-4" id="registerContainer">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <div id="registerData">
+                                    <label for="_Username">شماره موبایل:</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend tinLoginControl">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" name="_Username" id="_Username" class="formLogin form-control p-4 tinLoginControl" aria-label="_Username"
+                                               aria-describedby="basic-addon1" style="border-left:none;text-align:left" maxlength="15">
+
+                                        <input type="hidden" asp-for="Username" />
+                                        <div class="input-group-prepend tinLoginControl" style=" width: 20%;">
+                                            <select id="CountryCodeNum" name="CountryCodeNum" style=" border: 2px solid #f7941d; border-right: none;width:100%">
+                                                <option value="+93">afghanistan(+93)</option>
+                                                <option value="+355">albania(+355)</option>
+                                                <option value="+213">algeria(+213)</option>
+                                                <option value="+376">andorra(+376)</option>
+                                                <option value="+244">angola(+244)</option>
+                                                <option value="+994">azerbaijan(+994)</option>
+                                                <option value="+54">argentina(+54)</option>
+                                                <option value="+61">australia(+61)</option>
+                                                <option value="+43">austria(+43)</option>
+                                                <option value="+1242">bahamas(+1242)</option>
+                                                <option value="+973">bahrain(+973)</option>
+                                                <option value="+880">bangladesh(+880)</option>
+                                                <option value="+374">armenia(+374)</option>
+                                                <option value="+1246">barbados(+1246)</option>
+                                                <option value="+32">belgium(+32)</option>
+                                                <option value="+975">bhutan(+975)</option>
+                                                <option value="+267">botswana(+267)</option>
+                                                <option value="+55">brazil(+55)</option>
+                                                <option value="+501">belize(+501)</option>
+                                                <option value="+968">oman(+968)</option>
+                                                <option value="+264">namibia(+264)</option>
+                                                <option value="+674">nauru(+674)</option>
+                                                <option value="+977">nepal(+977)</option>
+                                                <option value="+31">netherlands(+31)</option>
+                                                <option value="+678">vanuatu(+678)</option>
+                                                <option value="+64">new zealand(+64)</option>
+                                                <option value="+505">nicaragua(+505)</option>
+                                                <option value="+227">niger(+227)</option>
+                                                <option value="+234">nigeria(+234)</option>
+                                                <option value="+47">norway(+47)</option>
+                                                <option value="+692">marshall islands(+692)</option>
+                                                <option value="+680">palau(+680)</option>
+                                                <option value="+92">pakistan(+92)</option>
+                                                <option value="+507">panama(+507)</option>
+                                                <option value="+675">papua new guinea(+675)</option>
+                                                <option value="+595">paraguay(+595)</option>
+                                                <option value="+51">peru(+51)</option>
+                                                <option value="+63">philippines(+63)</option>
+                                                <option value="+48">poland(+48)</option>
+                                                <option value="+351">portugal(+351)</option>
+                                                <option value="+974">qatar(+974)</option>
+                                                <option value="+40">romania(+40)</option>
+                                                <option value="+250">rwanda(+250)</option>
+                                                <option value="+1758">saint lucia(+1758)</option>
+                                                <option value="+378">san marino(+378)</option>
+                                                <option value="+966">saudi arabia(+966)</option>
+                                                <option value="+221">senegal(+221)</option>
+                                                <option value="+248">seychelles(+248)</option>
+                                                <option value="+232">sierra leone(+232)</option>
+                                                <option value="+65">singapore(+65)</option>
+                                                <option value="+421">slovakia(+421)</option>
+                                                <option value="+386">slovenia(+386)</option>
+                                                <option value="+252">somalia(+252)</option>
+                                                <option value="+27">south africa(+27)</option>
+                                                <option value="+263">zimbabwe(+263)</option>
+                                                <option value="+34">spain(+34)</option>
+                                                <option value="+249">sudan(+249)</option>
+                                                <option value="+597">suriname(+597)</option>
+                                                <option value="+46">sweden(+46)</option>
+                                                <option value="+41">switzerland(+41)</option>
+                                                <option value="+992">tajikistan(+992)</option>
+                                                <option value="+66">thailand(+66)</option>
+                                                <option value="+228">togo(+228)</option>
+                                                <option value="+676">tonga(+676)</option>
+                                                <option value="+971">united arab emirates(+971)</option>
+                                                <option value="+216">tunisia(+216)</option>
+                                                <option value="+90">turkey(+90)</option>
+                                                <option value="+993">turkmenistan(+993)</option>
+                                                <option value="+688">tuvalu(+688)</option>
+                                                <option value="+256">uganda(+256)</option>
+                                                <option value="+380">ukraine(+380)</option>
+                                                <option value="+20">egypt(+20)</option>
+                                                <option value="+226">burkina faso(+226)</option>
+                                                <option value="+598">uruguay(+598)</option>
+                                                <option value="+998">uzbekistan(+998)</option>
+                                                <option value="+260">zambia(+260)</option>
+                                                <option value="+1">usa(+1)</option>
+                                                <option value="+677">solomon islands(+677)</option>
+                                                <option value="+359">bulgaria(+359)</option>
+                                                <option value="+95">myanmar(+95)</option>
+                                                <option value="+257">burundi(+257)</option>
+                                                <option value="+375">belarus(+375)</option>
+                                                <option value="+855">cambodia(+855)</option>
+                                                <option value="+237">cameroon(+237)</option>
+                                                <option value="+1">canada(+1)</option>
+                                                <option value="+94">sri lanka(+94)</option>
+                                                <option value="+235">chad(+235)</option>
+                                                <option value="+56">chile(+56)</option>
+                                                <option value="+86">china(+86)</option>
+                                                <option value="+57">colombia(+57)</option>
+                                                <option value="+506">costa rica(+506)</option>
+                                                <option value="+385">croatia(+385)</option>
+                                                <option value="+53">cuba(+53)</option>
+                                                <option value="+357">cyprus(+357)</option>
+                                                <option value="+229">benin(+229)</option>
+                                                <option value="+45">denmark(+45)</option>
+                                                <option value="+1767">dominica(+1767)</option>
+                                                <option value="+1809">dominican republic(+1809)</option>
+                                                <option value="+593">ecuador(+593)</option>
+                                                <option value="+503">el salvador(+503)</option>
+                                                <option value="+240">equatorial guinea(+240)</option>
+                                                <option value="+251">ethiopia(+251)</option>
+                                                <option value="+291">eritrea(+291)</option>
+                                                <option value="+372">estonia(+372)</option>
+                                                <option value="+679">fiji(+679)</option>
+                                                <option value="+358">finland(+358)</option>
+                                                <option value="+33">france(+33)</option>
+                                                <option value="+253">djibouti(+253)</option>
+                                                <option value="+241">gabon(+241)</option>
+                                                <option value="+995">georgia(+995)</option>
+                                                <option value="+220">gambia(+220)</option>
+                                                <option value="+49">germany(+49)</option>
+                                                <option value="+233">ghana(+233)</option>
+                                                <option value="+686">kiribati(+686)</option>
+                                                <option value="+30">greece(+30)</option>
+                                                <option value="+1473">grenada(+1473)</option>
+                                                <option value="+502">guatemala(+502)</option>
+                                                <option value="+224">guinea(+224)</option>
+                                                <option value="+592">guyana(+592)</option>
+                                                <option value="+509">haiti(+509)</option>
+                                                <option value="+504">honduras(+504)</option>
+                                                <option value="+36">hungary(+36)</option>
+                                                <option value="+354">iceland(+354)</option>
+                                                <option value="+91">india(+91)</option>
+                                                <option value="+62">indonesia(+62)</option>
+                                                <option value="+964">iraq(+964)</option>
+                                                <option value="+98" selected>iran(+98)</option>
+                                                <option value="+353">ireland(+353)</option>
+                                                <option value="+39">italy(+39)</option>
+                                                <option value="+1876">jamaica(+1876)</option>
+                                                <option value="+81">japan(+81)</option>
+                                                <option value="+7">kazakhstan(+7)</option>
+                                                <option value="+962">jordan(+962)</option>
+                                                <option value="+254">kenya(+254)</option>
+                                                <option value="+965">kuwait(+965)</option>
+                                                <option value="+996">kyrgyzstan(+996)</option>
+                                                <option value="+961">lebanon(+961)</option>
+                                                <option value="+266">lesotho(+266)</option>
+                                                <option value="+371">latvia(+371)</option>
+                                                <option value="+231">liberia(+231)</option>
+                                                <option value="+218">libya(+218)</option>
+                                                <option value="+423">liechtenstein(+423)</option>
+                                                <option value="+370">lithuania(+370)</option>
+                                                <option value="+352">luxembourg(+352)</option>
+                                                <option value="+261">madagascar(+261)</option>
+                                                <option value="+265">malawi(+265)</option>
+                                                <option value="+60">malaysia(+60)</option>
+                                                <option value="+960">maldives(+960)</option>
+                                                <option value="+356">malta(+356)</option>
+                                                <option value="+222">mauritania(+222)</option>
+                                                <option value="+230">mauritius(+230)</option>
+                                                <option value="+52">mexico(+52)</option>
+                                                <option value="+377">monaco(+377)</option>
+                                                <option value="+976">mongolia(+976)</option>
+                                                <option value="+212">morocco(+212)</option>
+                                                <option value="+258">mozambique(+258)</option>
+                                                <option value="+1787">puerto rico(+1787)</option>
+                                                <option value="+243">congo dem. rep. of(+243)</option>
+                                                <option value="+262">mayotte isl.(+262)</option>
+                                                <option value="+596">martinique(+596)</option>
+                                                <option value="+500">falkland islands(+500)</option>
+                                                <option value="+82">south korea(+82)</option>
+                                                <option value="+84">vietnam(+84)</option>
+                                                <option value="+223">mali republic(+223)</option>
+                                                <option value="+967">yemen republic(+967)</option>
+                                                <option value="+685">west samoa(+685)</option>
+                                                <option value="+236">cen. afric. rep.(+236)</option>
+                                                <option value="+1441">bermuda(+1441)</option>
+                                                <option value="+381">serbia montenegro(+381)</option>
+                                                <option value="+1784">saint vincent(+1784)</option>
+                                                <option value="+299">greenland(+299)</option>
+                                                <option value="+539">guantanamo bay(+539)</option>
+                                                <option value="+1345">cayman islands(+1345)</option>
+                                                <option value="+852">hong kong(+852)</option>
+                                                <option value="+590">guadeloupe(+590)</option>
+                                                <option value="+591">bolivia(+591)</option>
+                                                <option value="+350">gibraltar(+350)</option>
+                                                <option value="+1268">antigua barbuda(+1268)</option>
+                                                <option value="+246">diego garcia(+246)</option>
+                                                <option value="+387">bosnia(+387)</option>
+                                                <option value="+242">congo rep. of(+242)</option>
+                                                <option value="+1868">trinidad tobago(+1868)</option>
+                                                <option value="+247">ascension island(+247)</option>
+                                                <option value="+970">palestine(+970)</option>
+                                                <option value="+297">aruba(+297)</option>
+                                                <option value="+1869">saint kitts nevis(+1869)</option>
+                                                <option value="+508">saint pierre miq.(+508)</option>
+                                                <option value="+1684">american samoa(+1684)</option>
+                                                <option value="+856">laos(+856)</option>
+                                                <option value="+853">macao(+853)</option>
+                                                <option value="+239">sao tome(+239)</option>
+                                                <option value="+44">united kingdom(+44)</option>
+                                                <option value="+670">east timor(+670)</option>
+                                                <option value="+1649">turks caicos(+1649)</option>
+                                                <option value="+389">macedonia, rep. of(+389)</option>
+                                                <option value="+290">saint helena(+290)</option>
+                                                <option value="+599">netherlands antilles(+599)</option>
+                                                <option value="+687">new caledonia(+687)</option>
+                                                <option value="+1284">british virgin isl.(+1284)</option>
+                                                <option value="+881">iridium(+881)</option>
+                                                <option value="+379">vatican city(+379)</option>
+                                                <option value="+7">russia(+7)</option>
+                                                <option value="+683">niue island(+683)</option>
+                                                <option value="+268">swaziland(+268)</option>
+                                                <option value="+594">french guiana(+594)</option>
+                                                <option value="+963">syria(+963)</option>
+                                                <option value="+690">tokelau(+690)</option>
+                                                <option value="+1664">montserrat(+1664)</option>
+                                                <option value="+673">brunei(+673)</option>
+                                                <option value="+238">cape verde(+238)</option>
+                                                <option value="+373">moldova(+373)</option>
+                                                <option value="+298">faroe islands(+298)</option>
+                                                <option value="+262">reunion island(+262)</option>
+                                                <option value="+1670">mariana islands(+1670)</option>
+                                                <option value="+225">ivory coast(+225)</option>
+                                                <option value="+6723">norfolk island(+6723)</option>
+                                                <option value="+682">cook islands(+682)</option>
+                                                <option value="+681">wallis(+681)</option>
+                                                <option value="+58">venezuela(+58)</option>
+                                                <option value="+269">comorros(+269)</option>
+                                                <option value="+672">antarctica(+672)</option>
+                                                <option value="+255">tanzania(+255)</option>
+                                                <option value="+1345">cayman(+1345)</option>
+                                                <option value="+6189162">christmas cocos(+6189162)</option>
+                                                <option value="+420">czech republic(+420)</option>
+                                                <option value="+1340">us virgin isl.(+1340)</option>
+                                                <option value="+689">french polynesia(+689)</option>
+                                                <option value="+1671">guam(+1671)</option>
+                                                <option value="+886">taiwan(+886)</option>
+                                                <option value="+1264">anguilla(+1264)</option>
+                                                <option value="+691">micronesia(+691)</option>
+                                                <option value="+850">north korea(+850)</option>
+                                                <option value="+245">guinea bissau(+245)</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="radio">
+                                        <label><input type="radio" name="CodeTpye" id="IsNationalCode" value="1" checked>کد ملی</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label><input type="radio" name="CodeTpye" id="IsIdOrPassNo" value="2">ID No or Passport No</label>
+                                    </div>
+                                    <div class="radio disabled">
+                                        <label><input type="radio" name="CodeTpye" id="isAtbaa" value="3">کد اتباع</label>
+                                    </div>
+                                    @*<label class="radio-inline"><input type="radio" name="CodeTpye" checked value="1">کد ملی</label>
+                                        <label class="radio-inline"><input type="radio" name="CodeTpye" value="2">ID No or Passport No</label>
+                                        <label class="radio-inline"><input type="radio" name="CodeTpye" value="3">کد اتباع</label>*@
+                                    @*<label asp-for="NationalCode">کدملی:</label>*@
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend tinLoginControl">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="formLogin form-control p-4 tinLoginControl" asp-for="NationalCode" aria-label="Username"
+                                               aria-describedby="basic-addon1">
+                                    </div>
+                                    <label asp-for="Password">رمز عبور:</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend tinLoginControl">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="formLogin form-control p-4 tinLoginControl" asp-for="Password" aria-label="Username"
+                                               aria-describedby="basic-addon1">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="terms" name="terms" style="display: none;">
+                                                <label for="terms" class="check">
+                                                    <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                        <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,
+                              2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z">
+                                                        </path>
+                                                        <polyline points="1 9 7 14 15 4"></polyline>
+                                                    </svg>
+                                                </label>
+                                                <label>
+                                                    ثبت نام در امنیتو به منزله موافقت با
+                                                    <a target="_blank" style="color:#f7941d" href="/%D9%82%D9%88%D8%A7%D9%86%DB%8C%D9%86-%D8%A7%D8%B3%D8%AA%D9%81%D8%A7%D8%AF%D9%87-%D8%A7%D8%B2-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87">قوانین</a> است
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" id="div_activation_code" style="display:none">
+                                    <label asp-for="ActivationCode">کد فعال سازی:</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <input asp-for="ActivationCode" data-toggle="popover" data-placement="top" data-content="" class="formLogin form-control p-4" placeholder="کد فعالسازی خود را وارد نمایید">
+                                    </div>
+                                    <div style="width:100%;text-align :center;padding:5px;">
+                                        <a style="color:blue;text-decoration:underline!important;display:none" id="sendCod">ارسال مجدد کد تایید</a>
+                                        <span id="countdown" style="display:none"></span>
+                                    </div>
+                                    <div class="recaptcha" style="display:none;" id="captchaItem">
+                                        <nop-captcha />
+                                    </div>
+                                    <div class="inputs" style=" display:none">
+                                        <label asp-for="FirstName" asp-postfix=":"></label>
+                                        <input asp-for="FirstName" value="test" />
+                                        <nop-required />
+                                        <span asp-validation-for="FirstName"></span>
+                                    </div>
+                                    <div class="inputs" style=" display:none">
+                                        <label asp-for="LastName" asp-postfix=":"></label>
+                                        <input asp-for="LastName" value="test" />
+                                        <nop-required />
+                                        <span asp-validation-for="LastName"></span>
+                                    </div>
+                                    <div class="inputs" style=" display:none">
+                                        <label asp-for="Email" asp-postfix=":"></label>
+                                        <input asp-for="Email" value="test@test.test" />
+                                        <nop-required />
+                                        <span asp-validation-for="Email"></span>
+                                    </div>
+                                    <div class="inputs confrimpass" style="display:none">
+                                        <label asp-for="ConfirmPassword" asp-postfix=":"></label>
+                                        <input asp-for="ConfirmPassword" />
+                                        <nop-required />
+                                        <span asp-validation-for="ConfirmPassword"></span>
+                                        <input type="hidden" id="activationCode" name="activationCode" />
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <p style="text-align: center;">
+                                        قبلا در امنیتو ثبت نام کرده اید؟ <a style="color: #f7941d" href="/login">
+                                            ورود به
+                                            امنیتو
+                                        </a>
+                                    </p>
+                                </div>
+
+
+                                <div class="d-flex justify-content-center">
+
+                                    <a href="/">
+                                        <button class="button btn js-btn-prev mr-3" type="button" title="Prev">
+                                            <span></span>بازگشت به خانه
+                                        </button>
+                                    </a>
+                                    <button disabled="disabled" id="register-button" class="button btn btn-success basebtn ml-3">
+                                        ثبت نام در سامانه<p></p>
+                                    </button>
+                                    <button id="confrimBtn-button" class="btn  mr-top-30 btn-success basebtn" style="display:none" type="submit">
+                                        تایید<p></p>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex">
+                                <img class="rounded mx-auto d-block" src="~/Themes/postexNew/images/imgLogin.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+<script type="text/javascript">
+    function addAntiForgeryToken(data) {
+        //if the object is undefined, create a new one.
+        if (!data) {
+            data = {};
+        }
+        //add token
+        var tokenInput = $('input[name=__RequestVerificationToken]');
+        if (tokenInput.length) {
+            data.__RequestVerificationToken = tokenInput.val();
+        }
+        return data;
+    };
+    function CountDownTimer(duration, granularity) {
+        this.duration = duration;
+        this.granularity = granularity || 1000;
+        this.tickFtns = [];
+        this.running = false;
+    }
+
+    CountDownTimer.prototype.start = function () {
+        if (this.running) {
+            return;
+        }
+        this.running = true;
+        var start = Date.now(),
+            that = this,
+            diff, obj;
+
+        (function timer() {
+            diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+            if (diff > 0) {
+                setTimeout(timer, that.granularity);
+            } else {
+                diff = 0;
+                that.running = false;
+            }
+
+            obj = CountDownTimer.parse(diff);
+            that.tickFtns.forEach(function (ftn) {
+                ftn.call(this, obj.minutes, obj.seconds);
+            }, that);
+        }());
+    };
+
+    CountDownTimer.prototype.onTick = function (ftn) {
+        if (typeof ftn === 'function') {
+            this.tickFtns.push(ftn);
+        }
+        return this;
+    };
+
+    CountDownTimer.prototype.expired = function () {
+        return !this.running;
+    };
+
+    CountDownTimer.parse = function (seconds) {
+        return {
+            'minutes': (seconds / 60) | 0,
+            'seconds': (seconds % 60) | 0
+        };
+    };
+    //window.confirm = function (data, title, callback) {
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: false,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "تایید",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //        setTimeout(function () {
+    //            callback(isConfirm);
+    //        }, 300);
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $('#loader').slideDown();
+            },
+            complete: function () {
+                $('#loader').slideUp();
+
+            },
+        });
+        document.getElementById('_Username').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('NationalCode').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        //document.getElementById('ActivationCode').addEventListener('input', event =>
+        //    event.target.value = ToJsutNumber(event.target.value)
+        //);
+        //$('#ActivationCode').val('');
+
+        var mobileReg =
+            ///(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4]([ ]|-|[()]){0,3}(?:[0-9]([ ]|-|[()]){0,2}){8}/ig;
+            /(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4|5|6|7|8|9]([ ]|-|[()]){0,3}(?:[0-9]([ ]|-|[()]){0,2}){8}/ig;
+
+        $("#register-button").click(function (event) {
+            event.preventDefault();
+            $('#ConfirmPassword').val($('#Password').val());
+            isValid = $("#frmRegister").validate().form();
+            if (!isValid) {
+                return;
+            }
+
+
+            if ($("#_Username").val()) {
+                var countryCode = $('#CountryCodeNum').val();
+                var userName = $("#_Username").val();
+                var message='';
+                if (countryCode != '+98') {
+                    userName = countryCode.replace('+', '') + userName;
+                    message = 'Your user name is : ' + userName;
+                }
+                else {
+                    if (!userName.startsWith('0')) {
+                        userName = '0'+userName;
+                        $("#_Username").val(userName);
+                    }
+                    message = 'نام کاربری شما : ' + userName;
+                }
+                debugger;
+                if (confirm(message)){
+                        $('#Username').val(userName);
+                        var res = resendCode(userName);
+                        if (!res) {
+                            return;
+                        }
+                }
+            }
+        });
+
+        $("#confrimBtn-button").click(function (event) {
+            debugger;
+            event.preventDefault();
+            var _activationCode = $("#ActivationCode").val();
+            if (_activationCode.length == 6) {
+                var _data = { activatationCode: _activationCode, Username: $("#Username").val() }
+                addAntiForgeryToken(_data);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@Url.Action("RetriveActivationCode", "PhoneLogin")",
+                    data: _data,
+                    success: function (result) {
+                        debugger;
+                        if (result) {
+                            $('#activationCode').val(_activationCode);
+                            $("#frmRegister").submit();
+                        }
+                        else {
+                            $('#activationCode').val('');
+                            alert('@T("Plugins.Misc.PhoneLogin.ConfirmationCodeWrong")');
+                        }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('خطا در زمان بررسی کذ تایید');
+                    }
+                });
+            }
+            else {
+               alert('@T("Plugins.Misc.PhoneLogin.ConfirmationCodeWrong")');
+            }
+        });
+
+        var resendCode = function (userName) {
+            //var userName = $("#Username").val();
+            //var userName = $("#Username").val();
+            var res = false;
+            @*if (!userName.match(mobileReg)) {
+                debugger;
+                alert('@T("Plugins.Misc.PhoneLogin.MobileNumber.Wrong")');
+                return res;
+            }*@
+            var data = { "phone": userName,"CountryCodeNum": $('#CountryCodeNum option:selected').val() };
+            addAntiForgeryToken(data);
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("ResendActivationCode", "PhoneLogin")",
+                data: data,
+                success: function (data) {
+                    debugger;
+                    if (data.success) {
+                        $('#registerData').slideUp();
+                        //$('#div_password').slideUp();
+                        //$('#Div_NationalCode').slideUp();
+                        //$('#div_terms').slideUp();
+                        //$('#register-button').slideUp();
+                        $('#register-button').hide();
+                        //$('#captchaItem').slideUp();
+                        $('#confrimBtn-button').show();
+                        $('#confrimBtn-button').slideDown();
+                        $('#div_activation_code').slideDown();
+                        $('#captchaItem').show();
+                        $('#captchaItem').css('margin-top', '15px');
+                        showTimer(data.interval);
+
+                    }
+                    alert(data.message);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    alert('خطا در زمان ارسال کد تایید لطفا مجدد تلاش کنید');
+                    window.location.reload();
+                }
+            });
+            return true;
+        };
+        $('#sendCod').click(function () {
+            var countryCode = $('#CountryCodeNum').val();
+            var userName = $("#_Username").val();
+            if (countryCode != '+98') {
+                userName = countryCode.replace('+', '') + userName;
+            }
+            $('#Username').val(userName);
+            resendCode(userName);
+        });
+
+        function showTimer(interval) {
+            var display = document.querySelector('#countdown'),
+                timer = new CountDownTimer(interval);
+            $('#countdown').show();
+            $('#sendCod').hide();
+            timer.onTick(format).onTick(restart).start();
+            function restart() {
+                if (this.expired()) {
+                    $('#countdown').html('');
+                    $('#countdown').hide();
+                    $('#sendCod').show();
+                }
+            }
+
+            function format(minutes, seconds) {
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ':' + seconds;
+            }
+        }
+
+        $("#frmRegister").validate({
+            rules: {
+                Password: "required",
+                _Username: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 20
+                },
+                NationalCode: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 25,
+                    IsNationalCode:true
+                },
+               terms: "required",
+            },
+            messages: {
+                Password: "کلمه عبور اجباریست",
+                _Username: {
+                   // required: "شماره تلفن اجباریست",
+                    minlength: "طول شماره موبایل  حداقل 8 رقم باشد",
+                    maxlength: "طول شماره موبایل باید حداکثر 20 رقم باشد"
+                },
+                NationalCode: {
+                    required: "کد ملی اجباریست",
+                    minlength: "طول کد ملی باید حداقل 8 رقم باشد",
+                    maxlength: "طول کد ملی باید حداکثر 25 رقم باشد"
+                },
+                terms: "برای ثبت نام باید با موافقت خود را با این شرایط اعلام نمایید",
+            }
+        });
+        function isValidNationalCode(input) {
+            if (!$('#IsNationalCode').is(':checked'))
+                return true;
+            if (!/^\d{10}$/.test(input))
+                return false;
+            var check = parseInt(input[9]);
+            var sum = 0;
+            var i;
+            for (i = 0; i < 9; ++i) {
+                sum += parseInt(input[i]) * (10 - i);
+            }
+            sum %= 11;
+            return (sum < 2 && check == sum) || (sum >= 2 && check + sum == 11);
+        }
+        $.validator.addMethod("IsNationalCode", function (value, element, param) {
+            return isValidNationalCode(value);
+        }, 'کد ملی وارد شده نامعتبر می باشد');
+
+        $('#terms').change(function () {
+            if (this.checked) {
+                $('#register-button').prop("disabled", "");
+            } else {
+                $('#register-button').prop("disabled", "disabled");
+            }
+            $('#textbox1').val(this.checked);
+        });
+
+        if ($('.message-error').text() == '') {
+            $('.error-user').css('display', 'none');
+        } else {
+            $('.error-user').css('display', 'block');
+        }
+    });
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+
+
+</script>

@@ -1,0 +1,187 @@
+﻿@using Nop.Core
+@model CheckoutBillingAddressModel
+@inject IWorkContext workContext
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Checkout").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-checkout-page");
+    Html.AppendPageCssClassParts("html-billing-address-page");
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.rtl.css");
+    }
+    else
+    {
+        Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.min.css");
+    }
+    Html.AppendCssFileParts("~/lib/fontAwesome/css/font-awesome-4.6.3.min.css");
+    Html.AppendCssFileParts("~/lib/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
+    Html.AppendScriptParts("~/lib/jquery-ui-1.10.3.custom.min.js");
+    Html.AppendScriptParts("~/lib/bootstrap/bootstrap.min.js");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Scripts/select2.full.min.js");
+}
+<div class="page checkout-page billing-address-page">
+    @await Component.InvokeAsync("Mus_CheckoutProgress", new { step = CheckoutProgressStep.Address })
+    <div class="page-title">
+        <h1>@T("Checkout.BillingAddress")</h1>
+    </div>
+    <div class="page-body checkout-data">
+        <form asp-route="CheckoutBillingAddress" method="post">
+            <div class="billing-addresses">
+                @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_billing_address_top" })
+
+                <div class="section ship-to-same-address">
+                    <div class="selector">
+                        @if (Model.ShipToSameAddressAllowed)
+                        {
+                            <input asp-for="ShipToSameAddress" />
+                            <label asp-for="ShipToSameAddress">@T("Checkout.ShipToSameAddress")</label>
+                        }
+                        <input type="checkbox" id="IsMultipleShipment" name="IsMultipleShipment" style="position:inherit" />
+                        <span style="font-size:14pt">
+                            ارسال به چند مقصد
+                        </span>
+                    </div>
+                </div>
+                <div class="section select-billing-address">
+                    <div class="title">
+                        <strong>@T("Checkout.SelectBillingAddress")</strong>
+                    </div>
+                    <div>
+                        <div class="col-md-10">
+                            <select class="addressSelect" id="addressSelect" style="width: 100%"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="select-button" >
+                                <input id="Btn_selectBillingAddress" type="button" value="@T("Checkout.BillToThisAddress")" class="button-1 select-billing-address-button"
+                                       data-val="0" onclick="selectBillingAddress(this)" />
+                                <script type="text/javascript" asp-location="Footer">
+                                    $(document).ready(function () {
+                                        $('select').each(function() {
+                                            $(this).addClass('form-control');
+                                        });
+                                        $('#addressSelect').select2({
+                                            placeholder:
+                                                "جستجوی آدرس های موجود ، قسمتی از متن آدرس را وارد کنید{استان،شهر،آدرس،موبایل،نام،نام خانوادگی}",
+                                            minimumInputLength: 3,
+                                            ajax:
+                                            { 
+                                                url: '@Url.Action("FetchAddress", "MultiShippingCheckout")',
+                                                dataType: 'json',
+                                                quietMillis: 250,
+                                                data: function(term, page) {
+                                                    return { 'searchtext': term.term };
+                                                },
+                                                results:
+                                                    function(data,page) { // parse the results into the format expected by Select2.
+                                                        debugger; // since we are using custom formatting functions we do not need to alter the remote JSON data
+                                                        return { results: data };
+                                                    },
+                                                cache: true
+                                            },
+                                            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+                                        });
+                                        $('#addressSelect').change(function() {
+                                            $('#Btn_selectBillingAddress').attr('data-val', '0');
+                                            $('#Btn_selectBillingAddress').attr('data-val', $(this).val());
+                                        });
+                                        $('.select2-selection--single').css('height', '40px');
+                                        $('.select2-selection__rendered').css('margin-top', '5px');
+                                        $('.select2-selection__arrow').css('margin-top', '5px');
+                                    });
+
+                                    function selectBillingAddress(btn) {
+                                        var Id = $(btn).attr('data-val');
+                                        if (Id == '0') {
+                                            alert('لطفا یک آدرس انتخاب کنید و یا یک آدرس جدید وارد کنید');
+                                            return;
+                                        }
+                                        var sameAsShippingCheck =
+                                            $('#@Html.IdFor(model => model.ShipToSameAddress)').is(':checked');
+                                        var multipleShipmentCheck = $('#IsMultipleShipment').is(':checked');
+                                        if (sameAsShippingCheck && !multipleShipmentCheck) {
+                                            setLocation('/checkout/Mus_selectbillingaddress?addressId=' +
+                                                Id +
+                                                '&shipToSameAddress=true' +
+                                                '&multipleShipment=false');
+                                        } else if (!sameAsShippingCheck && multipleShipmentCheck) {
+                                            setLocation('/checkout/Mus_selectbillingaddress?addressId=' +
+                                                Id +
+                                                '&shipToSameAddress=false' +
+                                                '&multipleShipment=true');
+                                        } else if (!sameAsShippingCheck && !multipleShipmentCheck) {
+                                            setLocation('/checkout/Mus_selectBillingAddress?addressId=' +
+                                                Id +
+                                                '&shipToSameAddress=false' +
+                                                '&multipleShipment=false');
+                                        } else {
+                                            alert(
+                                                'امکان انتخاب همزمان ارسال به چند مقصد و ارسال به آدرس صورت حساب وجود ندارد');
+                                        }
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_billing_address_middle" })
+                <div class="section new-billing-address" style="margin-top:100px ">
+                    <div class="title">
+                        @if (Model.ExistingAddresses.Count > 0)
+                        {
+                            <strong>@T("Checkout.OrEnterNewAddress")</strong>
+                        }
+                        else
+                        {
+                            <strong>@T("Checkout.EnterBillingAddress")</strong>
+                        }
+                    </div>
+                    <div class="enter-address">
+
+                        <div asp-validation-summary="ModelOnly" class="message-error"></div>
+                        @{
+                            var dataDictAddress = new ViewDataDictionary(ViewData);
+                            dataDictAddress.TemplateInfo.HtmlFieldPrefix = "BillingNewAddress";
+                            @await Html.PartialAsync("_CreateOrUpdateAddress", Model.BillingNewAddress, dataDictAddress)
+                        }
+
+                    </div>
+                </div>
+                @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_billing_address_bottom" })
+            </div>
+            <div class="buttons">
+                <input type="submit" name="nextstep" value="@T("Checkout.NextButton")" class="button-1 new-address-next-step-button" />
+            </div>
+        </form>
+        <div class="section order-summary">
+            <div class="title">
+                <strong>@T("Checkout.OrderSummary")</strong>
+            </div>
+            @await Component.InvokeAsync("OrderSummary")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#IsMultipleShipment').click(function (e) {
+            //alert($('#MultipleShipmentCheckBox').is(':checked'));
+            if ($('#IsMultipleShipment').is(':checked')) {
+                $('#ShipToSameAddress').prop("checked", false);
+                $('#ShipToSameAddress').prop("disabled", true);
+                //alert("okay");
+            }
+            else {
+                $('#ShipToSameAddress').prop("checked", true);
+                $('#ShipToSameAddress').prop("disabled", false);
+            }
+        });
+    });
+</script>

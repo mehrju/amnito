@@ -1,0 +1,694 @@
+﻿@model string
+@{
+    int ScriptVersion = 5;
+    //Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Ap/js/jquery.modal.min.js?ver=" + ScriptVersion);
+    //Html.AppendCssFileParts("~/Themes/Ap/css/jquery.modal.min.css?ver=" + ScriptVersion);
+}
+<style>
+    .lbl2 {
+        color: orange;
+    }
+
+    .lbl3 {
+        color: #08317d
+    }
+
+    .myRow {
+        margin-bottom: 3px;
+    }
+
+    .shipmentBox {
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        padding: 10px 10px 10px 0px;
+    }
+
+    .senderBox {
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        background-color: #ef4a23;
+        padding: 10px 10px 10px 0px;
+        color: white;
+    }
+
+    .receiverBox {
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        background-color: #028058;
+        padding: 10px 10px 10px 0px;
+        color: white;
+    }
+
+    .ShDetailsLbl {
+        float: right;
+        width: 40%;
+        font-size: 9pt;
+    }
+
+    .ShDetailsTxt {
+        float: left;
+        width: 60%;
+        text-align: left;
+        font-size: 9pt;
+    }
+
+    .postServices {
+        width: 100%;
+    }
+
+    .hr-line-dashed {
+        border-top: 1px dashed #E7EAEC;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 1px;
+        margin: 20px 0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create four equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 25%;
+        padding: 5px;
+        height: 15%; /* Should be removed. Only for demonstration */
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        z-index: 9997;
+        opacity: 0.5;
+        display: none;
+    }
+
+    .overlayRow {
+        width: 100%;
+        min-height: 50px;
+        background-color: white;
+        border-bottom: 1px solid #bbb9b9;
+        font-size: 9pt;
+        vertical-align: middle;
+        text-align: right !important;
+        padding-right: 16px;
+        padding-top: 10px;
+    }
+
+        .overlayRow:hover {
+            background-color: #cccccc !important;
+        }
+
+    .orderItem {
+        min-height: 110px;
+        border-radius: 10px !important;
+        width: 100%;
+        background-color: #f1eeee;
+        margin-bottom: 10px
+    }
+
+    .cardTitle {
+        width: 100%;
+        min-height: 80px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: gray;
+        font-size: 8pt;
+        color: gray;
+        padding-top: 3px;
+    }
+
+    .cardBottom {
+        min-height: 30px;
+        width: 100%;
+    }
+
+    .orderConsol {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        background-color: white;
+        height: 580px;
+        display: none;
+        right: 0px;
+        z-index: 99998;
+        top: 50px;
+    }
+
+    .leftCol {
+        width: 78%;
+        float: left;
+        min-height: 80px;
+        margin-left: 2%;
+    }
+
+    .rightCol {
+        width: 18%;
+        float: right;
+    }
+
+    .rightColUp {
+        width: 100%;
+        min-height: 65px;
+        margin: 2px;
+        background-color: #c1c0c0;
+        border-radius: 10px;
+    }
+
+    .rightColDown {
+        min-height: 35px;
+        width: 100%;
+        font-size: 8pt;
+        text-align: center;
+        vertical-align: middle;
+        color: black;
+    }
+
+    .myLabel {
+        /*color: black;*/
+    }
+
+    .myLabel2 {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+
+    .status {
+        padding: 0px 3px 0px 3px;
+        border-radius: 10px;
+    }
+
+    .hr-text {
+        line-height: 1em;
+        position: relative;
+        outline: 0;
+        border: 0;
+        color: black;
+        text-align: center;
+        height: 1.5em;
+        opacity: .5;
+    }
+
+        .hr-text:before {
+            content: '';
+            background: linear-gradient(to right, transparent, #818078, transparent);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+        }
+
+        .hr-text:after {
+            content: attr(data-content);
+            position: relative;
+            display: inline-block;
+            color: black;
+            padding: 0 .5em;
+            line-height: 1.5em;
+            color: #818078;
+            background-color: #fcfcfa;
+        }
+</style>
+
+<div class="tracking-code text-center apBody">
+    <div class="container">
+        <h1 style="color:#ef4a23">
+            رهگیری مرسولات پستی
+        </h1>
+        <p class="text-center desc">
+            با استفاده از شماره سفارش از آخرین وضعیت مرسوله خود مطلع شوید
+        </p>
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" class="custom-input tracking-code-input" style="display:none" maxlength="25" id="TrackingAllInput" placeholder="کد رهگیری مرسوله یا شماره سفارش در سامانه پست بار یا شماره موبایل فرستنده یا گیرنده">
+                <input type="text" class="custom-input tracking-code-input" style="display:none" maxlength="25" id="RhTrackingNumber" placeholder="کد رهگیری مرسوله ">
+                <input type="text" class="custom-input tracking-code-input" maxlength="8" id="RhOrderId" placeholder=" شماره سفارش در سامانه پست بار   ">
+                <input type="text" class="custom-input tracking-code-input" style="display:none" maxlength="14" id="RhMobile" placeholder=" شماره موبایل فرستنده یا گیرنده">
+            </div>
+            <a id="TrackShipment" class="pbtn btn custom-btn-01 btn-search-modal">
+                رهگیری
+                <span> بسته پستی</span>
+            </a>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('body').addClass('blocker-modal');
+        document.getElementById('RhTrackingNumber').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('RhOrderId').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('RhMobile').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('TrackingAllInput').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+
+        $('#TrackShipment').click(function () {
+
+            //$('#modalBody').html('');
+
+            var trackingNumber = $('#RhTrackingNumber').val();
+            var orderId = $('#RhOrderId').val();
+            if (!orderId || orderId == 0 || orderId.length > 9) {
+                asanPardakht.application.showMessageBox('پیام', 'شماره سفارش وارد شده نامعتبر می باشد', 2);
+                return;
+            }
+            var mobileNo = $('#RhMobile').val();
+            var allinput = $('#TrackingAllInput').val()
+            var data = { 'TrackingAllInput': allinput, 'trackingNumber': trackingNumber, 'orderId': orderId, 'MobileNo': mobileNo, 'IdServiceProvider': 0 }
+            //addAntiForgeryToken(data );
+            $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                traditional: true,
+                type: "POST",
+                url: "@(Url.Action("getOrderShipment", "ShipmentTracking"))",
+                data: data,
+                success: function (result) {
+                    if (result) {
+                        createDataView(result);
+                        $('#TrackShipment').prop("disabled", false);
+                    }
+                    else {
+                        asanPardakht.application.showMessageBox('پیام', 'اطلاعاتی جهت رهگیری مرسوله شما در دسترس نمی باشد', 2);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    asanPardakht.application.showMessageBox('پیام', 'ایرادی در رهگیری مرسوله شما بوجود آمد، اطلاعات ورودی را بررسی و مجدد تلاش کنید', 3);
+                }
+            });
+        });
+    });
+        $(document).ready(function () {
+            $(".orderConsol").off('swipe');
+            $(".orderConsol").swipe({
+                swipeDown: function (event, direction, distance, duration, fingerCount) {
+                    $('.overlay').stop().toggle();
+                    $('.orderConsol').slideToggle();
+                },
+                threshold: 0
+            });
+            $('.orderConsol').off('dragstart', 'a');
+            $('.orderConsol').on('dragstart', 'a', function () {
+                return false;
+            });
+            $('.overlay').off('click');
+            $('.overlay').click(function () {
+                $('.overlay').stop().toggle();
+                $('.orderConsol').stop().slideToggle();
+            });
+            var canAdd = true;
+            $('body').find('.overlay').each(function () {
+                if ($(this).attr('addedToBoady')) {
+                    $(this).remove()
+                    return;
+                }
+            });
+            $('body').find('.orderConsol').each(function () {
+                if ($(this).attr('addedToBoady')) {
+                    $(this).remove()
+                    return;
+                }
+            });
+            $('.orderConsol').attr('addedToBoady', 'true');
+            $('.overlay').attr('addedToBoady', 'true');
+            $('.overlay').appendTo("body");
+            $('.orderConsol').appendTo("body");
+    });
+    function CloseModal() {
+        $.modal.close();
+    }
+    function createDataView(data) {
+
+        $('#modalBody').html('');
+        var $container = $('#trackingResult');
+        $container.html('');
+        $(data).each(function () {
+
+            var crItem = this;
+            var imgName = '';
+            if ([654, 655, 667, 670, 662, 661, 660, 698, 697, 696, 695, 694, 693, 691, 690].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "POSTBAR";
+            }
+            else if ([703, 699, 705, 706].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "DTS";
+            }
+            else if ([702].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "YARBOX";
+            }
+            else if ([701].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "UBAAR";
+            }
+            else if ([707, 708].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "PDE";
+            }
+            else if ([709, 710, 711].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "TPG";
+            }
+            else if ([712, 713, 714, 715].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "CHAPAR";
+            }
+            else if ([717].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "SNAPBOX";
+            }
+            else if ([718].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "POSTEXPLUS";
+            }
+            else if ([719].indexOf(crItem.CategoryId) >= 0)
+            {
+                imgName = "BLUESKY";
+            }
+           var items= ` <div class="orderItem">
+                <span style="display:none" class="data">
+
+                </span>
+                <div class="rightCol">
+                    <div class="rightColUp">
+                        <img class="postServices" src="../ImageServiceProviderDashboard/${imgName}.png"  />
+                    </div>
+                    <div class="rightColDown">
+                        ${crItem.CreatedOn}
+                    </div>
+                </div>
+                <div class="leftCol">
+                    <div class="cardTitle ">
+                        <div style="width:100%;float:right">
+                            <div class="myLabel2" style="font-weight: bold;"><span class="myLabel">${crItem.CategoryName}</span></div>
+                            <div class="myLabel2">گیرنده <span class="myLabel">${crItem.FirstName + ` ` + crItem.LastName}</span></div>
+                            <div class="myLabel2" style="margin-bottom: 3px;"><span class="myLabel status">${(crItem.CountryName + `-` + crItem.StateName + `-` + crItem.Address1).length > 75 ? (crItem.CountryName + `-` + crItem.StateName + `-` + crItem.Address1).substring(0, 70) + `...` : (crItem.CountryName + `-` + crItem.StateName + `-` + crItem.Address1) }</span></div>
+                        </div>
+
+                    </div>
+                    <div class="cardBottom">
+                        <div style="width:90%;height:100%;font-size:9pt;color:gray;float:right">
+                           <i class="fa fa-barcode" aria-hidden="true" style="top: 2px;"></i>  ${crItem.TrackingNumber}
+                        </div>
+                        <div style="width:10%;height:100%;text-align:left;float:left">
+                            <a href="#" class="orderdetail" onclick="showTrackdetail('${crItem.TrackingNumber}',${crItem.OrderId},${crItem.ShipmentId})" title="جزئیات">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true" style="font-size: 15px;top: 5px;left: 4px;"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>`
+            $container.append(items);
+
+        });
+        $('#modal_ResultTracking').modal('show', { backdrop: 'static' });
+        $('#modal_ResultTracking').appendTo("body");
+    }
+    function showTrackdetail(TrackingNumber, OrderId, ShipmentId) {
+
+        var data = { 'TrackingNumber': TrackingNumber, 'OrderId': OrderId, 'ShipmentId': ShipmentId };
+           $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                traditional: true,
+                type: "POST",
+                url: "@(Url.Action("GetshipmentTrackingDetails", "ShipmentTracking"))",
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        console.log(result);
+                        FillTrackingDetails(result.data);
+                    }
+                    else
+                    {
+                        asanPardakht.application.showMessageBox('پیام', result.message, 2);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    asanPardakht.application.showMessageBox('پیام', 'اشکالی در رهگیری مرسوله شما بوجود آمد، اطلاعات ورودی را بررسی و مجدد تلاش کنید', 3);
+                }
+            });
+    }
+    function FillTrackingDetails(data) {
+        $('#ReceiverAddress').html('');
+        $('#ReceiverState').html('');
+        $('#ReceiverCountry').html('');
+        $('#ReceiverPhoneNumber').html('');
+        $('#ReceiverLastName').html('');
+        $('#ReceiverFirstName').html('');
+
+        $('#SenrderAddress').html('');
+        $('#SenrderState').html('');
+        $('#SenrderCountry').html('');
+        $('#SenrderPhoneNumber').html('');
+        $('#SenrderLastName').html('');
+        $('#SenrderFirstName').html('');
+
+        $('#ReceiverAddress').html(data.ReceiverAddress1);
+        $('#ReceiverState').html(data.ReceiverStateName);
+        $('#ReceiverCountry').html(data.ReceiverCountryName);
+        $('#ReceiverPhoneNumber').html(data.ReceiverPhoneNumber);
+        $('#ReceiverLastName').html(data.ReceiverLastName);
+        $('#ReceiverFirstName').html(data.ReceiverFirstName);
+
+        $('#SenrderAddress').html(data.SenderAddress1);
+        $('#SenrderState').html(data.SenderStateName);
+        $('#SenrderCountry').html(data.SebderCountryName);
+        $('#SenrderPhoneNumber').html(data.SenderPhoneNumber);
+        $('#SenrderLastName').html(data.SenderLastName);
+        $('#SenrderFirstName').html(data.SenderFirstName);
+
+        $('#_Content').html(data._Content);
+        $('#_Weight').html(data._Weight);
+        $('#DeliveryDate').html(data.DeliveryDate);
+        $('#ShippedDate').html(data.ShippedDate);
+        $('#CollectDate').html(data.DataCollect);
+        $('#CreatedOn').html(data.CreatedOn);
+        $('#OrderStatus').html(data.OrderStatusId == 10 ? 'معلق' : (data.OrderStatusId == 20 ? 'در حال پردازش' : (data.OrderStatusId == 30 ? 'تکمیل' : (data.OrderStatusId == 40?'کنسل شده':''))));
+        $('#categoryName').html(data.CategoryName);
+        debugger;
+
+        if (data.AllState) {
+            var trackingResult = JSON.parse(data.AllState);
+
+            var masterRow = '';
+            var i = 0;
+            $.each(trackingResult, function () {
+                var descItems = this.desc.split('،');
+                i++;
+                var innerRow = '';
+                $.each(descItems, function () {
+                    var rowItem = this.split(':');
+                    innerRow += `<div class="row">
+                             <div class="col-lg-12">
+                                <span class="lbl2">
+                                <span class="fa fa-arrow-circle-left" style="margin-left:5px;">
+                                </span>${rowItem[0]}:</span>
+                                <span class="lbl3">${rowItem[1]}</span>
+                             </div>
+                          </div>`;
+                });
+                masterRow += `<div class="row">
+                       <div class="col-lg-1">${i}</div>
+                       <div class="col-lg-3">${this.date}</div>
+                       <div class="col-lg-8">
+                         ${innerRow}
+                       </div>
+                    </div><hr/>`
+            });
+            var container = `<div class="content">
+                    <div class="container">
+                   ${masterRow}
+                    </div>
+                </div>`;
+            $('#LastState').html(container);
+            $('#ShDetailsLbl').css('visibility', 'hidden');
+            $('#dataOflastState').css('visibility', 'hidden');
+            $('#LastState').css('width', '100%');
+            $('#LastState').css('text-align', 'right');
+        }
+        else {
+
+            $('#LastState').html(data.LastSate);
+            $('#LastStateDate').html(data.LastEventData);
+            $('#ShDetailsLbl').css('visibility', 'visible');
+            $('#dataOflastState').css('visibility', 'visible');
+        }
+
+
+
+
+        $('.overlay').stop().toggle();
+        $('.orderConsol').stop().slideToggle(function () {
+
+            if ($('#TrackingContainer').height() != $('.orderConsol').height()) {
+                $('.orderConsol').height($('#TrackingContainer').height());
+                $('body').css('overflow-y', 'scroll');
+            }
+        });
+
+
+        return false;
+    }
+</script>
+
+<div id="modal_ResultTracking" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="text-center" style="background-color:#ef4a23;">
+                <h5 class="text-center" style="color:white;text-align:center;margin-right: 10px;float:right">نتیجه رهگیری مرسوله </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:left;margin:10px"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body " id="trackingResult">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="orderConsol">
+    <div id="TrackingContainer" style="width:auto;height:auto;overflow-y:auto">
+        <hr class="hr-text" data-content="اطلاعات مرسوله">
+        <div class="form-inline shipmentBox">
+            <div class="row col-md-12 myRow">
+                <div id="categoryName" class=""></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">وضعیت سفارش</div>
+                <div id="OrderStatus" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">تاریخ ثبت</div>
+                <div id="CreatedOn" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl"> تاریخ جمع آوری</div>
+                <div id="CollectDate" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">تاریخ ارسال</div>
+                <div id="ShippedDate" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">تاریخ تحویل</div>
+                <div id="DeliveryDate" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">وزن</div>
+                <div id="_Weight" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">محتویات</div>
+                <div id="_Content" class="ShDetailsTxt"></div>
+            </div>
+        </div>
+
+        <hr class="hr-text" data-content="اطلاعات رهگیری">
+        <div class="form-inline" style="margin-right: 10px;">
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl"> وضعیت</div>
+                <div id="LastState" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow" id="dataOflastState">
+                <div class="ShDetailsLbl">در تاریخ</div>
+                <div id="LastStateDate" class="ShDetailsTxt"></div>
+            </div>
+
+        </div>
+        <hr class="hr-text" data-content="گیرنده">
+        <div class="form-inline receiverBox">
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">نام</div>
+                <div id="ReceiverFirstName" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">نام خانوادگی</div>
+                <div id="ReceiverLastName" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">تماس</div>
+                <div id="ReceiverPhoneNumber" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">استان</div>
+                <div id="ReceiverCountry" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">شهر</div>
+                <div id="ReceiverState" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">آدرس</div>
+                <div id="ReceiverAddress" class="ShDetailsTxt"></div>
+            </div>
+        </div>
+        <hr class="hr-text" data-content="فرستنده">
+        <div class="form-inline senderBox">
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl"> نام</div>
+                <div id="SenrderFirstName" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">نام خانوادگی</div>
+                <div id="SenrderLastName" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl"> تماس</div>
+                <div id="SenrderPhoneNumber" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">استان</div>
+                <div id="SenrderCountry" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">شهر</div>
+                <div id="SenrderState" class="ShDetailsTxt"></div>
+            </div>
+            <div class="row col-md-12 myRow">
+                <div class="ShDetailsLbl">آدرس</div>
+                <div id="SenrderAddress" class="ShDetailsTxt"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="overlay">
+
+</div>

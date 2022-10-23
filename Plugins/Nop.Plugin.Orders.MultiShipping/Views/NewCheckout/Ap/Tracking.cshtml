@@ -1,0 +1,34 @@
+﻿@using Nop.Core.Domain.Seo
+@using Microsoft.AspNetCore.Http
+@inject SeoSettings seoSettings
+@inject IHttpContextAccessor _httpContextAccessor
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_PubllicNewUiLayout.cshtml";
+}
+@await Component.InvokeAsync("WidgetsShipmentTracking", new { widgetZone = "HomePage" })
+<script>
+    $(document).ready(function () {
+         asanPardakht.application.callMeOnBackButtonPress(
+             function () {
+                 if ($('#modal_help').is(':visible')) {
+                    $('#modal_help').modal('hide');
+                 }
+                 else if ($('body').css('overflow') == 'hidden') {
+                     $('.checkbox_check').click();
+                 }
+                 else if ($('#_RuleModal').is(':visible')) {
+                     $('#_RuleModal').modal('hide');
+                 }
+                 else if ($('.orderConsol').is(':visible')) {
+                     $('.overlay').stop().toggle();
+                     $('.orderConsol').slideToggle();
+                 }
+                 else if ($('#modal_ResultTracking').is(':visible')) {
+                     $('#modal_ResultTracking').modal('hide');
+                 }
+                else {
+                     window.location='@(Url.RouteUrl("_ApStartup"))';
+                }
+            });
+    });
+</script>

@@ -1,0 +1,169 @@
+﻿@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_MasterLayout.cshtml";
+}
+<body class="rtl parent-popover">
+    @Html.AntiForgeryToken()
+    <!-- Navigation -->
+    <header class="d-md-none d-lg-none d-xl-none  u-header u-header--abs-top-md u-header--bg-transparent u-header--show-hide-md u-header--untransitioned">
+        <div class="u-header__section fixed-top">
+
+            <div id="logoAndNav">
+                <div class="container">
+                    <nav class="navbar  navbar-expand-lg navbar-light bg-light ">
+                        <!--navbar navbar-expand-lg navbar-light bg-light-->
+                        <a class="navbar-brand   logo" href="index.html">
+                            <img src="images/logo.png" alt="">
+                        </a>
+
+                        <!--small-phone-->
+                        <div class="" id="menuToggle">
+
+                            <input type="checkbox" class="checkbox_check" />
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                            <ul id="menu">
+                                <div class="header-menu-humm">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul>
+                                                <li><a href="" class="btn btn-menu-1">ثبت سفارش</a></li>
+                                                <li><a href="" class="btn btn-menu-2">رهگیری مرسوله</a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="body-menu-humm">
+                                    <ul class="">
+                                        <li class="active"><a href="#">خانه</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">خدمات پستی</a>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item">سرویس سفارشی</a>
+                                                <a href="#" class="dropdown-item">سرویس پیشتاز</a>
+                                                <a href="#" class="dropdown-item">سرویس ویژه</a>
+                                                <a href="#" class="dropdown-item">سرویس پس کرایه</a>
+                                                <a href="#" class="dropdown-item">سفارش انبوه</a>
+                                            </div>
+                                        </li>
+
+                                        <li><a href="#page3">تازه های فناوری و تکنولوژی</a></li>
+                                        <li><a href="#page3">درباره ما</a></li>
+                                        <li><a href="#page3">تماس با ما</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer-menu-humm">
+                                    <a href="#" class="btn btn-footer-menu">ورود | ثبت نام</a>
+                                </div>
+                            </ul>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">خانه <span class="sr-only">(current)</span></a>
+                                </li>
+
+                                <li class="dropdown nav-item ">
+                                    <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">خدمات پستی</a>
+                                    <div class=" arrow-ups dropdown-menu under_menu_drop ">
+                                        <a href="#" class="dropdown-item">تست او ل</a>
+                                        <a href="#" class="dropdown-item">تست دو م</a>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> رهگیری مرسوله</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">ثبت سفارش</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">سفارش انبوه</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">وبلاگ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">درباره ما</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">معرفی به ما</a>
+                                </li>
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0 ">
+
+                                <div class="dropdown">
+
+                                    <a href="#" data-toggle="dropdown" class=" btn btn-login dropdown-toggle custom-btn-01">
+                                        ثبت نام | ورود
+                                    </a>
+                                    <div class="dropdown-menu arrow-ups under_menu_drop">
+                                        <a href="#" class=" custom-btn-01 dropdown-item">تست او ل</a>
+                                        <span class="user-singup "> کاربر جدید هستید؟<a href="">ثبت نام</a></span>
+                                        <!-- <p>  <a href="" style="color: #ffa01f"> </a></p>-->
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- 3 columns offset Center -->
+
+    <div class="container ">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4"></div>
+            @RenderBody()
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4"></div>
+        </div>
+
+        @*<div class="footer-signup mr-top-30 d-none d-sm-block">
+                <div class="row border-top-3">
+                    <div class="col-xs-12 col-sm-6 col-md-2"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        <div class="box-footer-sign mr-top-30">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <a href="">درباره امنیتو</a>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="">فرصت های شغلی</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="">تماس با ما</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="">اخد نمایندگی</a>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-md-12   copyright-row">
+                                    <span>استفاده از مطالب آخرین خبر امنیتو فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق این سایت متعلق به شرکت امنیتو می‌باشد</span>
+                                </div>
+                                <div class="col-md-12 copyright-text  text-center">
+                                    <span>
+                                        Copyright © 2017 - 2022 postex.ir
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2"></div>
+                </div>
+            </div>*@
+
+    </div>
+
+
+    @Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+    @Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+
+</body>

@@ -1,0 +1,45 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("پرداخت آنلاین خدمات پستی");
+	Html.AddMetaKeywordParts("پرداخت آنلاین خدمات پستی");
+
+
+}
+<div class="container landing">
+
+	<div class="row">
+		<div class="col-md-12 content">
+			<h1>پیش کرایه</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li><a href="/Home/DomesticPost">پست داخلی</a></li>
+				<li>پیش کرایه</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="" href="/Order/Sh_Checkout?isCod=false">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/1/onlineLogo2.png?ver=@(imgVer)" alt="پرداخت آنلاین خدمات پستی" />
+			</a>
+		</div>
+		<div class="col-md-8">
+			<h2>پیشکرایه یا پرداخت آنلاین در امنیتو به چه معنی است؟</h2>
+			<p>
+				امنیتو با استفاده از وب سرویس یا API شرکتهای پست داخلی یا پیک های درون شهری این امکان را دارد تا به فرستنده این امکان را بدهد که با وارد کردن وزن، حجم، مبدا، مقصد تشخیص بدهد چه شرکت پستی، با چه سرویسی، در چه مدت زمانی و چه قیمتی مرسوله را به مقصد خواهد رساند و سپس با انتخاب سرویس مورد نظر خود و پرداخت از درگاه بانکی و یا کیف پول، بلافاصله از سرویس پستی خود بارکد پستی دریافت نماید.
+			</p>
+			<p>
+				لازم به یادآوری است که کلیه خدمات امنیتو متواند با جمع آوری یا بدون جمع آوری، در صورت نیاز با بسته بندی و چاپ لیبل همراه باشد مشتری میتواند حتی با سرویس رهگیری پیامکی از سرنوشت مرسوله خود با خبر گردد.
+			</p>
+			<div class="content m-4">
+				<a class="btn center" href="/Order/Sh_Checkout?isCod=false">شروع ثبت سفارش</a>
+			</div>
+
+		</div>
+
+	</div>
+</div>

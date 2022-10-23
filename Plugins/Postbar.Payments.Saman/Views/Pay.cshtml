@@ -1,0 +1,25 @@
+﻿@model string
+
+@{
+
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_NewUiLayout.cshtml";
+}
+<html>
+<head>
+</head>
+<body>
+    <div style="">
+        @Html.Raw(Model)
+    </div>
+    <h1 style="width:100%;height:100%;text-align:center;">
+        لطفا تا ارسال به پرداخت الکترونیکی شکیبا باشید.
+    </h1>
+</body>
+</html>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+<script>
+    $(function () {
+        $('form').submit();
+    })
+</script>

@@ -1,0 +1,461 @@
+﻿@model Nop.Plugin.Misc.PrintedReports_Requirements.Models.vm_SaleCartonWrapper1
+@using Microsoft.AspNetCore.Http.Extensions
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Ap/Ap_NewUiLayout.cshtml";
+    string message = "";
+    if (TempData["PaymentMsg"] != null)
+    {
+        message = (string)TempData["PaymentMsg"];
+        TempData["PaymentMsg"] = null;
+    }
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Scripts/popImg.js");
+}
+<style>
+    .postServices {
+        width: 100%;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: gray;
+        z-index: 9997;
+        opacity: 0.5;
+        display: none;
+    }
+
+    .overlayRow {
+        width: 100%;
+        min-height: 50px;
+        background-color: white;
+        border-bottom: 1px solid #bbb9b9;
+        font-size: 9pt;
+        vertical-align: middle;
+        text-align: right !important;
+        padding-right: 16px;
+        padding-top: 10px;
+    }
+
+        .overlayRow:hover {
+            background-color: #cccccc !important;
+        }
+
+    .orderItem {
+        min-height: 110px;
+        border-radius: 10px !important;
+        width: 100%;
+        background-color: white;
+        margin-bottom: 10px
+    }
+
+    .cardTitle {
+        width: 100%;
+        min-height: 70px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: gray;
+        font-size: 8pt;
+        color: gray;
+        padding-top: 3px;
+    }
+
+    .cardBottom {
+        min-height: 116px;
+        width: 100%;
+        padding-top: 7px;
+    }
+
+    .leftCol {
+        width: 78%;
+        float: left;
+        min-height: 80px;
+        margin-left: 2%;
+    }
+
+    .rightCol {
+        width: 18%;
+        float: right;
+    }
+
+    .rightColUp {
+        width: 100%;
+        min-height: 65px;
+        margin: 2px;
+        border-radius: 10px;
+        padding-top: 7px;
+    }
+
+    .rightColDown {
+        min-height: 35px;
+        width: 100%;
+        font-size: 8pt;
+        text-align: center;
+        vertical-align: middle;
+        color: black;
+    }
+
+    .orderConsol {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        background-color: white;
+        height: 400px;
+        display: none;
+        right: 0px;
+        z-index: 99998;
+    }
+
+    .myLabel {
+        color: black;
+    }
+
+    .status {
+        padding: 0px 3px 0px 3px;
+        border-radius: 10px;
+    }
+
+    .cartonTitle {
+        background-color: transparent;
+        margin: 10px;
+        border-radius: 10px;
+        padding: 5px;
+        margin-right: 0px;
+        padding-right: 0px;
+        font-size: 9pt;
+        text-align: justify;
+        color: white;
+        width: 100%;
+    }
+
+    .payBox {
+        padding: 10px;
+        background-color: lightgray;
+        /* margin: 10px; */
+        border-radius: 10px;
+        color: black !important;
+        font-weight: bold;
+        position: fixed;
+        /* padding-bottom: 50px; */
+        bottom: 49px;
+        width: 100%;
+        left: 14px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+    }
+        
+    .payBtn {
+        background-color: #F2432E;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0px;
+        color: white;
+    }
+    .lblCarton {
+        position: absolute;
+        top: 65px !important;
+        width: 150px;
+        right: 1px;
+        background-color: transparent !important;
+    }
+    .cartonSaleInput {
+        border-radius: 10px !important;
+        border-width: 1px !important;
+        line-height: 35px !important;
+    }
+</style>
+<div class="container">
+
+    <div class="page-body">
+        @*<section class="jumbotron text-center">
+                <div class="container">
+                    <h1 class="jumbotron-heading">خرید کارتن و لفاف</h1>
+                </div>
+            </section>*@
+
+        <div class="container" style="padding-right: 7px;padding-left: 7px;">
+            <div class="row cartonTitle">
+                تعداد مورد نیاز از سایز کارتن مورد نظر را وارد کنید و در انتها اقدام به پرداخت کنید
+            </div>
+            <div class="row" style="padding-bottom: 195px;">
+                @foreach (var item in Model.ProductDetailsModel.ProductAttributes)
+                {
+                    foreach (var item2 in item.Values)
+                    {
+                        <div class="orderItem">
+
+                            <div class="rightCol">
+                                <div class="rightColUp">
+                                    <img class="postServices" src="@item2.ImageSquaresPictureModel.ImageUrl" />
+                                </div>
+                            </div>
+                            <div class="leftCol">
+                                <div class="cardTitle ">
+                                    <div style="width:100%;float:right;padding:10px">
+                                        <div><span class="myLabel">@item2.Name.Trim()</span></div>
+                                        <div></div>
+                                        <div style="margin-bottom: 3px;">
+                                            قیمت
+                                            <span class="myLabel">@item2.PriceAdjustment</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="cardBottom field">
+                                <input class="text-center quant cartonSaleInput" maxlength="3"  type="text"
+                                       onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                       id="@item2.Id" data-id="@item2.Id" data-price="@item2.PriceAdjustmentValue"
+                                       data-SizeName="@item2.Name.Trim()" />
+                                <label class="lblCarton" for="@item2.Id" title="تعداد" data-title="تعداد"></label>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="row payBox">
+                <div class="col-md-12 text-center">
+                    <div class="col-md-3" style="float:right">
+                        <label style="color:black !important">قیمت کل</label>
+                    </div>
+                    <div class="col-md-9" style="float:left">
+                        <label class="text-center total" style="color:black !important">0</label>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center" style="padding:0px">
+                   
+                    <div class="col-md-12" style="color:black !important">
+                        <input class="text-center " tabindex="10"
+                               style="width: 100%;padding: 5px;border-radius: 3px;"
+                               placeholder="شماره محموله پستی(موجود در بالای فاکتور پستی مختص به هر مرسوله)"
+                               title="در صورتی که برای سفارش پستی خود نیاز به کارتن دارید می بایستی شماره محموله مربوط به آن را وارد نمایید" type="text"
+                               onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"  id="txt_shipmentId" />
+                    </div>
+                    <button id="Sale" type="button" tabindex="15" class="btn payBtn">
+                        ثبت سفارش و پرداخت
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+<div class="modal fade" id="divPayments" tabindex="-1" role="dialog" aria-labelledby="divPaymentsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="divPaymentsLabel" style="float:right">پرداخت</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="divPayments-Body">
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.container:last').css('padding-bottom', $('.navbar.navbar-dark.fixed-bottom').height());
+        $(document).on('input', 'input:text', function (e) { e.target.value = ToLocalInt(event.target.value) });
+        update();
+        $(".quant").change(function () {
+            debugger;
+            update();
+        });
+
+        function update() {
+            $('.total').text(getSum() + ' ریال');
+        }
+        function getSum() {
+            var sum = 0;
+            var quantity;
+            $('.quant').each(function () {
+
+                quantity = parseInt($(this).val()=='' ? '0' : $(this).val());
+                var price = parseInt($(this).attr('data-price').replace(',', ''));
+                var amount = (quantity * price);
+
+                sum += amount;
+               // $(this).find('.amount').text('' + amount + ' ریال');
+            });
+            return sum;
+        }
+
+
+        $('#Sale').click(function () {
+
+            var ordercode = txtOrderCode.value.replace(/,/g, '');
+            var _shipmentId = txt_shipmentId.value;
+            if (!_shipmentId || _shipmentId == '0') {
+                asanPardakht.application.showMessageBox('اعتبار سنجی', 'وارد کردن شماره محموله که میخواهید برای آن کارتن و لفاف خریداری کنید الزامی می باشد',2);
+                return;
+            }
+
+            senditem = {};
+            Listitem = [];
+            $('.quant').each(function () {
+                var Id = $(this).attr('data-id');
+                var Count = parseInt($(this).val()=='' ? '0' : $(this).val());
+                var Name = $(this).attr('data-SizeName');
+                if (Count > 0) {
+                    item = {};
+                    item.Id = Id;
+                    item.Name = Name;
+                    item.Count = Count;
+                    Listitem.push(item);
+                }
+            });
+            if (Listitem.length == 0) {
+                asanPardakht.application.showMessageBox('اعتبار سنجی', 'حداقل یک سایز از کارتون و لفاف را انتخاب کنید و تعداد مورد نیاز آن را وارد نمایید', 2);
+                return;
+            }
+
+            var PostData = JSON.stringify(
+                {
+                    Amount: getSum(),
+                    OrderId: ordercode,
+                    List_Sizeitem: Listitem
+                });
+            $.ajax({
+                beforeSend: function () {
+                    asanPardakht.application.showLoading();
+                },
+                complete: function () {
+                    asanPardakht.application.hideLoading();
+                },
+                type: "POST",
+                url: '@Url.Action("ApConfirmAndPaySaleCarton", "SaleCartonwrapper")',
+                data: { "data": PostData},
+                success: function (_result) {
+                    debugger;
+                        if (_result.message)
+                            asanPardakht.application.showMessageBox('نتیجه ثبت سفارش',_result.message, 1);
+                        if (_result.success == true) {
+                            var paymentRequest = JSON.parse(_result.paymentRequest);
+                            if(!paymentRequest)
+                            {
+                                asanPardakht.application.showMessageBox('عدم امکان پرداخت', 'درحال حاضر امکان پرداخت وجود ندارد با پشتیبانی تماس بگیرید', 3);
+                                return false;
+                            }
+                            asanPardakht.application.startPayment(paymentRequest, paymentCompletedEventHandler);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        asanPardakht.application.showMessageBox('خطا', 'کاربر گرامی در زمان ثبت سفارش شما اشکالی به وجود آمده، لطفا ارتباط اینترنتی دستگاه خود را بررسی کنید', 4);
+                    }
+            });
+        });
+         function paymentCompletedEventHandler(payment)
+        {
+            try {
+                asanPardakht.application.hideLoading();
+                $.ajax({
+                    beforeSend: function () {
+                        asanPardakht.application.showLoading();
+                    },
+                    complete: function () {
+                        asanPardakht.application.hideLoading();
+                    },
+                    type: "POST",
+                    url: '@Url.Action("ProccessPaymentResult", "Ap_NewCheckout")',
+                    data: payment,
+                    success: function (_result) {
+                        if (_result.message)
+                            asanPardakht.application.showMessageBox('نتیجه پرداخت',_result.message, 1);
+                        if (_result.result == true) {
+                            window.location = '@(Url.RouteUrl("ApCheckoutCompleted"))' + '?orderId=' + _result.orderId;
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        asanPardakht.application.showMessageBox('خطا', 'کاربر گرامی در زمان ثبت انصراف از سفارش شما اشکالی به وجود آمده، لطفا ارتباط اینترنتی دستگاه خود را بررسی کنید', 4);
+                    }
+                });
+            }
+            catch (err) {
+                asanPardakht.application.showMessageBox('خطا در زمان پرداخت', err.message, 3);
+            }
+        }
+        $('.postServices').each(function () {
+            $(this).popImg();
+        });
+        asanPardakht.application.callMeOnBackButtonPress(
+            function () {
+                if ($('#modal_help').is(':visible')) {
+                    $('#modal_help').modal('hide');
+                }
+                else if ($('body').css('overflow') == 'hidden') {
+                    $('.checkbox_check').click();
+                }
+                else if ($('#_RuleModal').is(':visible')) {
+                    $('#_RuleModal').modal('hide');
+                }
+                else {
+                    window.location.href = '/ap/_startupt';
+                }
+            });
+    });
+</script>
+
+
+<style>
+    .table-responsive-stack tr {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+
+    .table-responsive-stack td,
+    .table-responsive-stack th {
+        display: block;
+        /*
+    flex-grow | flex-shrink | flex-basis   */
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .table-responsive-stack .table-responsive-stack-thead {
+        font-weight: bold;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .table-responsive-stack tr {
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            border-bottom: 3px solid #ccc;
+            display: block;
+        }
+        /*  IE9 FIX   */
+        .table-responsive-stack td {
+            float: left\9;
+            width: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,381 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+   <TargetFramework>net461</TargetFramework>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Nop.Plugin.Misc.PrintedReports_Requirements</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.PrintedReports_Requirements</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <!-- This target execute after "Build" target -->
+ <Target Name="NopTarget" AfterTargets="Build">
+   <!-- Delete unnecessary libraries from plugins path -->
+   <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+ </Target>
+ <ItemGroup>
+   <None Remove="plugin.json" />
+   <None Remove="Views\Configure.cshtml" />
+   <None Remove="Views\Customer\List.cshtml" />
+   <None Remove="Views\ServiceProviderDashboard\Create.cshtml" />
+   <None Remove="Views\ServiceProviderDashboard\Edit.cshtml" />
+   <None Remove="Views\ServiceProviderDashboard\List.cshtml" />
+   <None Remove="Views\ServiceProviderDashboard\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\ServiceProviderDashboard\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\SlideShow\Create.cshtml" />
+   <None Remove="Views\SlideShow\Edit.cshtml" />
+   <None Remove="Views\SlideShow\List.cshtml" />
+   <None Remove="Views\SlideShow\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\SlideShow\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\_ViewImports.cshtml" />
+ </ItemGroup>
+ <ItemGroup>
+   <Content Include="plugin.json">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Configure.cshtml">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Customer\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceProviderDashboard\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviderDashboard\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviderDashboard\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceProviderDashboard\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviderDashboard\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\SlideShow\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\SlideShow\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\SlideShow\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\SlideShow\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\SlideShow\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\_ViewImports.cshtml">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+ </ItemGroup>
+ <ItemGroup>
+   <Reference Include="Autofac">
+     <HintPath>2-Library\Autofac.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Autofac.Extensions.DependencyInjection">
+     <HintPath>2-Library\Autofac.Extensions.DependencyInjection.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="AutoMapper">
+     <HintPath>2-Library\AutoMapper.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="EntityFramework">
+     <HintPath>2-Library\EntityFramework.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="EntityFramework.SqlServer">
+     <HintPath>2-Library\EntityFramework.SqlServer.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="FluentValidation">
+     <HintPath>2-Library\FluentValidation.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="FluentValidation.AspNetCore">
+     <HintPath>2-Library\FluentValidation.AspNetCore.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="itextsharp">
+     <HintPath>2-Library\itextsharp.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+     <HintPath>..\Nop.Plugin.OrdersBulkOrder\2-Library\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Extensions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Http.Features">
+     <HintPath>2-Library\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Razor">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Razor.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.CSharp">
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Configuration">
+     <HintPath>2-Library\Microsoft.Extensions.Configuration.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+     <HintPath>2-Library\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyInjection">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.DependencyModel">
+     <HintPath>2-Library\Microsoft.Extensions.DependencyModel.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Options">
+     <HintPath>2-Library\Microsoft.Extensions.Options.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+     <HintPath>2-Library\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Microsoft.Extensions.Primitives">
+     <HintPath>2-Library\Microsoft.Extensions.Primitives.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Newtonsoft.Json">
+     <HintPath>2-Library\Newtonsoft.Json.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Nop.Core">
+     <HintPath>..\..\Libraries\Nop.Core\bin\Debug\net461\Nop.Core.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Data">
+     <HintPath>..\..\Libraries\Nop.Data\bin\Debug\net461\Nop.Data.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Plugin.Misc.PostbarDashboard">
+     <HintPath>..\..\Presentation\Nop.Web\Plugins\Nop.Plugin.Misc.PostbarDashboard\Nop.Plugin.Misc.PostbarDashboard.dll</HintPath>
+     <Private>false</Private>
+   </Reference>
+   <Reference Include="Nop.Plugin.Misc.Ticket">
+     <HintPath>..\..\Presentation\Nop.Web\Plugins\Misc.Ticket\Nop.Plugin.Misc.Ticket.dll</HintPath>
+     <Private>false</Private>
+   </Reference>
+   <Reference Include="Nop.plugin.Orders.ExtendedShipment">
+     <HintPath>..\..\Presentation\Nop.Web\Plugins\Orders.ExtendedShipment\Nop.plugin.Orders.ExtendedShipment.dll</HintPath>
+     <Private>false</Private>
+   </Reference>
+   <Reference Include="Nop.Services">
+     <HintPath>2-Library\Nop.Services.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Nop.Web">
+     <HintPath>2-Library\Nop.Web.exe</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="Nop.Web.Framework">
+     <HintPath>2-Library\Nop.Web.Framework.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="NUglify">
+     <HintPath>2-Library\NUglify.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="System.ComponentModel">
+     <HintPath>2-Library\System.ComponentModel.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="System.ComponentModel.Annotations">
+     <HintPath>2-Library\System.ComponentModel.Annotations.dll</HintPath>
+      
+      
+   </Reference>
+   <Reference Include="System.ComponentModel.DataAnnotations" />
+   <Reference Include="System.Data.Entity">
+      
+   </Reference>
+   <Reference Include="System.Data.Entity.Design">
+      
+   </Reference>
+   <Reference Include="System.Linq.Dynamic">
+     <HintPath>2-Library\System.Linq.Dynamic.dll</HintPath>
+      
+   </Reference>
+ </ItemGroup>
+ <ItemGroup>
+   <None Update="logo.jpg">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+ </ItemGroup>
+  <ItemGroup>
+   <None Update="logo.jpg">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+ </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Core">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Data">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Drawing">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Numerics">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Runtime.Serialization">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.Xml.Linq">
+       
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Domain\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="WMPLib" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Xabe.FFmpeg" Version="3.5.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nop.Plugin.Misc.ShippingSolutions\Nop.Plugin.Misc.ShippingSolutions.csproj" />
+  </ItemGroup>
+</Project>

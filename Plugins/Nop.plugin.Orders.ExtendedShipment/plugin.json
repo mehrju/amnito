@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Product",
+  "FriendlyName": "Extend Orders Shipment",
+  "SystemName": "Orders.ExtendedShipment",
+  "Version": "1",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "karimy.ehsan@gmail.com(E.Karimi)",
+  "DisplayOrder": 2,
+  "FileName": "Nop.plugin.Orders.ExtendedShipment.dll",
+  "Description": ""
+}

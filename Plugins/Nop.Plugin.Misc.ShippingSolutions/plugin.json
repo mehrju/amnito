@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Shipping rate computation",
+  "FriendlyName": "PDE,Ubbar,Yarbox,Tinex,Safiran",
+  "SystemName": "Misc.ShippingSolutions",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "PostBar team,Ghasemian",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.ShippingSolutions.dll",
+  "Description": "This plugin offers shipping rates by PDE,Ubbar,Yarbox,Tinex,Safiran"
+}

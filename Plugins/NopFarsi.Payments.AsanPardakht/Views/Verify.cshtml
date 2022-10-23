@@ -1,0 +1,35 @@
+﻿@model string
+
+
+@{
+    ViewBag.Title = "";
+    Layout = "_Root";
+    //Layout = null;
+}
+<style>
+    .show-mobile {
+      display: none;
+    }
+
+    @@media only screen and (max-width: 768px) {
+      .show-mobile {
+        display: block;
+      }
+    }
+</style>
+    <div style="">
+        
+    </div>
+    <h1 style="width:100%;height:100%;text-align:center;">
+        @Html.Raw(Model)
+
+    </h1>
+<div class="show-mobile" style="text-align:center">
+    <br />
+    <a href="intent://invoice/#Intent;scheme=company;package=com.bs.asansuper.nopfarsi;S.doctype=FRA;S.docno=FRA1234;S.browser_fallback_url=http%3A%2F%2Fasansuper.com;end">
+        جهت بازگشت به اپلیکیشن کلیک کنید.
+    </a>
+</div>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+

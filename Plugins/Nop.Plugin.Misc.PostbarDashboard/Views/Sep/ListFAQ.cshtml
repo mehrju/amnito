@@ -1,0 +1,102 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.vm_FAQ
+@using System.Net
+@using Nop.Core
+@inject IWebHelper webHelper
+@inject Nop.Plugin.Misc.PostbarDashboard.Services.IOrderServices _orderService;
+@{
+    Layout = $"~/Plugins/Orders.MultiShipping/Views/Shared/Sep/Sep_NewUiDashboardLayout.cshtml";
+    @*<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+
+
+}
+
+<style>
+    input[readonly] {
+        background-color: transparent !important;
+        border: 0 !important;
+    }
+    .faqHeader {
+        font-size: 27px;
+        margin: 20px;
+    }
+    .navbar {
+        padding-bottom: 0 !important;
+        padding: 0 !important;
+    }
+    .card-header [data-toggle="collapse"]:after {
+        font-family: 'Glyphicons Halflings';
+        content: ""; /* "play" icon */
+        float: right;
+        color: #F58723;
+        font-size: 18px;
+        line-height: 22px;
+        /* rotate "play" icon from > (right arrow) to down arrow */
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .card-header [data-toggle="collapse"].collapsed:after {
+        /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+        color: #454444;
+    }
+</style>
+
+<div class="row justify-content-md-center postal-info">
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="body-dash send-data-from" style="overflow: auto;background-color:#4D4D4F">
+
+            <div class="container col-md-12">
+               
+                    @foreach (var item in Model.ListFAQ)
+                    {
+                <div class="" id="accordion" >
+                    <div class="label label-primary" style="color:white">دسته بندی : <span style="color:red"> @(item.NameCategory) </span></div>
+                    @foreach (var item2 in item.Listfaq)
+                    {
+                        <div class="card" style="margin-bottom:12px;color:black">
+                            <div class="card-header" id="Heading@(item2.Id)" style="border-radius: 5px;background-color:#EBEBEB">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" aria-expanded="false"
+                                            data-target="#collapse@(item2.Id)" aria-controls="collapse@(item2.Id)">@item2.Question</a>
+                            </div>
+                            <div id="collapse@(item2.Id)" class="collapse" data-parent="#accordion" aria-labelledby="Heading@(item2.Id)" >
+                                <div class="card-body">
+                                    <h5><span class="label label-primary">پاسخ</span></h5>
+                                    @item2.Answer
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                    }
+                
+                <br />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

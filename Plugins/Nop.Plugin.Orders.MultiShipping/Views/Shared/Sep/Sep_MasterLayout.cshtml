@@ -1,0 +1,131 @@
+﻿@using Nop.Core
+@using Microsoft.AspNetCore.Http
+@inject IWebHelper _webHelper
+@inject IHttpContextAccessor httpContextAccessor
+
+@{
+    string Address = _webHelper.GetRawUrl(httpContextAccessor.HttpContext.Request);
+    string PageUrl = _webHelper.GetThisPageUrl(includeQueryString:false,lowercaseUrl: true);
+    int ScriptVersion = 57;
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Sep/js/jquery.validate.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Head, "~/Themes/Sep/js/jquery-3.3.1.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/popper.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js?ver=" + ScriptVersion);
+
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/MapResource/JS/jquery.md.bootstrap.datetimepicker.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/jquery.steps.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/select2.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/jquery.mmenu.all.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/owl.carousel.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/jquery.countdown.min.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Themes/Sep/js/custom.js?ver=" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/common.js?ver" + ScriptVersion);
+    Html.AppendScriptParts(ResourceLocation.Footer, "https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js");
+    //Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/directive.js");
+
+    //Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.MultiShipping/Content/directive.js");
+    //Html.AppendScriptParts(ResourceLocation.Footer, "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js");
+
+    string ApConfigValue = httpContextAccessor.HttpContext.Session.GetString("ApConfigValue");
+}
+<!doctype html>
+<html lang="fa" dir="rtl" style="height:100% !important">
+<head>
+
+	<title>سامانه آنلاین خدمات پستی</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="shortcut icon" href="" type="image">
+	<meta name="robots" content="index, follow" />
+	<meta name="description" content="@(Html.NopMetaDescription())" />
+	<meta name="keywords" content="@(Html.NopMetaKeywords())" />
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123749803-3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', 'UA-123749803-3');
+	</script>
+	<link rel="stylesheet" href="~/Themes/Sep/css/bootstrap.min.css?ver=@(ScriptVersion)">
+	@*<link rel="stylesheet" href="~/lib/jquery-ui-1.12.1/jquery-ui.min.css?ver=@(ScriptVersion)">*@
+	<link rel="stylesheet" href="~/Themes/Sep/css/select2.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/all.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/jquery.mmenu.all.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/owl.carousel.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/owl.theme.default.min.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/flexslider.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/fontiran.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/iranSans.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/font-awesome-animation.min.css?ver=@(ScriptVersion)">
+
+	<link href="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.css" rel="stylesheet" />
+	<script src="~/Plugins/Orders.ExtendedShipment/Scripts/sweetalert/sweetalert.js"></script>
+	@RenderSection("DashboardStyles", required: false)
+
+	@Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+	@Html.NopScripts(this.Url, ResourceLocation.Head, false)
+	<link rel="stylesheet" href="~/Themes/Sep/css/form_steps.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/style.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Sep/css/style1.css?ver=@(ScriptVersion)">
+	@await Component.InvokeAsync("Favicon")
+
+</head>
+<div id="loader" style="display:none"></div>
+@RenderBody()
+@Html.NopCssFiles(this.Url, ResourceLocation.Footer)
+@Html.NopScripts(this.Url, ResourceLocation.Footer, false)
+</html>
+<script>
+	function alert(msg) {
+		swal({
+			title: "",
+			text: msg,
+			confirmButtonText: "تایید"
+		});
+	}
+
+    //window.confirm = function (data, title, callback) {
+    //    if (typeof title == 'function') {
+    //        callback = title;
+    //        title = "";
+    //    }
+
+    //    swal({
+    //        title: "",
+    //        text: data,
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "بلی",
+    //        cancelButtonText: "خیر",
+    //        closeOnConfirm: true,
+    //        closeOnCancel: true
+    //    }, function (isConfirm) {
+    //            setTimeout(function () {
+    //                callback(isConfirm);
+    //            }, 300);
+    //    });
+    //    // return proxied.apply(this, arguments);
+    //};
+    window.addEventListener('beforeunload', function (e) {
+        if (window.location.href.indexOf("GetPDF") > -1) {
+            return;
+        }
+        $('#loader').show();
+        delete e['returnValue'];
+    });
+    window.onunload = function (event) {
+        if (window.location.href.indexOf("GetPDF") > -1) {
+            return;
+        }
+        $('#loader').show();
+    };
+    $(document).ready(function () {
+      
+        $('body').addClass('blocker-modal');
+    });
+    
+</script>

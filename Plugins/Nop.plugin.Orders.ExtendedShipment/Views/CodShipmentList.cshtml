@@ -1,0 +1,832 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@model Nop.Web.Areas.Admin.Models.Orders.ShipmentListModel
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@inject Nop.plugin.Orders.ExtendedShipment.Services.ICodService _codService;
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes + ",500";
+
+    //page title
+    ViewBag.Title = T("Admin.Orders.Shipments.List").Text + " " + "پس کرایه";
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Shipments");
+    Html.AddCssFileParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.min.css");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Orders.ExtendedShipment/Scripts/select2.full.min.js");
+    var CODEventLIst = _codService.getCODEventList();
+}
+<form asp-controller="Order" asp-action="ShipmentList" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Orders.Shipments.List")
+        </h1>
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn bg-purple">
+                    <i class="fa fa-file-pdf-o"></i>
+                    @T("Admin.Orders.Shipments.PrintPackagingSlips")
+                </button>
+                <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">&nbsp;</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <button type="submit" name="exportpackagingslips-all">
+                            @T("Admin.Orders.Shipments.PrintPackagingSlips.All")
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" id="exportpackagingslips-selected">
+                            @T("Admin.Orders.Shipments.PrintPackagingSlips.Selected")
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <button type="button" id="ship-selected" class="btn bg-aqua">
+                <i class="fa fa-truck"></i>
+                @T("Admin.Orders.Shipments.ShipSelected")
+            </button>
+            <button type="button" id="deliver-selected" class="btn bg-green">
+                <i class="fa fa-check-square-o"></i>
+                @T("Admin.Orders.Shipments.DeliverySelected")
+            </button>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = "admin_order_shipment_list_buttons" })
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="StartDate" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="StartDate" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="EndDate" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="EndDate" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="TrackingNumber" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="TrackingNumber" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="WarehouseId" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="WarehouseId" asp-items="Model.AvailableWarehouses" placeholder="انتخاب کنید" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="ReciverName">نام گیرنده</label>
+                                            <div title="فیلتر بر اساس نام و نام خانوادگی گیرنده." class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="ReciverName"
+                                               name="ReciverName" type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="LoadNotShipped" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="LoadNotShipped" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="ShipmentState">وضعیت محموله</label>
+                                            <div title="جستجو براساس وضعیت حمل محموله" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid" data-val="true" id="ShipmentState" name="ShipmentState" placeholder="انتخاب کنید">
+                                            <option value="0" selected="true">انتخاب کنید</option>
+                                            <option value="1">جمع آوری شده</option>
+                                            <option value="2">ارسال شده</option>
+                                            <option value="3">تحویل شده</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="ShipmentState">آخرین وضعیت</label>
+                                            <div title="جستجو براساس آخرین وضعیت رهگیری حمل محموله" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid" data-val="true" id="CODShipmentEventId" name="CODShipmentEventId" placeholder="انتخاب کنید">
+                                            <option value="0" selected="true">انتخاب کنید</option>
+                                            @foreach (var item in CODEventLIst)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper"><label class="control-label" for="HasGoodsPrice">دارای مبلغ کالا</label><div title="فقط بارگذاری مواردی که دارای مبلغ کالا می باشند" class="ico-help"><i class="fa fa-question-circle"></i></div></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="check-box" data-val="true"  id="HasGoodsPrice" name="HasGoodsPrice" type="checkbox" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="CountryId">استان فرستنده</label>
+                                            <div title="جستجو براساس استان فرستنده مشخص" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="CountryId" asp-items="Model.AvailableCountries" placeholder="انتخاب کنید" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="StateProvinceId">شهرستان فرستنده</label>
+                                            <div title="جستجو براساس شهرستان گیرنده فرستنده" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="StateProvinceId" asp-items="Model.AvailableStates" placeholder="انتخاب کنید" />
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="City">شهر فرستنده</label>
+                                            <div title="جستجو براساس شهر فرستنده مشخص" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="City" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="ReciverCountryId">استان گیرنده</label>
+                                            <div title="جستجو براساس استان گیرنده مشخص" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid" data-val="true" id="ReciverCountryId" name="ReciverCountryId" placeholder="انتخاب کنید">
+                                            @foreach (var item in Model.AvailableCountries)
+                                            {
+                                                <option value="@(item.Value)">@(item.Text)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="ReciverStateProvinceId">شهرستان گیرنده</label>
+                                            <div title="جستجو براساس شهرستان گیرنده مشخص" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid" data-val="true" id="ReciverStateProvinceId" name="ReciverStateProvinceId" placeholder="انتخاب کنید">
+                                            <option selected="selected" value="0">*</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="City">شهر گیرنده</label>
+                                            <div title="جستجو براساس شهر گیرنده مشخص" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="ReciverCity" name="ReciverCity" type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="PostmanId">پستچی</label>
+                                            <div title="جستجو براساس پستچی" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select class="form-control valid google" data-val="true" id="PostmanId" name="PostmanId" data-search="true" theme="google" placeholder="انتخاب کنید">
+                                            <option selected="selected" value="0">*</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="SenderName">نام فرستنده</label>
+                                            <div title="فیلتر بر اساس نام و نام خانوادگی فرستنده." class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="SenderName"
+                                               name="SenderName" type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="orderId">شناسه سفارش</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="orderId"
+                                               name="orderId" type="number" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="CodEndTime">آخرین وضعیت تا</label>
+                                            <div title="محاسبه زمان آخرین وضعیت مرسوله تا این تاریخ" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input id="CodEndTime" class="datepicker" name="CodEndTime" type="text" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label class="control-label" for="CodTrackingDayCount">تعداد روز از آخرین وضعیت</label>
+                                            <div title="تعداد روزی که باید از آخرین وضعیت محموله گذشته باشد" class="ico-help"><i class="fa fa-question-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" id="CodTrackingDayCount" name="CodTrackingDayCount" type="text" value="5">
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-7" style="text-align: left;">
+                                    <button type="button" id="search-shipments" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                                <div class="col-md-5" style="text-align: left;">
+                                    <a class="btn btn-success" onclick="setDataCollectAll()" title="ثبت تاریخ جمع آوری محموله پستی برای موارد انتخابی"
+                                       style="margin-left: 25px;margin-top: 23px;">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="shipments-grid"></div>
+                        <script type="text/javascript">
+                            $("#CodEndTime").kendoDatePicker();
+                            $(document).ready(function () {
+                                $("#shipments-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ShipmentListSelect", "CodShipmentList"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: additionalData
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(defaultGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        pageSizes: [@(gridPageSizes)],
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    //details grid
+                                    detailInit: detailInit,
+                                    scrollable: false,
+                                    dataBound: onDataBound,
+                                    columns: [{
+                                        field: "Id",
+                                        headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                        width: 50
+                                    }
+                                        , {
+                                        field: "Id",
+                                        title: "@T("Admin.Orders.Shipments.ID")",
+                                        width: 50
+                                        }
+                                        , {
+                                        field: "OrderId",
+                                        title: "@T("Admin.Orders.Shipments.CustomOrderNumber")",
+                                        width: 150,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '<a class="btn btn-success" target="_blank" rel="noopener noreferrer" href="Order/Edit/#=OrderId#"><i class="fa fa-eye">#=OrderId#</i></a>'
+                                    }, {
+                                        field: "TrackingNumber",
+                                        title: "@T("Admin.Orders.Shipments.TrackingNumber")",
+                                        width: 100
+                                        }
+                                         , {
+                                        field: "LastState",
+                                        title: "آخرین وضعیت",
+                                        width: 150
+                                        }
+                                        , {
+                                            field: "IsBulk",
+                                            title: "نحوه سفارش",
+                                            width: 100
+                                        }
+                                        , {
+                                        field: "HasBime",
+                                        title: "بیمه",
+                                        width: 100
+                                    }
+                                    , {
+                                        field: "strTotalWeight",
+                                        title: "@T("Admin.Orders.Shipments.TotalWeight")",
+                                        width: 100
+                                    }, {
+                                        field: "DataCollect",
+                                        title: "تاریخ جمع آوری",
+                                        width: 200,
+                                        type: "date",
+                                        format: "{0:G}"
+                                    }, {
+                                        field: "ShippedDate",
+                                        title: "@T("Admin.Orders.Shipments.ShippedDate")",
+                                        width: 200
+                                    }, {
+                                        field: "DeliveryDate",
+                                        title: "@T("Admin.Orders.Shipments.DeliveryDate")",
+                                        width: 200
+                                        }
+
+                                    , {
+                                        field: "vaizShode",
+                                        title: "تسویه شده",
+                                        template:'#if(CanChargWallet==2){#<span class=\"grid-report-item\" >واریز در کیف پول</span>#}else if(vaizShode == true){#<span class=\"grid-report-item\" >بلی</span>#}else{#<span class=\"grid-report-item\" >خیر</span>#}#',
+                                        width: 200
+                                        }
+                                        , {
+                                            field: "GoodsPrice",
+                                            title: "مبلغ کالا",
+                                            width: 100
+                                        }
+                                    , {
+                                        field: "showWalletbnt",
+                                        title: "واریز به کیف پول",
+                                        width: 50,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '#if(showWalletbnt == true){#' +
+                                            '<a class="btn btn-info" onclick="chargeWallet(#=Id#,#=GoodsPrice#)" title="واریز به کیف پول"><i class="fa fa-credit-card-alt" ria-hidden="true"></i></a>' +
+                                            '#}else{#<span> &nbsp </span>#}#'
+                                        }
+                                        , {
+                                        field: "Id",
+                                        title: "ثبت تاریخ جمع آوری",
+                                        width: 50,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                            template: '<a data-value="#=Id#" class="btn btn-success" onclick="setDataCollect(this)"  title="ثبت تاریخ جمع آوری محموله پستی"><i class="fa fa-paper-plane"></i></a>'
+                                    }, {
+                                            field: "Id",
+                                            title: "کنسل کردن سفارش",
+                                            width: 50,
+                                            headerAttributes: { style: "text-align:center" },
+                                            attributes: { style: "text-align:center" },
+                                            template: '<a data-value="#=TrackingNumber#" class="btn btn-warning" onclick="cancelCodOrder(this)"  title="انصراف از سفارش در صورت امکان"><i class="fa fa-close"></i></a>'
+                                        }]
+                                });
+                            });
+
+                            //details grid
+                            function detailInit(e) {
+                                $("<div/>").appendTo(e.detailCell).kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ShipmentsItemsByShipmentId", "Order"))?shipmentId="+e.data.Id,
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    scrollable: false,
+                                    sortable: true,
+                                    pageable: {
+                                        refresh: true,
+                                        numeric: false,
+                                        previousNext: false,
+                                        info: false,
+                                        @await Html.PartialAsync("_GridPagerMessages")
+                                    },
+                                    columns: [
+                                        {
+                                            field: "ProductName",
+                                            title: "@T("Admin.Orders.Shipments.Products.ProductName")",
+                                            width: 400
+                                        },{
+                                            field: "ShippedFromWarehouse",
+                                            title: "@T("Admin.Orders.Shipments.Products.Warehouse")",
+                                            width: 150
+                                        },{
+                                            field: "QuantityInThisShipment",
+                                            title: "@T("Admin.Orders.Shipments.Products.QtyShipped")",
+                                            width: 150
+                                        },{
+                                            field: "ItemWeight",
+                                            title: "@T("Admin.Orders.Shipments.Products.ItemWeight")",
+                                            width: 150
+                                        },{
+                                            field: "ItemDimensions",
+                                            title: "@T("Admin.Orders.Shipments.Products.ItemDimensions")",
+                                            width: 150
+                                        }
+                                    ]
+                                });
+                            }
+                        </script>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    function setDataCollect(btn) {
+                        shipmentId = $(btn).attr('data-value');
+                        var postData = { "shipmentId": shipmentId };
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("setDataCollect", "ExtendedOrder"))",
+                            data: postData,
+                            success: function(data) {
+                                alert(data.result);
+                                var grid = $('#shipments-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    }
+                    function cancelCodOrder(btn) {
+                        trackingNum = $(btn).attr('data-value');
+                        var postData = { "trackingNumber": trackingNum };
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("CancelCodOrder", "ExtendedOrder"))",
+                            data: postData,
+                            success: function(data) {
+                                alert(data.success);
+                                var grid = $('#shipments-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    }
+                    function setDataCollectAll() {
+                        if ($(selectedIds).size() == 0) {
+                            alert('ابتدا محموله های مورد نظر را انتخاب نمایید');
+                            return;
+                        }
+                        var IdData = { "shipmentIds": selectedIds };
+                        addAntiForgeryToken(IdData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("setDataCollectAll", "ExtendedOrder"))",
+                            data: IdData,
+                            success: function(data) {
+                                if (!data.success) {
+                                    alert('خطا درزمان به روز رسانی');
+                                }
+                                var grid = $('#shipments-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+                    }
+                    function chargeWallet(shipmentId,price) {
+
+                        var postData = { "shipmentId": shipmentId, "price": price };
+                        addAntiForgeryToken(postData);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("PayForCod", "CodShipmentList"))",
+                            data: postData,
+                            success: function (data) {
+                                alert(data.masseage);
+                                if (!data.result) {
+                                    return;
+                                }
+                                var grid = $('#shipments-grid').data('kendoGrid');
+                                grid.dataSource.read();
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('خطا در برقرار ارتباط جهت شارژ کیف پول');
+                            }
+                        });
+                    }
+                    var selectedIds = [];
+                    $(document).ready(function () {
+
+                        //load states when changing a country dropdownlist
+                        $("#@Html.IdFor(model => model.CountryId)").change(function() {
+                            var selectedItem = $(this).val();
+                            var ddlStates = $("#@Html.IdFor(model => model.StateProvinceId)");
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                                data: { "countryId": selectedItem, "addAsterisk": "true" },
+                                success: function(data) {
+                                    ddlStates.html('');
+                                    $.each(data, function(id, option) {
+                                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                    });
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert('Failed to retrieve states.');
+                                }
+                            });
+                        });
+                        $("#ReciverCountryId").change(function() {
+                            var selectedItem = $(this).val();
+                            var ddlStates = $("#ReciverStateProvinceId");
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                                data: { "countryId": selectedItem, "addAsterisk": "true" },
+                                success: function(data) {
+                                    ddlStates.html('');
+                                    $.each(data, function(id, option) {
+                                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                                    });
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert('Failed to retrieve states.');
+                                }
+                            });
+                        });
+
+                        var ddlPostman = $("#PostmanId");
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: "@(Url.Action("getUserInRole", "ExtendedOrder"))",
+                            data: { "customerType": '@(Nop.plugin.Orders.ExtendedShipment.Models.CustomerType.PostMan)'},
+                            success: function(data) {
+                                ddlPostman.html('');
+                                ddlPostman.append($('<option></option>').val('0').html('*'));
+                                $.each(data, function(id, option) {
+                                    ddlPostman.append($('<option></option>').val(option.Value).html(option.Text));
+                                });
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert('Failed to retrieve states.');
+                            }
+                        });
+
+                        $("".concat("#@Html.IdFor(model => model.TrackingNumber),",
+                            "#@Html.IdFor(model => model.City)")).keydown(function(event) {
+                            if (event.keyCode === 13) {
+                                $("#search-shipments").click();
+                                return false;
+                            }
+                        });
+
+                        //search button
+                        $('#search-shipments').click(function() {
+                            //search
+                            var grid = $('#shipments-grid').data('kendoGrid');
+                            grid.dataSource.page(1); //new search. Set page size to 1
+                            //grid.dataSource.read(); we already loaded the grid above using "page" function
+                            //clear selected checkboxes
+                            $('.checkboxGroups').attr('checked', false).change();
+                            selectedIds = [];
+                            return false;
+                        });
+
+                        //"ship selected" button
+                        $('#ship-selected').click(function(e) {
+                            e.preventDefault();
+
+                            var postData = {
+                                selectedIds: selectedIds
+                            };
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("SetAsShippedSelected", "Order"))",
+                                data: postData,
+                                complete: function(data) {
+                                    //reload grid
+                                    var grid = $('#shipments-grid').data('kendoGrid');
+                                    grid.dataSource.read();
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError);
+                                },
+                                traditional: true
+                            });
+                            return false;
+                        });
+
+                        //"deliver selected" button
+                        $('#deliver-selected').click(function(e) {
+                            e.preventDefault();
+
+                            var postData = {
+                                selectedIds: selectedIds
+                            };
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("SetAsDeliveredSelected", "Order"))",
+                                data: postData,
+                                complete: function(data) {
+                                    //reload grid
+                                    var grid = $('#shipments-grid').data('kendoGrid');
+                                    grid.dataSource.read();
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError);
+                                },
+                                traditional: true
+                            });
+                            return false;
+                        });
+
+                        $('#mastercheckbox').click(function() {
+                            $('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+                        });
+
+                        //wire up checkboxes.
+                        $('#shipments-grid').on('change', 'input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]', function(e) {
+                            var $check = $(this);
+                            if ($check.is(":checked") == true) {
+                                var checked = jQuery.inArray($check.val(), selectedIds);
+                                if (checked == -1) {
+                                    //add id to selectedIds.
+                                    selectedIds.push($check.val());
+                                }
+                            } else {
+                                var checked = jQuery.inArray($check.val(), selectedIds);
+                                if (checked > -1) {
+                                    //remove id from selectedIds.
+                                    selectedIds = $.grep(selectedIds, function(item, index) {
+                                        return item != $check.val();
+                                    });
+                                }
+                            }
+                            updateMasterCheckbox();
+                        });
+                    });
+
+                    function additionalData() {
+                        var data = {
+                            StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                            EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                            TrackingNumber: $('#@Html.IdFor(model => model.TrackingNumber)').val(),
+                            CountryId: $('#@Html.IdFor(model => model.CountryId)').val(),
+                            StateProvinceId: $('#@Html.IdFor(model => model.StateProvinceId)').val(),
+                            City: $('#@Html.IdFor(model => model.City)').val(),
+                            WarehouseId: $('#@Html.IdFor(model => model.WarehouseId)').val(),
+                            LoadNotShipped: $('#@Html.IdFor(model => model.LoadNotShipped)').is(':checked'),
+                            ReciverCountryId: $('#ReciverCountryId').val(),
+                            ReciverStateProvinceId: $('#ReciverStateProvinceId').val(),
+                            ReciverCity: $('#ReciverCity').val(),
+                            PostmanId: $('#PostmanId').val(),
+                            ReciverName: $('#ReciverName').val(),
+                            SenderName: $('#SenderName').val(),
+                            orderId: $('#orderId').val(),
+                            ShipmentState: $('#ShipmentState').val(),
+                            CODShipmentEventId: $('#CODShipmentEventId').val(),
+                            CodTrackingDayCount: $('#CodTrackingDayCount').val(),
+                            HasGoodsPrice: $('#HasGoodsPrice').is(':checked'),
+                            CodEndTime: $('#CodEndTime').val()
+                        };
+                        console.dir(data);
+                        addAntiForgeryToken(data);
+                        return data;
+                    }
+
+                    function onDataBound(e) {
+                        $('#shipments-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').each(function() {
+                            var currentId = $(this).val();
+                            var checked = jQuery.inArray(currentId, selectedIds);
+                            //set checked based on if current checkbox's value is in selectedIds.
+                            $(this).attr('checked', checked > -1);
+                        });
+
+                        updateMasterCheckbox();
+                    }
+
+                    function updateMasterCheckbox() {
+                        var numChkBoxes = $('#shipments-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]').length;
+                        var numChkBoxesChecked = $('#shipments-grid input[type=checkbox][id!=mastercheckbox][class=checkboxGroups]:checked').length;
+                        $('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+                    }
+                    $(document).ready(function ($) {
+                        $('select').select2();
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</form>
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="PdfPackagingSlipSelected" method="post" id="pdf-packaging-slip-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exportpackagingslips-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            $('#pdf-packaging-slip-selected-form #selectedIds').val(ids);
+            $('#pdf-packaging-slip-selected-form').submit();
+            return false;
+        });
+    });
+</script>

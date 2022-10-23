@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="gettrack">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="gettrackResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="gettrackResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrackResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_alltrackResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_UssdTrack">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_UssdTrackResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_UssdTrackResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_V2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_V2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_alltrack_V2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrackMaterial_V2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrackMaterial_V2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_alltrackMaterial_V2Result">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_UserImage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="postnodecode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_UserImageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_UserImageResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_gateway">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_gatewayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_alltrack_gatewayResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_irancelltrack">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="startdate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="enddate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_irancelltrackResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_irancelltrackResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_telegram">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_alltrack_telegramResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_alltrack_telegramResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_telegram">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telegram_id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telegram_user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_telegramResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ArchiveTrakcing">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArchiveTrakcingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ArchiveTrakcingResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Massgettrack">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MassgettrackResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MassgettrackResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Massgettrack_site">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Massgettrack_siteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Massgettrack_siteResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbarcode_ssn">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ssn_pcode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromdate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="todate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getbarcode_ssnResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getbarcode_ssnResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_NezamVazife">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NationalCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_NezamVazifeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_NezamVazifeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_postnodecode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tabletype" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_postnodecodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_postnodecodeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_licence">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NationalCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_licenceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_licenceResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MotorDoc">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ircode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MotorDocResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_MotorDocResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_CarCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serial1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="serial2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="letter" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ircode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="flag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_CarCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_CarCardResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_sign">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_signResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_signResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_RojinaData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_RojinaDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_RojinaDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_ParcelInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_ParcelInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_ParcelInfoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getParcelData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getParcelDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getParcelDataResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setMaxID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IDtable1" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="IDtable2" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="IDtable3" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="IDtable4" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setMaxIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="setMaxIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MekaBitartibi">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromdate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="todate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MekaBitartibiResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_MekaBitartibiResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MekaExchange">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromdate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="todate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="reporttype" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="get_MekaExchangeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="get_MekaExchangeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errortext" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setpassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="admincode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setpasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="setpasswordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="gettrackSoapIn">
+    <wsdl:part name="parameters" element="tns:gettrack" />
+  </wsdl:message>
+  <wsdl:message name="gettrackSoapOut">
+    <wsdl:part name="parameters" element="tns:gettrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrackSoapIn">
+    <wsdl:part name="parameters" element="tns:get_alltrack" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrackSoapOut">
+    <wsdl:part name="parameters" element="tns:get_alltrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_UssdTrackSoapIn">
+    <wsdl:part name="parameters" element="tns:get_UssdTrack" />
+  </wsdl:message>
+  <wsdl:message name="get_UssdTrackSoapOut">
+    <wsdl:part name="parameters" element="tns:get_UssdTrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_V2SoapIn">
+    <wsdl:part name="parameters" element="tns:get_alltrack_V2" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_V2SoapOut">
+    <wsdl:part name="parameters" element="tns:get_alltrack_V2Response" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrackMaterial_V2SoapIn">
+    <wsdl:part name="parameters" element="tns:get_alltrackMaterial_V2" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrackMaterial_V2SoapOut">
+    <wsdl:part name="parameters" element="tns:get_alltrackMaterial_V2Response" />
+  </wsdl:message>
+  <wsdl:message name="get_UserImageSoapIn">
+    <wsdl:part name="parameters" element="tns:get_UserImage" />
+  </wsdl:message>
+  <wsdl:message name="get_UserImageSoapOut">
+    <wsdl:part name="parameters" element="tns:get_UserImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_gatewaySoapIn">
+    <wsdl:part name="parameters" element="tns:get_alltrack_gateway" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_gatewaySoapOut">
+    <wsdl:part name="parameters" element="tns:get_alltrack_gatewayResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_irancelltrackSoapIn">
+    <wsdl:part name="parameters" element="tns:get_irancelltrack" />
+  </wsdl:message>
+  <wsdl:message name="get_irancelltrackSoapOut">
+    <wsdl:part name="parameters" element="tns:get_irancelltrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_telegramSoapIn">
+    <wsdl:part name="parameters" element="tns:get_alltrack_telegram" />
+  </wsdl:message>
+  <wsdl:message name="get_alltrack_telegramSoapOut">
+    <wsdl:part name="parameters" element="tns:get_alltrack_telegramResponse" />
+  </wsdl:message>
+  <wsdl:message name="log_telegramSoapIn">
+    <wsdl:part name="parameters" element="tns:log_telegram" />
+  </wsdl:message>
+  <wsdl:message name="log_telegramSoapOut">
+    <wsdl:part name="parameters" element="tns:log_telegramResponse" />
+  </wsdl:message>
+  <wsdl:message name="ArchiveTrakcingSoapIn">
+    <wsdl:part name="parameters" element="tns:ArchiveTrakcing" />
+  </wsdl:message>
+  <wsdl:message name="ArchiveTrakcingSoapOut">
+    <wsdl:part name="parameters" element="tns:ArchiveTrakcingResponse" />
+  </wsdl:message>
+  <wsdl:message name="MassgettrackSoapIn">
+    <wsdl:part name="parameters" element="tns:Massgettrack" />
+  </wsdl:message>
+  <wsdl:message name="MassgettrackSoapOut">
+    <wsdl:part name="parameters" element="tns:MassgettrackResponse" />
+  </wsdl:message>
+  <wsdl:message name="Massgettrack_siteSoapIn">
+    <wsdl:part name="parameters" element="tns:Massgettrack_site" />
+  </wsdl:message>
+  <wsdl:message name="Massgettrack_siteSoapOut">
+    <wsdl:part name="parameters" element="tns:Massgettrack_siteResponse" />
+  </wsdl:message>
+  <wsdl:message name="getbarcode_ssnSoapIn">
+    <wsdl:part name="parameters" element="tns:getbarcode_ssn" />
+  </wsdl:message>
+  <wsdl:message name="getbarcode_ssnSoapOut">
+    <wsdl:part name="parameters" element="tns:getbarcode_ssnResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_NezamVazifeSoapIn">
+    <wsdl:part name="parameters" element="tns:get_NezamVazife" />
+  </wsdl:message>
+  <wsdl:message name="get_NezamVazifeSoapOut">
+    <wsdl:part name="parameters" element="tns:get_NezamVazifeResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_postnodecodeSoapIn">
+    <wsdl:part name="parameters" element="tns:get_postnodecode" />
+  </wsdl:message>
+  <wsdl:message name="get_postnodecodeSoapOut">
+    <wsdl:part name="parameters" element="tns:get_postnodecodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_licenceSoapIn">
+    <wsdl:part name="parameters" element="tns:get_licence" />
+  </wsdl:message>
+  <wsdl:message name="get_licenceSoapOut">
+    <wsdl:part name="parameters" element="tns:get_licenceResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_MotorDocSoapIn">
+    <wsdl:part name="parameters" element="tns:get_MotorDoc" />
+  </wsdl:message>
+  <wsdl:message name="get_MotorDocSoapOut">
+    <wsdl:part name="parameters" element="tns:get_MotorDocResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_CarCardSoapIn">
+    <wsdl:part name="parameters" element="tns:get_CarCard" />
+  </wsdl:message>
+  <wsdl:message name="get_CarCardSoapOut">
+    <wsdl:part name="parameters" element="tns:get_CarCardResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_signSoapIn">
+    <wsdl:part name="parameters" element="tns:get_sign" />
+  </wsdl:message>
+  <wsdl:message name="get_signSoapOut">
+    <wsdl:part name="parameters" element="tns:get_signResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_RojinaDataSoapIn">
+    <wsdl:part name="parameters" element="tns:get_RojinaData" />
+  </wsdl:message>
+  <wsdl:message name="get_RojinaDataSoapOut">
+    <wsdl:part name="parameters" element="tns:get_RojinaDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_ParcelInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:get_ParcelInfo" />
+  </wsdl:message>
+  <wsdl:message name="get_ParcelInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:get_ParcelInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getParcelDataSoapIn">
+    <wsdl:part name="parameters" element="tns:getParcelData" />
+  </wsdl:message>
+  <wsdl:message name="getParcelDataSoapOut">
+    <wsdl:part name="parameters" element="tns:getParcelDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="setMaxIDSoapIn">
+    <wsdl:part name="parameters" element="tns:setMaxID" />
+  </wsdl:message>
+  <wsdl:message name="setMaxIDSoapOut">
+    <wsdl:part name="parameters" element="tns:setMaxIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_MekaBitartibiSoapIn">
+    <wsdl:part name="parameters" element="tns:get_MekaBitartibi" />
+  </wsdl:message>
+  <wsdl:message name="get_MekaBitartibiSoapOut">
+    <wsdl:part name="parameters" element="tns:get_MekaBitartibiResponse" />
+  </wsdl:message>
+  <wsdl:message name="get_MekaExchangeSoapIn">
+    <wsdl:part name="parameters" element="tns:get_MekaExchange" />
+  </wsdl:message>
+  <wsdl:message name="get_MekaExchangeSoapOut">
+    <wsdl:part name="parameters" element="tns:get_MekaExchangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="setpasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:setpassword" />
+  </wsdl:message>
+  <wsdl:message name="setpasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:setpasswordResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service_rahgiriSoap">
+    <wsdl:operation name="gettrack">
+      <wsdl:input message="tns:gettrackSoapIn" />
+      <wsdl:output message="tns:gettrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack">
+      <wsdl:input message="tns:get_alltrackSoapIn" />
+      <wsdl:output message="tns:get_alltrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_UssdTrack">
+      <wsdl:input message="tns:get_UssdTrackSoapIn" />
+      <wsdl:output message="tns:get_UssdTrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_V2">
+      <wsdl:input message="tns:get_alltrack_V2SoapIn" />
+      <wsdl:output message="tns:get_alltrack_V2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrackMaterial_V2">
+      <wsdl:input message="tns:get_alltrackMaterial_V2SoapIn" />
+      <wsdl:output message="tns:get_alltrackMaterial_V2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_UserImage">
+      <wsdl:input message="tns:get_UserImageSoapIn" />
+      <wsdl:output message="tns:get_UserImageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_gateway">
+      <wsdl:input message="tns:get_alltrack_gatewaySoapIn" />
+      <wsdl:output message="tns:get_alltrack_gatewaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_irancelltrack">
+      <wsdl:input message="tns:get_irancelltrackSoapIn" />
+      <wsdl:output message="tns:get_irancelltrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_telegram">
+      <wsdl:input message="tns:get_alltrack_telegramSoapIn" />
+      <wsdl:output message="tns:get_alltrack_telegramSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="log_telegram">
+      <wsdl:input message="tns:log_telegramSoapIn" />
+      <wsdl:output message="tns:log_telegramSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveTrakcing">
+      <wsdl:input message="tns:ArchiveTrakcingSoapIn" />
+      <wsdl:output message="tns:ArchiveTrakcingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack">
+      <wsdl:input message="tns:MassgettrackSoapIn" />
+      <wsdl:output message="tns:MassgettrackSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack_site">
+      <wsdl:input message="tns:Massgettrack_siteSoapIn" />
+      <wsdl:output message="tns:Massgettrack_siteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getbarcode_ssn">
+      <wsdl:input message="tns:getbarcode_ssnSoapIn" />
+      <wsdl:output message="tns:getbarcode_ssnSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_NezamVazife">
+      <wsdl:input message="tns:get_NezamVazifeSoapIn" />
+      <wsdl:output message="tns:get_NezamVazifeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_postnodecode">
+      <wsdl:input message="tns:get_postnodecodeSoapIn" />
+      <wsdl:output message="tns:get_postnodecodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_licence">
+      <wsdl:input message="tns:get_licenceSoapIn" />
+      <wsdl:output message="tns:get_licenceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_MotorDoc">
+      <wsdl:input message="tns:get_MotorDocSoapIn" />
+      <wsdl:output message="tns:get_MotorDocSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_CarCard">
+      <wsdl:input message="tns:get_CarCardSoapIn" />
+      <wsdl:output message="tns:get_CarCardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_sign">
+      <wsdl:input message="tns:get_signSoapIn" />
+      <wsdl:output message="tns:get_signSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_RojinaData">
+      <wsdl:input message="tns:get_RojinaDataSoapIn" />
+      <wsdl:output message="tns:get_RojinaDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_ParcelInfo">
+      <wsdl:input message="tns:get_ParcelInfoSoapIn" />
+      <wsdl:output message="tns:get_ParcelInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getParcelData">
+      <wsdl:input message="tns:getParcelDataSoapIn" />
+      <wsdl:output message="tns:getParcelDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setMaxID">
+      <wsdl:input message="tns:setMaxIDSoapIn" />
+      <wsdl:output message="tns:setMaxIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaBitartibi">
+      <wsdl:input message="tns:get_MekaBitartibiSoapIn" />
+      <wsdl:output message="tns:get_MekaBitartibiSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaExchange">
+      <wsdl:input message="tns:get_MekaExchangeSoapIn" />
+      <wsdl:output message="tns:get_MekaExchangeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <wsdl:input message="tns:setpasswordSoapIn" />
+      <wsdl:output message="tns:setpasswordSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service_rahgiriSoap" type="tns:Service_rahgiriSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="gettrack">
+      <soap:operation soapAction="http://tempuri.org/gettrack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack">
+      <soap:operation soapAction="http://tempuri.org/get_alltrack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_UssdTrack">
+      <soap:operation soapAction="http://tempuri.org/get_UssdTrack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_V2">
+      <soap:operation soapAction="http://tempuri.org/get_alltrack_V2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrackMaterial_V2">
+      <soap:operation soapAction="http://tempuri.org/get_alltrackMaterial_V2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_UserImage">
+      <soap:operation soapAction="http://tempuri.org/get_UserImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_gateway">
+      <soap:operation soapAction="http://tempuri.org/get_alltrack_gateway" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_irancelltrack">
+      <soap:operation soapAction="http://tempuri.org/get_irancelltrack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_telegram">
+      <soap:operation soapAction="http://tempuri.org/get_alltrack_telegram" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_telegram">
+      <soap:operation soapAction="http://tempuri.org/log_telegram" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveTrakcing">
+      <soap:operation soapAction="http://tempuri.org/ArchiveTrakcing" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack">
+      <soap:operation soapAction="http://tempuri.org/Massgettrack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack_site">
+      <soap:operation soapAction="http://tempuri.org/Massgettrack_site" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbarcode_ssn">
+      <soap:operation soapAction="http://tempuri.org/getbarcode_ssn" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_NezamVazife">
+      <soap:operation soapAction="http://tempuri.org/get_NezamVazife" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_postnodecode">
+      <soap:operation soapAction="http://tempuri.org/get_postnodecode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_licence">
+      <soap:operation soapAction="http://tempuri.org/get_licence" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MotorDoc">
+      <soap:operation soapAction="http://tempuri.org/get_MotorDoc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_CarCard">
+      <soap:operation soapAction="http://tempuri.org/get_CarCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_sign">
+      <soap:operation soapAction="http://tempuri.org/get_sign" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_RojinaData">
+      <soap:operation soapAction="http://tempuri.org/get_RojinaData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_ParcelInfo">
+      <soap:operation soapAction="http://tempuri.org/get_ParcelInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParcelData">
+      <soap:operation soapAction="http://tempuri.org/getParcelData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setMaxID">
+      <soap:operation soapAction="http://tempuri.org/setMaxID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaBitartibi">
+      <soap:operation soapAction="http://tempuri.org/get_MekaBitartibi" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaExchange">
+      <soap:operation soapAction="http://tempuri.org/get_MekaExchange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <soap:operation soapAction="http://tempuri.org/setpassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service_rahgiriSoap12" type="tns:Service_rahgiriSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="gettrack">
+      <soap12:operation soapAction="http://tempuri.org/gettrack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack">
+      <soap12:operation soapAction="http://tempuri.org/get_alltrack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_UssdTrack">
+      <soap12:operation soapAction="http://tempuri.org/get_UssdTrack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_V2">
+      <soap12:operation soapAction="http://tempuri.org/get_alltrack_V2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrackMaterial_V2">
+      <soap12:operation soapAction="http://tempuri.org/get_alltrackMaterial_V2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_UserImage">
+      <soap12:operation soapAction="http://tempuri.org/get_UserImage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_gateway">
+      <soap12:operation soapAction="http://tempuri.org/get_alltrack_gateway" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_irancelltrack">
+      <soap12:operation soapAction="http://tempuri.org/get_irancelltrack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_alltrack_telegram">
+      <soap12:operation soapAction="http://tempuri.org/get_alltrack_telegram" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_telegram">
+      <soap12:operation soapAction="http://tempuri.org/log_telegram" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveTrakcing">
+      <soap12:operation soapAction="http://tempuri.org/ArchiveTrakcing" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack">
+      <soap12:operation soapAction="http://tempuri.org/Massgettrack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Massgettrack_site">
+      <soap12:operation soapAction="http://tempuri.org/Massgettrack_site" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getbarcode_ssn">
+      <soap12:operation soapAction="http://tempuri.org/getbarcode_ssn" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_NezamVazife">
+      <soap12:operation soapAction="http://tempuri.org/get_NezamVazife" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_postnodecode">
+      <soap12:operation soapAction="http://tempuri.org/get_postnodecode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_licence">
+      <soap12:operation soapAction="http://tempuri.org/get_licence" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MotorDoc">
+      <soap12:operation soapAction="http://tempuri.org/get_MotorDoc" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_CarCard">
+      <soap12:operation soapAction="http://tempuri.org/get_CarCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_sign">
+      <soap12:operation soapAction="http://tempuri.org/get_sign" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_RojinaData">
+      <soap12:operation soapAction="http://tempuri.org/get_RojinaData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_ParcelInfo">
+      <soap12:operation soapAction="http://tempuri.org/get_ParcelInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParcelData">
+      <soap12:operation soapAction="http://tempuri.org/getParcelData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setMaxID">
+      <soap12:operation soapAction="http://tempuri.org/setMaxID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaBitartibi">
+      <soap12:operation soapAction="http://tempuri.org/get_MekaBitartibi" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_MekaExchange">
+      <soap12:operation soapAction="http://tempuri.org/get_MekaExchange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setpassword">
+      <soap12:operation soapAction="http://tempuri.org/setpassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service_rahgiri">
+    <wsdl:port name="Service_rahgiriSoap" binding="tns:Service_rahgiriSoap">
+      <soap:address location="http://poffice.post.ir/tntsearch/getinfo.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service_rahgiriSoap12" binding="tns:Service_rahgiriSoap12">
+      <soap12:address location="http://poffice.post.ir/tntsearch/getinfo.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

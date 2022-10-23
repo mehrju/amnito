@@ -1,0 +1,113 @@
+﻿@model Nop.Plugin.Orders.MultiShipping.Models.vm_TopicCollection
+@using Nop.Core.Domain.Seo
+@using Microsoft.AspNetCore.Http
+@inject SeoSettings seoSettings
+@inject IHttpContextAccessor _httpContextAccessor
+@{
+
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/shipito/_PubllicNewUiLayout.cshtml";
+        //title
+        Html.AddTitleParts("امنیتو آکادمی");
+
+    
+}
+    <div class="page-body">
+        @if (Model != null)
+        {
+            if (Model.ItemTopics.Count > 0)
+            {
+                <div class="row">
+
+
+                    @foreach (var item in Model.ItemTopics)
+                    {
+                        <div class="column">
+                            <div class="content">
+                                <img src="@item.UrlImage" alt="Image" style="width:100%">
+                                <h4 style="margin-top:10px;">@item.Title</h4>
+                                <p>تاریخ ثبت:@item.DateInsert</p>
+                                <p>تاریخ آخرین ویرایش:@item.DateUpdate</p>
+                                <a target="_blank" href="@item.UrlPage" class="btn"style="background-color:forestgreen;color:white;">نمایش</a>@**@
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+   
+<style>
+    * {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial;
+}
+
+/* Center website */
+.main {
+  max-width: 1000px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 50px;
+  word-break: break-all;
+}
+
+.row {
+  margin: 8px -16px;
+  margin-top:50px;
+}
+
+/* Add padding BETWEEN each column (if you want) */
+.row,
+.row > .column {
+  padding: 8px;
+}
+
+/* Create three equal columns that floats next to each other */
+
+
+/* Clear floats after rows */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Content */
+.content {
+  background-color: white;
+  padding: 10px;
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+  display: block;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Add a grey background color on mouse-over */
+.btn:hover {
+  background-color: #ddd;
+}
+
+/* Add a dark background color to the active button */
+.btn.active {
+  background-color: #666;
+   color: white;
+}
+</style>
+    

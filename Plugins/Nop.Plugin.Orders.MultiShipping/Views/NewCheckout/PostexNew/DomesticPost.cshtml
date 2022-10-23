@@ -1,0 +1,92 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("پست داخلی");
+	Html.AddMetaKeywordParts("پست داخلی");
+	Html.AddMetaDescriptionParts("پست داخلی از مهمترین خدمات پستی محسوب میشه ، با امنیتو ارسال سریع و  ارزان مرسولات خود به صورت درب تا درب به صورت آنلاین و همراه با رائه کد رهگیری تجربه کنید ");
+}
+<div class="container landing">
+	<div class="col-md-12">
+		<div class="row ">
+			<div class="col-md-9 content">
+				<h1>پست داخلی</h1>
+				<ul class="breadcrumb">
+					<li><a href="/">خانه</a></li>
+					<li>پست داخلی</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-9 content">
+				<div class="row">
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="OnlineOrderBTN">
+						<a class="pRelative " href="/Home/OnlineOrder">
+							<img class="menuHome mybtn-animated menuHomeDakheli img1" src="~/Themes/postexNew/images/Home/1/onlineLogo2.png?ver=@(imgVer)"  alt="سفارش آنلاین"/>
+							<img class="menuHome mybtn-animated menuHomeDakheli img2" src="~/Themes/postexNew/images/Home/2/onlineLogo.png?ver=@(imgVer)" alt="سفارش آنلاین" />
+						</a>
+					</div>
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="CodOrderBTN">
+						<a class="pRelative " href="/Home/CodOrder">
+							<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/receiverLogo2.png?ver=@(imgVer)" alt="سفارش پس کرایه" />
+							<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/receiverLogo.png?ver=@(imgVer)" alt="سفارش پس کرایه"/>
+						</a>
+					</div>
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="AmnitoOrderBTN">
+						<a class="pRelative " href="/Home/AmnitoOrder">
+							<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/4_base.png?ver=@(imgVer)" alt="امنیتو"/>
+							<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/4_hover.png?ver=@(imgVer)" alt="امنیتو" />
+						</a>
+					</div>
+
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="BulkOrderBTN">
+						<a class="pRelative " href="/Home/BulkOrder">
+							<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/2/Bulkorder1.png?ver=@(imgVer)" alt="سفارش انبوه"/>
+							<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/1/Bulkorder.png?ver=@(imgVer)" alt="سفارش انبوه"/>
+						</a>
+					</div>
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="OrganizationOrderBTN">
+						<a class="pRelative " href="/Home/OrganizationOrder">
+							<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/1/oragnizationOrders.png?ver=@(imgVer)" alt="سفارش سازمانی" />
+							<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/2/oragnizationOrders1.png?ver=@(imgVer)" alt="سفارش سازمانی" />
+						</a>
+					</div>
+					<div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4" id="ShopexBTN">
+						<a class="pRelative " href="/Home/Shopex">
+							<img class="menuHome mybtn-animated img1" src="~/Themes/postexNew/images/Home/2/2_hover.png?ver=@(imgVer)" alt="شاپکس"/>
+							<img class="menuHome mybtn-animated img2" src="~/Themes/postexNew/images/Home/1/2_base.png?ver=@(imgVer)" alt="شاپکس"/>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-9 content">
+
+				<p>
+					بیش از یک قرن از ظهور پست در ایران میگذرد و در طی این مدت پست در ایران و جهان دچار تحولات عظیمی گردیده است تا آنجا که از عاملی برای پاکت به ابزاری قدرتمند در زمینه تجارت الکترونیک تبدیل شده است تا آنجا که امروزه خدمات پست درب تا درب، مهمترین خدمت پست در دنیا میباشد.
+				</p>
+				<p>
+					در همین راستا امنیتو به عنوان اولین بازارگاه خدمات پستی کشور و در راستای عرضه هوشمند خدمات پست داخلی، امکانی را فراهم کرده است که هر ایرانی با وارد کردن وزن، حجم، مبدا، مقصد و روش پرداخت خود اعم از پیشکرایه، پسکرایه، پرداخت در محل (cod)، ارسال رایگان و خرید و فروش امن ( امنیتو) بتواند تشخیص بدهد چه شرکت پستی، با چه سرویسی، در چه مدت زمانی و چه قیمتی مرسوله را به مقصد خواهد رساند در این خدمات بصورت درون شهری و بین شهری قابل عرضه میباشد.
+				</p>
+				<p>
+					درخواست کننده سرویس در انتها میتواند پس از اخذ سرویس و در پایان سفر مرسوله نظر خود را در خصوص سرویس مد نظر ارایه نماید.
+				</p>
+				<p>
+					استفاده از خدمات پسکرایه و یا پرداخت توسط گیرنده نیاز به خرید اعتباری سالیانه در سیستم دارد که به محض ثبت نام و پرداخت اعتبار سالیانه این نوع خدمات برای متقاضی نیز فعال میشود. لازم به یادآوری است خدمت پیشکرایه و خرید فروش امن ( امنیتو ) از همان لحظه اول برای متقاضی سرویس پست داخلی برقرار میباشد.
+				</p>
+				<p>
+					خاطر نشان میشود که این خدمات میتواند با جمع آوری یا بدون جمع آوری، در صورت نیاز با بسته بندی و چاپ لیبل همراه باشد مشتری میتواند حتی با سرویس رهگیری پیامکی از سرنوشت مرسوله خود با خبر گردد.
+				</p>
+
+				<img src="~/Themes/postexNew/images/postbar-info.png" />
+
+			</div>
+		</div>
+
+	</div>
+</div>

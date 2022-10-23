@@ -1,0 +1,442 @@
+﻿@model Nop.Plugin.Misc.PhoneLogin.Models.RegisterModel
+@using System.Text.Encodings.Web
+@{
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/shipito/_NewUiLayoutAccount.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Register").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-registration-page");
+    
+    var loginUrl = Url.RouteUrl("Login");
+}
+<style>
+    .confrimpass {
+        /* IE 8 */
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        /* IE 5-7 */
+        filter: alpha(opacity=0);
+        /* Netscape */
+        -moz-opacity: 0;
+        /* Safari 1.x */
+        -khtml-opacity: 0;
+        /* Good browsers */
+        opacity: 0;
+        width:0px !important;
+        height:0px !important;
+    }
+</style>
+<div class="ajax-loading-block-window" style="display: none;">
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="margin-top: 50px;">
+    @*<div class="row mr-top-10">
+        <div class="col-md-12">
+            <div class="img-logo-sign-up text-center d-none d-sm-block">
+                <a href="index.html"><img class="img-fluid" src="~/Themes/Shipito/images/LOGO.png" style="width:9% !important" alt=""></a>
+            </div>
+        </div>
+    </div>*@
+    <div class="box-sign-up">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title-forgot-email text-center">
+                    <h1>
+                        <a style="cursor:pointer !important;text-decoration:underline !important; color:#2699fb;font-size:9pt" href="/">
+                            صفحه اصلی امنیتو  <i class="fas fa-chevron-circle-left"></i>
+                        </a>
+                    </h1>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="title-signup-mobi">
+                    <span class="">ثبت نام در امنیتو با شماره موبایل و کد ملی امکان پذیر است</span>
+                </div>
+            </div>
+        </div>
+        <div class="error-user text-danger" style="display:none">
+            <div asp-validation-summary="ModelOnly" class="message-error"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <form class="form-sign-up" asp-route="Register" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post" id=frmRegister>
+                    <div class="telphone mr-top-10" id="div_number">
+                        <label asp-for="Username">شماره موبایل:</label>
+                        <div class="form-forgot ">
+                            <i class="fa fa-mobile icon"></i>
+                            <input asp-for="Username" autofocus="autofocus" data-toggle="popover" maxlength="14" data-content="" class="input-phone-number form-control" type="text" placeholder="__________0" onkeypress='validate(event)'>
+                        </div>
+                    </div>
+                    <div class="telphone mr-top-10" id="Div_NationalCode">
+                        <label asp-for="NationalCode">کد ملی:</label>
+                        <div class="form-forgot ">
+                            <i class="fa fa-mobile icon"></i>
+                            <input asp-for="NationalCode" autofocus="autofocus" data-toggle="popover" maxlength="10" data-content="" class="input-phone-number form-control" type="text" placeholder="__________" onkeypress='validate(event)'>
+                        </div>
+                    </div>
+                    <div class="password-signup mr-top-10" id="div_password">
+                        <label asp-for="Password">رمز عبور:</label>
+                        <div class="form-forgot ">
+                            <i class="fa fa-lock icon"></i>
+                            <input asp-for="Password" data-toggle="popover" data-placement="top" data-content="" class="input-pass-number form-control" type="password" placeholder="کلمه عبور خود را وارد نمایید">
+                        </div>
+                    </div>
+                    <div class="ruls-signup mr-top-30" id="div_terms">
+                        <div class="checkbox">
+                            <label class="custom-control material-checkbox">
+                                <input id="terms" name="terms" type="checkbox" class="material-control-input" onchange="">
+                                <span class="material-control-indicator"></span>
+                                <span class="material-control-description">
+                                    ثبت نام در امنیتو به منزله موافقت با
+                                    <a target="_blank" style="color:white" href="/%D9%82%D9%88%D8%A7%D9%86%DB%8C%D9%86-%D8%A7%D8%B3%D8%AA%D9%81%D8%A7%D8%AF%D9%87-%D8%A7%D8%B2-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87">قوانین</a> است
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="password-signup mr-top-30" id="div_activation_code" style="display:none">
+                        <label asp-for="ActivationCode">کد فعال سازی:</label>
+                        <div class="form-forgot ">
+                            <i class="fa fa-lock icon"></i>
+                            <input asp-for="ActivationCode" data-toggle="popover" data-placement="top" data-content="" class="input-activation-number form-control" placeholder="کد فعالسازی خود را وارد نمایید">
+                        </div>
+                    </div>
+                    <div style="width:100%;text-align :center;padding:5px;" >
+                        <a style="color:blue;text-decoration:underline!important;display:none" id="sendCod">ارسال مجدد کد تایید</a>
+                        <span id="countdown" style="display:none"></span>
+                    </div>
+                    <div style="margin-right: 28px;display:none;" id="captchaItem">
+                        <nop-captcha />
+                    </div>
+                    <div class="inputs" style=" display:none">
+                        <label asp-for="FirstName" asp-postfix=":"></label>
+                        <input asp-for="FirstName" value="test" />
+                        <nop-required />
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="inputs" style=" display:none">
+                        <label asp-for="LastName" asp-postfix=":"></label>
+                        <input asp-for="LastName" value="test" />
+                        <nop-required />
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                    <div class="inputs" style=" display:none">
+                        <label asp-for="Email" asp-postfix=":"></label>
+                        <input asp-for="Email" value="test@test.test" />
+                        <nop-required />
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="inputs confrimpass">
+                        <label asp-for="ConfirmPassword" asp-postfix=":"></label>
+                        <input asp-for="ConfirmPassword" />
+                        <nop-required />
+                        <span asp-validation-for="ConfirmPassword"></span>
+                        <input type="hidden" id="activationCode" name="activationCode" />
+                    </div>
+                    <button disabled="disabled" id="register-button" class="btn  mr-top-30"><i class="fa fa-arrow-right"></i>ثبت نام</button>
+                    <button id="confrimBtn-button" class="btn  mr-top-30" style="display:none" type="submit"><i class="fa fa-arrow-right"></i>تایید</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer-register text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <span>قبلا در امنیتو ثبت نام کرده اید؟ <a href="@loginUrl">وارد شوید</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function addAntiForgeryToken(data) {
+        //if the object is undefined, create a new one.
+        if (!data) {
+            data = {};
+        }
+        //add token
+        var tokenInput = $('input[name=__RequestVerificationToken]');
+        if (tokenInput.length) {
+            data.__RequestVerificationToken = tokenInput.val();
+        }
+        return data;
+    };
+    function CountDownTimer(duration, granularity) {
+        this.duration = duration;
+        this.granularity = granularity || 1000;
+        this.tickFtns = [];
+        this.running = false;
+    }
+
+    CountDownTimer.prototype.start = function () {
+        if (this.running) {
+            return;
+        }
+        this.running = true;
+        var start = Date.now(),
+            that = this,
+            diff, obj;
+
+        (function timer() {
+            diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+            if (diff > 0) {
+                setTimeout(timer, that.granularity);
+            } else {
+                diff = 0;
+                that.running = false;
+            }
+
+            obj = CountDownTimer.parse(diff);
+            that.tickFtns.forEach(function (ftn) {
+                ftn.call(this, obj.minutes, obj.seconds);
+            }, that);
+        }());
+    };
+
+    CountDownTimer.prototype.onTick = function (ftn) {
+        if (typeof ftn === 'function') {
+            this.tickFtns.push(ftn);
+        }
+        return this;
+    };
+
+    CountDownTimer.prototype.expired = function () {
+        return !this.running;
+    };
+
+    CountDownTimer.parse = function (seconds) {
+        return {
+            'minutes': (seconds / 60) | 0,
+            'seconds': (seconds % 60) | 0
+        };
+    };
+    $(document).ready(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $('.ajax-loading-block-window').show();
+            },
+            complete: function () {
+                $('.ajax-loading-block-window').hide();
+            },
+        });
+        document.getElementById('Username').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        document.getElementById('NationalCode').addEventListener('input', event =>
+            event.target.value = ToJsutNumber(event.target.value)
+        );
+        //document.getElementById('ActivationCode').addEventListener('input', event =>
+        //    event.target.value = ToJsutNumber(event.target.value)
+        //);
+        //$('#ActivationCode').val('');
+
+        var mobileReg =
+            ///(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4]([ ]|-|[()]){0,3}(?:[0-9]([ ]|-|[()]){0,2}){8}/ig;
+            /(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4|5|6|7|8|9]([ ]|-|[()]){0,3}(?:[0-9]([ ]|-|[()]){0,2}){8}/ig;
+
+        $("#register-button").click(function (event) {
+            event.preventDefault();
+            $('#ConfirmPassword').val($('#Password').val());
+            isValid = $("#frmRegister").validate().form();
+            if (!isValid) {
+                return;
+            }
+
+        
+            if ($("#Username").val()) {
+                var res = resendCode();
+                if (!res) {
+                    return;
+                }
+            }
+        });
+
+        $("#confrimBtn-button").click(function (event) {
+            debugger;
+            event.preventDefault();
+            var _activationCode = $("#ActivationCode").val();
+            if (_activationCode.length == 6) {
+                var _data = { activatationCode: _activationCode }
+                addAntiForgeryToken(_data);
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@Url.Action("RetriveActivationCode", "PhoneLogin")",
+                    data: _data,
+                    success: function (result) {
+                        debugger;
+                        if (result) {
+                            $('#activationCode').val(_activationCode);
+                            $("#frmRegister").submit();
+                        }
+                        else {
+                            $('#activationCode').val('');
+                            alert('@T("Plugins.Misc.PhoneLogin.ConfirmationCodeWrong")');
+                        }
+                           
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('خطا در زمان بررسی کذ تایید');
+                    }
+                });
+            }
+            else {
+               alert('@T("Plugins.Misc.PhoneLogin.ConfirmationCodeWrong")');
+            }
+        });
+
+        var resendCode = function () {
+            debugger;
+            var userName = $("#Username").val();
+            var res = false;
+            @*if (!userName.match(mobileReg)) {
+                debugger;
+                alert('@T("Plugins.Misc.PhoneLogin.MobileNumber.Wrong")');
+                return res;
+            }*@
+            var data = { "phone": userName };
+            addAntiForgeryToken(data);
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("ResendActivationCode", "PhoneLogin")",
+                data: data,
+                success: function (data) {
+                    debugger;
+                    if (data.success) {
+                        $('#div_number').slideUp();
+                        $('#div_password').slideUp();
+                        $('#Div_NationalCode').slideUp();
+                        $('#div_terms').slideUp();
+                        $('#register-button').slideUp();
+                        $('#register-button').hide();
+                        //$('#captchaItem').slideUp();
+                        $('#confrimBtn-button').show();
+                        $('#confrimBtn-button').slideDown();
+                        $('#div_activation_code').slideDown();
+                        $('#captchaItem').show();
+                        $('#captchaItem').css('margin-top', '15px');
+                        showTimer(data.interval);
+
+                    }
+                    alert(data.message);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    alert('خطا در زمان ارسال کد تایید لطفا مجدد تلاش کنید');
+                    window.location.reload();
+                }
+            });
+            return true;
+        };
+        $('#sendCod').click(function () {
+            resendCode();
+        });
+
+        function showTimer(interval) {
+            var display = document.querySelector('#countdown'),
+                timer = new CountDownTimer(interval);
+            $('#countdown').show();
+            $('#sendCod').hide();
+            timer.onTick(format).onTick(restart).start();
+            function restart() {
+                if (this.expired()) {
+                    $('#countdown').html('');
+                    $('#countdown').hide();
+                    $('#sendCod').show();
+                }
+            }
+
+            function format(minutes, seconds) {
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ':' + seconds;
+            }
+        }
+
+        $("#frmRegister").validate({
+            rules: {
+                Password: "required",
+                Username: {
+                    required: true,
+                    minlength: 11,
+                    maxlength: 11
+                },
+                NationalCode: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    IsNationalCode:true
+                },
+               terms: "required",
+            },
+            messages: {
+                Password: "کلمه عبور اجباریست",
+                Username: {
+                    required: "شماره تلفن اجباریست",
+                    minlength: "طول شماره موبایل باید 11 رقم باشد",
+                    maxlength: "طول شماره موبایل باید 11 رقم باشد"
+                },
+                NationalCode: {
+                    required: "کد ملی اجباریست",
+                    minlength: "طول کد ملی باید 10 رقم باشد",
+                    maxlength: "طول کد ملی باید 10 رقم باشد"
+                },
+                terms: "برای ثبت نام باید با موافقت خود را با این شرایط اعلام نمایید",
+            }
+        });
+        function isValidNationalCode(input) {
+            if (!/^\d{10}$/.test(input))
+                return false;
+            var check = parseInt(input[9]);
+            var sum = 0;
+            var i;
+            for (i = 0; i < 9; ++i) {
+                sum += parseInt(input[i]) * (10 - i);
+            }
+            sum %= 11;
+            return (sum < 2 && check == sum) || (sum >= 2 && check + sum == 11);
+        }
+        $.validator.addMethod("IsNationalCode", function (value, element, param) {
+            return isValidNationalCode(value);
+        }, 'کد ملی وارد شده نامعتبر می باشد');
+
+        $('.material-control-input').change(function () {
+            if (this.checked) {
+                $('#register-button').prop("disabled", "");
+            } else {
+                $('#register-button').prop("disabled", "disabled");
+            }
+            $('#textbox1').val(this.checked);
+        });
+
+        if ($('.message-error').text() == '') {
+            $('.error-user').css('display', 'none');
+        } else {
+            $('.error-user').css('display', 'block');
+        }
+    });
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+   
+
+</script>

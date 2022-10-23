@@ -1,0 +1,32 @@
+@model FoxNetSoft.Plugin.Payments.PaymentRules.Models.PaymentRuleModel
+@using Nop.Services.Events
+@using Nop.Web.Framework.Events
+@using FoxNetSoft.Plugin.Payments.PaymentRules.Logger
+@inject IEventPublisher eventPublisher
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="pull-left">
+                </div>
+            </div>
+        </div>
+        <nop-tabs id="paymentrule-edit">
+            <nop-tab asp-name="tab-info" asp-title="@T("Admin.FoxNetSoft.PaymentRules.Info")" asp-default="true">@await Html.PartialAsync(PluginLog.Folder + "Views/PaymentRulesAdmin/_CreateOrUpdate.Info.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-conditions" asp-title="@T("Admin.FoxNetSoft.PaymentRules.Requirements")">@await Html.PartialAsync(PluginLog.Folder + "Views/PaymentRulesAdmin/_CreateOrUpdate.Requirements.cshtml", Model)</nop-tab>
+        </nop-tabs>
+    </div>
+</div>
+@{
+    //custom tabs
+    var eventMessage = new AdminTabStripCreated(this.Html, "paymentrule-edit");
+    eventPublisher.Publish(eventMessage);
+    foreach (var eventBlock in eventMessage.BlocksToRender)
+    {
+        @eventBlock
+    }
+}

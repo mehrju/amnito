@@ -1,0 +1,1102 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="5">
+      <value>,CustomerAddress,CustomerAddress,,System.String,,False,False,False,False</value>
+      <value>,CustomerFullName,CustomerFullName,,System.String,,False,False,False,False</value>
+      <value>,CustomerTel,CustomerTel,,System.String,,False,False,False,False</value>
+      <value>,CustomerMobile,CustomerMobile,,System.String,,False,False,False,False</value>
+      <value>,CustomerPostalCode,CustomerPostalCode,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>dbcdfe7e194c44cfbc637be3ad054337</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="2" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="60">
+        <Text1 Ref="3" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,0,154,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>جدول اطلاعات فروشگاه</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text1>
+        <Text2 Ref="4" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,8,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>060a0019265e43c98044554f01d2f615</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>ردیف</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text2>
+        <Text3 Ref="5" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,8,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>f13a009c57d349d881d05a3801a1294c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>عنوان</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text3>
+        <Text4 Ref="6" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,8,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>9c1596376c92483c9d3024222ffb23e8</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>شرح</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text4>
+        <Text5 Ref="7" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,16,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>1e80b58a8e484d0bb8e746b4d4fba411</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>1</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text5>
+        <Text6 Ref="8" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,16,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>c144ea8790c9443aa5cdef3aed24d817</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>شرکت عامل</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text7 Ref="9" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,16,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>615f12c60bc645b3ac51bb0a42392100</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text7</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>بازارمتریال
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text7>
+        <Text8 Ref="10" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,24,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>68076f8c18654fb49784ae2378c34018</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text8</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>2</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text8>
+        <Text9 Ref="11" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,24,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>f705cba94f0347f0a9d15e778b4a2dec</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>نام فروشگاه</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+        <Text10 Ref="12" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,24,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>677d28773071467da132e88693fe259c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text10</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>بازارمتریال - {CustomerAddress}
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text10>
+        <Text11 Ref="13" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,32,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>874ce429da114542b2aa3eed5fad51af</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text11</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>3</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text11>
+        <Text12 Ref="14" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,32,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>209df35c93a84c36aaae24b0ecb6d1b9</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text12</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>نام مسئول</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text12>
+        <Text13 Ref="15" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,32,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>d4fa4b861d744794aba792bb9b7996c0</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text13</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{CustomerFullName}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text13>
+        <Text14 Ref="16" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,40,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>d994bbb5f7584f30a51a352326ab0349</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text14</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>4</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text14>
+        <Text15 Ref="17" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,40,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>341ea33d052d4a7eac608d8f2c983c6d</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text15</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>تلفن تماس</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text15>
+        <Text16 Ref="18" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,40,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>b7c96ee2a14e456ea3835d27f3ad4c05</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text16</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{CustomerTel}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text16>
+        <Text17 Ref="19" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,48,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>e8ba753589df491c8b50652b2cc3b142</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text17</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>5</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text17>
+        <Text18 Ref="20" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,48,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>3e40393cca0e40fc9a897d01639ce738</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text18</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>شماره موبایل</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text18>
+        <Text19 Ref="21" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,48,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>1eea4bcbe88b48feb69fc1f70aeeb09f</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text19</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{CustomerMobile}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text19>
+        <Text20 Ref="22" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,56,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>408d4f0428374d568e4790379e7dce7d</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text20</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>6</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text20>
+        <Text21 Ref="23" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,56,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>e0435a4d8ba0472486085e69ab6eee2d</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text21</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>نشانی فروشگاه</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text21>
+        <Text22 Ref="24" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,56,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>555cb675a009406fb3a6c5e2d2687a77</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text22</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{CustomerAddress}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text22>
+        <Text23 Ref="25" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,64,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>b2fb5d10d27e43aaa7f82073df6022a9</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text23</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>7</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text23>
+        <Text24 Ref="26" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,64,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>b01bec60297741cb901f39c32a83cfc9</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text24</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>نشانی سایت</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text24>
+        <Text25 Ref="27" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,64,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>680037d928a240a8b7ec1579606843d5</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text25</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text25>
+        <Text26 Ref="28" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,72,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>0378f02ad7cd416d90b44dfc5678a038</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text26</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>8</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text26>
+        <Text27 Ref="29" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,72,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>c21eb5ad0ca1495a8c905588f63e2638</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text27</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>دسته بندی کالا(ها)*</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text27>
+        <Text28 Ref="30" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,72,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>fe72a533d3f64daebf6e1efab6fc0b45</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text28</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text28>
+        <Text29 Ref="31" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,80,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>d47797d74ecb424a91afe0aed4adf132</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text29</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>9</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text29>
+        <Text30 Ref="32" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,80,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>2912fbedbc534a6a87d445576eadf15e</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text30</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>کدپستی</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text30>
+        <Text31 Ref="33" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,80,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>fb281613d55447c0968721dcfaceb8ad</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text31</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{CustomerPostalCode}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text31>
+        <Text32 Ref="34" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,88,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>458f4d5cb63940149ff61d9681dc8b8c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text32</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>10</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text32>
+        <Text33 Ref="35" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,88,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>41237b26dd1a406789fecb8b23bb261a</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text33</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>عامل پستی:  استان/منطقه</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text33>
+        <Text34 Ref="36" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,88,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>6dffd7d50a934346b6f3916a9a457e6c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text34</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text34>
+        <Text35 Ref="37" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,96,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>8fcd3ae8f84c47fb90a8f50846c9e9cd</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text35</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>11</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text35>
+        <Text36 Ref="38" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,96,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>a59155f5592a457883d942f078192e3b</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text36</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>احراز مکانی
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text36>
+        <Text37 Ref="39" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,96,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>6fe7eeb2793842498cdd5071007b4a19</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text37</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text37>
+        <Text38 Ref="40" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,104,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>8a5360bedeef4af5a40d2dc983a22d40</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text38</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>12</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text38>
+        <Text39 Ref="41" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,104,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>99b0e1610fd5438d98165d5672e23abc</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text39</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>پرینتر</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text39>
+        <Text40 Ref="42" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,104,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>4790abf490364be7bb41d19d3e7bb943</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text40</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text40>
+        <Text41 Ref="43" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,112,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>dff6b4a2e72241e7a514748573d5ab81</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text41</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>13</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text41>
+        <Text42 Ref="44" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,112,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>c704216757c2486ea47eded0fb622d2c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text42</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>ترازوی دیجیتال</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text42>
+        <Text43 Ref="45" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,112,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>5106612270694d2eb7add53837eaf0ec</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text43</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text43>
+        <Text44 Ref="46" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>182,120,14,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>08fca77c85304d49a7a09d3208d37dc8</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text44</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>14</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text44>
+        <Text45 Ref="47" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>148,120,34,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>6f06d24f18aa4f228a236c0748c586db</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text45</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>نمونه مهر فروشگاه</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text45>
+        <Text46 Ref="48" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,120,106,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>d10af5489e6f486ba2ca72f1d051d67c</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text46</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text46>
+        <Text47 Ref="49" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,128,154,8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,6,Bold</Font>
+          <Guid>7a7cb9512a11450ebec110b81099cdad</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text47</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>در راستای رضایتمندی مشتریان محترم و به منظور جلوگیری از عرضه کالاهای غیر اصلی، درصورت مشاهده مغایرت بین کالای عرضه شده با آنچه که در جدول فوق معرفی گردیده، پنل فروشگاه مذکور غیرفعال خواهد شد.*</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text47>
+        <Text48 Ref="50" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>42,136,154,18</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>41c31ddef5aa41d58787cbe29f457313</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text48</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>
+
+مدارک مورد نیاز معرفی فروشگاه: کپی کارت ملی- نامه اداری با امضا-جدول تکمیل شده
+		
+		
+		
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text48>
+        <Text49 Ref="51" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>126,97,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text49</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>-</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text49>
+        <Text51 Ref="52" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>85,97,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>8f7356b2b558484ba67250a0b7ef42f0</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text51</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text51>
+        <Text50 Ref="53" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>126,105,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>76f4e49968534b85831b12f3da35e550</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text50</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>-</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text50>
+        <Text52 Ref="54" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>85,105,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>de0a4864ccaf4ef286a983868e84a240</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text52</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text52>
+        <Text53 Ref="55" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>126,113,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>326926093dad44d2acf5720365bae1b6</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text53</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>-</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text53>
+        <Text54 Ref="56" type="Text" isKey="true">
+          <Border>All;Black;0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>85,113,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,10,Bold</Font>
+          <Guid>4c1b17e20565425db5d544909e198073</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text54</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text54>
+        <Text55 Ref="57" type="Text" isKey="true">
+          <Border>All;[0:255:255:255];0.5;Solid;False;1;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>115,97,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>0c0b4f80ec514c7ba7bab54aa37ffd95</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text55</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>بلی</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text55>
+        <Text56 Ref="58" type="Text" isKey="true">
+          <Border>None;[0:255:255:255];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>75,97,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>72ee506c44554d10bad0f8c5566207d7</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text56</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>خیر</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text56>
+        <Text57 Ref="59" type="Text" isKey="true">
+          <Border>None;[0:255:255:255];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>115,105,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>acb4573d4a15421b81dc34b34480899d</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text57</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>بلی</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text57>
+        <Text58 Ref="60" type="Text" isKey="true">
+          <Border>None;[0:255:255:255];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>75,105,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>036a5131c9754a449500a71fcf0176b1</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text58</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>خیر</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text58>
+        <Text59 Ref="61" type="Text" isKey="true">
+          <Border>None;[0:255:255:255];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>115,113,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>52f8c278e78045418f646354d2d39158</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text59</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>بلی</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text59>
+        <Text60 Ref="62" type="Text" isKey="true">
+          <Border>None;[0:255:255:255];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>75,113,6,6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>B Nazanin,9</Font>
+          <Guid>72426cb163724691851bb8c3dea0a072</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text60</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>خیر</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text60>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>683a553429504ea18c3559861b9784f3</Guid>
+      <Margins>10,10,10,10</Margins>
+      <Name>Page1</Name>
+      <PageHeight>279.4</PageHeight>
+      <PageWidth>215.9</PageWidth>
+      <PaperSize>Letter</PaperSize>
+      <Report isRef="0" />
+      <Watermark Ref="63" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="64" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>7/8/2020 1:15:00 PM</ReportChanged>
+  <ReportCreated>7/6/2020 12:05:38 PM</ReportCreated>
+  <ReportFile>C:\Nop_Test\Plugins\Nop.Plugin.Misc.PostbarDashboard\Reports\gatewayRegisterExcel.mrt</ReportFile>
+  <ReportGuid>98396d142ce64cf080d47a17e43408b7</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Millimeters</ReportUnit>
+  <ReportVersion>2018.3.2.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

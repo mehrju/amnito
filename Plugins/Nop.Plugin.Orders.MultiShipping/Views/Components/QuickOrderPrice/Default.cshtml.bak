@@ -1,0 +1,509 @@
+﻿<style>
+    .quick-price-container label {
+        color: #fff;
+    }
+
+    @@media screen and (min-width: 676px) {
+        .modal-dialog {
+            max-width: 900px; /* New width for default modal */
+        }
+    }
+
+    @@media(max-width:676px) {
+        #tblServiceInfo {
+            font-size: 6pt !important;
+        }
+
+        .tdMinHeader > img {
+            width: 80px !important;
+            margin-bottom: 25px !important;
+        }
+
+        .table-bordered td, .table-bordered th {
+            border: none !important;
+        }
+        ..table td, .table th
+        {
+            padding:0px !important;
+        }
+    }
+
+    label {
+        font-size: 16px !important;
+    }
+
+    .btnSearch {
+        color: white;
+    }
+
+    #tblServiceInfo thead th {
+        border: none;
+        border-bottom: 1px solid;
+        text-align: center;
+    }
+</style>
+<link rel="stylesheet" href="~/Themes/Shipito/css/form_steps.css">
+
+
+<i class="fa fa-spinner fa-spin" id="LoadingGift" style="font-size:48px;color:#ffa318;position:fixed;top:50%;left:50%;z-index:999999999999999;display:none"></i>
+
+<div style="height:auto;background-color:#01a0e1" class="col-md-12 quick-price-container">
+
+    <label class="labelSearch col-md-12 mt-2" style="text-align: center; color: #fff;float:left">محاسبه سریع قیمت پستی</label>
+    <form id="getPriceForm">
+
+
+        <div class="row col-12">
+
+            <div class="col-md-6 col-sm-12">
+                <div class="row pt-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label> پست داخلی </label> <input type="radio" name="postType" checked="checked" onchange="forigenChanged()" value="1" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label> پست خارجی </label> <input type="radio" name="postType" id="forigenRadio" onchange="forigenChanged()" value="2" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-sm-12">
+
+                <div class="form-group">
+                    <label>استان فرستنده</label>
+                    <select loadUrl="/ShipitoCheckout/getCountryList" class="js-example-basic-single form-control" name="Sender_Country" id="Sender_Country"></select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+
+                <div class="form-group">
+                    <label>شهر فرستنده</label>
+                    <select loadUrl="/ShipitoCheckout/GetStatesByCountryId" parentSelectParams="countryId=Sender_Country" class="js-example-basic-single form-control" required persianName="شهر فرستنده" name="SenderCityId" id="SenderCityId"></select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 forigen" style="display:none">
+
+                <div class="form-group ">
+                    <label>کشور گیرنده</label>
+                    <select loadUrl="/ShipitoCheckout/getForeginCountry" class="js-example-basic-single form-control" required persianName="کشور گیرنده" name="ReceiverCountry" id="ReceiverCountry"></select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 inner">
+                <div class="form-group" id="_CountryDiv">
+                    <label>استان گیرنده</label>
+                    <select class="js-example-basic-single form-control" loadUrl="/ShipitoCheckout/getCountryList" name="Receiver_Country" id="Receiver_Country"></select>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 inner">
+
+                <div class="form-group">
+                    <label>شهر گیرنده</label>
+                    <select class="js-example-basic-single form-control" loadUrl="/ShipitoCheckout/GetStatesByCountryId" parentSelectParams="countryId=Receiver_Country" required persianName="شهر گیرنده" name="ReceiverCityId" id="ReceiverCityId"></select>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+
+                <div class="form-group" id="">
+                    <label>وزن(گرم)</label>
+                    <input id="Weight" persianName="وزن" name="Weight" required class="form-control" type="number" maxlength="6" max="100000" />
+                </div>
+            </div>
+
+            @*<div class="col-md-6 col-sm-12">
+                    <label>حدود اندازه مرسوله(طول* عرض*ارتفاع)</label>
+                    <select class="js-example-basic-single form-control " name="KartonLafaf" id="KartonLafaf" data-toggle="tooltip"></select>
+                </div>
+
+                <div class="col-md-6 col-sm-12" id="dimenationsBox" style="display:none">
+                    <div class="row">
+                        <label class="col-md-6"> لطفا ابعاد مرسوله را به سانتی متر وارد نمایید</label>
+                        <div class="col-md-6 row">
+                            <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                <input type="text" class="form-control myTooltip" maxlength="6" placeholder="طول" id="length" name="length" data-html="true" data-toggle="tooltip"
+                                       title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                <input type="text" class="form-control myTooltip" maxlength="6" placeholder="عرض" id="width" name="width" data-html="true" data-toggle="tooltip"
+                                       title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xl-4 col-lg-4 col-xs-4 col-4">
+                                <input type="text" class="form-control myTooltip" maxlength="6" placeholder="ارتفاع" id="height" name="height" data-html="true" data-toggle="tooltip"
+                                       title="@("<a class=\"tooltipLink\" onClick=\"showTooltipmessage('dimensionsBans')\" ><i class=\"fa fa-chevron-circle-left\" aria-hidden=\"true\"></i>مشاهده محدودیت ابعاد</a>")">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-sm-12" id="bime">
+                    <label for="">بیمه پوششی</label>
+                    <select class="js-example-basic-single form-control" name="InsuranceName" id="InsuranceName" data-toggle="tooltip" data-html="true" title=""></select>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                    <label for="">چاپ فاکتور سفارش</label>
+                    <select class="js-example-basic-single form-control myTooltip" name="PrintBill" id="PrintBill" data-toggle="tooltip" data-html="true" title="فاکتور پستی باید چاپ و روی بسته چسبانده شود">
+                        <option selected="selected">انتخاب کنید</option>
+                        <option value="true">بله خودم میتونم چاپ کنم </option>
+                        <option value="false">فاکتور سفارش رو برام چاپ و الصاق کنید</option>
+                    </select>
+                </div>
+                <div class="row col-12 mt-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group col-sm-12" id="needCatonWrapper">
+                            <label>آیا به پاکت/کارتن پستی نیاز دارید؟</label>
+                            <input type="checkbox" class="form-control" id="NeedCartoon" name="NeedCartoon" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label>
+                                اطلاع رسانی پیامکی در مراحل ارسال
+                            </label>
+                            <input type="checkbox" value="" id="SendSms" class="myTooltip form-control" name="SendSms" data-toggle="tooltip" data-html="true" title="اگر میخواید شما و گیرنده بدونید مرسوله در هر لحظه کجاست" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group  col-sm-12 ">
+                            <label>
+                                چاپ نشان تجاری من بر روی فاکتور
+                            </label>
+                            <input type="checkbox" value="" id="PrintLogo" class="myTooltip form-control" name="PrintLogo" data-toggle="tooltip" data-html="true" title="در صورتی که نشان تجاری خود را درقسمت حساب من سامانه وارد کرده باشید و به تایید کارشناسان ما رسیده باشد، امکان استفاده از این گزینه وجود دارد" />
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="input-group-prepend row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4 pr-0">
+                <button class="btn btn-block btn-outline-secondary p-0 mb-2 mt-2 btnSearch" type="button" id="btn-get-price" onclick="getPrice()">
+                    استعلام قیمت
+                </button>
+            </div>
+            <div class="col-md-4 pr-0">
+                <a class="btn btn-block btn-outline-secondary mb-5 mt-2 btnSearch" href="/">
+                    بازگشت به سایت
+                </a>
+            </div>
+
+            <div class="col-md-2">
+
+            </div>
+        </div>
+    </form>
+
+
+    <div class="modal" tabindex="-1" id="modalServiceInfo" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #ffa318;color: white;text-align: center;direction: rtl;">
+                    <div><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h5 class="" style="text-align: center;">
+                        لیست سرویس ها
+                    </h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-content form-col pr-0">
+
+                        <h3>سرویس ها</h3>
+
+                        <table id="tblServiceInfo" class="table table-bordered  table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        نام سرویس
+                                    </th>
+                                    <th>
+                                        SLA
+                                    </th>
+                                    <th>
+                                        بدون جمع آوری
+                                    </th>
+                                    <th>
+                                        با جمع آوری
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+
+                        </table>
+                        <span>تمامی قیمت های ارایه شده حدودی می باشد و بر اساس اطلاعات دقیق ورودی شما در زمان ثبت سفارش امکان تغییر خواهد داشت</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <a class="btn btn-outline-secondary btnSearch" href="/Order/Sh_Checkout">
+                        ثبت سفارش
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Themes/Shipito/js/select2.min.js?ver=39"></script>
+<script>
+    $(function () {
+
+        //$.ajax({
+        //    cache: true,
+        //    type: "GET",
+        //    url: "/ShipitoCheckout/getKartonItems",
+        //    data: {},
+        //    success: function (data) {
+
+        //        $.each(data, function (id, item) {
+        //            //item.Text = (item.Text.startsWith('سایز') ? ' کارتن پستی ' : '') + item.Text;
+        //            item.Text = item.Text.indexOf('نیاز') > 0 ? 'انتخاب کنید' : item.Text;
+        //            $(KartonLafaf).append(new Option(item.Text, item.Value, false, false));
+        //        });
+        //        $(KartonLafaf).select2();
+        //        $(KartonLafaf).on('change', detrminBoxDimantion);
+        //        detrminBoxDimantion
+        //    },
+        //    error: function (xhr, ajaxOptions, thrownError) {
+        //        console.log('خطا در زمان بارگذاری ابعاد بسته ها.');
+        //    }
+        //});
+
+        //$.ajax({
+        //    cache: true,
+        //    type: "GET",
+        //    url: "/ShipitoCheckout/getCountryList",
+        //    data: {},
+        //    success: function (data) {
+        //        $(Sender_Country).append(new Option('انتخاب کنید....', '0', true, true));
+        //        $(Receiver_Country).append(new Option('انتخاب کنید....', '0', true, true));
+        //        $.each(data, function (id, item) {
+        //            $(Sender_Country).append(new Option(item.Text, item.Value, false, false));
+        //            $(Receiver_Country).append(new Option(item.Text, item.Value, false, false));
+        //        });
+        //        $(Sender_Country).select2();
+        //        $(Receiver_Country).select2();
+        //        $(Sender_Country).on('change', onCountryChange);
+        //        $(Receiver_Country).on('change', onCountryChange);
+        //    },
+        //    error: function (xhr, ajaxOptions, thrownError) {
+        //        console.log('Failed to retrieve Countries.');
+        //    }
+        //});
+        initForm("getPriceForm");
+        //$.ajax({
+        //    cache: true,
+        //    type: "GET",
+        //    url: "/ShipitoCheckout/getInsuranceItems",
+        //    data: {},
+        //    success: function (data) {
+        //        $.each(data, function (id, item) {
+        //            $(InsuranceName).append(new Option(item.Text, item.Value, false, false));
+        //        });
+        //        $(InsuranceName).select2();
+
+        //    },
+        //    error: function (xhr, ajaxOptions, thrownError) {
+        //        console.log('Failed to retrieve InsuranceItems.');
+        //    }
+        //});
+    })
+
+
+    function onCountryChange() {
+        selectedItem = $(this).val();
+        var ddlStates;
+        if (this.name == 'Sender_Country')
+            ddlStates = $(SenderCityId);
+        else
+            ddlStates = $(ReceiverCityId);
+
+        ddlStates.html('');
+
+        ddlStates.append(new Option('درحال بارگذاری....', '-1', true, true));
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/ShipitoCheckout/GetStatesByCountryId",
+            data: { "countryId": selectedItem },
+            success: function (reuslt) {
+                ddlStates.html('');
+                ddlStates.append(new Option('انتخاب کنید....', '0', true, true));
+                $.each(reuslt, function (id, item) {
+                    ddlStates.append(new Option(item.Text, item.Value, false, false));
+                });
+                ddlStates.select2({
+                    placeholder: "انتخاب شهر",
+                    allowClear: true
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve states.');
+            }
+        });
+
+    }
+
+    function detrminBoxDimantion() {
+        var value = $(KartonLafaf).val();
+
+        if (value == '0')
+            return;
+
+        if (value.indexOf('سایر') >= 0) {
+            $('#dimenationsBox').show();
+            $('#length').val('');
+            $('#width').val('')
+            $('#height').val('');
+        }
+        else {
+            $('#dimenationsBox').hide();
+        }
+    }
+
+    function getPrice() {
+
+        var data = postexForm("getPriceForm");
+        if (!data.isok) {
+            alert(data.AllValidationMessage);
+            return;
+        }
+        $('#btn-get-price').prop('disabled', 'disabled');
+        $('#LoadingGift').show();
+        var form = data.Values;
+        if ($('#forigenRadio').prop('checked') == true) {
+            form.ReceiverCityId = 0;
+        }
+        else {
+            form.ReceiverCountry = '';
+        }
+        //if (form.KartonLafaf.includes('سایر')) {
+        //    if (!form.height || !form["length"] || !form.width) {
+        //        alert("لطفا ابعاد بسته را وارد نمایید");
+        //        return;
+        //    }
+        //    form.PackingDimension = {
+        //        Height: form.height,
+        //        Length: form["length"],
+        //        Width: form.width
+        //    };
+        //}
+        //else {
+        //    form.PackingDimension = {
+        //        CartonName: form.KartonLafaf
+        //    };
+        //}
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/OrderPrice/QuickOrderPrice",
+            data: form,
+            //contentType: "application/json",
+            success: function (data) {
+                $('#LoadingGift').hide();
+                $('#btn-get-price').prop('disabled', '');
+                if (!data || data.length == 0) {
+                    alert('با توجه به مقادیر ورودی شما در قسمت وزن،استان و شهرستان فرستنده و گیرنده سرویسی یافت نشد');
+                    return;
+                }
+                console.log(data);
+                var tbody = $('#tblServiceInfo').find('tbody');
+                tbody.find('tr.data_item').each(function () { $(this).remove(); })
+
+                $.each(data.ServicePrices, function (id, item) {
+                    var imgName = '';
+                    if ([654, 655, 667, 670, 662, 661, 660, 698, 697, 696, 695, 694, 693, 691, 690,722,723].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "POSTBAR";
+                    }
+                    else if ([725, 726, 727].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "shipito";
+                    }
+                    else if (parseInt(item.ServiceId) == 568 || parseInt(item.ServiceId) == 0) {
+                        imgName = "wallet";
+                    }
+                    else if ([703, 699, 705, 706].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "DTS";
+                    }
+                    else if ([702].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "YARBOX";
+                    }
+                    else if ([701].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "UBAAR";
+                    }
+                    else if ([707, 708].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "PDE";
+                    }
+                    else if ([709, 710, 711].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "TPG";
+                    }
+                    else if ([712, 713, 714, 715].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "CHAPAR";
+                    }
+                    else if ([717].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "SNAPBOX";
+                    }
+                    else if ([718].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "POSTEXPLUS";
+                    }
+                    else if ([719].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "BLUESKY";
+                    }
+                    else if ([730, 731].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "Mahex";
+                    }
+                    else if ([730, 733].indexOf(parseInt(item.ServiceId)) >= 0) {
+                        imgName = "KBK";
+                    }
+                    tbody.append(`<tr class="data_item">
+                                            <td style="vertical-align: middle;" class="tdminheader">
+                                                <img src="../ImageServiceProviderDashboard/${imgName}.png"/>
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                               ${item.ServiceName.replace('سرویس', '')}
+                                            </td>
+                                            <td class="selectService selectServiceRight">${item.SLA.split('|')[0]}</td>
+                                            <td style="vertical-align: middle;">${item.PriceStr.replace('ريال', '')}</td>
+                                            <td style="vertical-align: middle;">${item.TotalPriceStr.replace('ريال', '')}</td>
+                                        </tr>`);
+                });
+
+                $('#modalServiceInfo').modal('show');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log('Failed to retrieve .');
+                $('#LoadingGift').hide();
+                $('#btn-get-price').prop('disabled', '');
+            }
+        });
+    }
+
+    function forigenChanged() {
+        if ($('#forigenRadio').prop('checked') == true) {
+            $('.forigen').show();
+            $('.inner').hide();
+        }
+        else {
+            $('.forigen').hide();
+            $('.inner').show();
+        }
+    }
+
+</script>
+
+<script type="text/javascript" src="~/Plugins/Orders.MultiShipping/Scripts/postexUtility.js?ver=@(Guid.NewGuid())"></script>

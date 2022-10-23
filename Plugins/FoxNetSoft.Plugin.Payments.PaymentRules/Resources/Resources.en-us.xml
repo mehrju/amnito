@@ -1,0 +1,311 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.IsNoRegisted">
+    <Value>Unregistered version, trial period 30 days.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.SerialNumber">
+    <Value>Serial Number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.SerialNumber.Hint">
+    <Value>The Serial Number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.showDebugInfo.Hint">
+    <Value>Write debugging information into file. In ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.Enabled">
+    <Value>Enabled</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRulesSettings.Enabled.Hint">
+    <Value>Enable plugin.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Manage">
+    <Value>Manage payment method rules</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.IsActive">
+    <Value>Is active</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.DisplayOrder">
+    <Value>Order</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.Name">
+    <Value>Name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.Requirements">
+    <Value>Conditions</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.PaymentMethods">
+    <Value>Payment methods</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.IsActive">
+    <Value>Is active</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.IsActive.Hint">
+    <Value>Check to active this payment rule. Uncheck to ignore this payment rule.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.DisplayOrder">
+    <Value>Rule order</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.DisplayOrder.Hint">
+    <Value>Set the payment rule order. 1 represents the top of the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.Name">
+    <Value>Name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.Name.Hint">
+    <Value>Provide the name of the rule.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AdminComment">
+    <Value>Admin comment</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AdminComment.Hint">
+    <Value>Admin comment. For internal use.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.StartDateTimeUtc">
+    <Value>Start date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.StartDateTimeUtc.Hint">
+    <Value>The start of the payment rule in Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.EndDateTimeUtc">
+    <Value>End date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.EndDateTimeUtc.Hint">
+    <Value>The end of the payment rule in Coordinated Universal Time (UTC).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AclCustomerRoles">
+    <Value>Customer roles</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AclCustomerRoles.Hint">
+    <Value>Select customer roles for which the payment rule will be shown.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.LimitedToStores">
+    <Value>Limited to stores</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.LimitedToStores.Hint">
+    <Value>Determines whether the payment rule is available only at certain stores.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AvailablePaymentMethods">
+    <Value>Payment methods</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.Fields.AvailablePaymentMethods.Hint">
+    <Value>Select payment methods to display for this payment rule.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.AddNew">
+    <Value>Add a new payment rule</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.BackToList">
+    <Value>back to payment rule list</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.EditDetails">
+    <Value>Edit payment rule details</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Info">
+    <Value>Main</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements">
+    <Value>Requirements</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Description">
+    <Value><![CDATA[Set up requirements to a created payment rule if you want to limit it to certain user categories depending on a shipment address or the amount spent, etc. You can use single requirement type, or group several types and apply them simultaneously.<br>Requirement group is a useful feature for creating payment rule requirement templates. You can create a requirement group just once and then use it every time you want this limitation to be applied. You can include one requirement group into another one if needed.]]></Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.SaveBeforeEdit">
+    <Value>You need to save the payment rule before you can add requirements for this page.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Added">
+    <Value>The new payment rule has been added successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Updated">
+    <Value>The payment rule has been updated successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Deleted">
+    <Value>The payment rule has been deleted successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.ActivityLog.AddPaymentRule">
+    <Value>Added a new payment rule ('{0}')</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.ActivityLog.EditPaymentRule">
+    <Value>Edited the payment rule ('{0}')</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.ActivityLog.DeletePaymentRule">
+    <Value>Deleted the payment rule ('{0}')</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.AddNew">
+    <Value>Add a new payment rule requirement</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.PaymentRequirementType">
+    <Value>Payment rule requirement type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.PaymentRequirementType.Hint">
+    <Value>You can choose one of the following requirement types, or add a requirement group to use several requirement types simultaneously.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.PaymentRequirementType.Select">
+    <Value>Select requirement type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.FailedToSave">
+    <Value>Failed to save requirement</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.GroupIsEmpty">
+    <Value>The group is empty</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.GroupName">
+    <Value>Group name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.GroupName.Hint">
+    <Value>Specify name of the requirement group (e.g. "Permitted customer roles").</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.InteractionTypeInGroup">
+    <Value>Interaction type in this group is</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.RequirementGroup">
+    <Value>Add to group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.RequirementGroup.Hint">
+    <Value>Choose the group you want the requirement group you’re creating to be assigned to</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.RequirementGroup.Title">
+    <Value>Group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Requirement.Title">
+    <Value>Requirement</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.RemoveRequirement">
+    <Value>Remove requirement</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.RemoveGroup">
+    <Value>Remove group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Saved">
+    <Value>Payment rule requirement saved</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.DefaultRequirementGroup">
+    <Value>Default requirement group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.AddGroup">
+    <Value>Add requirement group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.BillingAddress">
+    <Value>Billing address</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.ShippingAddress">
+    <Value>Shipping address</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.CheckoutAttributes">
+    <Value>Checkout attributes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.OrderAmounts">
+    <Value>Order amounts</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.SpecificationAttributes">
+    <Value>Specification attributes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.ShippingMethods">
+    <Value>Shipping methods</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.CustomerAttributes">
+    <Value>Customer attributes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.RequirementCategory.Product">
+    <Value>Product</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ProductOperators.Category">
+    <Value>Category</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ProductOperators.Manufacturer">
+    <Value>Manufacturer</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ProductOperators.Vendor">
+    <Value>Vendor</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Property">
+    <Value>Property</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Property.Hint">
+    <Value>Choose the property from the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Operator">
+    <Value>Operator</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Operator.Hint">
+    <Value>Choose the operator from the list.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Value">
+    <Value>Value</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Requirements.Value.Hint">
+    <Value>Set the value.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.RequirementsInfo.Store">
+    <Value>Store: </Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.RequirementsInfo.StartDateTimeUtc">
+    <Value>From: </Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.RequirementsInfo.EndDateTimeUtc">
+    <Value>To: </Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.RequirementsInfo.CustomerRole">
+    <Value>CustomerRole: </Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.PaymentRule.List.RequirementsInfo.Requirements">
+    <Value>Requirements: Yes</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ShippingAddressOperators.ZipCode">
+    <Value>Zip code</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ShippingAddressOperators.CountryIsoCode">
+    <Value>Country ISO code</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ShippingAddressOperators.CountryName">
+    <Value>Country name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ShippingAddressOperators.ProvinceName">
+    <Value>Province name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.ShippingAddressOperators.ProvinceAbbreviation">
+    <Value>Province abbreviation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.OrderTotalOperators.OrderTotal">
+    <Value>Order total</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.OrderTotalOperators.OrderSubTotal">
+    <Value>Order subtotal</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.OrderTotalOperators.AllOrderTotal">
+    <Value>All order total</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.FoxNetSoft.Plugin.Payments.PaymentRules.Domain.OrderTotalOperators.NumberOfOrders">
+    <Value>Number of orders per customer</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Menu.Name">
+    <Value>Payment Method Rules</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Menu.SubMenu1">
+    <Value>Rules</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Menu.Configure">
+    <Value>Configure</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.PaymentRules.Menu.HelpOnOurForum">
+    <Value>Help on our forum</Value>
+  </LocaleResource>
+</Language>

@@ -1,0 +1,346 @@
+﻿@using Nop.Services.Media
+@using Nop.Core;
+@using Nop.Services.Common;
+@using Nop.Core.Domain.Customers
+@using Nop.Core.Domain.Media;
+
+@inject IPictureService _pictureService;
+@inject IWorkContext _workContext;
+@inject MediaSettings _mediaSettings;
+
+@{
+    int ScriptVersion = 36;
+
+    Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/Shipito/_MasterLayoutDashboard.cshtml";
+
+    var customer = _workContext.CurrentCustomer;
+    var url = _pictureService.GetPictureUrl(
+                customer.GetAttribute<int>(SystemCustomerAttributeNames.AvatarPictureId),
+                _mediaSettings.AvatarPictureSize,
+                false);
+
+    var firstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
+    var lastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
+  
+
+}
+
+@section DashboardStyles{
+	<link rel="stylesheet" href="~/Themes/Shipito/css/fontawesome-all.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/style-dashboard.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/fontiran.css?ver=@(ScriptVersion)">
+	<link rel="stylesheet" href="~/Themes/Shipito/css/iranSans.css?ver=@(ScriptVersion)">
+}
+
+@*@section DashboardScripts{
+		<script src="~/Themes/Shipito/js/main-dashboard.js"></script>
+	}*@
+
+    <body>
+        @Html.AntiForgeryToken()
+        <div id="loading" class="spinner" style="display:none">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- main wrapper -->
+        <!-- ============================================================== -->
+        <div class="dashboard-main-wrapper">
+            <!-- ============================================================== -->
+            <!-- navbar -->
+            <!-- ============================================================== -->
+            <div class="dashboard-header">
+                <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                    <a class="navbar-brand d-md-none d-none d-sm-none d-xs-none d-lg-block" href="">
+                        <img class="rounded-circle" src="@url" alt="">
+                        <span class="text-small">@(firstName + " " + lastName)</span>
+                    </a>
+                    <!--small-phone-->
+                    <div class="item-menu-small d-sm-block d-lg-none d-md-block ">
+                        <ul class="navbar-nav   navbar-right-top">
+                            <li class="nav-item ">
+                                <div class="btn-info-contant">
+									<a class="btn btn-blue-theme" style="width:auto !important" href="tel:+982191300250">021-91300250<i class="fa fa-phone"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item ">
+                                <div class="btn-info-email">
+                                    <button class="btn btn-orang-theme">info@postex.ir<i class="fa fa-envelope"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-block d-sm-block d-md-block d-lg-none" id="menuToggle">
+                        <input class="checkbox_check" type="checkbox" />
+                        <span class="line-menu"></span>
+                        <span class="line-menu"></span>
+                        <span class="line-menu"></span>
+                        <ul id="menu">
+                            <div class="header-menu-humm">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="d-flex mt-5 mb-3 p-r-0">
+                                            <li>
+                                                <a class="navbar-brand " href="">
+                                                    <img src="@url" class="rounded-circle" alt="">
+                                                    <p class="text-small">@(firstName + " " + lastName)</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item dropdown notification ">
+                                                <div class="btn-info-notification  mobile-notification w-100">
+                                                    <a class="nav-link nav-icons" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                                                    <ul class="dropdown-menu dropdown-menu-left notification-dropdown">
+                                                        <li>
+                                                            @*<div class="notification-title"> نوتیفیکیشن</div>
+                                                            <div class="notification-list">
+                                                                <divs class="list-group">
+                                                                    @*<a href="#" class="list-group-item list-group-item-action active">
+                                                                        <div class="notification-info">
+                                                                            <div class="notification-list-user-img"><i class="fa fa-map-marker-alt"></i></div>
+                                                                            <div class="notification-list-user-block">
+                                                                                <span class="notification-list-user-name">مرسوله شما به مقصد رسید</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+
+                                                                </divs>
+                                                            </div>*@
+                                                        </li>
+                                                        <li>
+                                                            <div class="list-footer"> <a href="#">دیدن همه </a></div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-menu-humm">
+                                <div class="menu-list">
+                                    <nav class="">
+                                        <ul class="navbar-nav flex-column nopadding ul-mobile-body">
+                                            <li class="nav-divider return-home">
+                                                <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> بازگشت به صفحه ای اصلی </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("Dashboard","PostbarDashboard")"><i class="fa fa-fw fa-user-circle"></i>پیشخوان </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("CustomerInfo","PostbarDashboard")"><i class="fa fa-fw fa-edit"></i>ویرایش حساب کاربری </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("CustomerChargeWalletHistory","PostbarDashboard")"><i class="fa fa-fw fa-money-bill-alt"></i>مالی </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("Wallet","PostbarDashboard")"><i class="fa fa-fw fa-money-bill-alt"></i>کیف پول </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("PostalAddress","PostbarDashboard")"><i class="fa fa-fw fa-address-book"></i>آدرس پستی </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("Orders","PostbarDashboard")"><i class="fa fa-fw fa-clipboard-list"></i>سفارش ها </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("Customersubset","PostbarDashboard")"><i class="fa fa-users"></i>افراد زیر مجموعه من </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("support","PostbarDashboard")"><i class="fa fa-ticket"></i>تیکت پشتیبانی</a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("Damages","PostbarDashboard")"><i class="fa fa-medkit"></i>درخواست خسارت</a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.Action("RequestCOD","PostbarDashboard")"><i class="fa fa-truck"></i>درخواست پس کرایه</a>
+                                            </li>
+
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.FAQ")"><i class="fa fa-cog"></i>تنظیمات</a>
+                                            </li>
+
+                                            <li class="nav-item ">
+                                                <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.FAQ")"><i class="fa fa-question-circle-o"></i>سوالات متداول</a>
+                                            </li>
+                                            @*<li class="nav-item ">
+                                                <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.Services")"><i class="fa fa-list"></i>خدمات</a>
+                                            </li>*@
+                                            @*<li class="nav-item ">
+                                                <a class="nav-link " href="Accounting.html"><i class="fa fa-fw fa-dollar-sign"></i>حسابداری</a>
+                                            </li>*@
+                                        </ul>
+                                    </nav>
+
+                                </div>
+                                <div class="btns-footer">
+                                    <div class="footer-right-menu">
+                                        <a class="btn-tracking" href="/rahgiry">رهگیری مرسوله</a>
+                                        <a class="btn-order" href="/Order/Sh_Checkout?isCod=false">ثبت سفارش</a>
+                                    </div>
+                                    <div class="btn-log-out">
+                                        <a href="" class="logout"><i class="fa fa-sign-out-alt"></i>خروج</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="footer-menu-humm">
+                            <a href="#" class="btn btn-footer-menu">ورود | ثبت نام</a>
+                        </div>-->
+                        </ul>
+                    </div>
+
+                    <!----------menu lg----->
+                    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto navbar-right-top">
+                            <li class="nav-item m-l-150 m-l-300 img-header border-0 d-block">
+                                <img class="" src="~/Themes/Shipito/images/LOGO.png" alt="">
+                            </li>
+                            <li class="nav-item">
+                                <div class="btn-info-contant">
+                                    <a class="btn btn-blue-theme" style="width:auto !important" href="tel:+982191300250">021-91300250<i class="fa fa-phone"></i></a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="btn-info-email">
+                                    <button class="btn btn-orang-theme">info@postex.ir<i class="fa fa-envelope"></i></button>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown notification">
+                                <div class="btn-info-notification">
+                                    <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                                    <ul class="dropdown-menu dropdown-menu-left notification-dropdown">
+                                        <li>
+                                            <div class="notification-title"> نوتیفیکیشن</div>
+                                            <div class="notification-list">
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="list-footer"> <a href="#">دیدن همه </a></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end navbar -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- left sidebar -->
+            <!-- ============================================================== -->
+            <div class="nav-left-sidebar sidebar-dark d-sm-none d-md-none d-lg-block">
+                <div class="menu-list">
+                    <nav class="navbar navbar-expand-lg navbar-light ">
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav flex-column">
+                                <li class="nav-divider return-home">
+                                    <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> بازگشت به صفحه ای اصلی </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("Dashboard","PostbarDashboard")"><i class="fa fa-fw fa-user-circle"></i>پیشخوان </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("CustomerInfo","PostbarDashboard")"><i class="fa fa-fw fa-edit"></i>ویرایش حساب کاربری </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("CustomerChargeWalletHistory","PostbarDashboard")"><i class="fa fa-fw fa-money-bill-alt"></i>مالی </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("Wallet","PostbarDashboard")"><i class="fa fa-fw fa-money-bill-alt"></i>کیف پول </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("PostalAddress","PostbarDashboard")"><i class="fa fa-fw fa-address-book"></i>آدرس پستی </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("Orders","PostbarDashboard")"><i class="fa fa-fw fa-clipboard-list"></i>سفارش ها </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("Customersubset","PostbarDashboard")"><i class="fa fa-users"></i>افراد زیر مجموعه من </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("support","PostbarDashboard")"><i class="fa fa-ticket"></i>تیکت پشتیبانی</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("Damages","PostbarDashboard")"><i class="fa fa-medkit"></i>درخواست خسارت</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.Action("RequestCOD","PostbarDashboard")"><i class="fa fa-truck"></i>درخواست پس کرایه</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.FAQ")"><i class="fa fa-cog"></i>تنظیمات</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.FAQ")"><i class="fa fa-question-circle"></i>سوالات متداول</a>
+                                </li>
+                                @*<li class="nav-item ">
+                                    <a class="nav-link " href="@Url.RouteUrl("Nop.Plugin.Misc.PostbarDashboard.Services")"><i class="fa fa-list"></i>خدمات</a>
+                                </li>*@
+                                @*<li class="nav-item ">
+                                    <a class="nav-link " href=""><i class="fa fa-fw fa-dollar-sign"></i>حسابداری</a>
+                                </li>*@
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <div class="footer-right-menu">
+                        <a class="btn-tracking" href="/rahgiry">رهگیری مرسوله</a>
+                        <a class="btn-order" href="/Order/Sh_Checkout?isCod=false">ثبت سفارش</a>
+                    </div>
+                    <div class="btn-log-out">
+                        <a href="" class="logout"><i class="fa fa-sign-out-alt"></i>خروج</a>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end left sidebar -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- wrapper  -->
+            <!-- ============================================================== -->
+            <div class="dashboard-wrapper">
+                <div class="container-fluid dashboard-content">
+                    @RenderBody()
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer -->
+                <!-- ============================================================== -->
+                <div class="footer">
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center text-copright">
+                                © صاحب امتیاز تمامی حقوق وب‌سایت، <a href="">امنیتو</a> می باشد. ۱۳۹۹-۱۳۹۴
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end footer -->
+                <!-- ============================================================== -->
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end main wrapper -->
+        <!-- ============================================================== -->
+        <!-- Optional JavaScript -->
+        <script>
+            $(document).ready(function () {
+                $('.logout').click(function () {
+                    debugger;
+                    try {
+                        if (isAndroid()) {
+                            logoutAndroid();
+                        }
+                        else {
+                            window.location ='@Url.RouteUrl("Logout")'
+                        }
+                    } catch (e) {
+
+                    }
+                });
+            });
+        </script>
+    </body>

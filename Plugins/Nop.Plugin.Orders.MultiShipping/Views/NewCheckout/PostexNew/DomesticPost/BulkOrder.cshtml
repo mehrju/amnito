@@ -1,0 +1,47 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@{
+	Layout = "~/Plugins/Orders.MultiShipping/Views/Shared/PostexNew/_PubllicNewUiLayout.cshtml";
+	int imgVer = 11;
+	Html.AddTitleParts("سفارش انبوه");
+	Html.AddMetaKeywordParts("سفارش انبوه");
+	Html.AddMetaDescriptionParts("امنیتو با ارائه سرویسی تحت عنوان سفارش انبوه به دارندگان  کسب و کار این اجازه را میدهد در یک سفارش هر تعداد مرسوله را ثبت کنند و در وقت و زمان خود صرفه جویی کنند");
+}
+
+<div class="container landing">
+	<div class="row">
+		<div class="col-md-12 content">
+			<h1>سفارش انبوه مناسب کسب و کار شما</h1>
+			<ul class="breadcrumb">
+				<li><a href="/">خانه</a></li>
+				<li><a href="/Home/DomesticPost">پست داخلی</a></li>
+				<li>سفارش انبوه</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 center mobile-center">
+			<a class="pRelative" href="#">
+				<img class="internal-logo" src="~/Themes/postexNew/images/Home/2/Bulkorder1.png?ver=@(imgVer)" alt="سفارش انبوه"/>
+			</a>
+		</div>
+		<div class="col-md-8 ">
+
+			<p>
+				امنیتو سفارش انبوه را جهت تسهیل فرایند ثبت سفارش برای کاربران خود، که دارای سفارشات فراوانی در طی روز هستند و احتمالا این ثبت سفارشات میبایستی با موبایل یا تبلت انجام پذیرد ابداع نموده است .
+			</p>
+			<p>
+				کاربر میتواند با مشخص کردن نوع سرویس مد نظر خود به راحتی و در مدت زمانی بسیار کوتاه سفارشات فراوانی را در بخش سفارش انبوه ثبت نماید.
+			</p>
+			<p>
+				بر اساس برآوردهای امنیتو ثبت سفارش هر یک مرسوله در این بخش حداکثر در مدت زمان سی ثانیه قابل انجام است.
+			</p>
+			<span class="slogan">با ثبت سفارش انبوه با نوشیدن یک فنجون قهوه 100 سفارش ثبت کن</span>
+			<br />
+			<div class="content m-4">
+				<a class="btn center" href="/Bulkorder2">شروع ثبت سفارش</a>
+			</div>
+		</div>
+	</div>
+</div>

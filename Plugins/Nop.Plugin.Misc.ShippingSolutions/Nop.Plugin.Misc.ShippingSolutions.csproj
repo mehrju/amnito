@@ -1,0 +1,422 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+   <TargetFramework>net461</TargetFramework>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.ShippingSolutions</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+   <OutputPath>..\..\Presentation\Nop.Web\Plugins\Misc.ShippingSolutions</OutputPath>
+   <OutDir>$(OutputPath)</OutDir>
+ </PropertyGroup>
+ <!-- This target execute after "Build" target -->
+ <Target Name="NopTarget" AfterTargets="Build">
+   <!-- Delete unnecessary libraries from plugins path -->
+   <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+ </Target>
+ <ItemGroup>
+   <Compile Remove="Views\Dealer_Customer_ServiceProvider\**" />
+   <EmbeddedResource Remove="Views\Dealer_Customer_ServiceProvider\**" />
+   <None Remove="Views\Dealer_Customer_ServiceProvider\**" />
+ </ItemGroup>
+ <ItemGroup>
+   <None Remove="plugin.json" />
+   <None Remove="Scripts\Select2\dist\css\select2.css" />
+   <None Remove="Scripts\Select2\dist\css\select2.min.css" />
+   <None Remove="Scripts\Select2\dist\js\select2.full.js" />
+   <None Remove="Scripts\Select2\dist\js\select2.full.min.js" />
+   <None Remove="Scripts\Select2\dist\js\select2.js" />
+   <None Remove="Scripts\Select2\dist\js\select2.min.js" />
+   <None Remove="Views\Collectors\Create.cshtml" />
+   <None Remove="Views\Collectors\Edit.cshtml" />
+   <None Remove="Views\Collectors\ListCollectors.cshtml" />
+   <None Remove="Views\Collectors\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\Collectors\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\Configure.cshtml" />
+   <None Remove="Views\Customer\Create.cshtml" />
+   <None Remove="Views\Customer\Edit.cshtml" />
+   <None Remove="Views\Customer\List.cshtml" />
+   <None Remove="Views\Customer\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\Customer\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\DealerCustomerServiceProvider\Edit.cshtml" />
+   <None Remove="Views\DealerCustomerServiceProvider\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\DealerCustomerServiceProvider\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\Dealer\ListDealers.cshtml" />
+   <None Remove="Views\DiscountPlan_AgentCustomer\Create.cshtml" />
+   <None Remove="Views\DiscountPlan_AgentCustomer\Edit.cshtml" />
+   <None Remove="Views\DiscountPlan_AgentCustomer\List.cshtml" />
+   <None Remove="Views\DiscountPlan_AgentCustomer\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\DiscountPlan_AgentCustomer\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\ListProviders.cshtml" />
+   <None Remove="Views\Office\Edit.cshtml" />
+   <None Remove="Views\Office\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\Office\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PatternPricingPolicy\Create.cshtml" />
+   <None Remove="Views\PatternPricingPolicy\Edit.cshtml" />
+   <None Remove="Views\PatternPricingPolicy\List.cshtml" />
+   <None Remove="Views\PatternPricingPolicy\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PatternPricingPolicy\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\PricingPolicy\Edit.cshtml" />
+   <None Remove="Views\PricingPolicy\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\PricingPolicy\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\ProductPatternPricing\Create.cshtml" />
+   <None Remove="Views\ProductPatternPricing\Edit.cshtml" />
+   <None Remove="Views\ProductPatternPricing\List.cshtml" />
+   <None Remove="Views\ProductPatternPricing\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\ProductPatternPricing\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\SalesPartnersPercent\SalesPartnersPercent.Info.cshtml" />
+   <None Remove="Views\ServiceProviders\Create.cshtml" />
+   <None Remove="Views\ServiceProviders\Edit.cshtml" />
+   <None Remove="Views\ServiceProviders\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\ServiceProviders\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\ServiceTypes\Create.cshtml" />
+   <None Remove="Views\ServiceTypes\Edit.cshtml" />
+   <None Remove="Views\ServiceTypes\ListServiceTypes.cshtml" />
+   <None Remove="Views\ServiceTypes\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\ServiceTypes\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\Dealer\Create.cshtml" />
+   <None Remove="Views\Dealer\Edit.cshtml" />
+   <None Remove="Views\Dealer\_CreateOrUpdate.cshtml" />
+   <None Remove="Views\Dealer\_CreateOrUpdate.Info.cshtml" />
+   <None Remove="Views\_ViewImports.cshtml" />
+ </ItemGroup>
+ <ItemGroup>
+   <Content Include="plugin.json">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\css\select2.css">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\css\select2.min.css">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.full.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.full.min.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Scripts\Select2\dist\js\select2.min.js">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Collectors\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Collectors\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Collectors\ListCollectors.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Collectors\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Collectors\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Configure.cshtml">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Customer\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Customer\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Customer\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Customer\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Customer\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DealerCustomerServiceProvider\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DealerCustomerServiceProvider\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DealerCustomerServiceProvider\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DiscountPlan_AgentCustomer\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DiscountPlan_AgentCustomer\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DiscountPlan_AgentCustomer\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\DiscountPlan_AgentCustomer\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\DiscountPlan_AgentCustomer\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Office\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Office\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Office\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternPricingPolicy\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternPricingPolicy\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternPricingPolicy\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\PatternPricingPolicy\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PatternPricingPolicy\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PricingPolicy\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PricingPolicy\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\PricingPolicy\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ProductPatternPricing\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ProductPatternPricing\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ProductPatternPricing\List.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ProductPatternPricing\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ProductPatternPricing\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\SalesPartnersPercent\SalesPartnersPercent.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviders\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviders\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviders\ListProviders.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceProviders\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceProviders\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\ServiceTypes\Create.cshtml">
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceTypes\Edit.cshtml">
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceTypes\ListServiceTypes.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceTypes\_CreateOrUpdate.cshtml">
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\ServiceTypes\_CreateOrUpdate.Info.cshtml">
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Dealer\Create.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Dealer\Edit.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Dealer\ListDealers.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+   <Content Include="Views\Dealer\_CreateOrUpdate.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\Dealer\_CreateOrUpdate.Info.cshtml">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+     <Pack>$(IncludeRazorContentInPack)</Pack>
+   </Content>
+   <Content Include="Views\_ViewImports.cshtml">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </Content>
+ </ItemGroup>
+ <ItemGroup>
+   <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+ </ItemGroup>
+ <ItemGroup>
+   <Reference Include="Autofac">
+     <HintPath>2-Library\Autofac.dll</HintPath>
+   </Reference>
+   <Reference Include="Autofac.Extensions.DependencyInjection">
+     <HintPath>2-Library\Autofac.Extensions.DependencyInjection.dll</HintPath>
+   </Reference>
+   <Reference Include="AutoMapper">
+     <HintPath>2-Library\AutoMapper.dll</HintPath>
+   </Reference>
+   <Reference Include="EntityFramework">
+     <HintPath>2-Library\EntityFramework.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.Razor">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.Razor.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+     <HintPath>2-Library\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.AspNetCore.Routing.Abstractions">
+     <HintPath>2-Library\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+   </Reference>
+   <Reference Include="Microsoft.CSharp" />
+   <Reference Include="Newtonsoft.Json">
+     <HintPath>2-Library\Newtonsoft.Json.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Core">
+     <HintPath>2-Library\Nop.Core.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Data">
+     <HintPath>2-Library\Nop.Data.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Plugin.Misc.PostbarDashboard">
+     <HintPath>..\..\Presentation\Nop.Web\Plugins\Nop.Plugin.Misc.PostbarDashboard\Nop.Plugin.Misc.PostbarDashboard.dll</HintPath>
+     <Private>false</Private>
+   </Reference>
+   <Reference Include="Nop.Services">
+     <HintPath>2-Library\Nop.Services.dll</HintPath>
+   </Reference>
+   <Reference Include="Nop.Web">
+     <HintPath>2-Library\Nop.Web.exe</HintPath>
+   </Reference>
+   <Reference Include="Nop.Web.Framework">
+     <HintPath>..\..\Presentation\Nop.Web.Framework\bin\Debug\net461\Nop.Web.Framework.dll</HintPath>
+   </Reference>
+   <Reference Include="System.ComponentModel.Composition" />
+   <Reference Include="System.ComponentModel.DataAnnotations" />
+   <Reference Include="System.Web" />
+ </ItemGroup>
+ <ItemGroup>
+   <None Update="logo.jpg">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+ </ItemGroup>
+</Project>

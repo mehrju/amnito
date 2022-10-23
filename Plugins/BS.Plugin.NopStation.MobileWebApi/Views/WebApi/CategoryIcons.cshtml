@@ -1,0 +1,257 @@
+﻿@model BS.Plugin.NopStation.MobileWebApi.Models.DashboardModel.CategoryIconsModel
+@{
+    Layout = "_AdminLayout";
+}
+@using Nop.Web.Framework;
+@using Nop.Core.Infrastructure;
+@using System.Globalization;
+@await Component.InvokeAsync("StoreScopeConfiguration")
+@using (Html.BeginForm())
+{ @Html.AntiForgeryToken()
+    <div class="raw form-horizontal clearfix">
+        @*@Html.Partial("~/Plugins/NopStation.MobileWebApi/Views/WebApi/_NopMobileMenu.cshtml")*@
+    <div class="col-md-9">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>@T("Plugins.NopStation.MobileWebApi.categoryiconTitle")</strong>
+                </div>
+
+                <div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.SubCategoryId)
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(model => model.SubCategoryId, Model.AvailableSubCategories, "Please select a category")
+                                @Html.ValidationMessageFor(model => model.SubCategoryId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Extension)
+                            </div>
+                            <div class="col-md-9">
+                                    <input type="file" name="files" id="files"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*<td></td>*@
+                            <div class="col-md-9 col-md-offset-3">
+                                <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <div class="subcategory-list">
+                            <div id="subcategories-grid"></div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    $("#subcategories-grid").kendoGrid({
+                                        dataSource: {
+                                            type: "json",
+                                            transport: {
+                                                read: {
+                                                    url: "@Html.Raw(Url.Action("SubCategoryList", "MobileWebApiConfiguration"))",
+                                                    type: "POST",
+                                                    dataType: "json"
+                                                },
+                                                destroy: {
+                                                    url: "@Html.Raw(Url.Action("SubCategoryListDelete", "MobileWebApiConfiguration"))",
+                                                    type: "POST",
+                                                    dataType: "json"
+                                                }
+                                            },
+                                            schema: {
+                                                data: "Data",
+                                                total: "Total",
+                                                errors: "Errors",
+                                                model: {
+                                                    id: "Id",
+                                                    fields: {
+                                                        Name: { editable: false },
+                                                        IconPath: { editable: false }
+                                                    }
+                                                }
+                                            },
+                                            requestEnd: function(e) {
+                                                if (e.type != "read") {
+                                                    // this.read();
+                                                }
+                                            },
+                                            error: function(e) {
+                                                // display_kendoui_grid_error(e);
+                                                // Cancel the changes
+                                                this.cancelChanges();
+                                            },
+                                            serverPaging: true,
+                                            serverFiltering: true,
+                                            serverSorting: true
+                                        },
+                                        pageable: {
+                                            refresh: true,
+                                            numeric: false,
+                                            previousNext: false,
+                                            info: false
+                                        },
+                                        editable: {
+                                            confirmation: true,
+                                            mode: "inline"
+                                        },
+                                        scrollable: false,
+                                        columns: [
+                                            {
+                                                field: "Name",
+                                                title: "Category Name"
+                                            }, {
+                                                field: "IconPath",
+                                                title: "Icon",
+                                                template: '<img src="#=IconPath#" />'
+                                            },
+                                            {
+                                                command: [
+                                                    {
+                                                        name: "destroy",
+                                                        text: "@T("Admin.Common.Delete")"
+                                                    }
+                                                ],
+                                                width: 200
+                                            }
+                                        ]
+                                    });
+                                });
+
+                            </script>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+        </div>
+        }
+
+        <script id="fileTemplate" type="text/x-kendo-template">
+            <span class='k-progress'></span>
+            <div class='file-wrapper'>
+                <span class='file-icon #=addExtensionClass(files[0].extension)#'></span>
+                <h4 class='file-heading file-name-heading'>Name: #=name#</h4>
+                <h4 class='file-heading file-size-heading'>Size: #=size# bytes</h4>
+                <button type='button' class='k-upload-action'></button>
+            </div>
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#files").kendoUpload({
+                    template: kendo.template($('#fileTemplate').html())
+                });
+            });
+
+            function addExtensionClass(extension) {
+                switch (extension) {
+                    case '.jpg':
+                    case '.img':
+                    case '.png':
+                    case '.gif':
+                        return "img-file";
+                    case '.doc':
+                    case '.docx':
+                        return "doc-file";
+                    case '.xls':
+                    case '.xlsx':
+                        return "xls-file";
+                    case '.pdf':
+                        return "pdf-file";
+                    case '.zip':
+                    case '.rar':
+                        return "zip-file";
+                    default:
+                        return "default-file";
+                }
+            }
+        </script>
+
+        <style>
+            .file-icon {
+                display: inline-block;
+                float: left;
+                width: 48px;
+                height: 48px;
+                margin-left: 10px;
+                margin-top: 13.5px;
+            }
+
+            .img-file {
+                background-image: url(../content/web/upload/jpg.png);
+            }
+
+            .doc-file {
+                background-image: url(../content/web/upload/doc.png);
+            }
+
+            .pdf-file {
+                background-image: url(../content/web/upload/pdf.png);
+            }
+
+            .xls-file {
+                background-image: url(../content/web/upload/xls.png);
+            }
+
+            .zip-file {
+                background-image: url(../content/web/upload/zip.png);
+            }
+
+            .default-file {
+                background-image: url(../content/web/upload/default.png);
+            }
+
+            #example .file-heading {
+                font-family: Arial;
+                font-size: 1.1em;
+                display: inline-block;
+                float: left;
+                width: 60%;
+                margin: 0 0 0 20px;
+                height: 25px;
+                -ms-text-overflow: ellipsis;
+                -o-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            #example .file-name-heading {
+                font-weight: bold;
+                margin-top: 20px;
+            }
+
+            #example .file-size-heading {
+                font-weight: normal;
+                font-style: italic;
+            }
+
+            li.k-file .file-wrapper .k-upload-action {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+
+            li.k-file div.file-wrapper {
+                position: relative;
+                height: 75px;
+            }
+        </style>

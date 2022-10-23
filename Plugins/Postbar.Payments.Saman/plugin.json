@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Postbar",
+  "FriendlyName": "بانک سامان",
+  "SystemName": "NopFarsi.Payments.SepShaparak",
+  "Version": "4.0",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "Postbar.ir",
+  "DisplayOrder": 10,
+  "FileName": "NopFarsi.Payments.SepShaparak.dll",
+  "Description": "این پلاگین امکان پرداخت از طریق بانک سامان را فراهم می کند."
+}

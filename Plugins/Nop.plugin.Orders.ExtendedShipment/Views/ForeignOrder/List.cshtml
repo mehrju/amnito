@@ -1,0 +1,539 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+
+@{
+    Layout = "_AdminLayout";
+    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+    var gridPageSizes = adminAreaSettings.GridPageSizes;
+
+    //page title
+    ViewBag.Title = "سفارشات پست خارجی";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Product.ForeignOrder");
+}
+<style>
+    .form-group {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    input[readonly] {
+        background-color: transparent;
+        border: 0;
+    }
+</style>
+<nop-antiforgery-token />
+<!--<div class="content-header clearfix">
+    <h1 class="pull-left">
+        سفارشات پست خارجی
+    </h1>-->
+@*<div class="pull-right">
+        <a asp-action="Index" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+    </div>*@
+<!--</div>-->
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">جسنجو مرسولات پست خارجی</div>
+                <div class="panel-body">
+                    <div class="container pad-0">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="OrderId">شماره سفارش</label>
+                                <input class="form-control" id="OrderId" type="number" maxlength="9" />
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="TrackingNumber">کد رهگیری</label>
+                                <input class="form-control" id="TrackingNumber" type="number" maxlength="24" />
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="ForeignOrderStatus">وضعیت تایید سفارش </label>
+                                <select id="ForeignOrderStatus" class="form-control">
+                                    <option value="0">انتخاب کنید....</option>
+                                    <option value="1">عدم تایید سفارش</option>
+                                    <option value="2">تایید سفارش</option>
+                                    <option value="3">افزایش مبلغ</option>
+                                    <option value="4">کاهش مبلغ</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="ServiceId">نوع سرویس</label>
+                                <select id="ServiceId" class="form-control">
+                                    <option value="0">انتخاب کنید....</option>
+                                    <option value="707">PDE</option>
+                                    <option value="719">BSW</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="FromDate">تاریخ سفارش از</label>
+                                <span class="k-widget k-datepicker k-header" style="">
+                                    <span class="k-picker-wrap k-state-default">
+                                        <input id="FromDate" name="FromDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="FromDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;">
+                                        <span unselectable="on" class="k-select" role="button" aria-controls="FromDate_dateview">
+                                            <span unselectable="on" class="k-icon k-i-calendar">select</span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                <label class="control-label" for="ToDate">تاریخ سفارش تا</label>
+                                <span class="k-widget k-datepicker k-header" style="">
+                                    <span class="k-picker-wrap k-state-default">
+                                        <input id="ToDate" name="ToDate" data-role="datepicker" type="text" class="k-input" role="combobox" aria-expanded="false" aria-owns="ToDate_dateview" aria-disabled="false" aria-readonly="false" style="width: 100%;">
+                                        <span unselectable="on" class="k-select" role="button" aria-controls="ToDate_dateview">
+                                            <span unselectable="on" class="k-icon k-i-calendar">select</span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group" style="padding-top:27px !important">
+                                <button type="button" onclick="search(); return false;" name="save" class="btn bg-blue form-control">
+                                    <i class="fa fa-search"></i>
+                                    جستجو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">لیست مرسولات پست خارجی</div>
+                <div class="panel-body">
+                    <div id="Foreign-order-grid" style="font-size:9pt !important;font-weight:bold"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalTrackingForeign" tabindex="-1" role="dialog" aria-labelledby="EditShipmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditShipmentModalLabel">اعلام وضعیت محموله های خارجی</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">جزئیات سفارش</div>
+
+                            <div class="panel-body">
+                                <div class="col-md-12 pad-0">
+                                    <div class="form-group row">
+                                        <label for="_OrderId" class="col-sm-2 col-form-label">شماره سفارش</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_OrderId">
+                                        </div>
+                                        <label for="_TrackingNumber" class="col-sm-2 col-form-label">کد رهگیری:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_TrackingNumber">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="_CreateDateTime_Sh" class="col-sm-2 col-form-label">تاریخ ثبت</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_CreateDateTime_Sh">
+                                        </div>
+                                        <label for="_ShippedDate" class="col-sm-2 col-form-label">تاریخ ارسال</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ShippedDate">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="_DeliveryDate" class="col-sm-2 col-form-label">تاریخ تحویل</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_DeliveryDate">
+                                        </div>
+                                        <label for="_SenderName" class="col-sm-2 col-form-label">فرستنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_SenderName">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="_SenderCity" class="col-sm-2 col-form-label">استان/شهر فرستنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_SenderCity">
+                                        </div>
+                                        <label for="_SenderAddress" class="col-sm-2 col-form-label">آدرس فرستنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_SenderAddress">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="_SenderPhoneNumber" class="col-sm-2 col-form-label">موبایل فرستنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_SenderPhoneNumber">
+                                        </div>
+                                        <label for="_ReceaiverAddress" class="col-sm-2 col-form-label">آدرس گیرنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ReceaiverAddress">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="_ReceaiverName" class="col-sm-2 col-form-label">نام گیرنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ReceaiverName">
+                                        </div>
+                                        <label for="_ReceaiverPhoneNumber" class="col-sm-2 col-form-label">موبایل گیرنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ReceaiverPhoneNumber">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="_ReceaiverEmail" class="col-sm-2 col-form-label">ایمیل گیرنده</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ReceaiverEmail">
+                                        </div>
+                                        <label for="_GoodsType" class="col-sm-2 col-form-label">محتویات مرسوله</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_GoodsType">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="_ExactWeight" class="col-sm-2 col-form-label">وزن دقیق</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" readonly class="form-control-plaintext" id="_ExactWeight">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-3">
+                                            <button id="_pic1" type="button" class="btn bg-blue form-control">
+                                                عکس1
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button id="_pic2" type="button" class="btn bg-blue form-control">
+                                                عکس2
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button id="_pic3" type="button" class="btn bg-blue form-control">
+                                                عکس3
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:-10px !important" />
+
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">کاربر گرامی، آخرین وضعیت محموله را ثبت بفرمایید</div>
+                            <div class="panel-body">
+                                <div class="container pad-0">
+
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                            <label class="control-label" for="Radio_Status_no">عدم تایید سفارش</label>
+                                            <input type="radio" name="Radio_Status_no" id="Radio_Status_no" value="1">
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                            <label class="control-label" for="Radio_Status_yes">تایید سفارش</label>
+                                            <input type="radio" name="Radio_Status_yes" id="Radio_Status_yes" value="1">
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                            <label class="control-label" for="Radio_Status_conflict_Increase">اعلام مغایرت-افزایش مبلغ پستی</label>
+                                            <input type="radio" name="Radio_Status_conflict_Increase" id="Radio_Status_conflict_Increase" value="1">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 filterOrder form-group">
+                                            <label class="control-label" for="Radio_Status_conflict_decrease">اعلام مغایرت-کاهش مبلغ پستی </label>
+                                            <input type="radio" name="Radio_Status_conflict_decrease" id="Radio_Status_conflict_decrease" value="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8 filterOrder form-group">
+                                            <hr />
+                                            <label class="control-label" for="Txtmablagh1">مبلغ مغایرت(افزایش/کاهش): </label>
+                                            <input id="Txtmablagh1" name="Txtmablagh1" tabindex="3" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8 filterOrder form-group">
+                                            <hr />
+                                            <label class="control-label" for="TxtDescription">توضیحات</label>
+                                            <textarea class="form-control" rows="2" id="TxtDescription" placeholder="توضیحات را وارد نمایید"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="History-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" id="EditShipmentId" />
+            <button id="ShowHistory" class="btn btn-primary" type="button"> <i class="fa fa-eye"> مشاهده تاریخچه</i> </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+            <button type="button" id="TrackOrderForeign" class="btn btn-primary">تایید،ویرایش</button>
+        </div>
+    </div>
+</div>
+
+<div style="display:none;">
+
+    <img id="tmp" />
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $("#Foreign-order-grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@Html.Raw(Url.Action("List", "ForeignOrder"))",
+                        type: "GET",
+                        dataType: "json",
+                        data: additionalData
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    errors: "Errors"
+                },
+                error: function(e) {
+                    display_kendoui_grid_error(e);
+                    // Cancel the changes
+                    this.cancelChanges();
+                },
+                pageSize: @(defaultGridPageSize),
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: [@(gridPageSizes)],
+                @await Html.PartialAsync("_GridPagerMessages")
+            },
+            editable: {
+                confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                mode: "inline"
+            },
+            scrollable: false,
+            columns: [
+                {
+                    field: "OrderId",
+                    title: "شماره سفارش"
+                },
+                {
+                    field: "CreateDateTime_Sh",
+                    title: "تاریخ ثبت سفارش"
+                },
+                {
+                    field: "CategoryName",
+                    title: "نوع سرویس"
+                },
+                {
+                    field: "ReceaiverAddress",
+                    title: "مقصد"
+                },
+                {
+                    field: "SenderName",
+                    title: "نام فرستنده"
+                },
+                {
+                    field: "SenderPhoneNumber",
+                    title: "موبایل فرستنده"
+                },
+                {
+                    field: "GoodsType",
+                    title: "محتویات مرسوله"
+                },
+                {
+                    field: "ExactWeight",
+                    title: "وزن"
+                },
+                {
+                        field: "Id",
+                    title: "تعیین وضعیت",
+                        width: 100,
+                        headerAttributes: { style: "text-align:center" },
+                        attributes: { style: "text-align:center" },
+                    template:
+                        '<button onclick="OpenTrackingModal(#=ShipmentId#,#=OrderId#,this)" class="btn bg-blue">تعیین وضعیت<i class="fa fa-pencil"></i></button>'
+                }
+            ]
+        });
+
+        $("#FromDate").kendoDatePicker();
+        $("#ToDate").kendoDatePicker();
+
+    });
+    function editOrder(el, id) {
+        var win = window.open('/admin/ManagePhoneOrder/Edit?id=' + id, '_blank');
+        win.focus();
+    }
+
+    function additionalData() {
+        var data = {
+            ServiceId: $('#ServiceId').val(),
+            ForeignOrderStatus :$('#ForeignOrderStatus').val(),
+            OrderId : $('#OrderId').val(),
+            OrderDateFrom: $('#FromDate').val(),
+            OrderDateTo: $('#ToDate').val(),
+            TrackingNumber: $('#TrackingNumber').val()
+        };
+        addAntiForgeryToken(data);
+        return data;
+    }
+    function search() {
+        var grid = $("#Foreign-order-grid").data("kendoGrid");
+        grid.dataSource.read();
+        grid.refresh();
+    }
+    function mTracking(OrderId, Status, Des, Mablagh, ShipingId) {
+        this.OrderId = OrderId;
+        this.Status = Status;
+        this.Des = Des;
+        this.Mablagh = Mablagh;
+        this.ShipingId = ShipingId;
+    }
+    var _mTracking = new mTracking(0, 0, "", 0, 0);
+    function OpenTrackingModal(id, OrderId,btn) {
+        debugger;
+        var row= $(btn).parent().parent();
+        var grid = $("#Foreign-order-grid").data("kendoGrid");
+       var data= grid.dataItem(row);
+        $('#_OrderId').val(data.OrderId);
+        $('#_ShipmentId').val(data.ShipmentId);
+        $('#_TrackingNumber').val(data.TrackingNumber);
+        $('#_ServiceName').val(data.ServiceName);
+        $('#_CreateDateTime_Sh').val(data.CreateDateTime_Sh);
+        $('#_ShippedDate').val(data.ShippedDate);
+        $('#_DeliveryDate').val(data.DeliveryDate);
+        $('#_SenderName').val(data.SenderName);
+        $('#_SenderCity').val(data.SenderCity);
+        $('#_SenderAddress').val(data.SenderAddress);
+        $('#_SenderPhoneNumber').val(data.SenderPhoneNumber);
+        $('#_ReceaiverAddress').val(data.ReceaiverAddress);
+        $('#_ReceaiverName').val(data.ReceaiverName);
+        $('#_ReceaiverPhoneNumber').val(data.ReceaiverPhoneNumber);
+        $('#_ReceaiverEmail').val(data.ReceaiverEmail);
+        $('#_GoodsType').val(data.GoodsType);
+        $('#_ExactWeight').val(data.ExactWeight);
+        var url1 = `https://postex.ir/Plugins/Orders.ExtendedShipment/ForeignOrderImages/` + `${data.OrderId}_1.jpg`;
+
+        $(`#tmp`).attr(`src`, url1);
+        $('#_pic1').show(); $('#_pic2').show(); $('#_pic3').show();
+
+        setTimeout(function () {
+            if (tmp.width == 0) {
+                $('#_pic1').hide(); $('#_pic2').hide(); $('#_pic3').hide();
+            }
+        }, 1000);
+
+        {
+            $('#_pic1').click(function () {
+                window.open(url1, "_blank");
+            });
+            var url2 = `https://postex.ir/Plugins/Orders.ExtendedShipment/ForeignOrderImages/` + `${data.OrderId}_2.jpg`;
+            
+            $('#_pic2').click(function () {
+                window.open(url2, "_blank");
+            });
+            var url3 = `https://postex.ir/Plugins/Orders.ExtendedShipment/ForeignOrderImages/` + `${data.OrderId}_3.jpg`;
+            
+            $('#_pic3').click(function () {
+                window.open(url3, "_blank");
+            });
+        }
+
+        _mTracking.ShipingId = id;
+        _mTracking.OrderId = OrderId;
+        TxtDescription.value = "";
+        Txtmablagh1.value = "";
+        $("#Radio_Status_no").prop('checked', false);
+        $("#Radio_Status_yes").prop('checked', false);
+        $("#Radio_Status_conflict_Increase").prop('checked', false);
+        $("#Radio_Status_conflict_decrease").prop('checked', false);
+        $("#History-grid").hide();
+        $('#modalTrackingForeign').modal('show', { backdrop: 'static' });
+        $('#modalTrackingForeign').appendTo("body");
+    }
+        $('#TrackOrderForeign').click(function () {
+
+
+          if (Radio_Status_no.checked) {
+              _mTracking.Status = 1;
+          }
+          else if (Radio_Status_yes.checked) {
+              _mTracking.Status = 2;
+          }
+          else if (Radio_Status_conflict_Increase.checked) {
+              _mTracking.Status = 3;
+          }
+          else if (Radio_Status_conflict_decrease.checked) {
+              _mTracking.Status = 4;
+          }
+          else {
+              alert('کاربر گرامی خواهشمند است یکی از وضعیت ها را انتخاب بفرمایید');
+                                  return;
+          }
+       _mTracking.Des = TxtDescription.value;
+       _mTracking.Mablagh=Txtmablagh1.value;
+        var postData = {
+            _OrderId: _mTracking.OrderId,
+            _Status:_mTracking.Status,
+            _Des: _mTracking.Des,
+            _Mablagh: _mTracking.Mablagh,
+            _ShipingId:_mTracking.ShipingId
+        };
+        debugger;
+       addAntiForgeryToken(postData);
+       $.ajax({
+           cache: false,
+           type: "POST",
+           url: "@(Url.Action("TrackForeign", "ExtendedOrder"))",
+           data: postData,
+           success: function (result) {
+
+
+               if (result.success == true) {
+
+                   alert(result.message);
+
+                   $('#modalTrackingForeign').modal('hide');
+                   var grid = $('#shipments-grid').data('kendoGrid');
+                   grid.dataSource.read();
+                   TxtDescription.value = "";
+                   Txtmablagh1.value = "";
+                   $("#Radio_Status_no").prop('checked', false);
+                   $("#Radio_Status_yes").prop('checked', false);
+                   $("#Radio_Status_conflict_Increase").prop('checked', false);
+                   $("#Radio_Status_conflict_decrease").prop('checked', false);
+               }
+           }
+       });
+        });
+
+</script>

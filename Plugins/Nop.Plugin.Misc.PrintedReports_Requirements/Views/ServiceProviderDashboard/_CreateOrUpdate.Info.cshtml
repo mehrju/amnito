@@ -1,0 +1,159 @@
+﻿@model Nop.Plugin.Misc.PostbarDashboard.Models.Tbl_ServiceProviderDashboard
+
+<script>
+        $(document).ready(function () {
+
+            $(BtnInsertTicket).click(function () {
+                var title = TitleServiceProviderDashboard.value;
+                var urlpage = UrlPageDiscreption.value;
+
+                if (title == "" || title == null) {
+                    alert("کاربر گرامی عنوان وارد بفرمایید");
+                    return;
+                }
+                if (file1.files[0] == null && file1.files[0] == "") {
+                    alert("کاربر گرامی عکس انتخاب بفرمایید");
+                    return;
+                }
+
+                else {
+                    //stop submit the form, we will post it manually.
+                    event.preventDefault();
+
+
+                     @*var state_update = false;
+                    if (@Model.NameTopic4Edit!= null ||@Model.NameTopic4Edit!= "")
+                    {
+                        state_update = true;
+                    }*@
+
+
+
+                    var fdInsertTicket = new FormData();
+                   //params
+                    fdInsertTicket.append('Title', title);
+                     fdInsertTicket.append('UrlPage', urlpage);
+                    fdInsertTicket.append('Id', @Model.Id);
+
+                    //file
+                    if (file1.files[0] != null && file1.files[0] != "") {
+                        fdInsertTicket.append('_files', file1.files[0]);
+                    }
+
+
+                    // disabled the submit button
+                    $(BtnInsertTicket).prop("disabled", true);
+
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        //dataType: "json",
+                        url:"@(Url.Action("ServiceProviderDashboard", "ManageServiceProviderDashboard"))",
+                        data: fdInsertTicket,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+
+                            alert("با موفقیت ثبت شد");
+                            $(BtnInsertTicket).prop("disabled", false);
+                            //location.reload();
+                            location.href = "../";
+                        },
+                        error: function (data) {
+
+                            if (data.status == 110) {
+                                alert("کاربر گرامی عنوان انتخاب فرمایید");
+                                return;
+                            }
+                            if (data.status == 111) {
+                                alert("کاربر گرامی صفحه ای با دسته بندی انتخاب شده در لیست وجود دارد، صفحه ای تکراری نمیتوانید ثبت کنید");
+                                return;
+                            }
+                            if (data.status == 112) {
+                                alert("کاربر گرامی فایل عکسی انتخاب بفرمایید");
+                                return;
+                            }
+                            if (data.status == 113) {
+                                alert("حجم فایل انتخاب شده بیش از 3 مگا بایت میباشد");
+                                return;
+                            }
+                            $(BtnInsertTicket).prop("disabled", false);
+
+                        }
+                    });
+
+
+                }
+
+
+
+            });
+
+        });
+</script>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TitleServiceProviderDashboard" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TitleServiceProviderDashboard" tabindex="1" />
+                        <span asp-validation-for="TitleServiceProviderDashboard"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UrlPageDiscreption" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UrlPageDiscreption" tabindex="2" />
+                        <span asp-validation-for="UrlPageDiscreption"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="image_input_button btn btn-blue-theme">
+                        <span>انتخاب عکس(اندازه عکس:طول 670 پیکس، ارتفاع 670 پیکس باشد)</span>
+                        <i class="fa fa-upload" onclick="return file1.click()" style="text-align:center;width:200px;"></i>
+                        <input type="file" tabindex="3" name="files" id="file1" accept=".jpg,.png" style="display:none;" onchange="updateInput1(this.value)" />
+                    </label>
+                    <label class="control-label" id="LabelfileUpload1" style="font-size:12px; text-align:center;direction:ltr;"></label>
+                </div>
+                <button id="BtnInsertTicket" tabindex="4" class="btn btn-blue-theme" style="text-align:center;background-color:blue;color:white;">
+                    ثبت
+                    <i class="fa fa-edit"></i>
+                </button>
+            </div>
+            <div class="col-md-6">
+                <a href="/@Model.UrlImage" style="text-align:center;">
+                    <img src="/@Model.UrlImage" alt="image">
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function updateInput1(ish) {
+        document.getElementById("LabelfileUpload1").innerHTML = ish;
+    }
+</script>
+<style>
+    img {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 150px;
+    }
+
+        img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+</style>

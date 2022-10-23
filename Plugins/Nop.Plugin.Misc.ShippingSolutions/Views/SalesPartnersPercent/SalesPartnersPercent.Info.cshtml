@@ -1,0 +1,279 @@
+﻿@model Nop.Plugin.Misc.ShippingSolutions.Domain.Tbl_SalesPartnersPercent
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+@inject Nop.Core.Domain.Common.AdminAreaSettings adminAreaSettings
+@using Nop.Web.Framework.UI
+@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Misc.ShippingSolutions.Page_Titel_PricingPoliy").Text;
+
+    <script>
+        function mPricing(Id, Name, OfDay,
+            UpDay, _Percent) {
+            this.Id = Id;
+            this.Name = Name;
+            this.OfDay = OfDay;
+            this.UpDay = UpDay;
+            this._Percent = _Percent;
+        }
+        var _mPricing = new mPricing(0, "", 0, 0, 0);
+
+    </script>
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $(RegisterPricing).click(function ()
+        {
+
+        _mPricing.Name = txtname.value;
+        _mPricing.OfDay = txtofday.value;
+        _mPricing.UpDay =   txtupday.value;
+        _mPricing._Percent = txtpercent.value;
+
+        $.ajax({
+            url:"@(Url.Action("AddSalesPartnersPercent", "ManageSalesPartnersPercent"))",
+            data: { _PP: _mPricing },
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+                //$(LoadingGift).show();
+            },
+            success: function (response) {
+                //$(LoadingGift).hide();
+                if (response.success) {
+                    txtname.value = "";
+                    txtofday.value = "";
+                    txtupday.value = "";
+                    txtpercent.value = "";
+                    _mPricing.Name = 0;
+                    _mPricing.OfDay = 0;
+                    _mPricing.UpDay = 0;
+                    _mPricing._Percent = 0;
+                     alert(response.responseText);
+                    //reload grid
+                    location.reload();
+                } else {
+
+                    alert(response.responseText);
+                    location.reload();
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+                location.reload();
+            }
+        });
+        });
+
+        //=====================================================
+        $(RegisterPricingAll).click(function () {
+            senditem = {};
+
+            Listitem = [];
+
+            $('#table_body_PricingPolicy').find('tr').each(function ()
+            {
+                var Id = this.getAttribute('itemPricingPolicyId');
+                var name = $("#inputname_" + Id).val();
+                var ofday = $("#inputofday_" + Id).val();
+                var upday = $("#inputupday_" + Id).val();
+                var percent = $("#inputpercent_" + Id).val();
+
+                
+
+                item = {};
+                item["id"] = Id;
+                item["name"] = name;
+                item["ofday"] = ofday;
+                item["upday"] = upday;
+                item["percent"] = percent;
+                Listitem.push(item);
+            });
+
+            senditem["Listitem_SalesPartnersPercent"] = Listitem;
+            console.log(Listitem);
+            debugger;
+            var PostData =
+            {
+                List_PP: senditem
+            };
+             addAntiForgeryToken(PostData);
+        $.ajax({
+            url:"@(Url.Action("EditPlan", "ManageSalesPartnersPercent"))",
+            data:PostData,
+            type: 'post',
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                //$(LoadingGift).hide();
+                if (response.success) {
+                   location.reload();
+                } else {
+
+                    alert(response.responseText);
+                   location.reload();
+                }
+            }
+            ,
+            error: function (response) {
+                alert(response.responseText);  //
+                
+            }
+        });
+        });
+
+
+        //=====================================================
+    });
+    </script>
+
+
+
+
+
+}
+<script>
+    $(document).ready(function () {
+
+            var postdata = {
+            };
+            addAntiForgeryToken(postdata);
+            $.ajax({
+                url:"@(Url.Action("Plan", "ManageSalesPartnersPercent"))",
+                type: 'Post',
+                dataType: "json",
+                data: postdata,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    debugger;
+                    
+
+                    var table = $('#table_body_PricingPolicy');
+                    data.forEach(function (employee) {
+                        table.append(
+                            "<tr id='" + "tr" + employee.id + "'itemPricingPolicyId='" + employee.id + "'>"
+                            +
+                            "<td class='col-3'>"+
+                                        "<input type='text'  id='"+"inputname_"+ employee.id+"'"+ "value='"+employee.name+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                            +
+                            "<td class='col-3'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputofday_"+ employee.id+"'"+ "value='"+employee.ofday+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-3'>"+
+                                        "<input type='text' onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))' id='"+"inputupday_"+ employee.id+"'"+ "value='"+employee.upday+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                             +
+                            "<td class='col-3'>"+
+                                        "<input type='text'  onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 46 && event.charCode <= 57))' id='"+"inputpercent_"+ employee.id+"'"+ "value='"+employee.percent+"'"+"class='form-control'" +"/>"+
+                            "</td>"
+                            +
+                            "</tr>"
+
+                        );
+                          $("#RegisterPricingAll").css("display", "block");
+                    });
+                   
+                      
+
+
+                }
+            });
+
+    });
+
+
+
+
+</script>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            سیاست حق شارژ همکاران فروش از شارژ مشتریان در چند سال
+        </div>
+        <div class="panel-body">
+
+            <div class="row" id="auto">
+
+                @*Grid*@
+                <div class="row col-md-12">
+                    <div class="table-responsive">
+                        <div class="panel-heading clearfix" style="background-color:#ededed;">
+                            <div class="panel-title">لیست قوانین موجود </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr style="font-weight:bold;">
+
+                                    <th class="col-3"> نام</th>
+                                    <th class="col-3"> از روز </th>
+                                    <th class="col-3"> تا روز</th>
+                                    <th class="col-3"> درصد</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_body_PricingPolicy">
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <button id="RegisterPricingAll" name="RegisterPricingAll" class="btn btn-success" type="button" style="direction:ltr; display:none;"> ویرایش <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            
+            <div class="row col-sm-12" id="manual">
+                <div class="panel-heading clearfix" style="background-color:#ededed;">
+                    <div class="panel-title"> قانون جدید </div>
+                </div>
+
+
+                <div class="col-sm-3">
+                    <label class="form-label" style="text-align:center;">نام/شناسه سال</label>
+                    <input type="text" class="form-control" id="txtname">
+                </div>
+                <div class="col-sm-3">
+                    <label class="form-label" style="text-align:center;">از روز(اختیاری/جایگیزین شناسه)</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtofday">
+                </div>
+                <div class="col-sm-3">
+                    <label class="form-label" style="text-align:center;">تا روز(اختیاری/جایگیزین شناسه)</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtupday">
+                </div>
+                <div class="col-sm-2">
+                    <label class="form-label" style="text-align:center;">درصد حق شارژ</label>
+                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" type="text" class="form-control" id="txtpercent">
+                </div>
+                <div class="col-sm-1" style="margin-top:27px;">
+                    <button id="RegisterPricing" class="btn btn-success" type="button"> <i class="glyphicon glyphicon-floppy-disk"></i> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

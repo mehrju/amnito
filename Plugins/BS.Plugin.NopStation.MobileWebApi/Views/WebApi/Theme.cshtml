@@ -1,0 +1,148 @@
+﻿@model BS.Plugin.NopStation.MobileWebApi.Models.DashboardModel.ThemeSettingModel
+
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@using Nop.Web.Framework;
+@using Nop.Core.Infrastructure;
+@using System.Globalization;
+@await Component.InvokeAsync("StoreScopeConfiguration")
+
+<script src="~/Plugins/NopStation.MobileWebApi/Scripts/jscolor.js" />
+<script>jscolor.init();</script>
+
+@using (Html.BeginForm())
+{ @Html.AntiForgeryToken()
+    @*@Html.Partial("~/Plugins/NopStation.MobileWebApi/Views/WebApi/_NopMobileMenu.cshtml")*@
+    <div class="plugincontainer">
+        <div class="configurecontaincontainer">
+            <div class="storelocatersettingtitle">
+                <strong>@T("Plugins.NopStation.MobileWebApi.persionalizewebsiteTitle")</strong>
+            </div>
+            <div>
+                <table class="adminContent">
+                    <tr>
+                        <td class="adminTitle">
+                            <nop-override-store-checkbox asp-for="HeaderBackgroundColor_OverrideForStore" asp-input="HeaderBackgroundColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HeaderBackgroundColor" />
+                         
+                        </td>
+                        <td class="adminData">
+                   
+
+                            <nop-editor asp-for="HeaderBackgroundColor" />
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.HeaderBackgroundColorHint")</label></div>
+                            <span asp-validation-for="HeaderBackgroundColor"></span>
+                          
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            <nop-override-store-checkbox asp-for="HeaderFontandIconColor_OverrideForStore" asp-input="HeaderFontandIconColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HeaderFontandIconColor" />
+                          
+                        </td>
+                        <td class="adminData">
+                         
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.HeaderFontandIconColorHint")</label></div>
+                            <nop-editor asp-for="HeaderFontandIconColor" />
+                            <span asp-validation-for="HeaderFontandIconColor"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            <nop-override-store-checkbox asp-for="HighlightedTextColor_OverrideForStore" asp-input="HighlightedTextColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HighlightedTextColor" />
+                       
+                        </td>
+                        <td class="adminData">
+                         
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.HighlightedTextColorHint")</label></div>
+                            <nop-editor asp-for="HighlightedTextColor" />
+                            <span asp-validation-for="HighlightedTextColor"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                    
+                            <nop-override-store-checkbox asp-for="PrimaryTextColor_OverrideForStore" asp-input="PrimaryTextColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="PrimaryTextColor" />
+                        </td>
+                        <td class="adminData">
+                         <div><label>@T("Plugins.NopStation.MobileWebApi.PrimaryTextColorHint")</label></div>
+                            <nop-editor asp-for="PrimaryTextColor" />
+                            <span asp-validation-for="PrimaryTextColor"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                           
+                            <nop-override-store-checkbox asp-for="SecondaryTextColor_OverrideForStore" asp-input="SecondaryTextColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="SecondaryTextColor" />
+                        </td>
+                        <td class="adminData">
+                          
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.SecondaryTextColorHint")</label></div>
+                            <nop-editor asp-for="SecondaryTextColor" />
+                            <span asp-validation-for="SecondaryTextColor"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            
+                            <nop-override-store-checkbox asp-for="BackgroundColorofPrimaryButton_OverrideForStore" asp-input="BackgroundColorofPrimaryButton" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="BackgroundColorofPrimaryButton" />
+                        </td>
+                        <td class="adminData">
+                           
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.BackgroundColorofPrimaryButtonHint")</label></div>
+                        
+                            <nop-editor asp-for="BackgroundColorofPrimaryButton" />
+                            <span asp-validation-for="BackgroundColorofPrimaryButton"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                          
+                            <nop-override-store-checkbox asp-for="TextColorofPrimaryButton_OverrideForStore" asp-input="TextColorofPrimaryButton" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="TextColorofPrimaryButton" />
+                        </td>
+                        <td class="adminData">
+                           
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.TextColorofPrimaryButtonHint")</label></div>
+                     
+                            <nop-editor asp-for="TextColorofPrimaryButton" />
+                            <span asp-validation-for="TextColorofPrimaryButton"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                          
+                            <nop-override-store-checkbox asp-for="BackgroundColorofSecondaryButton_OverrideForStore" asp-input="BackgroundColorofSecondaryButton" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="BackgroundColorofSecondaryButton" />
+                        </td>
+                        <td class="adminData">
+                          
+                            <div><label>@T("Plugins.NopStation.MobileWebApi.BackgroundColorofSecondaryButtonHint")</label></div>
+
+                            <nop-editor asp-for="BackgroundColorofSecondaryButton" />
+                            <span asp-validation-for="BackgroundColorofSecondaryButton"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" name="save" class="k-button" value="@T(" admin.common.save")" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+}
+
+
+

@@ -1,0 +1,12 @@
+﻿
+{
+  "Group": "NopStation",
+  "FriendlyName": "MobileWebApi",
+  "SystemName": "NopStation.MobileWebApi",
+  "Version": "1.10",
+  "SupportedVersions": [ "4.00" ],
+  "Author": "Nop-Station Team, BrainStation-23",
+  "DisplayOrder": 5,
+  "FileName": "BS.Plugin.NopStation.MobileWebApi.dll",
+  "Description": "Web api for nopommerce used in nopStation mobile app"
+}
